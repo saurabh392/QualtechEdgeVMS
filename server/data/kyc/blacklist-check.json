@@ -1,0 +1,247 @@
+{
+  "vendors": [
+    {
+      "vendorId": "VND-2025-00029",
+      "vendorName": "ABC Infotech Private Limited",
+      "category": "IT Services",
+      "pan": "AAACA1234A",
+      "gstin": "27AAACA1234A1Z5",
+      "blacklistChecks": {
+        "internalBlacklist": "No Match",
+        "governmentDebarred": "No Match",
+        "industryWatchlist": "No Match"
+      },
+      "blacklistStatus": "Clear",
+      "reason": null,
+      "blacklistedTill": null,
+      "checkedOn": "2026-05-15",
+      "nextReviewDate": "2026-11-15",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "procurementHead": "Approved",
+        "legalTeam": "Approved",
+        "final": "Approved"
+      },
+      "blacklistHistory": [
+        {
+          "actionDate": "2026-05-15",
+          "action": "Cleared",
+          "reason": "Passed all debarment checks.",
+          "performedBy": "Compliance Team"
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-88001",
+      "vendorName": "HDFC Bank Limited",
+      "category": "Consulting",
+      "pan": "AAACH1111A",
+      "gstin": "27AAACH1111A1Z8",
+      "blacklistChecks": {
+        "internalBlacklist": "No Match",
+        "governmentDebarred": "No Match",
+        "industryWatchlist": "No Match"
+      },
+      "blacklistStatus": "Clear",
+      "reason": null,
+      "blacklistedTill": null,
+      "checkedOn": "2026-05-22",
+      "nextReviewDate": "2026-11-22",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "procurementHead": "Approved",
+        "legalTeam": "Approved",
+        "final": "Approved"
+      },
+      "blacklistHistory": [
+        {
+          "actionDate": "2026-05-22",
+          "action": "Cleared",
+          "reason": "Vendor cleared of all watchlist registries.",
+          "performedBy": "Compliance Team"
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-50469",
+      "vendorName": "My Money Mantra",
+      "category": "IT Services",
+      "pan": "MMMCM1234M",
+      "gstin": "09AVIPY8039N2ZG",
+      "blacklistChecks": {
+        "internalBlacklist": "No Match",
+        "governmentDebarred": "No Match",
+        "industryWatchlist": "No Match"
+      },
+      "blacklistStatus": "Clear",
+      "reason": null,
+      "blacklistedTill": null,
+      "checkedOn": "2026-05-29",
+      "nextReviewDate": "2026-06-25",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "procurementHead": "Approved",
+        "legalTeam": "Approved",
+        "final": "Approved"
+      },
+      "blacklistHistory": [
+        {
+          "actionDate": "2026-05-29",
+          "action": "Cleared",
+          "reason": "Passed all debarment checks.",
+          "performedBy": "Compliance Team"
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-11002",
+      "vendorName": "Apex Facility Services",
+      "category": "Facility Management",
+      "pan": "APEXF1234P",
+      "gstin": "27APEXF1234P1Z4",
+      "blacklistChecks": {
+        "internalBlacklist": "Match Found",
+        "governmentDebarred": "No Match",
+        "industryWatchlist": "No Match"
+      },
+      "blacklistStatus": "Under Review",
+      "reason": "Potential match in external industry watchlists database.",
+      "blacklistedTill": null,
+      "checkedOn": "2026-05-10",
+      "nextReviewDate": "2026-06-20",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Pending",
+        "procurementHead": "Pending",
+        "legalTeam": "Pending",
+        "final": "Pending"
+      },
+      "blacklistHistory": [
+        {
+          "actionDate": "2026-05-10",
+          "action": "Flagged",
+          "reason": "Flagged due to potential name similarity in external registries.",
+          "performedBy": "Compliance Analyst"
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-22003",
+      "vendorName": "Secure Guards Co.",
+      "category": "Security",
+      "pan": "SECUG5678R",
+      "gstin": "27SECUG5678R1Z1",
+      "blacklistChecks": {
+        "internalBlacklist": "Match Found",
+        "governmentDebarred": "No Match",
+        "industryWatchlist": "No Match"
+      },
+      "blacklistStatus": "Blacklisted",
+      "reason": "Poor SLA Performance",
+      "blacklistedTill": "2026-12-31",
+      "checkedOn": "2026-05-15",
+      "nextReviewDate": "2026-11-15",
+      "workflow": {
+        "analyst": "Rejected",
+        "complianceManager": "Rejected",
+        "procurementHead": "Rejected",
+        "legalTeam": "Rejected",
+        "final": "Rejected"
+      },
+      "blacklistHistory": [
+        {
+          "actionDate": "2026-05-15",
+          "action": "Blacklisted",
+          "reason": "Poor SLA Performance - critical security guard services failures.",
+          "performedBy": "Procurement Head"
+        }
+      ],
+      "evidenceFiles": [
+        {
+          "fileId": "BLK-001",
+          "fileName": "Vendor_SLA_Violation_Report.pdf",
+          "filePath": "/uploads/kyc/blacklist/Vendor_SLA_Violation_Report.pdf",
+          "uploadedBy": "Procurement Head",
+          "uploadedOn": "2026-05-15"
+        }
+      ]
+    },
+    {
+      "vendorId": "VND-2026-44005",
+      "vendorName": "Vostok Trading LLC",
+      "category": "Others",
+      "blacklistChecks": {
+        "internalBlacklist": "No Match",
+        "governmentDebarred": "Match Found",
+        "industryWatchlist": "Match Found"
+      },
+      "blacklistStatus": "Blacklisted",
+      "reason": "Listed on Government Debarred Vendor Registry",
+      "blacklistedTill": "2027-06-30",
+      "checkedOn": "2026-05-18",
+      "nextReviewDate": "2026-06-18",
+      "workflow": {
+        "analyst": "Rejected",
+        "complianceManager": "Rejected",
+        "procurementHead": "Rejected",
+        "legalTeam": "Rejected",
+        "final": "Rejected"
+      },
+      "blacklistHistory": [
+        {
+          "actionDate": "2026-05-18",
+          "action": "Blacklisted",
+          "reason": "Entity confirmed debarred by state regulation body.",
+          "performedBy": "Compliance Team"
+        }
+      ],
+      "evidenceFiles": [
+        {
+          "fileId": "BLK-002",
+          "fileName": "State_Debarment_Declaration.pdf",
+          "filePath": "/uploads/kyc/blacklist/State_Debarment_Declaration.pdf",
+          "uploadedBy": "Compliance Manager",
+          "uploadedOn": "2026-05-18"
+        }
+      ]
+    },
+    {
+      "vendorId": "VND-2026-55006",
+      "vendorName": "Apex Tech Solutions",
+      "category": "IT Services",
+      "blacklistChecks": {
+        "internalBlacklist": "Match Found",
+        "governmentDebarred": "No Match",
+        "industryWatchlist": "No Match"
+      },
+      "blacklistStatus": "Blacklisted",
+      "reason": "Minor Contract SLA Violations",
+      "blacklistedTill": "2026-05-20",
+      "checkedOn": "2026-04-01",
+      "nextReviewDate": "2026-05-20",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "procurementHead": "Approved",
+        "legalTeam": "Approved",
+        "final": "Approved"
+      },
+      "blacklistHistory": [
+        {
+          "actionDate": "2026-04-01",
+          "action": "Blacklisted",
+          "reason": "Temporary blacklisting due to contract milestone delivery breaches.",
+          "performedBy": "Procurement Head"
+        }
+      ],
+      "evidenceFiles": []
+    }
+  ]
+}

@@ -75,5 +75,49 @@
     "ipAddress": "127.0.0.1",
     "status": "Success",
     "severity": "High"
+  },
+  {
+    "id": "AUD-17663",
+    "timestamp": "29/5/2026, 5:12:24 pm",
+    "actor": "Saurabh Anand",
+    "role": "Procurement Maker",
+    "tenant": "Qualtech Corporate",
+    "action": "Created Vendor registration VND-2026-50469 (My Money Mantra )",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "Low"
+  },
+  {
+    "id": "AUD-14589",
+    "timestamp": "29/5/2026, 5:23:50 pm",
+    "actor": "Saurabh Anand",
+    "role": "Procurement Checker",
+    "tenant": "Qualtech Corporate",
+    "action": "Verification Approved for document DOC-2026-0001 (PAN Card) of vendor HDFC Bank Limited",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
+  },
+  {
+    "id": "AUD-76949",
+    "timestamp": "29/5/2026, 6:40:48 pm",
+    "actor": "Saurabh Anand",
+    "role": "Procurement Checker",
+    "tenant": "Qualtech Corporate",
+    "action": "Verification Rejectd for document DOC-2026-0002 (PAN Card) of vendor HDFC Bank Limited",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
+  },
+  {
+    "id": "AUD-57902",
+    "timestamp": "2/6/2026, 11:25:45 am",
+    "actor": "Saurabh Anand",
+    "role": "Procurement Maker",
+    "tenant": "Qualtech Corporate",
+    "action": "Created Vendor registration VND-2026-88164 (axis max life )",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "Low"
   }
 ]

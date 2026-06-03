@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   BrainCircuit, 
   DollarSign
@@ -15,6 +15,7 @@ import {
 import { CatalogueHeader } from './CatalogueHeader';
 import { Button } from '../../components/Button/Button';
 import styles from './RatePriceReference.module.css';
+import { getAllItems } from '../../services/itemMasterService';
 
 // Mock Data
 const priceHistoryData = [
@@ -27,23 +28,75 @@ const priceHistoryData = [
   { date: '2026-05', price: 72500 }
 ];
 
-const ratesList = [
-  { id: 'CAT-001', name: 'Dell Latitude 5420 Laptop', l1Vendor: 'ABC Infotech', l1Rate: 72500, l2Vendor: 'Tech Solutions', l2Rate: 74000, l3Vendor: 'Apex Supplies', l3Rate: 75500 },
+const baselineRates = [
+  { id: 'CAT-001', name: 'Dell Latitude 5420 Laptop', l1Vendor: 'ABC Infotech Private Limited', l1Rate: 72500, l2Vendor: 'Tech Solutions Pvt Ltd', l2Rate: 74000, l3Vendor: 'Apex Supplies', l3Rate: 75500 },
   { id: 'CAT-003', name: 'Ergonomic Office Chair', l1Vendor: 'Office Supplies Co', l1Rate: 8400, l2Vendor: 'Apex Supplies', l2Rate: 9100, l3Vendor: 'Global Traders', l3Rate: 9500 }
 ];
 
 export const RatePriceReference: React.FC = () => {
+  const [ratesList, setRatesList] = useState<any[]>([]);
   const [selectedItemId, setSelectedItemId] = useState('CAT-001');
   const [volume, setVolume] = useState('50');
+  const [loading, setLoading] = useState(true);
 
-  const activeRateObj = ratesList.find(r => r.id === selectedItemId) || ratesList[0];
+  useEffect(() => {
+    async function loadData() {
+      try {
+        setLoading(true);
+        const list = await getAllItems();
+        const mappedList = list.map((item, idx) => {
+          const match = baselineRates.find(r => r.id === item.itemId);
+          if (match) return match;
+
+          const l1Vendor = item.preferredVendor?.vendorName || 'ABC Infotech Private Limited';
+          const l2Vendor = item.alternateVendors?.[0]?.vendorName || 'Tech Solutions Pvt Ltd';
+          
+          return {
+            id: item.itemId || `ITM-${idx}`,
+            name: item.itemName,
+            l1Vendor,
+            l1Rate: 75000,
+            l2Vendor,
+            l2Rate: 77000,
+            l3Vendor: 'Apex Supplies',
+            l3Rate: 79500
+          };
+        });
+        setRatesList(mappedList);
+        if (mappedList.length > 0) {
+          setSelectedItemId(mappedList[0].id);
+        }
+      } catch (err) {
+        console.error("Error loading rates list:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  const activeRateObj = ratesList.find(r => r.id === selectedItemId);
 
   // Calculations
   const qty = parseInt(volume) || 0;
-  const l1Total = activeRateObj.l1Rate * qty;
-  const l2Total = activeRateObj.l2Rate * qty;
+  const l1Total = activeRateObj ? activeRateObj.l1Rate * qty : 0;
+  const l2Total = activeRateObj ? activeRateObj.l2Rate * qty : 0;
   const savings = l2Total - l1Total;
   const savingsPct = l2Total > 0 ? ((savings / l2Total) * 100).toFixed(1) : '0.0';
+
+  if (loading || !activeRateObj) {
+    return (
+      <div className={styles.container}>
+        <CatalogueHeader 
+          title="RATE & PRICE REFERENCE INDEX" 
+          subtitle="Compare approved L1/L2/L3 rates, audit historical pricing logs, and leverage AI negotiations"
+        />
+        <div style={{ padding: '40px', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
+          Loading rate reference indexes...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>

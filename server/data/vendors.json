@@ -136,7 +136,7 @@
       {
         "documentType": "PAN Card",
         "fileName": "HDFC_PAN.pdf",
-        "status": "Verified",
+        "status": "Rejected",
         "expiryDate": null
       },
       {
@@ -172,5 +172,200 @@
         "timestamp": "2026-05-22T08:40:00Z"
       }
     ]
+  },
+  {
+    "status": "Pending Approval",
+    "basicDetails": {
+      "legalName": "My Money Mantra ",
+      "tradeName": "MMM fintech",
+      "dateOfIncorporation": "2026-04-07",
+      "cinNumber": "L65190MH1994PLC080620",
+      "panNumber": "MMMCM1234M",
+      "gstin": "09AVIPY8039N2ZG",
+      "msmeClassification": "Medium",
+      "companyWebsite": "https://www.mymoneymantra.com/",
+      "businessType": "Private Limited Company"
+    },
+    "businessDetails": {
+      "vendorCategory": "IT Services",
+      "subCategory": "Software Development",
+      "serviceAreas": [
+        "delhi ncr"
+      ],
+      "productsServicesOffered": "Custom Software Development, Support & Maintenance",
+      "annualTurnover": 500000,
+      "employeeCount": 20,
+      "majorClients": [
+        "HDFC Bank",
+        "SBI"
+      ],
+      "criticalVendor": true
+    },
+    "bankDetails": {
+      "bankName": "HDFC BANK ",
+      "accountNumber": "5012563498451",
+      "accountType": "Current Account",
+      "ifscCode": "hdfc0000060",
+      "branchName": "HADAPSAR PUNE",
+      "cancelledChequeFile": "download (2).jpg",
+      "bankVerificationStatus": "Verified"
+    },
+    "documents": [
+      {
+        "documentType": "PAN Card",
+        "fileName": "A_sample_of_Permanent_Account_Number_(PAN)_Card.jpg",
+        "savedFileName": "file-1780054925508-458867517.jpg",
+        "filePath": "/uploads/file-1780054925508-458867517.jpg",
+        "status": "Verified",
+        "expiryDate": null
+      },
+      {
+        "documentType": "GST Certificate",
+        "fileName": "download (2).jpg",
+        "savedFileName": "file-1780054929937-423471015.jpg",
+        "filePath": "/uploads/file-1780054929937-423471015.jpg",
+        "status": "Verified",
+        "expiryDate": null
+      },
+      {
+        "documentType": "Certificate of Incorporation",
+        "fileName": "ChatGPT Image May 19, 2026, 01_31_57 PM.png",
+        "savedFileName": "file-1780054934588-415702143.png",
+        "filePath": "/uploads/file-1780054934588-415702143.png",
+        "status": "Verified",
+        "expiryDate": null
+      },
+      {
+        "documentType": "MSME Certificate",
+        "fileName": "ChatGPT Image May 19, 2026, 03_01_40 PM.png",
+        "savedFileName": "file-1780054939122-882252488.png",
+        "filePath": "/uploads/file-1780054939122-882252488.png",
+        "status": "Verified",
+        "expiryDate": "2026-03-15"
+      },
+      {
+        "documentType": "PAN Card",
+        "fileName": "download (2).jpg",
+        "status": "Pending",
+        "expiryDate": "2026-06-10",
+        "documentId": "DOC-2026-0003"
+      },
+      {
+        "documentType": "Others",
+        "fileName": "Screenshot 2025-12-02 142955.png",
+        "status": "Pending",
+        "expiryDate": "2026-05-27",
+        "documentId": "DOC-2026-0004"
+      }
+    ],
+    "approvalWorkflow": {
+      "submittedBy": "Saurabh Anand",
+      "submittedDate": "2026-05-29T11:42:24.542Z",
+      "currentStage": "Procurement Approval",
+      "approvalStatus": "Pending"
+    },
+    "auditTrail": [
+      {
+        "action": "Vendor Onboarding Created",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-05-29T11:42:24.542Z"
+      }
+    ],
+    "vendorId": "VND-2026-50469",
+    "createdAt": "2026-05-29T11:42:24.617Z"
+  },
+  {
+    "status": "Pending Approval",
+    "basicDetails": {
+      "legalName": "axis max life ",
+      "tradeName": "Axis Max",
+      "dateOfIncorporation": "2025-01-01",
+      "cinNumber": "L65190MH1994PLC080720",
+      "panNumber": "AAACM1234M",
+      "gstin": "09AVIPY8039N2ZA",
+      "msmeClassification": "Medium",
+      "companyWebsite": "https://www.axismaxlife.com/",
+      "businessType": "Public Limited Company"
+    },
+    "businessDetails": {
+      "vendorCategory": "IT Services",
+      "subCategory": "Software Development",
+      "serviceAreas": [
+        "delhi ncr"
+      ],
+      "productsServicesOffered": "Custom Software Development, Support & Maintenance",
+      "annualTurnover": 50000000,
+      "employeeCount": 120,
+      "majorClients": [
+        "qualtech",
+        "MMM"
+      ],
+      "criticalVendor": true
+    },
+    "bankDetails": {
+      "bankName": "state bank of india ",
+      "accountNumber": "2020977811234",
+      "accountType": "Current Account",
+      "ifscCode": "SBIN0000065",
+      "branchName": "delhi",
+      "cancelledChequeFile": "download (2).jpg",
+      "bankVerificationStatus": "Verified"
+    },
+    "documents": [
+      {
+        "documentType": "PAN Card",
+        "fileName": "ChatGPT Image May 14, 2026, 05_06_16 PM.png",
+        "savedFileName": "file-1780379733658-133992551.png",
+        "filePath": "/uploads/file-1780379733658-133992551.png",
+        "status": "Verified",
+        "expiryDate": null
+      },
+      {
+        "documentType": "GST Certificate",
+        "fileName": "ChatGPT Image May 19, 2026, 02_02_28 PM.png",
+        "savedFileName": "file-1780379736666-207420036.png",
+        "filePath": "/uploads/file-1780379736666-207420036.png",
+        "status": "Verified",
+        "expiryDate": null
+      },
+      {
+        "documentType": "Certificate of Incorporation",
+        "fileName": "ChatGPT Image May 19, 2026, 02_20_57 PM.png",
+        "savedFileName": "file-1780379739348-412663032.png",
+        "filePath": "/uploads/file-1780379739348-412663032.png",
+        "status": "Verified",
+        "expiryDate": null
+      },
+      {
+        "documentType": "MSME Certificate",
+        "fileName": "ChatGPT Image May 19, 2026, 03_01_40 PM.png",
+        "savedFileName": "file-1780379742003-628729597.png",
+        "filePath": "/uploads/file-1780379742003-628729597.png",
+        "status": "Verified",
+        "expiryDate": "2026-03-15"
+      },
+      {
+        "documentType": "PAN Card",
+        "fileName": "WhatsApp Image 2025-08-27 at 11.45.53.jpeg",
+        "status": "Pending",
+        "expiryDate": "2026-06-04",
+        "documentId": "DOC-2026-0009"
+      }
+    ],
+    "approvalWorkflow": {
+      "submittedBy": "Saurabh Anand",
+      "submittedDate": "2026-06-02T05:55:45.727Z",
+      "currentStage": "Procurement Approval",
+      "approvalStatus": "Pending"
+    },
+    "auditTrail": [
+      {
+        "action": "Vendor Onboarding Created",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-02T05:55:45.727Z"
+      }
+    ],
+    "vendorId": "VND-2026-88164",
+    "createdAt": "2026-06-02T05:55:45.767Z"
   }
 ]

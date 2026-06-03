@@ -116,11 +116,11 @@ export async function uploadItemFile(
   metadata: { linkedRecordId?: string; fileType: string; uploadedBy?: string }
 ): Promise<{ success: boolean; file: UploadedFile }> {
   const formData = new FormData();
-  formData.append('file', file);
   formData.append('linkedModule', 'Item Master');
   if (metadata.linkedRecordId) formData.append('linkedRecordId', metadata.linkedRecordId);
   formData.append('fileType', metadata.fileType);
   if (metadata.uploadedBy) formData.append('uploadedBy', metadata.uploadedBy);
+  formData.append('file', file);
 
   const res = await axios.post('/api/catalogue/upload', formData, {
     headers: {

@@ -384,7 +384,7 @@ export const CatalogueDashboard: React.FC = () => {
                 </thead>
                 <tbody>
                   {filteredItems.map(item => {
-                    const isService = item.category === 'Professional Services' || item.category === 'Logistics';
+                    const isService = (item as any).isService || item.category === 'Professional Services' || item.category === 'Logistics';
                     return (
                       <tr key={item.itemId} style={{ borderBottom: '1px solid var(--color-border)' }}>
                         <td style={{ padding: '12px 16px', fontWeight: '500', color: 'var(--color-primary)' }}>{item.itemId || item.itemCode}</td>
@@ -407,7 +407,7 @@ export const CatalogueDashboard: React.FC = () => {
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
               {filteredItems.map(item => {
-                const isService = item.category === 'Professional Services' || item.category === 'Logistics';
+                const isService = (item as any).isService || item.category === 'Professional Services' || item.category === 'Logistics';
                 return (
                   <div key={item.itemId} style={{ border: '1px solid var(--color-border)', borderRadius: '8px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', backgroundColor: 'var(--color-surface)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

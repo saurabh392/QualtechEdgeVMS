@@ -1,0 +1,540 @@
+{
+  "vendors": [
+    {
+      "vendorId": "VND-2025-00130",
+      "vendorName": "ABC Infrastructure Pvt Ltd",
+      "country": "India",
+      "pan": "AAACA1234A",
+      "gstin": "27AAACA1234A1Z5",
+      "screeningResults": {
+        "directorScreening": {
+          "personName": "Rajesh Kumar",
+          "pepMatch": "Confirmed",
+          "pepCategory": "Former Minister",
+          "riskLevel": "High",
+          "pepRiskScore": 70
+        },
+        "beneficialOwnerScreening": {
+          "personName": "Suresh Kumar",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        },
+        "shareholderScreening": {
+          "personName": "Sunita Devi",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        }
+      },
+      "overallStatus": "PEP Identified",
+      "dueDiligenceLevel": "Enhanced Due Diligence",
+      "lastScreenedOn": "2026-05-15",
+      "nextReviewDate": "2026-11-15",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "riskOfficer": "Approved",
+        "procurementHead": "Pending",
+        "executiveApproval": "Pending",
+        "final": "Pending"
+      },
+      "pepHistory": [
+        {
+          "screeningDate": "2026-05-15",
+          "screenedBy": "Saurabh Anand",
+          "result": "PEP Identified",
+          "remarks": "Director Rajesh Kumar matches database for Former Minister of State level portfolio. Required Enhanced Due Diligence (EDD) triggered.",
+          "actionTaken": "EDD Initiated"
+        }
+      ],
+      "evidenceFiles": [
+        {
+          "fileId": "PEP-001",
+          "fileName": "PEP_Investigation_Report_ABC.pdf",
+          "filePath": "/uploads/kyc/pep/PEP_Investigation_Report_ABC.pdf",
+          "uploadedBy": "Saurabh Anand",
+          "uploadedOn": "2026-05-15"
+        }
+      ],
+      "eddRecords": {
+        "complianceReview": true,
+        "complianceReviewNotes": "Investigated background public records. Verified holding details.",
+        "fundsVerification": true,
+        "fundsVerificationNotes": "Source of funds documentation submitted and approved by Treasury.",
+        "wealthVerification": false,
+        "wealthVerificationNotes": "Awaiting final declaration of asset disclosures.",
+        "executiveApproval": false,
+        "executiveApprovalNotes": "",
+        "periodicMonitoring": true
+      }
+    },
+    {
+      "vendorId": "VND-2026-88001",
+      "vendorName": "HDFC Bank Limited",
+      "country": "India",
+      "pan": "AAACH1111A",
+      "gstin": "27AAACH1111A1Z8",
+      "screeningResults": {
+        "directorScreening": {
+          "personName": "Atanu Chakraborty",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        },
+        "beneficialOwnerScreening": {
+          "personName": "Srinivas Rao",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        },
+        "shareholderScreening": {
+          "personName": "Public Shareholders",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        }
+      },
+      "overallStatus": "Cleared",
+      "dueDiligenceLevel": "Standard Due Diligence",
+      "lastScreenedOn": "2026-05-22",
+      "nextReviewDate": "2026-11-22",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "riskOfficer": "Approved",
+        "procurementHead": "Approved",
+        "executiveApproval": "Approved",
+        "final": "Approved"
+      },
+      "pepHistory": [
+        {
+          "screeningDate": "2026-05-22",
+          "screenedBy": "System Screener",
+          "result": "Cleared",
+          "remarks": "No PEP matches identified during scheduled screening sweep.",
+          "actionTaken": "Approved"
+        }
+      ],
+      "evidenceFiles": [],
+      "eddRecords": {
+        "complianceReview": false,
+        "complianceReviewNotes": "",
+        "fundsVerification": false,
+        "fundsVerificationNotes": "",
+        "wealthVerification": false,
+        "wealthVerificationNotes": "",
+        "executiveApproval": false,
+        "executiveApprovalNotes": "",
+        "periodicMonitoring": false
+      }
+    },
+    {
+      "vendorId": "VND-2026-50469",
+      "vendorName": "My Money Mantra Pvt Ltd",
+      "country": "India",
+      "pan": "MMMCM1234M",
+      "gstin": "09AVIPY8039N2ZG",
+      "screeningResults": {
+        "directorScreening": {
+          "personName": "Rajiv Sabharwal",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        },
+        "beneficialOwnerScreening": {
+          "personName": "Pramod Bhasin",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        },
+        "shareholderScreening": {
+          "personName": "Mantra Holding Group",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        }
+      },
+      "overallStatus": "Cleared",
+      "dueDiligenceLevel": "Standard Due Diligence",
+      "lastScreenedOn": "2026-05-29",
+      "nextReviewDate": "2026-06-18",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "riskOfficer": "Approved",
+        "procurementHead": "Approved",
+        "executiveApproval": "Approved",
+        "final": "Approved"
+      },
+      "pepHistory": [
+        {
+          "screeningDate": "2026-05-29",
+          "screenedBy": "Compliance Team",
+          "result": "Cleared",
+          "remarks": "Database checks completed. Clear status verified.",
+          "actionTaken": "Approved"
+        }
+      ],
+      "evidenceFiles": [],
+      "eddRecords": {
+        "complianceReview": false,
+        "complianceReviewNotes": "",
+        "fundsVerification": false,
+        "fundsVerificationNotes": "",
+        "wealthVerification": false,
+        "wealthVerificationNotes": "",
+        "executiveApproval": false,
+        "executiveApprovalNotes": "",
+        "periodicMonitoring": false
+      }
+    },
+    {
+      "vendorId": "VND-2026-11002",
+      "vendorName": "Apex Facility Services",
+      "country": "India",
+      "pan": "APEXF1234P",
+      "gstin": "27APEXF1234P1Z4",
+      "screeningResults": {
+        "directorScreening": {
+          "personName": "Ramesh Patil",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        },
+        "beneficialOwnerScreening": {
+          "personName": "Nitin Gadkari (Associate)",
+          "pepMatch": "Potential",
+          "pepCategory": "Politically Connected Associate",
+          "riskLevel": "Medium",
+          "pepRiskScore": 40
+        },
+        "shareholderScreening": {
+          "personName": "Kirti Patil",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        }
+      },
+      "overallStatus": "Under Review",
+      "dueDiligenceLevel": "Enhanced Due Diligence",
+      "lastScreenedOn": "2026-05-10",
+      "nextReviewDate": "2026-06-25",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Pending",
+        "riskOfficer": "Pending",
+        "procurementHead": "Pending",
+        "executiveApproval": "Pending",
+        "final": "Pending"
+      },
+      "pepHistory": [
+        {
+          "screeningDate": "2026-05-10",
+          "screenedBy": "Saurabh Anand",
+          "result": "Under Review",
+          "remarks": "Potential match found for Nitin Gadkari (Associate) in watchlists. Escalated for Compliance Analyst investigation.",
+          "actionTaken": "Escalated for Review"
+        }
+      ],
+      "evidenceFiles": [],
+      "eddRecords": {
+        "complianceReview": true,
+        "complianceReviewNotes": "Investigating name matching similarity score. Requesting identity certificates.",
+        "fundsVerification": false,
+        "fundsVerificationNotes": "",
+        "wealthVerification": false,
+        "wealthVerificationNotes": "",
+        "executiveApproval": false,
+        "executiveApprovalNotes": "",
+        "periodicMonitoring": true
+      }
+    },
+    {
+      "vendorId": "VND-2026-22003",
+      "vendorName": "Secure Guards Co.",
+      "country": "India",
+      "pan": "SECUG5678R",
+      "gstin": "27SECUG5678R1Z1",
+      "screeningResults": {
+        "directorScreening": {
+          "personName": "Vikram Singh",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        },
+        "beneficialOwnerScreening": {
+          "personName": "Dharam Singh",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        },
+        "shareholderScreening": {
+          "personName": "Aditya Scindia",
+          "pepMatch": "Confirmed",
+          "pepCategory": "Politically Connected Family Member",
+          "riskLevel": "High",
+          "pepRiskScore": 80
+        }
+      },
+      "overallStatus": "PEP Identified",
+      "dueDiligenceLevel": "Executive Approval Required",
+      "lastScreenedOn": "2026-05-15",
+      "nextReviewDate": "2026-11-15",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "riskOfficer": "Approved",
+        "procurementHead": "Approved",
+        "executiveApproval": "Pending",
+        "final": "Pending"
+      },
+      "pepHistory": [
+        {
+          "screeningDate": "2026-05-15",
+          "screenedBy": "Compliance Manager",
+          "result": "PEP Identified",
+          "remarks": "Shareholder Aditya Scindia confirmed as a Politically Connected Family Member. Executive review required.",
+          "actionTaken": "Escalated for Executive Approval"
+        }
+      ],
+      "evidenceFiles": [
+        {
+          "fileId": "PEP-002",
+          "fileName": "Family_Connection_Verification_SecureGuards.pdf",
+          "filePath": "/uploads/kyc/pep/Family_Connection_Verification_SecureGuards.pdf",
+          "uploadedBy": "Compliance Manager",
+          "uploadedOn": "2026-05-15"
+        }
+      ],
+      "eddRecords": {
+        "complianceReview": true,
+        "complianceReviewNotes": "Confirmed family ties verification.",
+        "fundsVerification": true,
+        "fundsVerificationNotes": "Self-declaration forms and tax filings verified.",
+        "wealthVerification": true,
+        "wealthVerificationNotes": "Audit firm wealth report attached.",
+        "executiveApproval": false,
+        "executiveApprovalNotes": "",
+        "periodicMonitoring": true
+      }
+    },
+    {
+      "vendorId": "VND-2026-44005",
+      "vendorName": "Vostok Trading LLC",
+      "country": "Russia",
+      "pan": null,
+      "gstin": null,
+      "screeningResults": {
+        "directorScreening": {
+          "personName": "Igor Sechin",
+          "pepMatch": "Confirmed",
+          "pepCategory": "State-Owned Enterprise Executive",
+          "riskLevel": "Critical",
+          "pepRiskScore": 85
+        },
+        "beneficialOwnerScreening": {
+          "personName": "Sergey Sobyanin",
+          "pepMatch": "Confirmed",
+          "pepCategory": "MLA / State Legislator",
+          "riskLevel": "High",
+          "pepRiskScore": 70
+        },
+        "shareholderScreening": {
+          "personName": "Rosneft Corp",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        }
+      },
+      "overallStatus": "PEP Identified",
+      "dueDiligenceLevel": "Executive Approval Required",
+      "lastScreenedOn": "2026-05-18",
+      "nextReviewDate": "2026-06-17",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "riskOfficer": "Approved",
+        "procurementHead": "Approved",
+        "executiveApproval": "Pending",
+        "final": "Pending"
+      },
+      "pepHistory": [
+        {
+          "screeningDate": "2026-05-18",
+          "screenedBy": "Compliance Analyst",
+          "result": "PEP Identified",
+          "remarks": "Director Igor Sechin confirmed as SOE Executive (Rosneft CEO). High risk exposure flagged.",
+          "actionTaken": "Escalated for Executive Approval"
+        }
+      ],
+      "evidenceFiles": [
+        {
+          "fileId": "PEP-003",
+          "fileName": "Vostok_SOE_Exposures_Brief.pdf",
+          "filePath": "/uploads/kyc/pep/Vostok_SOE_Exposures_Brief.pdf",
+          "uploadedBy": "Compliance Analyst",
+          "uploadedOn": "2026-05-18"
+        }
+      ],
+      "eddRecords": {
+        "complianceReview": true,
+        "complianceReviewNotes": "SOE link confirmed. Executive Approval pending Board level review.",
+        "fundsVerification": true,
+        "fundsVerificationNotes": "Cleared. Transaction funds through Gazprombank verified.",
+        "wealthVerification": false,
+        "wealthVerificationNotes": "Refused asset statement under non-disclosure exception.",
+        "executiveApproval": false,
+        "executiveApprovalNotes": "",
+        "periodicMonitoring": true
+      }
+    },
+    {
+      "vendorId": "VND-2026-55006",
+      "vendorName": "Apex Tech Solutions",
+      "country": "India",
+      "pan": "APEXT1234T",
+      "gstin": "27APEXT1234T1Z2",
+      "screeningResults": {
+        "directorScreening": {
+          "personName": "Gopal Sharma",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        },
+        "beneficialOwnerScreening": {
+          "personName": "Anand Sharma",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        },
+        "shareholderScreening": {
+          "personName": "Kunal Sharma",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        }
+      },
+      "overallStatus": "Cleared",
+      "dueDiligenceLevel": "Standard Due Diligence",
+      "lastScreenedOn": "2026-05-15",
+      "nextReviewDate": "2026-11-15",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "riskOfficer": "Approved",
+        "procurementHead": "Approved",
+        "executiveApproval": "Approved",
+        "final": "Approved"
+      },
+      "pepHistory": [
+        {
+          "screeningDate": "2026-05-15",
+          "screenedBy": "Compliance Team",
+          "result": "Cleared",
+          "remarks": "No matching political database entries found.",
+          "actionTaken": "Approved"
+        }
+      ],
+      "evidenceFiles": [],
+      "eddRecords": {
+        "complianceReview": false,
+        "complianceReviewNotes": "",
+        "fundsVerification": false,
+        "fundsVerificationNotes": "",
+        "wealthVerification": false,
+        "wealthVerificationNotes": "",
+        "executiveApproval": false,
+        "executiveApprovalNotes": "",
+        "periodicMonitoring": false
+      }
+    },
+    {
+      "vendorId": "VND-2026-99008",
+      "vendorName": "Global Consult Group",
+      "country": "USA",
+      "pan": null,
+      "gstin": null,
+      "screeningResults": {
+        "directorScreening": {
+          "personName": "John Doe",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        },
+        "beneficialOwnerScreening": {
+          "personName": "Antony Blinken",
+          "pepMatch": "Confirmed",
+          "pepCategory": "Foreign Government Official",
+          "riskLevel": "Critical",
+          "pepRiskScore": 95
+        },
+        "shareholderScreening": {
+          "personName": "US Consulting Partners",
+          "pepMatch": "Clear",
+          "pepCategory": null,
+          "riskLevel": "Low",
+          "pepRiskScore": 0
+        }
+      },
+      "overallStatus": "PEP Identified",
+      "dueDiligenceLevel": "Executive Approval Required",
+      "lastScreenedOn": "2026-05-20",
+      "nextReviewDate": "2026-06-15",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "riskOfficer": "Pending",
+        "procurementHead": "Pending",
+        "executiveApproval": "Pending",
+        "final": "Pending"
+      },
+      "pepHistory": [
+        {
+          "screeningDate": "2026-05-20",
+          "screenedBy": "Compliance Analyst",
+          "result": "PEP Identified",
+          "remarks": "Beneficial Owner Antony Blinken identified as Foreign Government Official (US Secretary of State). Foreign PEP triggered.",
+          "actionTaken": "EDD Initiated"
+        }
+      ],
+      "evidenceFiles": [
+        {
+          "fileId": "PEP-004",
+          "fileName": "Foreign_PEP_Compliance_Report_USA.pdf",
+          "filePath": "/uploads/kyc/pep/Foreign_PEP_Compliance_Report_USA.pdf",
+          "uploadedBy": "Compliance Analyst",
+          "uploadedOn": "2026-05-20"
+        }
+      ],
+      "eddRecords": {
+        "complianceReview": true,
+        "complianceReviewNotes": "Investigated foreign influence exposure and compliance constraints.",
+        "fundsVerification": false,
+        "fundsVerificationNotes": "Requesting US Dollar bank source of funds validation.",
+        "wealthVerification": false,
+        "wealthVerificationNotes": "",
+        "executiveApproval": false,
+        "executiveApprovalNotes": "",
+        "periodicMonitoring": true
+      }
+    }
+  ]
+}

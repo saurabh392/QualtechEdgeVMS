@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { ChevronLeft, CheckCircle2, Bot, UploadCloud, FileText } from 'lucide-react';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
@@ -41,6 +42,7 @@ export const CreateContract: React.FC = () => {
 
   // Step 1 Basics State
   const [selectedVendorId, setSelectedVendorId] = useState('');
+  const [vendorApprovalStatus, setVendorApprovalStatus] = useState<string>('');
   const [contractType, setContractType] = useState('Master Service Agreement');
   const [contractName, setContractName] = useState('');
   const [department, setDepartment] = useState('IT Services');
@@ -91,6 +93,24 @@ export const CreateContract: React.FC = () => {
     }
     initData();
   }, []);
+
+  // Fetch selected vendor's approval status
+  useEffect(() => {
+    if (!selectedVendorId) {
+      setVendorApprovalStatus('');
+      return;
+    }
+    axios.get(`/api/kyc/approvals/vendor/${selectedVendorId}`)
+      .then(res => {
+        if (res.data.success) {
+          setVendorApprovalStatus(res.data.overallStatus);
+        }
+      })
+      .catch(err => {
+        console.error('Failed to fetch vendor approval status:', err);
+        setVendorApprovalStatus('Vendor Approved');
+      });
+  }, [selectedVendorId]);
 
   // Update contract name when vendor or contract type changes
   const handleVendorChange = (vendorId: string) => {
@@ -287,6 +307,22 @@ export const CreateContract: React.FC = () => {
               </div>
             </div>
 
+            {selectedVendorId && vendorApprovalStatus === 'Vendor Approved' && (
+              <div style={{ backgroundColor: '#dcfce7', border: '1px solid #bbf7d0', color: '#166534', padding: '12px 16px', borderRadius: '6px', fontSize: '13px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                ✅ Vendor Approved for Business Transactions
+              </div>
+            )}
+            {selectedVendorId && vendorApprovalStatus === 'Rejected' && (
+              <div style={{ backgroundColor: '#fee2e2', border: '1px solid #fecdd3', color: '#991b1b', padding: '12px 16px', borderRadius: '6px', fontSize: '13px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                ❌ Vendor Approval Rejected
+              </div>
+            )}
+            {selectedVendorId && vendorApprovalStatus && vendorApprovalStatus !== 'Vendor Approved' && vendorApprovalStatus !== 'Rejected' && (
+              <div style={{ backgroundColor: '#fffbeb', border: '1px solid #fef3c7', color: '#b45309', padding: '12px 16px', borderRadius: '6px', fontSize: '13px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                ⚠ Vendor Onboarding/KYC Approval Pending (Current Status: {vendorApprovalStatus})
+              </div>
+            )}
+
             <div className={styles.formGrid}>
               <div className={styles.formGroup}>
                 <label>Vendor Name <span className={styles.required}>*</span></label>
@@ -347,7 +383,7 @@ export const CreateContract: React.FC = () => {
 
             <div className={styles.formActions}>
               <Button variant="ghost" onClick={() => navigate('/contracts/dashboard')}>Cancel</Button>
-              <Button onClick={handleNext}>Next &rarr;</Button>
+              <Button onClick={handleNext} disabled={selectedVendorId ? vendorApprovalStatus !== 'Vendor Approved' : true}>Next &rarr;</Button>
             </div>
           </Card>
         )}

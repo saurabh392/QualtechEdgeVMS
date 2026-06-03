@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   ArrowLeft, 
@@ -24,6 +24,7 @@ import { Button } from '../../components/Button/Button';
 import { Card } from '../../components/Card/Card';
 import { Badge } from '../../components/Badge/Badge';
 import styles from './QualityStandards.module.css';
+import { getAllItems } from '../../services/itemMasterService';
 
 interface QAItem {
   id: string;
@@ -119,21 +120,73 @@ const QA_ITEMS_MOCK: QAItem[] = [
 
 export const QualityStandards: React.FC = () => {
   const navigate = useNavigate();
-  const [items, setItems] = useState<QAItem[]>(QA_ITEMS_MOCK);
-  const [selectedItem, setSelectedItem] = useState<QAItem>(QA_ITEMS_MOCK[0]);
+  const [items, setItems] = useState<QAItem[]>([]);
+  const [selectedItem, setSelectedItem] = useState<QAItem | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  // Editable Fields State (synchronized when selected item changes)
-  const [inspectionFreq, setInspectionFreq] = useState(selectedItem.inspectionFreq);
-  const [testProtocol, setTestProtocol] = useState(selectedItem.testProtocol);
-  const [rejectThreshold, setRejectThreshold] = useState(selectedItem.rejectRate);
-  const [riskClass, setRiskClass] = useState(selectedItem.riskClass);
+  // Editable Fields State
+  const [inspectionFreq, setInspectionFreq] = useState('');
+  const [testProtocol, setTestProtocol] = useState('');
+  const [rejectThreshold, setRejectThreshold] = useState(0);
+  const [riskClass, setRiskClass] = useState<'High' | 'Medium' | 'Low'>('Low');
 
-  React.useEffect(() => {
-    setInspectionFreq(selectedItem.inspectionFreq);
-    setTestProtocol(selectedItem.testProtocol);
-    setRejectThreshold(selectedItem.rejectRate);
-    setRiskClass(selectedItem.riskClass);
+  useEffect(() => {
+    async function loadData() {
+      try {
+        setLoading(true);
+        const list = await getAllItems();
+        const mappedList: QAItem[] = list.map((item, idx) => {
+          const mockMatch = QA_ITEMS_MOCK.find(m => m.id === item.itemId);
+          if (mockMatch) return mockMatch;
+
+          const rClass = item.riskClassification 
+            ? item.riskClassification.replace(' Risk', '') as 'High' | 'Medium' | 'Low'
+            : 'Low';
+
+          return {
+            id: item.itemId || `ITM-${idx}`,
+            name: item.itemName,
+            category: item.category,
+            score: 95,
+            rejectRate: 0.0,
+            inspectionFreq: 'Per Batch (Random 5%)',
+            complianceCert: item.qualityComplianceStandards 
+              ? [item.qualityComplianceStandards] 
+              : ['ISO 9001'],
+            testProtocol: item.qualityTestingCriteria || 'Power-on self test.',
+            riskClass: rClass,
+            vendorPerformance: [
+              { month: 'Dec', rate: 1.0 },
+              { month: 'Jan', rate: 0.8 },
+              { month: 'Feb', rate: 0.5 },
+              { month: 'Mar', rate: 0.2 },
+              { month: 'Apr', rate: 0.0 },
+              { month: 'May', rate: 0.0 }
+            ]
+          };
+        });
+
+        setItems(mappedList);
+        if (mappedList.length > 0) {
+          setSelectedItem(mappedList[0]);
+        }
+      } catch (err) {
+        console.error("Error loading quality items:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    if (selectedItem) {
+      setInspectionFreq(selectedItem.inspectionFreq);
+      setTestProtocol(selectedItem.testProtocol);
+      setRejectThreshold(selectedItem.rejectRate);
+      setRiskClass(selectedItem.riskClass);
+    }
   }, [selectedItem]);
 
   const handleItemSelect = (item: QAItem) => {
@@ -141,6 +194,7 @@ export const QualityStandards: React.FC = () => {
   };
 
   const handleSave = () => {
+    if (!selectedItem) return;
     const updatedItems = items.map(it => {
       if (it.id === selectedItem.id) {
         return {
@@ -162,6 +216,25 @@ export const QualityStandards: React.FC = () => {
     item.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (loading || !selectedItem) {
+    return (
+      <div className={styles.container}>
+        <CatalogueHeader 
+          title="QUALITY COMPLIANCE & PARAMETERS" 
+          subtitle="Manage inspection rules, ISO/BIS standard requirements, SLA thresholds, and item rejection parameters"
+          actions={
+            <Button variant="outline" icon={<ArrowLeft size={16} />} onClick={() => navigate('/catalogue/dashboard')}>
+              Back to Dashboard
+            </Button>
+          }
+        />
+        <div style={{ padding: '40px', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
+          Loading quality standards parameters...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>

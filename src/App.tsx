@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { VendorFilterProvider } from './context/VendorFilterContext';
+import { DocumentFilterProvider } from './context/DocumentFilterContext';
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
 import { Layout } from './components/Layout/Layout';
 import { Login } from './pages/Login/Login';
@@ -16,6 +18,13 @@ import { ExpiryTracker } from './pages/Documents/ExpiryTracker';
 import { KycDashboard } from './pages/KYC/KycDashboard';
 import { KycDetail } from './pages/KYC/KycDetail';
 import { KycApprovals } from './pages/KYC/KycApprovals';
+import { KycRiskAssessment } from './pages/KYC/KycRiskAssessment';
+import { KycSanctionsScreening } from './pages/KYC/KycSanctionsScreening';
+import { KycBlacklistCheck } from './pages/KYC/KycBlacklistCheck';
+import { KycPepScreening } from './pages/KYC/KycPepScreening';
+import { KycAdverseMedia } from './pages/KYC/KycAdverseMedia';
+import { KycShellCheck } from './pages/KYC/KycShellCheck';
+import { KycReKycScheduling } from './pages/KYC/KycReKycScheduling';
 import { ContractsDashboard } from './pages/Contracts/ContractsDashboard';
 import { ContractList } from './pages/Contracts/ContractList';
 import { CreateContract } from './pages/Contracts/CreateContract';
@@ -43,6 +52,17 @@ import { InvoicePaymentReports } from './pages/Reports/InvoicePaymentReports';
 import { CustomReportBuilder } from './pages/Reports/CustomReportBuilder';
 import { AIInsightsDashboard } from './pages/Reports/AIInsightsDashboard';
 
+
+
+import { SettingsDashboard } from './pages/Settings/SettingsDashboard';
+import { OrgBrandingSettings } from './pages/Settings/OrgBrandingSettings';
+import { UserRoleManagement } from './pages/Settings/UserRoleManagement';
+import { ApprovalWorkflowSettings } from './pages/Settings/ApprovalWorkflowSettings';
+import { SecurityGovernanceSettings } from './pages/Settings/SecurityGovernanceSettings';
+import { IntegrationHubSettings } from './pages/Settings/IntegrationHubSettings';
+import { PublishDeploySettings } from './pages/Settings/PublishDeploySettings';
+import { VendorPortalDashboard } from './pages/VendorPortal/VendorPortalDashboard';
+
 import { CatalogueDashboard } from './pages/Catalogue/CatalogueDashboard';
 import { ItemMaster } from './pages/Catalogue/ItemMaster';
 import { ServiceMaster } from './pages/Catalogue/ServiceMaster';
@@ -58,25 +78,13 @@ import { AiRecommendations } from './pages/Catalogue/AiRecommendations';
 import { CatalogueAnalytics } from './pages/Catalogue/CatalogueAnalytics';
 import { PublishCatalogue } from './pages/Catalogue/PublishCatalogue';
 
-import { SettingsDashboard } from './pages/Settings/SettingsDashboard';
-import { OrgBrandingSettings } from './pages/Settings/OrgBrandingSettings';
-import { UserRoleManagement } from './pages/Settings/UserRoleManagement';
-import { ApprovalWorkflowSettings } from './pages/Settings/ApprovalWorkflowSettings';
-import { SecurityGovernanceSettings } from './pages/Settings/SecurityGovernanceSettings';
-import { IntegrationHubSettings } from './pages/Settings/IntegrationHubSettings';
-import { PublishDeploySettings } from './pages/Settings/PublishDeploySettings';
-
-import { PerformanceDashboard } from './pages/Performance/PerformanceDashboard';
-import { ComplianceDashboard } from './pages/Compliance/ComplianceDashboard';
-import { VendorPortalDashboard } from './pages/VendorPortal/VendorPortalDashboard';
-import { AuditLogsDashboard } from './pages/AuditLogs/AuditLogsDashboard';
-import { AdminDashboard } from './pages/Admin/AdminDashboard';
-
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Routes>
+        <VendorFilterProvider>
+          <DocumentFilterProvider>
+            <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/auth/2fa" element={<TwoFactorAuth />} />
           
@@ -85,8 +93,8 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/access-denied" element={<AccessDenied />} />
 
-              {/* Internal Procurement Modules: restricted to SUPER_ADMIN and TENANT_ADMIN */}
-              <Route element={<ProtectedRoute allowedRoles={['SUPER_ADMIN', 'TENANT_ADMIN']} />}>
+              {/* Internal Procurement Modules: restricted to ADMIN */}
+              <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/vendors" element={<VendorList />} />
                 <Route path="/vendors/add" element={<AddVendor />} />
@@ -98,13 +106,20 @@ function App() {
                 <Route path="/kyc" element={<KycDashboard />} />
                 <Route path="/kyc/:id" element={<KycDetail />} />
                 <Route path="/kyc/approvals" element={<KycApprovals />} />
-                <Route path="/kyc/risk" element={<KycDashboard />} />
-                <Route path="/kyc/sanctions" element={<KycDashboard />} />
-                <Route path="/kyc/blacklist" element={<KycDashboard />} />
-                <Route path="/kyc/pep" element={<KycDashboard />} />
-                <Route path="/kyc/media" element={<KycDashboard />} />
-                <Route path="/kyc/shell" element={<KycDashboard />} />
-                <Route path="/kyc/schedule" element={<KycDashboard />} />
+                <Route path="/kyc/risk" element={<KycRiskAssessment />} />
+                <Route path="/kyc/risk-assessment" element={<KycRiskAssessment />} />
+                <Route path="/kyc/sanctions" element={<KycSanctionsScreening />} />
+                <Route path="/kyc/sanctions-screening" element={<KycSanctionsScreening />} />
+                <Route path="/kyc/blacklist" element={<KycBlacklistCheck />} />
+                <Route path="/kyc/blacklist-check" element={<KycBlacklistCheck />} />
+                <Route path="/kyc/pep" element={<KycPepScreening />} />
+                <Route path="/kyc/pep-screening" element={<KycPepScreening />} />
+                <Route path="/kyc/media" element={<KycAdverseMedia />} />
+                <Route path="/kyc/adverse-media" element={<KycAdverseMedia />} />
+                <Route path="/kyc/shell" element={<KycShellCheck />} />
+                <Route path="/kyc/shell-company-check" element={<KycShellCheck />} />
+                <Route path="/kyc/schedule" element={<KycReKycScheduling />} />
+                <Route path="/kyc/re-kyc" element={<KycReKycScheduling />} />
                 
                 <Route path="/catalogue" element={<Navigate to="/catalogue/dashboard" replace />} />
                 <Route path="/catalogue/dashboard" element={<CatalogueDashboard />} />
@@ -115,10 +130,15 @@ function App() {
                 <Route path="/catalogue/hsn-sac" element={<HsnSacMapping />} />
                 <Route path="/catalogue/uom" element={<UomManagement />} />
                 <Route path="/catalogue/rates" element={<RatePriceReference />} />
+                <Route path="/catalogue/pricing" element={<RatePriceReference />} />
                 <Route path="/catalogue/quality" element={<QualityStandards />} />
+                <Route path="/catalogue/quality-standards" element={<QualityStandards />} />
                 <Route path="/catalogue/comparison" element={<VendorComparison />} />
                 <Route path="/catalogue/approvals" element={<CatalogueApprovals />} />
+                <Route path="/catalogue/approval-workflow" element={<CatalogueApprovals />} />
                 <Route path="/catalogue/ai-recommendations" element={<AiRecommendations />} />
+
+                <Route path="/catalogue/published" element={<PublishCatalogue />} />
                 <Route path="/catalogue/analytics" element={<CatalogueAnalytics />} />
                 <Route path="/catalogue/publish" element={<PublishCatalogue />} />
 
@@ -179,22 +199,14 @@ function App() {
                 <Route path="/settings/security" element={<SecurityGovernanceSettings />} />
                 <Route path="/settings/integrations" element={<IntegrationHubSettings />} />
                 <Route path="/settings/publish" element={<PublishDeploySettings />} />
-
-                <Route path="/performance" element={<PerformanceDashboard />} />
-                <Route path="/compliance" element={<ComplianceDashboard />} />
-                <Route path="/audit-logs" element={<AuditLogsDashboard />} />
               </Route>
 
-              {/* Vendor Portal: restricted to SUPER_ADMIN and VENDOR */}
-              <Route element={<ProtectedRoute allowedRoles={['SUPER_ADMIN', 'VENDOR']} moduleKey="Vendor Portal" />}>
+              {/* Vendor Portal: restricted to VENDOR */}
+              <Route element={<ProtectedRoute allowedRoles={['VENDOR']} moduleKey="Vendor Portal" />}>
                 <Route path="/vendor-portal" element={<VendorPortalDashboard />} />
                 <Route path="/vendor/dashboard" element={<VendorPortalDashboard />} />
               </Route>
 
-              {/* System Admin panel: restricted to SUPER_ADMIN */}
-              <Route element={<ProtectedRoute allowedRoles={['SUPER_ADMIN']} moduleKey="Admin Panel" />}>
-                <Route path="/admin" element={<AdminDashboard />} />
-              </Route>
 
               {/* Fallback route */}
               <Route path="*" element={<Navigate to="/dashboard" replace />} />
@@ -202,10 +214,12 @@ function App() {
           </Route>
 
           <Route path="/" element={<Navigate to="/login" replace />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
-  );
+            </Routes>
+          </DocumentFilterProvider>
+        </VendorFilterProvider>
+    </BrowserRouter>
+  </AuthProvider>
+);
 }
 
 export default App;

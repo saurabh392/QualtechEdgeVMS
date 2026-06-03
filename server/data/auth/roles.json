@@ -1,20 +1,12 @@
 [
   {
     "roleId": "ROLE-001",
-    "roleName": "SUPER_ADMIN",
-    "description": "Complete system access",
-    "accessLevel": "FULL"
+    "roleName": "ADMIN",
+    "description": "Enterprise Administrator"
   },
   {
     "roleId": "ROLE-002",
-    "roleName": "TENANT_ADMIN",
-    "description": "Enterprise operational access",
-    "accessLevel": "LIMITED_ADMIN"
-  },
-  {
-    "roleId": "ROLE-003",
     "roleName": "VENDOR",
-    "description": "Vendor portal access only",
-    "accessLevel": "VENDOR_ONLY"
+    "description": "Vendor Portal User"
   }
 ]

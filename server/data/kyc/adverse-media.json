@@ -1,0 +1,380 @@
+{
+  "vendors": [
+    {
+      "vendorId": "VND-2025-00145",
+      "vendorName": "Tech Solutions Pvt Ltd",
+      "industry": "IT Services",
+      "country": "India",
+      "mediaFindings": [
+        {
+          "incidentId": "INC-101",
+          "incidentType": "Regulatory Violation",
+          "incidentTitle": "Tax Evasion Investigation",
+          "incidentDate": "2024-08-12",
+          "severity": "Medium",
+          "source": "Financial News Network",
+          "status": "Open",
+          "details": "Authorities launched probe into alleged accounting misstatements and indirect tax underpayments."
+        },
+        {
+          "incidentId": "INC-102",
+          "incidentType": "Regulatory Violation",
+          "incidentTitle": "Environmental Compliance Violation",
+          "incidentDate": "2024-10-05",
+          "severity": "Medium",
+          "source": "Government Regulatory Portal",
+          "status": "Resolved",
+          "details": "Facility fined for exceeding wastewater discharge limits. Issue resolved after upgrades."
+        }
+      ],
+      "mediaRiskScore": 55,
+      "riskLevel": "Medium",
+      "screeningStatus": "Alert",
+      "lastScreenedOn": "2026-05-15",
+      "nextReviewDate": "2026-08-15",
+      "workflow": {
+        "analyst": "Approved",
+        "riskManager": "Pending",
+        "legalTeam": "Pending",
+        "procurementHead": "Pending",
+        "executiveReview": "Pending",
+        "final": "Pending"
+      },
+      "mediaHistory": [
+        {
+          "incidentDate": "2024-08-12",
+          "incidentType": "Tax Evasion Investigation",
+          "severity": "Medium",
+          "recordedBy": "Compliance Analyst",
+          "actionTaken": "Enhanced Monitoring Initiated",
+          "remarks": "Escalated to Risk Manager to initiate enhanced due diligence."
+        }
+      ],
+      "evidenceFiles": [
+        {
+          "fileId": "MEDIA-001",
+          "fileName": "Tax_Evasion_Investigation_Report_TechSol.pdf",
+          "filePath": "/uploads/kyc/adverse-media/Tax_Evasion_Investigation_Report_TechSol.pdf",
+          "uploadedBy": "compliance_manager",
+          "uploadedOn": "2026-05-15"
+        }
+      ]
+    },
+    {
+      "vendorId": "VND-2026-88001",
+      "vendorName": "HDFC Bank Limited",
+      "industry": "Consulting",
+      "country": "India",
+      "mediaFindings": [
+        {
+          "incidentId": "INC-103",
+          "incidentType": "Regulatory Violation",
+          "incidentTitle": "Reserve Bank Compliance Fine",
+          "incidentDate": "2025-02-18",
+          "severity": "Low",
+          "source": "Banking Sector Watch",
+          "status": "Resolved",
+          "details": "Minor fine levied by central bank due to procedural lapses in KYC record-keeping audits."
+        }
+      ],
+      "mediaRiskScore": 10,
+      "riskLevel": "Low",
+      "screeningStatus": "Cleared",
+      "lastScreenedOn": "2026-05-22",
+      "nextReviewDate": "2026-11-22",
+      "workflow": {
+        "analyst": "Approved",
+        "riskManager": "Approved",
+        "legalTeam": "Approved",
+        "procurementHead": "Approved",
+        "executiveReview": "Approved",
+        "final": "Approved"
+      },
+      "mediaHistory": [
+        {
+          "incidentDate": "2025-02-18",
+          "incidentType": "Reserve Bank Compliance Fine",
+          "severity": "Low",
+          "recordedBy": "System screener",
+          "actionTaken": "Resolved & Cleared",
+          "remarks": "Assessed fine as immaterial. Issues already resolved in previous cycle."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-50469",
+      "vendorName": "My Money Mantra Pvt Ltd",
+      "industry": "IT Services",
+      "country": "India",
+      "mediaFindings": [],
+      "mediaRiskScore": 0,
+      "riskLevel": "Low",
+      "screeningStatus": "Cleared",
+      "lastScreenedOn": "2026-05-29",
+      "nextReviewDate": "2026-06-15",
+      "workflow": {
+        "analyst": "Approved",
+        "riskManager": "Approved",
+        "legalTeam": "Approved",
+        "procurementHead": "Approved",
+        "executiveReview": "Approved",
+        "final": "Approved"
+      },
+      "mediaHistory": [
+        {
+          "incidentDate": "2026-05-29",
+          "incidentType": "Adverse Media Screening Sweep",
+          "severity": "Low",
+          "recordedBy": "Compliance Team",
+          "actionTaken": "Approved",
+          "remarks": "Completed screening sweep. No negative news matches detected."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-11002",
+      "vendorName": "Apex Facility Services",
+      "industry": "Facility Management",
+      "country": "India",
+      "mediaFindings": [
+        {
+          "incidentId": "INC-104",
+          "incidentType": "Regulatory Violation",
+          "incidentTitle": "Labor Law Compliance Dispute",
+          "incidentDate": "2025-11-10",
+          "severity": "Medium",
+          "source": "State Labor Board",
+          "status": "Open",
+          "details": "Contract staff filed formal complaint regarding unpaid overtime and local minimum wage breaches."
+        }
+      ],
+      "mediaRiskScore": 20,
+      "riskLevel": "Low",
+      "screeningStatus": "Alert",
+      "lastScreenedOn": "2026-05-10",
+      "nextReviewDate": "2026-06-25",
+      "workflow": {
+        "analyst": "Approved",
+        "riskManager": "Pending",
+        "legalTeam": "Pending",
+        "procurementHead": "Pending",
+        "executiveReview": "Pending",
+        "final": "Pending"
+      },
+      "mediaHistory": [
+        {
+          "incidentDate": "2025-11-10",
+          "incidentType": "Labor Law Compliance Dispute",
+          "severity": "Medium",
+          "recordedBy": "Compliance Analyst",
+          "actionTaken": "Investigation Pending",
+          "remarks": "Requested wage registries data from vendor compliance team."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-22003",
+      "vendorName": "Secure Guards Co.",
+      "industry": "Security",
+      "country": "India",
+      "mediaFindings": [
+        {
+          "incidentId": "INC-105",
+          "incidentType": "Fraud",
+          "incidentTitle": "Accounting Manipulation & Internal Fraud",
+          "incidentDate": "2025-04-14",
+          "severity": "High",
+          "source": "Corporate Governance Audit",
+          "status": "Open",
+          "details": "Whistleblower report alleges management overstated cash balance sheets and fabricated invoices."
+        },
+        {
+          "incidentId": "INC-106",
+          "incidentType": "Cyber Crime",
+          "incidentTitle": "Employee Database Data Leak",
+          "incidentDate": "2025-09-02",
+          "severity": "Medium",
+          "source": "Security Incident Portal",
+          "status": "Resolved",
+          "details": "Exposed guard records containing PAN cards leaked on public forum. System patched."
+        }
+      ],
+      "mediaRiskScore": 65,
+      "riskLevel": "High",
+      "screeningStatus": "Alert",
+      "lastScreenedOn": "2026-05-15",
+      "nextReviewDate": "2026-08-15",
+      "workflow": {
+        "analyst": "Approved",
+        "riskManager": "Approved",
+        "legalTeam": "Pending",
+        "procurementHead": "Pending",
+        "executiveReview": "Pending",
+        "final": "Pending"
+      },
+      "mediaHistory": [
+        {
+          "incidentDate": "2025-04-14",
+          "incidentType": "Accounting Manipulation & Internal Fraud",
+          "severity": "High",
+          "recordedBy": "Compliance Manager",
+          "actionTaken": "Compliance Investigation",
+          "remarks": "Ongoing review. Retaining independent external legal counsel report."
+        }
+      ],
+      "evidenceFiles": [
+        {
+          "fileId": "MEDIA-002",
+          "fileName": "Corporate_Audit_Fraud_Brief.pdf",
+          "filePath": "/uploads/kyc/adverse-media/Corporate_Audit_Fraud_Brief.pdf",
+          "uploadedBy": "compliance_manager",
+          "uploadedOn": "2026-05-15"
+        }
+      ]
+    },
+    {
+      "vendorId": "VND-2026-44005",
+      "vendorName": "Vostok Trading LLC",
+      "industry": "Others",
+      "country": "Russia",
+      "mediaFindings": [
+        {
+          "incidentId": "INC-107",
+          "incidentType": "Corruption",
+          "incidentTitle": "Bribery & Trade Violations Investigation",
+          "incidentDate": "2025-05-10",
+          "severity": "Critical",
+          "source": "International Transparency Index",
+          "status": "Open",
+          "details": "Foreign assets control agency flagged suspicious wire transfers to local state officials."
+        },
+        {
+          "incidentId": "INC-108",
+          "incidentType": "Regulatory Violation",
+          "incidentTitle": "Sanctions Evading Charges",
+          "incidentDate": "2025-12-05",
+          "severity": "High",
+          "source": "State Regulatory Watch",
+          "status": "Open",
+          "details": "Indicted for supplying dual-use industrial parts in violation of exporting embargo laws."
+        }
+      ],
+      "mediaRiskScore": 90,
+      "riskLevel": "Critical",
+      "screeningStatus": "Alert",
+      "lastScreenedOn": "2026-05-18",
+      "nextReviewDate": "2026-06-18",
+      "workflow": {
+        "analyst": "Approved",
+        "riskManager": "Approved",
+        "legalTeam": "Approved",
+        "procurementHead": "Approved",
+        "executiveReview": "Pending",
+        "final": "Pending"
+      },
+      "mediaHistory": [
+        {
+          "incidentDate": "2025-05-10",
+          "incidentType": "Bribery & Trade Violations Investigation",
+          "severity": "Critical",
+          "recordedBy": "Compliance Analyst",
+          "actionTaken": "Escalation Required",
+          "remarks": "High probability of international legal sanctions. Procurement blocked."
+        }
+      ],
+      "evidenceFiles": [
+        {
+          "fileId": "MEDIA-003",
+          "fileName": "Transparency_International_Sanctions_Russia.pdf",
+          "filePath": "/uploads/kyc/adverse-media/Transparency_International_Sanctions_Russia.pdf",
+          "uploadedBy": "Compliance Analyst",
+          "uploadedOn": "2026-05-18"
+        }
+      ]
+    },
+    {
+      "vendorId": "VND-2026-55006",
+      "vendorName": "Apex Tech Solutions",
+      "industry": "IT Services",
+      "country": "India",
+      "mediaFindings": [],
+      "mediaRiskScore": 0,
+      "riskLevel": "Low",
+      "screeningStatus": "Cleared",
+      "lastScreenedOn": "2026-05-15",
+      "nextReviewDate": "2026-11-15",
+      "workflow": {
+        "analyst": "Approved",
+        "riskManager": "Approved",
+        "legalTeam": "Approved",
+        "procurementHead": "Approved",
+        "executiveReview": "Approved",
+        "final": "Approved"
+      },
+      "mediaHistory": [
+        {
+          "incidentDate": "2026-05-15",
+          "incidentType": "Scheduled Negative News Scan",
+          "recordedBy": "System scan",
+          "severity": "Low",
+          "actionTaken": "Cleared",
+          "remarks": "No news matching debarment parameters detected."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-99008",
+      "vendorName": "Global Consult Group",
+      "industry": "Consulting",
+      "country": "USA",
+      "mediaFindings": [
+        {
+          "incidentId": "INC-109",
+          "incidentType": "Bankruptcy",
+          "incidentTitle": "Insolvency & Debt Restructuring Filings",
+          "incidentDate": "2025-03-20",
+          "severity": "High",
+          "source": "US Court Registries",
+          "status": "Open",
+          "details": "Voluntarily filed for corporate debt restructuring under insolvency laws due to cash flow defaults."
+        }
+      ],
+      "mediaRiskScore": 75,
+      "riskLevel": "High",
+      "screeningStatus": "Alert",
+      "lastScreenedOn": "2026-05-20",
+      "nextReviewDate": "2026-06-15",
+      "workflow": {
+        "analyst": "Approved",
+        "riskManager": "Approved",
+        "legalTeam": "Pending",
+        "procurementHead": "Pending",
+        "executiveReview": "Pending",
+        "final": "Pending"
+      },
+      "mediaHistory": [
+        {
+          "incidentDate": "2025-03-20",
+          "incidentType": "Insolvency & Debt Restructuring Filings",
+          "severity": "High",
+          "recordedBy": "Compliance Analyst",
+          "actionTaken": "Compliance Investigation",
+          "remarks": "Insolvency filed in Delaware court. Evaluating risk on active master services agreements."
+        }
+      ],
+      "evidenceFiles": [
+        {
+          "fileId": "MEDIA-004",
+          "fileName": "GCG_Delaware_Chapter_11_Filing.pdf",
+          "filePath": "/uploads/kyc/adverse-media/GCG_Delaware_Chapter_11_Filing.pdf",
+          "uploadedBy": "Compliance Analyst",
+          "uploadedOn": "2026-05-20"
+        }
+      ]
+    }
+  ]
+}

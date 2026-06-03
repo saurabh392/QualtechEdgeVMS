@@ -1,0 +1,44 @@
+{
+  "reminders": [
+    {
+      "reminderId": "REM-001",
+      "vendorId": "VND-2025-00045",
+      "vendorName": "ABC Facility Services",
+      "reminderType": "60 Days Reminder",
+      "scheduledDate": "2026-05-20",
+      "status": "Sent"
+    },
+    {
+      "reminderId": "REM-002",
+      "vendorId": "VND-2025-00045",
+      "vendorName": "ABC Facility Services",
+      "reminderType": "30 Days Reminder",
+      "scheduledDate": "2026-06-20",
+      "status": "Pending"
+    },
+    {
+      "reminderId": "REM-003",
+      "vendorId": "VND-2025-00029",
+      "vendorName": "ABC Infotech Private Limited",
+      "reminderType": "60 Days Reminder",
+      "scheduledDate": "2026-05-22",
+      "status": "Sent"
+    },
+    {
+      "reminderId": "REM-004",
+      "vendorId": "VND-2026-50469",
+      "vendorName": "My Money Mantra Pvt Ltd",
+      "reminderType": "Overdue Alert",
+      "scheduledDate": "2026-05-19",
+      "status": "Sent"
+    },
+    {
+      "reminderId": "REM-005",
+      "vendorId": "VND-2026-22003",
+      "vendorName": "Secure Guards Co.",
+      "reminderType": "15 Days Reminder",
+      "scheduledDate": "2026-06-01",
+      "status": "Pending"
+    }
+  ]
+}

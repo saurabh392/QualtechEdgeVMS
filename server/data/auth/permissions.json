@@ -1,36 +1,48 @@
 [
   {
-    "module": "Dashboard",
-    "allowedRoles": [
-      "SUPER_ADMIN",
-      "TENANT_ADMIN"
+    "role": "ADMIN",
+    "allowedModules": [
+      "Dashboard",
+      "Vendor Management",
+      "Document Management",
+      "Due Diligence & KYC",
+      "Item & Service Catalogue",
+      "Contracts & SLAs",
+      "Purchase Orders",
+      "Invoices",
+      "Payments",
+      "Reports & MIS",
+      "Settings",
+      "Analytics",
+      "User Management"
+    ],
+    "restrictedModules": [
+      "Vendor Portal"
     ]
   },
   {
-    "module": "Vendor Portal",
-    "allowedRoles": [
-      "SUPER_ADMIN",
-      "VENDOR"
-    ]
-  },
-  {
-    "module": "Admin Panel",
-    "allowedRoles": [
-      "SUPER_ADMIN"
-    ]
-  },
-  {
-    "module": "Purchase Orders",
-    "allowedRoles": [
-      "SUPER_ADMIN",
-      "TENANT_ADMIN"
-    ]
-  },
-  {
-    "module": "Contracts & SLAs",
-    "allowedRoles": [
-      "SUPER_ADMIN",
-      "TENANT_ADMIN"
+    "role": "VENDOR",
+    "allowedModules": [
+      "Vendor Dashboard",
+      "My Profile",
+      "My Documents",
+      "KYC Submission",
+      "Contracts",
+      "Invoices",
+      "Payments"
+    ],
+    "restrictedModules": [
+      "Dashboard",
+      "Vendor Management",
+      "Document Management",
+      "Due Diligence & KYC",
+      "Item & Service Catalogue",
+      "Contracts & SLAs",
+      "Purchase Orders",
+      "Reports & MIS",
+      "Settings",
+      "Analytics",
+      "User Management"
     ]
   }
 ]

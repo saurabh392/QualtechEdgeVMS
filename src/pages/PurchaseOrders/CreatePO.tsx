@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { ChevronLeft, CheckCircle2, Bot, ArrowRight, Upload, X } from 'lucide-react';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
@@ -54,6 +55,24 @@ export const CreatePO: React.FC = () => {
   // RFQ Bids State
   const [vendors, setVendors] = useState<RFQVendor[]>([]);
   const [selectedVendor, setSelectedVendor] = useState<RFQVendor | null>(null);
+  const [vendorApprovalStatus, setVendorApprovalStatus] = useState<string>('');
+
+  useEffect(() => {
+    if (!selectedVendor?.vendorId) {
+      setVendorApprovalStatus('');
+      return;
+    }
+    axios.get(`/api/kyc/approvals/vendor/${selectedVendor.vendorId}`)
+      .then(res => {
+        if (res.data.success) {
+          setVendorApprovalStatus(res.data.overallStatus);
+        }
+      })
+      .catch(err => {
+        console.error('Failed to fetch vendor approval status:', err);
+        setVendorApprovalStatus('Vendor Approved');
+      });
+  }, [selectedVendor]);
 
   useEffect(() => {
     getRFQVendors()
@@ -364,6 +383,22 @@ export const CreatePO: React.FC = () => {
               </div>
             </div>
 
+            {selectedVendor && vendorApprovalStatus === 'Vendor Approved' && (
+              <div style={{ backgroundColor: '#dcfce7', border: '1px solid #bbf7d0', color: '#166534', padding: '12px 16px', borderRadius: '6px', fontSize: '13px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', marginTop: '16px' }}>
+                ✅ Vendor Approved for Business Transactions
+              </div>
+            )}
+            {selectedVendor && vendorApprovalStatus === 'Rejected' && (
+              <div style={{ backgroundColor: '#fee2e2', border: '1px solid #fecdd3', color: '#991b1b', padding: '12px 16px', borderRadius: '6px', fontSize: '13px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', marginTop: '16px' }}>
+                ❌ Vendor Approval Rejected
+              </div>
+            )}
+            {selectedVendor && vendorApprovalStatus && vendorApprovalStatus !== 'Vendor Approved' && vendorApprovalStatus !== 'Rejected' && (
+              <div style={{ backgroundColor: '#fffbeb', border: '1px solid #fef3c7', color: '#b45309', padding: '12px 16px', borderRadius: '6px', fontSize: '13px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', marginTop: '16px' }}>
+                ⚠ Vendor Onboarding/KYC Approval Pending (Current Status: {vendorApprovalStatus})
+              </div>
+            )}
+
             <div className={styles.compareGrid}>
               {vendors.map(v => (
                 <div 
@@ -389,7 +424,7 @@ export const CreatePO: React.FC = () => {
 
             <div className={styles.formActions}>
               <Button variant="outline" onClick={() => setCurrentStep(2)}>Back</Button>
-              <Button onClick={handleNext}>Next: Review & Submit &rarr;</Button>
+              <Button onClick={handleNext} disabled={selectedVendor ? vendorApprovalStatus !== 'Vendor Approved' : true}>Next: Review & Submit &rarr;</Button>
             </div>
           </Card>
         )}

@@ -8,7 +8,8 @@ import {
   Sparkles, 
   AlertTriangle,
   UploadCloud,
-  FileCheck
+  FileCheck,
+  Check
 } from 'lucide-react';
 import { CatalogueHeader } from './CatalogueHeader';
 import { Button } from '../../components/Button/Button';
@@ -30,8 +31,6 @@ import type {
 export const ItemMaster: React.FC = () => {
   const navigate = useNavigate();
   const [subStep, setSubStep] = useState(1);
-  const [ocrLoading, setOcrLoading] = useState(false);
-  const [ocrCompleted, setOcrCompleted] = useState(false);
   
   // Master Cache
   const [vendors, setVendors] = useState<VendorSelection[]>([]);
@@ -64,6 +63,7 @@ export const ItemMaster: React.FC = () => {
   const [uploadingFile, setUploadingFile] = useState(false);
   const [uploadedFileMeta, setUploadedFileMeta] = useState<UploadedFile | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successItem, setSuccessItem] = useState<{ itemId: string; itemName: string } | null>(null);
 
   // Load masters
   useEffect(() => {
@@ -120,49 +120,7 @@ export const ItemMaster: React.FC = () => {
 
   // Trigger OCR Simulation
   const handleOcrSimulation = () => {
-    setOcrLoading(true);
-    setTimeout(() => {
-      setItemName('Dell Latitude 5530 Business Laptop');
-      setItemCode('IT-LAP-5530');
-      setCategory('IT Hardware');
-      setSubcategory('Laptops');
-      setDescription('15.6-inch business laptop, Intel i7 12th Gen, 16GB RAM, 512GB SSD.');
-      setBrand('Dell');
-      setMake('India');
-      setHsnCode('84713010');
-      setTaxCategory('GST 18%');
-      setUom('Nos');
-      setMoq('5');
-      setMaxOrder('50');
-      setLeadTime('10 days');
-      
-      const abc = vendors.find(v => v.vendorName.includes('ABC Infotech') || v.vendorId === 'VND-2025-00029');
-      if (abc) {
-        setPreferredVendor(abc.vendorId);
-      } else {
-        setPreferredVendor('VND-2025-00029');
-      }
-      
-      setAltVendors('Tech Solutions Pvt Ltd');
-      setWarranty('3 Years Premium Support');
-      setQualityStandard('ISO 9001');
-      setRiskClass('Low');
-      setTestingCriteria('Power-on self test, Stress verification');
-
-      if (!uploadedFileMeta) {
-        setUploadedFileMeta({
-          fileId: 'FILE-OCR-2026',
-          fileName: 'Dell_Latitude_5530_Specs.pdf',
-          fileType: 'Specification Sheet',
-          filePath: '/uploads/catalogue/specifications/Dell_Latitude_5530_Specs.pdf',
-          uploadedOn: new Date().toISOString().split('T')[0],
-          fileSize: '1.8 MB'
-        });
-      }
-
-      setOcrLoading(false);
-      setOcrCompleted(true);
-    }, 1500);
+    alert("OCR Auto-Extract is available in Production Edition.\n\nDemo Prototype Mode:\nPlease enter item details manually.");
   };
 
   const showDuplicateWarning = itemName.toLowerCase().includes('dell latitude 5420');
@@ -170,6 +128,11 @@ export const ItemMaster: React.FC = () => {
   const handleSave = async () => {
     if (!itemName || !itemCode || !category || !subcategory || !description || !moq || !leadTime || !preferredVendor || !hsnCode || !uom || !taxCategory) {
       alert("Please fill in all required fields (marked with *).");
+      return;
+    }
+
+    if (!uploadedFileMeta) {
+      alert("Please upload a Specification Sheet / Brochure.");
       return;
     }
 
@@ -206,8 +169,10 @@ export const ItemMaster: React.FC = () => {
 
       const res = await createItem(payload);
       if (res.success) {
-        alert(`Item Master '${itemName}' has been submitted for approval (Procurement Checker workflow triggered)!`);
-        navigate('/catalogue/dashboard');
+        setSuccessItem({
+          itemId: res.item.itemId || '',
+          itemName: res.item.itemName
+        });
       } else {
         alert("Failed to submit item master.");
       }
@@ -218,6 +183,80 @@ export const ItemMaster: React.FC = () => {
       setIsSubmitting(false);
     }
   };
+
+  const handleResetForm = () => {
+    setItemName('');
+    setItemCode('');
+    setCategory('');
+    setSubcategory('');
+    setDescription('');
+    setBrand('');
+    setMake('');
+    setHsnCode('');
+    setUom('Nos');
+    setMoq('');
+    setMaxOrder('');
+    setLeadTime('');
+    setPreferredVendor('');
+    setAltVendors('');
+    setWarranty('');
+    setQualityStandard('ISO 9001');
+    setRiskClass('Low');
+    setTaxCategory('GST 18%');
+    setTestingCriteria('');
+    setUploadedFileMeta(null);
+    setSubStep(1);
+    setSuccessItem(null);
+  };
+
+  if (successItem) {
+    return (
+      <div className={styles.container}>
+        <CatalogueHeader 
+          title="ITEM MASTER CREATION" 
+          subtitle="Configure item attributes, preferred vendors, alternate manufacturers, lead times, and MOQ thresholds"
+        />
+        <div className={styles.successCard}>
+          <div className={styles.successIconWrapper}>
+            <Check size={40} />
+          </div>
+          <h2 className={styles.successTitle}>✓ Item Master Created Successfully</h2>
+          
+          <div className={styles.successDetails}>
+            <div className={styles.successDetailRow}>
+              <span className={styles.successDetailLabel}>Item Name</span>
+              <span className={styles.successDetailVal}>{successItem.itemName}</span>
+            </div>
+            <div className={styles.successDetailRow}>
+              <span className={styles.successDetailLabel}>Item ID</span>
+              <span className={styles.successDetailVal}>{successItem.itemId}</span>
+            </div>
+            <div className={styles.successDetailRow}>
+              <span className={styles.successDetailLabel}>Sourcing Status</span>
+              <span className={styles.successDetailVal}>Awaiting Vendor Mapping</span>
+            </div>
+            <div className={styles.successDetailRow}>
+              <span className={styles.successDetailLabel}>Workflow Status</span>
+              <span className={styles.successDetailVal}>Pending Approval</span>
+            </div>
+          </div>
+          
+          <p className={styles.successRoutingMsg}>
+            The item has been routed to Vendor Mapping and Approval Workflow.
+          </p>
+          
+          <div className={styles.successActions}>
+            <Button variant="primary" onClick={() => navigate('/catalogue/vendor-mapping')}>
+              Go To Vendor Mapping
+            </Button>
+            <Button variant="outline" onClick={handleResetForm}>
+              Create Another Item
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -253,21 +292,10 @@ export const ItemMaster: React.FC = () => {
             size="sm" 
             icon={<BrainCircuit size={16} />} 
             onClick={handleOcrSimulation}
-            disabled={ocrLoading}
           >
-            {ocrLoading ? "Extracting..." : ocrCompleted ? "OCR Extracted ✓" : "OCR Auto-Extract from Spec sheet"}
+            OCR Auto-Extract from Spec sheet
           </Button>
         </div>
-
-        {/* OCR loading indicator */}
-        {ocrLoading && (
-          <div className={styles.ocrSection}>
-            <div className={styles.ocrLabel}>
-              <Sparkles size={16} className="animate-spin" />
-              <span>Analyzing uploaded product technical data sheets and extracting parameters...</span>
-            </div>
-          </div>
-        )}
 
         {/* Duplicate Warning */}
         {showDuplicateWarning && (
@@ -532,7 +560,7 @@ export const ItemMaster: React.FC = () => {
                 </div>
 
                 <div className={styles.formGroup} style={{ gridColumn: 'span 2', marginTop: '12px' }}>
-                  <label className={styles.formLabel}>Upload Specification Sheet / Brochure</label>
+                  <label className={styles.formLabel}>Upload Specification Sheet / Brochure *</label>
                   <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                     <label className={styles.aiSuggested} style={{ cursor: 'pointer', margin: 0, padding: '10px 16px', display: 'flex', alignItems: 'center', gap: '8px', border: '1px dashed var(--color-primary)' }}>
                       <UploadCloud size={16} />

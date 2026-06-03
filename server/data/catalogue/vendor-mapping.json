@@ -1,0 +1,46 @@
+[
+  {
+    "mappingId": "MAP-001",
+    "vendorId": "VND-2025-00029",
+    "vendorName": "ABC Infotech Private Limited",
+    "targetId": "CAT-001",
+    "targetName": "Dell Latitude 5420 Laptop",
+    "type": "Item",
+    "leadTime": "7-10 Days",
+    "preferredStatus": "Preferred",
+    "status": "Active"
+  },
+  {
+    "mappingId": "MAP-002",
+    "vendorId": "VND-2025-00031",
+    "vendorName": "Tech Solutions Pvt Ltd",
+    "targetId": "CAT-002",
+    "targetName": "Annual Security Audit Service",
+    "type": "Service",
+    "leadTime": "30 Days",
+    "preferredStatus": "Approved",
+    "status": "Active"
+  },
+  {
+    "mappingId": "MAP-003",
+    "vendorId": "VND-2025-00032",
+    "vendorName": "Office Supplies Co",
+    "targetId": "CAT-003",
+    "targetName": "Ergonomic Office Chair",
+    "type": "Item",
+    "leadTime": "5 Days",
+    "preferredStatus": "Preferred",
+    "status": "Active"
+  },
+  {
+    "mappingId": "MAP-004",
+    "vendorId": "VND-2025-00033",
+    "vendorName": "Secure Facilities Ltd",
+    "targetId": "CAT-004",
+    "targetName": "Facility Deep Cleaning",
+    "type": "Service",
+    "leadTime": "3 Days",
+    "preferredStatus": "Preferred",
+    "status": "Active"
+  }
+]

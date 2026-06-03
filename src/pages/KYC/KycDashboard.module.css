@@ -353,3 +353,384 @@
   font-size: 0.75rem;
   color: var(--color-text-secondary);
 }
+
+/* Active card styles for interactive clicks */
+.kpiCard {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  border: 2px solid transparent;
+}
+
+.kpiCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.kpiCardActive {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.kpiCardActive[data-card="all"] {
+  border-color: #1d4ed8 !important;
+  background-color: #eff6ff !important;
+}
+
+.kpiCardActive[data-card="pending"] {
+  border-color: #f59e0b !important;
+  background-color: #fffbeb !important;
+}
+
+.kpiCardActive[data-card="inprogress"] {
+  border-color: #0ea5e9 !important;
+  background-color: #f0f9ff !important;
+}
+
+.kpiCardActive[data-card="verified"] {
+  border-color: #16a34a !important;
+  background-color: #f0fdf4 !important;
+}
+
+.kpiCardActive[data-card="highrisk"] {
+  border-color: #dc2626 !important;
+  background-color: #fef2f2 !important;
+}
+
+.kpiCardActive[data-card="rekycdue"] {
+  border-color: #9333ea !important;
+  background-color: #faf5ff !important;
+}
+
+/* KYC Profile Side-Drawer Styles */
+.drawerOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.5);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.drawerContent {
+  width: 600px;
+  max-width: 90%;
+  height: 100vh;
+  background: white;
+  box-shadow: -10px 0 25px -5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideInRight 0.2s ease-out;
+}
+
+.drawerHeader {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fafc;
+}
+
+.drawerHeader h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.drawerCloseBtn {
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drawerCloseBtn:hover {
+  background: #e2e8f0;
+}
+
+.drawerBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.drawerCard {
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  padding: 16px;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.drawerSectionTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-tertiary);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 6px;
+}
+
+.vendorOverview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.overviewRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  border-bottom: 1px solid #f8fafc;
+  padding-bottom: 4px;
+}
+
+.overviewLabel {
+  color: var(--color-text-secondary);
+}
+
+.overviewVal {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.completionContainer {
+  margin-bottom: 16px;
+}
+
+.progressBarOuter {
+  width: 100%;
+  height: 8px;
+  background-color: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progressBarInner {
+  height: 100%;
+  background-color: var(--color-success);
+  transition: width 0.3s ease;
+}
+
+/* Document Selector Grid */
+.docGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.docItem {
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--color-surface);
+}
+
+.docItem:hover {
+  border-color: var(--color-primary);
+  background: #f8fafc;
+}
+
+.docItemActive {
+  border-color: var(--color-primary);
+  background: #eff6ff;
+  box-shadow: inset 3px 0 0 var(--color-primary);
+}
+
+.docItemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.docTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* Form Styles */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.formLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.formInput {
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  font-size: 0.875rem;
+  outline: none;
+  background: white;
+}
+
+.formInput:focus {
+  border-color: var(--color-primary);
+}
+
+.uploadArea {
+  border: 2px dashed var(--color-border);
+  border-radius: var(--border-radius-md);
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  background: #f8fafc;
+  transition: all 0.2s;
+}
+
+.uploadArea:hover {
+  border-color: var(--color-primary);
+  background: #f0f9ff;
+}
+
+.uploadText {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+}
+
+.btnGroup {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.formTextarea {
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  font-size: 0.875rem;
+  min-height: 70px;
+  outline: none;
+  resize: vertical;
+  background: white;
+}
+
+/* Workflow Stage */
+.workflowBoard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.workflowStage {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 6px;
+  background: #f8fafc;
+  border: 1px solid var(--color-border);
+}
+
+.stageName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+/* History log */
+.historyList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.historyItem {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.825rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.historyItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.historyMeta {
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-text-tertiary);
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+
+/* Alert badge for Re-KYC due */
+.reKycAlertBadge {
+  background-color: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #b91c1c;
+  padding: 8px 12px;
+  border-radius: var(--border-radius-md);
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.actionBtnRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.fileBadge {
+  font-size: 0.7rem;
+  background-color: #f1f5f9;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}

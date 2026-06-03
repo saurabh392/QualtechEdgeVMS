@@ -128,31 +128,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const hasPermission = (moduleName: string): boolean => {
     if (!user) return false;
     const role = user.role;
-    if (role === 'SUPER_ADMIN') return true;
 
-    if (moduleName === 'Vendor Portal') {
-      return role === 'VENDOR';
-    }
-
-    if (moduleName === 'Admin Panel' || moduleName === 'Admin') {
-      return false; // Only SUPER_ADMIN
+    if (role === 'ADMIN') {
+      return moduleName !== 'Vendor Portal';
     }
 
     if (role === 'VENDOR') {
-      const allowedVendorModules = [
-        'Vendor Portal', 
-        'Documents Upload', 
-        'KYC Submission', 
-        'Contract Review', 
-        'Invoice Submission', 
-        'Payment Tracking', 
-        'Vendor Profile', 
-        'Vendor Compliance'
-      ];
-      return allowedVendorModules.includes(moduleName);
+      return moduleName === 'Vendor Portal';
     }
 
-    return true;
+    return false;
   };
 
   const hasRole = (roles: string[]): boolean => {

@@ -1,0 +1,217 @@
+{
+  "vendors": [
+    {
+      "vendorId": "VND-2025-00029",
+      "vendorName": "ABC Infotech Private Limited",
+      "category": "IT Services",
+      "pan": "AAACA1234A",
+      "gstin": "27AAACA1234A1Z5",
+      "riskFactors": {
+        "financialStability": 2,
+        "complianceHistory": 3,
+        "litigationRecords": 0,
+        "contractValue": 4,
+        "businessCriticality": 3,
+        "geographyRisk": 3
+      },
+      "riskScore": 15,
+      "riskLevel": "Low",
+      "lastAssessmentDate": "2026-05-01",
+      "nextReviewDate": "2027-05-01",
+      "status": "Approved",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "legalTeam": "Approved",
+        "procurementHead": "Approved",
+        "final": "Approved"
+      },
+      "assessmentHistory": [
+        {
+          "assessedBy": "Saurabh Anand",
+          "action": "Assessment Approved",
+          "comments": "Low risk profile across all major financial and litigation registers.",
+          "timestamp": "2026-05-01T10:00:00Z"
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "vendorId": "VND-2026-88001",
+      "vendorName": "HDFC Bank Limited",
+      "category": "Consulting",
+      "pan": "AAACH1111A",
+      "gstin": "27AAACH1111A1Z8",
+      "riskFactors": {
+        "financialStability": 15,
+        "complianceHistory": 18,
+        "litigationRecords": 12,
+        "contractValue": 14,
+        "businessCriticality": 12,
+        "geographyRisk": 7
+      },
+      "riskScore": 78,
+      "riskLevel": "High",
+      "lastAssessmentDate": "2026-05-22",
+      "nextReviewDate": "2026-06-22",
+      "status": "Under Review",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Pending",
+        "legalTeam": "Pending",
+        "procurementHead": "Pending",
+        "final": "Pending"
+      },
+      "assessmentHistory": [
+        {
+          "assessedBy": "Saurabh Anand",
+          "action": "Submitted for Compliance Review",
+          "comments": "High compliance history risk detected. Requires audit findings clearance.",
+          "timestamp": "2026-05-22T11:00:00Z"
+        }
+      ],
+      "alerts": [
+        {
+          "type": "High Risk",
+          "message": "High compliance history risk detected.",
+          "severity": "high",
+          "timestamp": "2026-05-22T11:00:00Z"
+        },
+        {
+          "type": "Review Due",
+          "message": "Assessment review due within 30 days.",
+          "severity": "medium",
+          "timestamp": "2026-05-22T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "vendorId": "VND-2026-50469",
+      "vendorName": "My Money Mantra",
+      "category": "IT Services",
+      "pan": "MMMCM1234M",
+      "gstin": "09AVIPY8039N2ZG",
+      "riskFactors": {
+        "financialStability": 8,
+        "complianceHistory": 10,
+        "litigationRecords": 5,
+        "contractValue": 9,
+        "businessCriticality": 10,
+        "geographyRisk": 6
+      },
+      "riskScore": 48,
+      "riskLevel": "Medium",
+      "lastAssessmentDate": "2026-05-29",
+      "nextReviewDate": "2026-08-29",
+      "status": "Pending",
+      "workflow": {
+        "analyst": "Pending",
+        "complianceManager": "Pending",
+        "legalTeam": "Pending",
+        "procurementHead": "Pending",
+        "final": "Pending"
+      },
+      "assessmentHistory": [
+        {
+          "assessedBy": "Saurabh Anand",
+          "action": "Assessment Created",
+          "comments": "Initial draft of risk factors based on credit score trend and business operational dependency.",
+          "timestamp": "2026-05-29T12:00:00Z"
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "vendorId": "VND-2026-11002",
+      "vendorName": "Apex Facility Services",
+      "category": "Facility Management",
+      "pan": "APEXF1234P",
+      "gstin": "27APEXF1234P1Z4",
+      "riskFactors": {
+        "financialStability": 4,
+        "complianceHistory": 5,
+        "litigationRecords": 2,
+        "contractValue": 5,
+        "businessCriticality": 4,
+        "geographyRisk": 4
+      },
+      "riskScore": 24,
+      "riskLevel": "Low",
+      "lastAssessmentDate": "2026-04-15",
+      "nextReviewDate": "2026-06-20",
+      "status": "Approved",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "legalTeam": "Approved",
+        "procurementHead": "Approved",
+        "final": "Approved"
+      },
+      "assessmentHistory": [
+        {
+          "assessedBy": "Compliance Auditor",
+          "action": "Assessment Approved",
+          "comments": "Low litigation exposure and stable cash flows.",
+          "timestamp": "2026-04-15T09:00:00Z"
+        }
+      ],
+      "alerts": [
+        {
+          "type": "Review Due",
+          "message": "Review due within 30 days.",
+          "severity": "medium",
+          "timestamp": "2026-04-15T09:00:00Z"
+        }
+      ]
+    },
+    {
+      "vendorId": "VND-2026-22003",
+      "vendorName": "Secure Guards Co.",
+      "category": "Security",
+      "pan": "SECUG5678R",
+      "gstin": "27SECUG5678R1Z1",
+      "riskFactors": {
+        "financialStability": 18,
+        "complianceHistory": 19,
+        "litigationRecords": 18,
+        "contractValue": 14,
+        "businessCriticality": 11,
+        "geographyRisk": 8
+      },
+      "riskScore": 88,
+      "riskLevel": "High",
+      "lastAssessmentDate": "2026-05-10",
+      "nextReviewDate": "2026-07-10",
+      "status": "Rejected",
+      "workflow": {
+        "analyst": "Rejected",
+        "complianceManager": "Rejected",
+        "legalTeam": "Rejected",
+        "procurementHead": "Rejected",
+        "final": "Rejected"
+      },
+      "assessmentHistory": [
+        {
+          "assessedBy": "Legal Auditor",
+          "action": "Assessment Rejected",
+          "comments": "High court cases count and political exposure in geographic register.",
+          "timestamp": "2026-05-10T14:30:00Z"
+        }
+      ],
+      "alerts": [
+        {
+          "type": "Critical Exposure",
+          "message": "Risk score (88) exceeds critical risk tolerance threshold of 80.",
+          "severity": "critical",
+          "timestamp": "2026-05-10T14:30:00Z"
+        },
+        {
+          "type": "Litigation Alert",
+          "message": "Litigation score exceeds warning threshold.",
+          "severity": "high",
+          "timestamp": "2026-05-10T14:30:00Z"
+        }
+      ]
+    }
+  ]
+}

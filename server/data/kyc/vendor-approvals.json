@@ -1,0 +1,500 @@
+{
+  "approvalRequests": [
+    {
+      "requestId": "APR-2026-00001",
+      "vendorId": "VND-2025-00045",
+      "vendorName": "Global Security Services",
+      "category": "Security",
+      "riskLevel": "Medium",
+      "submittedDate": "2026-05-28",
+      "currentStage": "Legal",
+      "overallStatus": "Pending",
+      "pendingWith": "Legal Team",
+      "slaDueDate": "2026-06-03",
+      "workflow": {
+        "requester": {
+          "status": "Approved",
+          "approver": "Saurabh Anand",
+          "actionDate": "2026-05-28"
+        },
+        "procurement": {
+          "status": "Approved",
+          "approver": "Procurement Manager",
+          "actionDate": "2026-05-29"
+        },
+        "compliance": {
+          "status": "Approved",
+          "approver": "Compliance Manager",
+          "actionDate": "2026-05-30"
+        },
+        "legal": {
+          "status": "Pending"
+        },
+        "finalApproval": {
+          "status": "Pending"
+        }
+      },
+      "comments": [
+        {
+          "stage": "Compliance",
+          "comment": "No compliance concerns identified. Screening is clear.",
+          "commentedBy": "Compliance Manager",
+          "commentDate": "2026-05-30"
+        },
+        {
+          "stage": "Procurement",
+          "comment": "Procurement review finished with high compliance scorecard.",
+          "commentedBy": "Procurement Manager",
+          "commentDate": "2026-05-29"
+        }
+      ],
+      "approvalHistory": [
+        {
+          "stage": "Requester",
+          "action": "Submitted",
+          "performedBy": "Saurabh Anand",
+          "actionDate": "2026-05-28",
+          "comments": "Vendor submitted for final gatekeeper approval."
+        },
+        {
+          "stage": "Procurement",
+          "action": "Approved",
+          "performedBy": "Procurement Manager",
+          "actionDate": "2026-05-29",
+          "comments": "Procurement review finished with high compliance scorecard."
+        },
+        {
+          "stage": "Compliance",
+          "action": "Approved",
+          "performedBy": "Compliance Manager",
+          "actionDate": "2026-05-30",
+          "comments": "No compliance concerns identified. Screening is clear."
+        }
+      ],
+      "evidenceFiles": [
+        {
+          "fileId": "APRDOC-001",
+          "fileName": "Compliance_Screening_Report.pdf",
+          "filePath": "/uploads/kyc/approvals/Compliance_Screening_Report.pdf",
+          "uploadedBy": "compliance_manager",
+          "uploadedOn": "2026-05-30"
+        }
+      ],
+      "auditHistory": [
+        {
+          "action": "Workflow Initiated",
+          "performedBy": "Saurabh Anand",
+          "actionDate": "2026-05-28",
+          "remarks": "Vendor submitted for final gatekeeper approval."
+        },
+        {
+          "action": "Procurement Verification Completed",
+          "performedBy": "Procurement Manager",
+          "actionDate": "2026-05-29",
+          "remarks": "Approved and advanced to Compliance Review stage."
+        },
+        {
+          "action": "Compliance Clearance Issued",
+          "performedBy": "Compliance Manager",
+          "actionDate": "2026-05-30",
+          "remarks": "Approved and advanced to Legal Team stage."
+        }
+      ]
+    },
+    {
+      "requestId": "APR-2026-00002",
+      "vendorId": "VND-2026-88001",
+      "vendorName": "HDFC Bank Limited",
+      "category": "Consulting",
+      "riskLevel": "Low",
+      "submittedDate": "2026-05-15",
+      "currentStage": "Compliance",
+      "overallStatus": "Pending",
+      "pendingWith": "Compliance Team",
+      "slaDueDate": "2026-06-04",
+      "workflow": {
+        "requester": {
+          "status": "Approved",
+          "approver": "Saurabh Anand",
+          "actionDate": "2026-05-15"
+        },
+        "procurement": {
+          "status": "Approved",
+          "approver": "Super Administrator",
+          "actionDate": "2026-06-01"
+        },
+        "compliance": {
+          "status": "Pending"
+        },
+        "legal": {
+          "status": "Pending"
+        },
+        "finalApproval": {
+          "status": "Pending"
+        }
+      },
+      "comments": [
+        {
+          "stage": "Procurement",
+          "comment": "for testing ",
+          "commentedBy": "Super Administrator",
+          "commentDate": "2026-06-01"
+        }
+      ],
+      "approvalHistory": [
+        {
+          "stage": "Requester",
+          "action": "Submitted",
+          "performedBy": "Saurabh Anand",
+          "actionDate": "2026-05-15",
+          "comments": "Initiated KYC checker approval chain."
+        },
+        {
+          "stage": "Procurement",
+          "action": "Approved",
+          "performedBy": "Super Administrator",
+          "actionDate": "2026-06-01",
+          "comments": "for testing "
+        }
+      ],
+      "evidenceFiles": [],
+      "auditHistory": [
+        {
+          "action": "Workflow Initiated",
+          "performedBy": "Saurabh Anand",
+          "actionDate": "2026-05-15",
+          "remarks": "Initiated KYC checker approval chain."
+        },
+        {
+          "action": "Procurement Approved",
+          "performedBy": "Super Administrator",
+          "actionDate": "2026-06-01",
+          "remarks": "for testing "
+        }
+      ]
+    },
+    {
+      "requestId": "APR-2026-00003",
+      "vendorId": "VND-2026-50469",
+      "vendorName": "My Money Mantra",
+      "category": "IT Services",
+      "riskLevel": "High",
+      "submittedDate": "2026-05-29",
+      "currentStage": "Requester",
+      "overallStatus": "Sent Back",
+      "pendingWith": "Requester",
+      "slaDueDate": "2026-05-30",
+      "workflow": {
+        "requester": {
+          "status": "Sent Back",
+          "approver": "Procurement Manager",
+          "actionDate": "2026-05-30"
+        },
+        "procurement": {
+          "status": "Pending"
+        },
+        "compliance": {
+          "status": "Pending"
+        },
+        "legal": {
+          "status": "Pending"
+        },
+        "finalApproval": {
+          "status": "Pending"
+        }
+      },
+      "comments": [
+        {
+          "stage": "Procurement",
+          "comment": "Missing certified PAN card evidence. Please upload.",
+          "commentedBy": "Procurement Manager",
+          "commentDate": "2026-05-30"
+        }
+      ],
+      "approvalHistory": [
+        {
+          "stage": "Requester",
+          "action": "Submitted",
+          "performedBy": "Saurabh Anand",
+          "actionDate": "2026-05-29",
+          "comments": "Ready for checkoff."
+        },
+        {
+          "stage": "Procurement",
+          "action": "Sent Back",
+          "performedBy": "Procurement Manager",
+          "actionDate": "2026-05-30",
+          "comments": "Missing certified PAN card evidence. Please upload."
+        }
+      ],
+      "evidenceFiles": [],
+      "auditHistory": [
+        {
+          "action": "Workflow Initiated",
+          "performedBy": "Saurabh Anand",
+          "actionDate": "2026-05-29",
+          "remarks": "Ready for checkoff."
+        },
+        {
+          "action": "Workflow Sent Back",
+          "performedBy": "Procurement Manager",
+          "actionDate": "2026-05-30",
+          "remarks": "Missing certified PAN card evidence. Please upload."
+        }
+      ]
+    },
+    {
+      "requestId": "APR-2026-00004",
+      "vendorId": "VND-2025-00029",
+      "vendorName": "ABC Infotech Private Limited",
+      "category": "IT Services",
+      "riskLevel": "Low",
+      "submittedDate": "2026-05-10",
+      "currentStage": "Completed",
+      "overallStatus": "Vendor Approved",
+      "pendingWith": "None",
+      "slaDueDate": "2026-05-21",
+      "workflow": {
+        "requester": {
+          "status": "Approved",
+          "approver": "Saurabh Anand",
+          "actionDate": "2026-05-10"
+        },
+        "procurement": {
+          "status": "Approved",
+          "approver": "Procurement Manager",
+          "actionDate": "2026-05-12"
+        },
+        "compliance": {
+          "status": "Approved",
+          "approver": "Compliance Manager",
+          "actionDate": "2026-05-14"
+        },
+        "legal": {
+          "status": "Approved",
+          "approver": "Legal Head",
+          "actionDate": "2026-05-18"
+        },
+        "finalApproval": {
+          "status": "Approved",
+          "approver": "Procurement Head",
+          "actionDate": "2026-05-20"
+        }
+      },
+      "comments": [
+        {
+          "stage": "Final Approval",
+          "comment": "Onboard and unlock transaction lines.",
+          "commentedBy": "Procurement Head",
+          "commentDate": "2026-05-20"
+        }
+      ],
+      "approvalHistory": [
+        {
+          "stage": "Requester",
+          "action": "Submitted",
+          "performedBy": "Saurabh Anand",
+          "actionDate": "2026-05-10"
+        },
+        {
+          "stage": "Procurement",
+          "action": "Approved",
+          "performedBy": "Procurement Manager",
+          "actionDate": "2026-05-12"
+        },
+        {
+          "stage": "Compliance",
+          "action": "Approved",
+          "performedBy": "Compliance Manager",
+          "actionDate": "2026-05-14"
+        },
+        {
+          "stage": "Legal",
+          "action": "Approved",
+          "performedBy": "Legal Head",
+          "actionDate": "2026-05-18"
+        },
+        {
+          "stage": "Final Approval",
+          "action": "Approved",
+          "performedBy": "Procurement Head",
+          "actionDate": "2026-05-20",
+          "comments": "Onboard and unlock transaction lines."
+        }
+      ],
+      "evidenceFiles": [],
+      "auditHistory": [
+        {
+          "action": "Approved Complete",
+          "performedBy": "Procurement Head",
+          "actionDate": "2026-05-20",
+          "remarks": "Vendor fully active."
+        }
+      ]
+    },
+    {
+      "requestId": "APR-2026-00005",
+      "vendorId": "VND-2025-00089",
+      "vendorName": "Office Supplies Inc",
+      "category": "Facility Management",
+      "riskLevel": "Medium",
+      "submittedDate": "2026-05-25",
+      "currentStage": "Compliance",
+      "overallStatus": "On Hold",
+      "pendingWith": "Compliance Manager",
+      "slaDueDate": "2026-05-31",
+      "workflow": {
+        "requester": {
+          "status": "Approved",
+          "approver": "Saurabh Anand",
+          "actionDate": "2026-05-25"
+        },
+        "procurement": {
+          "status": "Approved",
+          "approver": "Procurement Manager",
+          "actionDate": "2026-05-26"
+        },
+        "compliance": {
+          "status": "On Hold"
+        },
+        "legal": {
+          "status": "Pending"
+        },
+        "finalApproval": {
+          "status": "Pending"
+        }
+      },
+      "comments": [
+        {
+          "stage": "Compliance",
+          "comment": "Paused screening to verify physical address certificate details.",
+          "commentedBy": "Compliance Manager",
+          "commentDate": "2026-05-28"
+        }
+      ],
+      "approvalHistory": [
+        {
+          "stage": "Requester",
+          "action": "Submitted",
+          "performedBy": "Saurabh Anand",
+          "actionDate": "2026-05-25"
+        },
+        {
+          "stage": "Procurement",
+          "action": "Approved",
+          "performedBy": "Procurement Manager",
+          "actionDate": "2026-05-26"
+        },
+        {
+          "stage": "Compliance",
+          "action": "Put On Hold",
+          "performedBy": "Compliance Manager",
+          "actionDate": "2026-05-28",
+          "comments": "Paused screening to verify physical address certificate details."
+        }
+      ],
+      "evidenceFiles": [],
+      "auditHistory": [
+        {
+          "action": "Workflow Initiated",
+          "performedBy": "Saurabh Anand",
+          "actionDate": "2026-05-25"
+        },
+        {
+          "action": "Compliance Paused",
+          "performedBy": "Compliance Manager",
+          "actionDate": "2026-05-28"
+        }
+      ]
+    },
+    {
+      "requestId": "APR-2026-00006",
+      "vendorId": "VND-2024-00781",
+      "vendorName": "BuildRight Infra",
+      "category": "Infrastructure",
+      "riskLevel": "Critical",
+      "submittedDate": "2026-05-20",
+      "currentStage": "Final Approval",
+      "overallStatus": "Rejected",
+      "pendingWith": "Procurement Head",
+      "slaDueDate": "2026-05-28",
+      "workflow": {
+        "requester": {
+          "status": "Approved",
+          "approver": "Saurabh Anand",
+          "actionDate": "2026-05-20"
+        },
+        "procurement": {
+          "status": "Approved",
+          "approver": "Procurement Manager",
+          "actionDate": "2026-05-22"
+        },
+        "compliance": {
+          "status": "Approved",
+          "approver": "Compliance Manager",
+          "actionDate": "2026-05-24"
+        },
+        "legal": {
+          "status": "Approved",
+          "approver": "Legal Head",
+          "actionDate": "2026-05-26"
+        },
+        "finalApproval": {
+          "status": "Rejected",
+          "approver": "Procurement Head",
+          "actionDate": "2026-05-28"
+        }
+      },
+      "comments": [
+        {
+          "stage": "Final Approval",
+          "comment": "Rejected due to high compliance score gap and financial risk trends.",
+          "commentedBy": "Procurement Head",
+          "commentDate": "2026-05-28"
+        }
+      ],
+      "approvalHistory": [
+        {
+          "stage": "Requester",
+          "action": "Submitted",
+          "performedBy": "Saurabh Anand",
+          "actionDate": "2026-05-20"
+        },
+        {
+          "stage": "Procurement",
+          "action": "Approved",
+          "performedBy": "Procurement Manager",
+          "actionDate": "2026-05-22"
+        },
+        {
+          "stage": "Compliance",
+          "action": "Approved",
+          "performedBy": "Compliance Manager",
+          "actionDate": "2026-05-24"
+        },
+        {
+          "stage": "Legal",
+          "action": "Approved",
+          "performedBy": "Legal Head",
+          "actionDate": "2026-05-26"
+        },
+        {
+          "stage": "Final Approval",
+          "action": "Rejected",
+          "performedBy": "Procurement Head",
+          "actionDate": "2026-05-28",
+          "comments": "Rejected due to high compliance score gap and financial risk trends."
+        }
+      ],
+      "evidenceFiles": [],
+      "auditHistory": [
+        {
+          "action": "Rejected Complete",
+          "performedBy": "Procurement Head",
+          "actionDate": "2026-05-28",
+          "remarks": "Vendor rejected from procurement."
+        }
+      ]
+    }
+  ]
+}

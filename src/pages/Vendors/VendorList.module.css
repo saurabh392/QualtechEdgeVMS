@@ -30,6 +30,38 @@
 
 .kpiCard {
   padding: 24px;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  border: 2px solid transparent;
+}
+
+.kpiCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.kpiCardActive {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.kpiCardActive[data-card="all"] {
+  border-color: #1d4ed8 !important;
+  background-color: #eff6ff !important;
+}
+
+.kpiCardActive[data-card="active"] {
+  border-color: #16a34a !important;
+  background-color: #f0fdf4 !important;
+}
+
+.kpiCardActive[data-card="pending"] {
+  border-color: #f59e0b !important;
+  background-color: #fffbeb !important;
+}
+
+.kpiCardActive[data-card="rejected"] {
+  border-color: #dc2626 !important;
+  background-color: #fef2f2 !important;
 }
 
 .kpiHeader {

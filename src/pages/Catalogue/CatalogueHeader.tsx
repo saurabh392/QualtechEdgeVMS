@@ -37,7 +37,12 @@ export const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
 
   // Find the active step index based on location.pathname
   const getActiveStepIndex = () => {
-    const currentPath = location.pathname;
+    let currentPath = location.pathname;
+    if (currentPath === '/catalogue/quality-standards') currentPath = '/catalogue/quality';
+    if (currentPath === '/catalogue/pricing') currentPath = '/catalogue/rates';
+    if (currentPath === '/catalogue/approval-workflow') currentPath = '/catalogue/approvals';
+    if (currentPath === '/catalogue/published') currentPath = '/catalogue/publish';
+
     if (currentPath.includes('/catalogue/items') || currentPath.includes('/catalogue/services')) {
       return 1; // Step 2 (0-indexed 1)
     }

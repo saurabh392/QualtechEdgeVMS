@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Users, UserCheck, Clock, XCircle, Eye, Edit2, Trash2, Loader2 } from 'lucide-react';
 import axios from 'axios';
+import clsx from 'clsx';
+import { useVendorFilters } from '../../context/VendorFilterContext';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
@@ -13,11 +15,42 @@ export const VendorList: React.FC = () => {
   const [vendors, setVendors] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Search & Filter state
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterCategory, setFilterCategory] = useState('All');
-  const [filterStatus, setFilterStatus] = useState('All');
-  const [filterDate, setFilterDate] = useState('');
+  // Search & Filter state from Context
+  const { filters, setFilters, setFilterValue, resetFilters } = useVendorFilters();
+  const searchQuery = filters.search;
+  const filterCategory = filters.category;
+  const filterStatus = filters.status;
+  const filterDate = filters.date;
+
+  const handleCardClick = (cardType: 'all' | 'active' | 'pending' | 'rejected') => {
+    if (cardType === 'all') {
+      resetFilters();
+    } else if (cardType === 'active') {
+      setFilters({
+        selectedCard: 'active',
+        status: 'Active',
+        category: 'All',
+        search: '',
+        date: ''
+      });
+    } else if (cardType === 'pending') {
+      setFilters({
+        selectedCard: 'pending',
+        status: 'Pending Approval',
+        category: 'All',
+        search: '',
+        date: ''
+      });
+    } else if (cardType === 'rejected') {
+      setFilters({
+        selectedCard: 'rejected',
+        status: 'Rejected',
+        category: 'All',
+        search: '',
+        date: ''
+      });
+    }
+  };
 
   // Fetch vendors from Express API
   const fetchVendors = async () => {
@@ -171,7 +204,11 @@ export const VendorList: React.FC = () => {
 
       {/* Dynamic KPI Cards */}
       <div className={styles.kpiGrid}>
-        <Card className={styles.kpiCard}>
+        <Card 
+          className={clsx(styles.kpiCard, filters.selectedCard === 'all' && styles.kpiCardActive)}
+          onClick={() => handleCardClick('all')}
+          data-card="all"
+        >
           <div className={styles.kpiHeader}>
             <div>
               <span className={styles.kpiLabel}>Total Vendors</span>
@@ -182,8 +219,12 @@ export const VendorList: React.FC = () => {
             </div>
           </div>
         </Card>
-
-        <Card className={styles.kpiCard}>
+ 
+        <Card 
+          className={clsx(styles.kpiCard, filters.selectedCard === 'active' && styles.kpiCardActive)}
+          onClick={() => handleCardClick('active')}
+          data-card="active"
+        >
           <div className={styles.kpiHeader}>
             <div>
               <span className={styles.kpiLabel}>Active Vendors</span>
@@ -194,8 +235,12 @@ export const VendorList: React.FC = () => {
             </div>
           </div>
         </Card>
-
-        <Card className={styles.kpiCard}>
+ 
+        <Card 
+          className={clsx(styles.kpiCard, filters.selectedCard === 'pending' && styles.kpiCardActive)}
+          onClick={() => handleCardClick('pending')}
+          data-card="pending"
+        >
           <div className={styles.kpiHeader}>
             <div>
               <span className={styles.kpiLabel}>Pending Approval</span>
@@ -206,8 +251,12 @@ export const VendorList: React.FC = () => {
             </div>
           </div>
         </Card>
-
-        <Card className={styles.kpiCard}>
+ 
+        <Card 
+          className={clsx(styles.kpiCard, filters.selectedCard === 'rejected' && styles.kpiCardActive)}
+          onClick={() => handleCardClick('rejected')}
+          data-card="rejected"
+        >
           <div className={styles.kpiHeader}>
             <div>
               <span className={styles.kpiLabel}>Rejected Vendors</span>
@@ -230,7 +279,7 @@ export const VendorList: React.FC = () => {
                 fullWidth={false} 
                 className={styles.searchInput}
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => setFilterValue('search', e.target.value)}
               />
             </div>
             <Button onClick={() => navigate('/vendors/add')} icon={<Plus size={16} />}>
@@ -242,7 +291,7 @@ export const VendorList: React.FC = () => {
               <label style={{ fontSize: '11px', fontWeight: '600', color: 'var(--color-text-secondary)', textTransform: 'uppercase' }}>Category</label>
               <select 
                 value={filterCategory} 
-                onChange={(e) => setFilterCategory(e.target.value)} 
+                onChange={(e) => setFilterValue('category', e.target.value)} 
                 style={{ padding: '8px 12px', border: '1px solid var(--color-border)', borderRadius: '6px', fontSize: '13px', backgroundColor: '#fff', minWidth: '160px', outline: 'none' }}
               >
                 <option value="All">All Categories</option>
@@ -257,7 +306,7 @@ export const VendorList: React.FC = () => {
               <label style={{ fontSize: '11px', fontWeight: '600', color: 'var(--color-text-secondary)', textTransform: 'uppercase' }}>Status</label>
               <select 
                 value={filterStatus} 
-                onChange={(e) => setFilterStatus(e.target.value)}
+                onChange={(e) => setFilterValue('status', e.target.value)}
                 style={{ padding: '8px 12px', border: '1px solid var(--color-border)', borderRadius: '6px', fontSize: '13px', backgroundColor: '#fff', minWidth: '160px', outline: 'none' }}
               >
                 <option value="All">All Statuses</option>
@@ -272,13 +321,13 @@ export const VendorList: React.FC = () => {
               <input 
                 type="date"
                 value={filterDate}
-                onChange={(e) => setFilterDate(e.target.value)}
+                onChange={(e) => setFilterValue('date', e.target.value)}
                 style={{ padding: '7px 12px', border: '1px solid var(--color-border)', borderRadius: '6px', fontSize: '13px', backgroundColor: '#fff', outline: 'none' }}
               />
             </div>
-            {(filterCategory !== 'All' || filterStatus !== 'All' || filterDate !== '') && (
+            {(filterCategory !== 'All' || filterStatus !== 'All' || filterDate !== '' || searchQuery !== '') && (
               <button 
-                onClick={() => { setFilterCategory('All'); setFilterStatus('All'); setFilterDate(''); }}
+                onClick={resetFilters}
                 style={{ alignSelf: 'flex-end', padding: '8px 12px', background: 'transparent', border: 'none', color: 'var(--color-danger)', fontSize: '13px', cursor: 'pointer', fontWeight: '600' }}
               >
                 Clear Filters

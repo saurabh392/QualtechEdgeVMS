@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { Bell, UploadCloud, Download, Eye, Search, X } from 'lucide-react';
+import clsx from 'clsx';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
@@ -34,14 +35,51 @@ interface Document {
     fileSizeKB: number;
     fileExtension: string;
   };
+  // Optional compatibility fields for legacy / API uploads
+  id?: string;
+  fileName?: string;
+  filePath?: string;
+  fileType?: string;
+  status?: string;
 }
 
 export const ExpiryTracker: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [documents, setDocuments] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('All');
+  const [selectedCard, setSelectedCard] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
+
+  // Sync state from URL on load and changes
+  useEffect(() => {
+    const statusParam = searchParams.get('status') || 'all';
+    if (statusParam === 'expired') {
+      setSelectedCard('expired');
+      setStatusFilter('expired');
+    } else if (statusParam === 'expiring30') {
+      setSelectedCard('expiring30');
+      setStatusFilter('expiring30');
+    } else if (statusParam === 'active') {
+      setSelectedCard('active');
+      setStatusFilter('active');
+    } else {
+      setSelectedCard('all');
+      setStatusFilter('all');
+    }
+  }, [searchParams]);
+
+  const handleCardClick = (cardType: 'all' | 'expired' | 'expiring30' | 'active') => {
+    setSelectedCard(cardType);
+    setStatusFilter(cardType);
+    
+    const params: Record<string, string> = {};
+    if (cardType !== 'all') {
+      params.status = cardType;
+    }
+    setSearchParams(params, { replace: true });
+  };
   
   // Reminder Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,10 +108,39 @@ export const ExpiryTracker: React.FC = () => {
 
   const calculateDaysRemaining = (expiryDateStr: string | null) => {
     if (!expiryDateStr) return 0;
-    const now = new Date();
-    const expiry = new Date(expiryDateStr);
-    const diffTime = expiry.getTime() - now.getTime();
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    let expiry: Date;
+    if (expiryDateStr.includes('-')) {
+      const parts = expiryDateStr.split('-');
+      expiry = new Date(
+        parseInt(parts[0], 10),
+        parseInt(parts[1], 10) - 1,
+        parseInt(parts[2], 10)
+      );
+    } else if (expiryDateStr.includes('/')) {
+      const parts = expiryDateStr.split('/');
+      if (parts[0].length === 4) {
+        expiry = new Date(
+          parseInt(parts[0], 10),
+          parseInt(parts[1], 10) - 1,
+          parseInt(parts[2], 10)
+        );
+      } else {
+        expiry = new Date(
+          parseInt(parts[2], 10),
+          parseInt(parts[1], 10) - 1,
+          parseInt(parts[0], 10)
+        );
+      }
+    } else {
+      expiry = new Date(expiryDateStr);
+      expiry.setHours(0, 0, 0, 0);
+    }
+
+    const diffTime = expiry.getTime() - today.getTime();
+    return Math.round(diffTime / (1000 * 60 * 60 * 24));
   };
 
   const getExpiryStatus = (daysRemaining: number) => {
@@ -93,16 +160,30 @@ export const ExpiryTracker: React.FC = () => {
 
   // Filters & Search
   const filteredDocuments = documents.filter(doc => {
-    const days = calculateDaysRemaining(doc.expiryDate);
-    const status = getExpiryStatus(days);
+    const days = calculateDaysRemaining(doc?.expiryDate);
     
-    const matchesStatus = statusFilter === 'All' || status === statusFilter;
-    
+    // Status matching
+    let matchesStatus = false;
+    if (statusFilter === 'all') {
+      matchesStatus = true;
+    } else if (statusFilter === 'expired') {
+      matchesStatus = days !== null && days < 0;
+    } else if (statusFilter === 'expiring30') {
+      matchesStatus = days !== null && days >= 0 && days <= 30;
+    } else if (statusFilter === 'active') {
+      matchesStatus = days !== null && days > 30;
+    }
+
+    const docName = doc?.documentName || doc?.fileName || '';
+    const vendorName = doc?.vendor?.vendorName || '';
+    const docId = doc?.documentId || doc?.id || '';
+    const docNum = doc?.documentNumber || '';
+
     const matchesSearch = 
-      doc.documentName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doc.vendor.vendorName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doc.documentId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (doc.documentNumber && doc.documentNumber.toLowerCase().includes(searchQuery.toLowerCase()));
+      docName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      vendorName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      docId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      docNum.toLowerCase().includes(searchQuery.toLowerCase());
 
     return matchesStatus && matchesSearch;
   });
@@ -135,14 +216,14 @@ export const ExpiryTracker: React.FC = () => {
   };
 
   const columns: Column<Document>[] = [
-    { header: 'Document ID', accessor: 'documentId' },
-    { header: 'Document Name', accessor: 'documentName' },
-    { header: 'Vendor Name', accessor: (row) => row.vendor.vendorName },
-    { header: 'Expiry Date', accessor: (row) => row.expiryDate || 'N/A' },
+    { header: 'Document ID', accessor: (row) => row?.documentId || row?.id || 'N/A' },
+    { header: 'Document Name', accessor: (row) => row?.documentName || row?.fileName || 'N/A' },
+    { header: 'Vendor Name', accessor: (row) => row?.vendor?.vendorName || 'N/A' },
+    { header: 'Expiry Date', accessor: (row) => row?.expiryDate || 'N/A' },
     {
       header: 'Days Remaining',
       accessor: (row) => {
-        const days = calculateDaysRemaining(row.expiryDate);
+        const days = calculateDaysRemaining(row?.expiryDate);
         if (days < 0) {
           return <span style={{ color: 'var(--color-danger)', fontWeight: 600 }}>Expired ({Math.abs(days)} days ago)</span>;
         }
@@ -155,7 +236,7 @@ export const ExpiryTracker: React.FC = () => {
     {
       header: 'Status',
       accessor: (row) => {
-        const days = calculateDaysRemaining(row.expiryDate);
+        const days = calculateDaysRemaining(row?.expiryDate);
         const status = getExpiryStatus(days);
         if (status === 'Expired') return <span className={styles.statusExpired}>Expired</span>;
         if (status === 'Expiring Soon') return <span className={styles.statusExpiring}>Expiring Soon</span>;
@@ -170,13 +251,13 @@ export const ExpiryTracker: React.FC = () => {
           <button 
             className={styles.actionBtn} 
             title="Preview Document"
-            onClick={() => window.open(row.fileDetails.filePath, '_blank')}
+            onClick={() => window.open(row?.fileDetails?.filePath || row?.filePath || '#', '_blank')}
           >
             <Eye size={16} />
           </button>
           <a 
-            href={row.fileDetails.filePath} 
-            download={row.fileDetails.originalFileName}
+            href={row?.fileDetails?.filePath || row?.filePath || '#'} 
+            download={row?.fileDetails?.originalFileName || row?.fileName || 'file'}
             className={styles.actionBtn}
             title="Download Document"
           >
@@ -211,28 +292,47 @@ export const ExpiryTracker: React.FC = () => {
       </header>
 
       <div className={styles.kpiGrid}>
-        <Card className={styles.kpiCard}>
+        <Card 
+          className={clsx(styles.kpiCard, selectedCard === 'all' && styles.kpiCardActive)}
+          onClick={() => handleCardClick('all')}
+          data-card="all"
+        >
           <div className={styles.kpiHeader}>
             <span className={styles.kpiLabel}>Total Monitored Documents</span>
             <div className={styles.kpiValue}>{totalMonitored}</div>
           </div>
         </Card>
 
-        <Card className={styles.kpiCard} style={{ borderLeft: '4px solid var(--color-danger)' }}>
+        <Card 
+          className={clsx(styles.kpiCard, selectedCard === 'expired' && styles.kpiCardActive)}
+          onClick={() => handleCardClick('expired')}
+          data-card="expired"
+          style={{ borderLeft: '4px solid var(--color-danger)' }}
+        >
           <div className={styles.kpiHeader}>
             <span className={styles.kpiLabel}>Expired Documents</span>
             <div className={styles.kpiValue} style={{ color: 'var(--color-danger)' }}>{expiredDocs.length}</div>
           </div>
         </Card>
 
-        <Card className={styles.kpiCard} style={{ borderLeft: '4px solid var(--color-warning)' }}>
+        <Card 
+          className={clsx(styles.kpiCard, selectedCard === 'expiring30' && styles.kpiCardActive)}
+          onClick={() => handleCardClick('expiring30')}
+          data-card="expiring30"
+          style={{ borderLeft: '4px solid var(--color-warning)' }}
+        >
           <div className={styles.kpiHeader}>
             <span className={styles.kpiLabel}>Expiring in 30 Days</span>
             <div className={styles.kpiValue} style={{ color: 'var(--color-warning)' }}>{expiringSoonDocs.length}</div>
           </div>
         </Card>
 
-        <Card className={styles.kpiCard} style={{ borderLeft: '4px solid var(--color-success)' }}>
+        <Card 
+          className={clsx(styles.kpiCard, selectedCard === 'active' && styles.kpiCardActive)}
+          onClick={() => handleCardClick('active')}
+          data-card="active"
+          style={{ borderLeft: '4px solid var(--color-success)' }}
+        >
           <div className={styles.kpiHeader}>
             <span className={styles.kpiLabel}>Active compliance documents</span>
             <div className={styles.kpiValue} style={{ color: 'var(--color-success)' }}>{activeDocs.length}</div>
@@ -257,12 +357,12 @@ export const ExpiryTracker: React.FC = () => {
             <select 
               className={styles.filterSelect}
               value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
+              onChange={(e) => handleCardClick(e.target.value as any)}
             >
-              <option value="All">Status: All</option>
-              <option value="Active">Active</option>
-              <option value="Expiring Soon">Expiring Soon</option>
-              <option value="Expired">Expired</option>
+              <option value="all">Status: All</option>
+              <option value="active">Active</option>
+              <option value="expiring30">Expiring Soon</option>
+              <option value="expired">Expired</option>
             </select>
           </div>
 

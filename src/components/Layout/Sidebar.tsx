@@ -15,12 +15,8 @@ import {
   LogOut,
   ChevronDown,
   ChevronUp,
-  Package,
-  Award,
-  ShieldAlert,
   Globe,
-  Activity,
-  Lock
+  Package
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import styles from './Sidebar.module.css';
@@ -84,6 +80,7 @@ const NAV_ITEMS = [
       { name: 'Catalogue Analytics', path: '/catalogue/analytics' }
     ]
   },
+
   { 
     name: 'Contracts & SLAs', 
     path: '/contracts', 
@@ -142,22 +139,6 @@ const NAV_ITEMS = [
     ]
   },
   { 
-    name: 'Performance', 
-    path: '/performance', 
-    icon: Award,
-    subItems: [
-      { name: 'Performance Dashboard', path: '/performance' }
-    ]
-  },
-  { 
-    name: 'Compliance', 
-    path: '/compliance', 
-    icon: ShieldAlert,
-    subItems: [
-      { name: 'Compliance Dashboard', path: '/compliance' }
-    ]
-  },
-  { 
     name: 'Reports & MIS', 
     path: '/reports', 
     icon: BarChart,
@@ -180,22 +161,6 @@ const NAV_ITEMS = [
     icon: Globe,
     subItems: [
       { name: 'Portal Dashboard', path: '/vendor-portal' }
-    ]
-  },
-  { 
-    name: 'Audit Logs', 
-    path: '/audit-logs', 
-    icon: Activity,
-    subItems: [
-      { name: 'Audit Dashboard', path: '/audit-logs' }
-    ]
-  },
-  { 
-    name: 'Admin', 
-    path: '/admin', 
-    icon: Lock,
-    subItems: [
-      { name: 'Admin Console', path: '/admin' }
     ]
   },
   { 
@@ -229,11 +194,13 @@ const VENDOR_NAV_ITEMS = [
     icon: Globe,
     subItems: [
       { name: 'Vendor Dashboard', path: '/vendor/dashboard?tab=overview' },
-      { name: 'Documents Upload', path: '/vendor/dashboard?tab=documents' },
-      { name: 'Compliance Status', path: '/vendor/dashboard?tab=documents' },
-      { name: 'Contracts Review', path: '/vendor/dashboard?tab=pos' },
-      { name: 'Payment Tracking', path: '/vendor/dashboard?tab=invoices' },
-      { name: 'Support Queries', path: '/vendor/dashboard?tab=queries' }
+      { name: 'My Documents', path: '/vendor/dashboard?tab=documents' },
+      { name: 'KYC', path: '/vendor/dashboard?tab=documents' },
+      { name: 'Contracts', path: '/vendor/dashboard?tab=pos' },
+      { name: 'Invoices', path: '/vendor/dashboard?tab=invoices' },
+      { name: 'Payments', path: '/vendor/dashboard?tab=invoices' },
+      { name: 'Profile', path: '/vendor/dashboard?tab=overview' },
+      { name: 'Support', path: '/vendor/dashboard?tab=queries' }
     ]
   }
 ];
@@ -251,12 +218,8 @@ export const Sidebar: React.FC = () => {
     'Purchase Orders': false,
     'Invoices': false,
     'Payments': false,
-    'Performance': false,
-    'Compliance': false,
     'Reports & MIS': false,
     'Vendor Portal': true,
-    'Audit Logs': false,
-    'Admin': false,
     'Settings': false
   });
 
@@ -276,30 +239,18 @@ export const Sidebar: React.FC = () => {
 
   // 2. Filter root level items
   const filteredNavItems = rawItems.filter(item => {
-    if (user?.role === 'TENANT_ADMIN') {
-      if (item.name === 'Vendor Portal' || item.name === 'Admin') {
+    if (user?.role === 'ADMIN') {
+      if (item.name === 'Vendor Portal') {
         return false;
       }
     }
     return hasPermission(item.name);
   });
 
-  // 3. Filter sub items (for settings, etc.)
   const getFilteredSubItems = (item: typeof NAV_ITEMS[0]) => {
     if (!item.subItems) return undefined;
     
-    return item.subItems.filter(sub => {
-      if (user?.role === 'TENANT_ADMIN' && item.name === 'Settings') {
-        if (sub.name === 'User & Role Management' || 
-            sub.name === 'Security Settings' || 
-            sub.name === 'Compliance Settings' ||
-            sub.name === 'Audit & Logs' ||
-            sub.name === 'Master Data Management') {
-          return false;
-        }
-      }
-      return true;
-    });
+    return item.subItems;
   };
 
   return (
@@ -343,7 +294,7 @@ export const Sidebar: React.FC = () => {
                       <NavLink
                         key={subItem.name}
                         to={subItem.path}
-                        end={subItem.path === '/vendors' || subItem.path === '/documents' || subItem.path === '/kyc' || subItem.path === '/catalogue/dashboard' || subItem.path === '/contracts/dashboard' || subItem.path === '/purchase-orders/dashboard' || subItem.path === '/invoices/dashboard' || subItem.path === '/payments/dashboard' || subItem.path === '/performance' || subItem.path === '/compliance' || subItem.path === '/reports/dashboard' || subItem.path === '/vendor-portal' || subItem.path === '/vendor/dashboard' || subItem.path === '/audit-logs' || subItem.path === '/admin' || subItem.path === '/settings/dashboard'}
+                        end={subItem.path === '/vendors' || subItem.path === '/documents' || subItem.path === '/kyc' || subItem.path === '/catalogue/dashboard' || subItem.path === '/contracts/dashboard' || subItem.path === '/purchase-orders/dashboard' || subItem.path === '/invoices/dashboard' || subItem.path === '/payments/dashboard' || subItem.path === '/reports/dashboard' || subItem.path === '/vendor-portal' || subItem.path === '/vendor/dashboard' || subItem.path === '/settings/dashboard'}
                         className={({ isActive }) => clsx(styles.subNavItem, isActive && styles.activeSub)}
                       >
                         {subItem.name}

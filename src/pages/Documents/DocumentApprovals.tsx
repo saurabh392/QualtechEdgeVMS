@@ -35,6 +35,12 @@ interface Document {
     fileSizeKB: number;
     fileExtension: string;
   };
+  // Optional compatibility fields for legacy / API uploads
+  id?: string;
+  fileName?: string;
+  filePath?: string;
+  fileType?: string;
+  status?: string;
 }
 
 export const DocumentApprovals: React.FC = () => {
@@ -116,20 +122,31 @@ export const DocumentApprovals: React.FC = () => {
   // Filter list by searchQuery
   const filteredDocs = documents.filter(doc => {
     const q = searchQuery.toLowerCase();
+    const docId = doc?.documentId || doc?.id || '';
+    const docName = doc?.documentName || doc?.fileName || '';
+    const vendorName = doc?.vendor?.vendorName || '';
+    const docNum = doc?.documentNumber || '';
     return (
-      doc.documentId.toLowerCase().includes(q) ||
-      doc.documentName.toLowerCase().includes(q) ||
-      doc.vendor.vendorName.toLowerCase().includes(q) ||
-      (doc.documentNumber && doc.documentNumber.toLowerCase().includes(q))
+      docId.toLowerCase().includes(q) ||
+      docName.toLowerCase().includes(q) ||
+      vendorName.toLowerCase().includes(q) ||
+      docNum.toLowerCase().includes(q)
     );
   });
 
   const renderPreview = (doc: Document) => {
+    const docId = doc?.documentId || doc?.id || '';
+    const docName = doc?.documentName || doc?.fileName || '';
+    const docNumber = doc?.documentNumber || 'N/A';
+    const vendorName = doc?.vendor?.vendorName || '';
+    const issueDate = doc?.issueDate || '';
+    const expiryDate = doc?.expiryDate || '';
+
     // If it's a seed document (whose file is not uploaded physically to disk)
-    const isSeed = doc.documentId.startsWith('DOC-2025-') || doc.documentId === 'DOC-2026-0001';
+    const isSeed = docId.startsWith('DOC-2025-') || docId === 'DOC-2026-0001';
     
     if (isSeed) {
-      if (doc.documentName === 'PAN Card') {
+      if (docName === 'PAN Card') {
         return (
           <div className={styles.mockPanCard}>
             <div className={styles.panHeader}>
@@ -142,18 +159,18 @@ export const DocumentApprovals: React.FC = () => {
               <div className={styles.panPhoto}>PHOTO</div>
               <div className={styles.panDetails}>
                 <small>Permanent Account Number Card</small>
-                <strong>{doc.documentNumber}</strong>
+                <strong>{docNumber}</strong>
                 <p className={styles.panNameLabel}>Name</p>
-                <p className={styles.panName}>{doc.vendor.vendorName.toUpperCase()}</p>
+                <p className={styles.panName}>{vendorName.toUpperCase()}</p>
                 <p className={styles.panDateLabel}>Date of Incorporation</p>
-                <p className={styles.panDate}>{doc.issueDate || '15/06/2015'}</p>
+                <p className={styles.panDate}>{issueDate || '15/06/2015'}</p>
               </div>
             </div>
           </div>
         );
       }
       
-      if (doc.documentName === 'GST Certificate') {
+      if (docName === 'GST Certificate') {
         return (
           <div className={styles.mockGstCard}>
             <div className={styles.gstHeader}>
@@ -164,11 +181,11 @@ export const DocumentApprovals: React.FC = () => {
             <div className={styles.gstBody} style={{ fontSize: '0.75rem', display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <div>
                 <span style={{ color: '#475569' }}>Registration Number: </span>
-                <strong>{doc.documentNumber}</strong>
+                <strong>{docNumber}</strong>
               </div>
               <div>
                 <span style={{ color: '#475569' }}>Legal Name: </span>
-                <strong>{doc.vendor.vendorName}</strong>
+                <strong>{vendorName}</strong>
               </div>
               <div>
                 <span style={{ color: '#475569' }}>Jurisdiction: </span>
@@ -176,7 +193,7 @@ export const DocumentApprovals: React.FC = () => {
               </div>
               <div>
                 <span style={{ color: '#475569' }}>Date of Issue: </span>
-                <span>{doc.issueDate || 'N/A'}</span>
+                <span>{issueDate || 'N/A'}</span>
               </div>
               <div style={{ marginTop: '8px', borderTop: '1px dashed #cbd5e1', paddingTop: '8px', textAlign: 'center', fontSize: '0.65rem', color: '#16a34a', fontWeight: 'bold' }}>
                 ✓ RBI OUTSOURCING COMPLIANT
@@ -186,7 +203,7 @@ export const DocumentApprovals: React.FC = () => {
         );
       }
       
-      if (doc.documentName === 'MSME Certificate') {
+      if (docName === 'MSME Certificate') {
         return (
           <div className={styles.mockMsmeCard}>
             <div className={styles.msmeHeader}>
@@ -199,11 +216,11 @@ export const DocumentApprovals: React.FC = () => {
               </div>
               <div>
                 <span style={{ color: '#475569' }}>Udyam Number: </span>
-                <strong>{doc.documentNumber}</strong>
+                <strong>{docNumber}</strong>
               </div>
               <div>
                 <span style={{ color: '#475569' }}>Enterprise Name: </span>
-                <strong>{doc.vendor.vendorName}</strong>
+                <strong>{vendorName}</strong>
               </div>
               <div>
                 <span style={{ color: '#475569' }}>Category: </span>
@@ -211,7 +228,7 @@ export const DocumentApprovals: React.FC = () => {
               </div>
               <div>
                 <span style={{ color: '#475569' }}>Expiry Date: </span>
-                <span>{doc.expiryDate || 'N/A'}</span>
+                <span>{expiryDate || 'N/A'}</span>
               </div>
             </div>
           </div>
@@ -219,11 +236,14 @@ export const DocumentApprovals: React.FC = () => {
       }
     }
 
+    const fileType = doc?.fileDetails?.fileType || doc?.fileType || 'application/octet-stream';
+    const filePath = doc?.fileDetails?.filePath || doc?.filePath || '#';
+
     // Default physical view for actual files uploaded
-    if (doc.fileDetails.fileType === 'application/pdf') {
+    if (fileType === 'application/pdf') {
       return (
         <iframe 
-          src={`${doc.fileDetails.filePath}#toolbar=0`} 
+          src={`${filePath}#toolbar=0`} 
           title="Document PDF Preview" 
           width="100%" 
           height="100%" 
@@ -234,7 +254,7 @@ export const DocumentApprovals: React.FC = () => {
     
     return (
       <img 
-        src={doc.fileDetails.filePath} 
+        src={filePath} 
         alt="Document Preview" 
         style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
       />
@@ -274,23 +294,28 @@ export const DocumentApprovals: React.FC = () => {
                 Loading approvals...
               </div>
             ) : filteredDocs.length > 0 ? (
-              filteredDocs.map(item => (
-                <div 
-                  key={item.documentId} 
-                  className={`${styles.listItem} ${selectedDoc?.documentId === item.documentId ? styles.listActive : ''}`}
-                  onClick={() => handleSelectDoc(item)}
-                >
-                  <div className={styles.itemContent}>
-                    <span className={styles.itemId}>{item.documentId}</span>
-                    <span className={styles.itemName}>{item.documentName}</span>
-                    <span className={styles.itemDate}>{item.vendor.vendorName}</span>
-                    <span className={styles.itemDate} style={{ marginTop: '2px', fontSize: '0.7rem' }}>
-                      Submitted: {new Date(item.uploadedAt).toLocaleDateString('en-IN')}
-                    </span>
+              filteredDocs.map(item => {
+                const itemId = item?.documentId || item?.id || '';
+                const itemName = item?.documentName || item?.fileName || 'N/A';
+                const vendorName = item?.vendor?.vendorName || 'N/A';
+                return (
+                  <div 
+                    key={itemId} 
+                    className={`${styles.listItem} ${(selectedDoc?.documentId || selectedDoc?.id) === itemId ? styles.listActive : ''}`}
+                    onClick={() => handleSelectDoc(item)}
+                  >
+                    <div className={styles.itemContent}>
+                      <span className={styles.itemId}>{itemId}</span>
+                      <span className={styles.itemName}>{itemName}</span>
+                      <span className={styles.itemDate}>{vendorName}</span>
+                      <span className={styles.itemDate} style={{ marginTop: '2px', fontSize: '0.7rem' }}>
+                        Submitted: {item?.uploadedAt ? new Date(item.uploadedAt).toLocaleDateString('en-IN') : '-'}
+                      </span>
+                    </div>
+                    {(selectedDoc?.documentId || selectedDoc?.id) === itemId && <ChevronRight size={18} color="#1d4ed8" />}
                   </div>
-                  {selectedDoc?.documentId === item.documentId && <ChevronRight size={18} color="#1d4ed8" />}
-                </div>
-              ))
+                );
+              })
             ) : (
               <div style={{ padding: '24px', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
                 No pending verifications.

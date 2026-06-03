@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Plus, 
   Trash2, 
@@ -12,6 +12,7 @@ import { CatalogueHeader } from './CatalogueHeader';
 import { Button } from '../../components/Button/Button';
 import { Card } from '../../components/Card/Card';
 import styles from './VendorMapping.module.css';
+import { getAllItems } from '../../services/itemMasterService';
 
 interface MappedVendor {
   id: string;
@@ -24,13 +25,6 @@ interface MappedVendor {
   isPreferred: boolean;
   isAvl: boolean;
 }
-
-const initialItems = [
-  { id: 'CAT-001', name: 'Dell Latitude 5420 Laptop', type: 'Item', category: 'IT Hardware', code: '84713010' },
-  { id: 'CAT-002', name: 'Annual Security Audit Service', type: 'Service', category: 'Professional Services', code: '998713' },
-  { id: 'CAT-003', name: 'Ergonomic Office Chair', type: 'Item', category: 'Office Supplies', code: '94033000' },
-  { id: 'CAT-004', name: 'Facility Deep Cleaning', type: 'Service', category: 'Facility Management', code: '998533' }
-];
 
 const mockMappingDatabase: Record<string, MappedVendor[]> = {
   'CAT-001': [
@@ -50,11 +44,72 @@ const mockMappingDatabase: Record<string, MappedVendor[]> = {
 
 export const VendorMapping: React.FC = () => {
   const [selectedItemId, setSelectedItemId] = useState('CAT-001');
-  const [mappings, setMappings] = useState(mockMappingDatabase);
+  const [mappings, setMappings] = useState<Record<string, MappedVendor[]>>({});
+  const [items, setItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchItem, setSearchItem] = useState('');
 
-  const currentItem = initialItems.find(i => i.id === selectedItemId) || initialItems[0];
-  const currentVendors = mappings[selectedItemId] || [];
+  useEffect(() => {
+    async function loadItems() {
+      try {
+        setLoading(true);
+        const list = await getAllItems();
+        setItems(list);
+        if (list.length > 0) {
+          const firstId = list[0].itemId || '';
+          setSelectedItemId(firstId);
+        }
+      } catch (err) {
+        console.error("Error loading items in VendorMapping:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadItems();
+  }, []);
+
+  const currentItem = items.find(i => i.itemId === selectedItemId);
+  
+  // Resolve mapped vendors dynamically
+  let currentVendors: MappedVendor[] = [];
+  if (selectedItemId) {
+    if (mappings[selectedItemId]) {
+      currentVendors = mappings[selectedItemId];
+    } else if (mockMappingDatabase[selectedItemId]) {
+      currentVendors = mockMappingDatabase[selectedItemId];
+    } else if (currentItem) {
+      const pVendor = currentItem.preferredVendor;
+      const altVendorsList = currentItem.alternateVendors || [];
+      const dynamicList: MappedVendor[] = [];
+      if (pVendor && pVendor.vendorId) {
+        dynamicList.push({
+          id: pVendor.vendorId,
+          name: pVendor.vendorName,
+          category: currentItem.category + ' Sourcing',
+          riskScore: 85,
+          capacity: '100 Units/Mo',
+          leadTime: currentItem.expectedLeadTime || '7 Days',
+          priceRef: '₹72,500',
+          isPreferred: true,
+          isAvl: true
+        });
+      }
+      for (const alt of altVendorsList) {
+        dynamicList.push({
+          id: alt.vendorId || 'VND-ALT-01',
+          name: alt.vendorName,
+          category: currentItem.category + ' Sourcing',
+          riskScore: 75,
+          capacity: '50 Units/Mo',
+          leadTime: currentItem.expectedLeadTime || '10 Days',
+          priceRef: '₹74,000',
+          isPreferred: false,
+          isAvl: true
+        });
+      }
+      currentVendors = dynamicList;
+    }
+  }
 
   const handleTogglePreferred = (vendorId: string) => {
     const updated = currentVendors.map(v => ({
@@ -82,9 +137,9 @@ export const VendorMapping: React.FC = () => {
     if (!name) return;
 
     const newVendor: MappedVendor = {
-      id: 'VND-088',
+      id: 'VND-' + Math.floor(Math.random() * 900 + 100),
       name: name,
-      category: 'General Supplies',
+      category: (currentItem?.category || 'General') + ' Supplies',
       riskScore: 70,
       capacity: '100 Units/Mo',
       leadTime: '10 Days',
@@ -99,9 +154,9 @@ export const VendorMapping: React.FC = () => {
     }));
   };
 
-  const filteredItems = initialItems.filter(item => 
-    item.name.toLowerCase().includes(searchItem.toLowerCase()) || 
-    item.id.toLowerCase().includes(searchItem.toLowerCase())
+  const filteredItems = items.filter(item => 
+    item.itemName.toLowerCase().includes(searchItem.toLowerCase()) || 
+    (item.itemId && item.itemId.toLowerCase().includes(searchItem.toLowerCase()))
   );
 
   return (
@@ -124,24 +179,31 @@ export const VendorMapping: React.FC = () => {
           />
 
           <div className={styles.itemList}>
-            {filteredItems.map(item => (
-              <div 
-                key={item.id} 
-                className={`${styles.itemRow} ${selectedItemId === item.id ? styles.itemRowActive : ''}`}
-                onClick={() => setSelectedItemId(item.id)}
-              >
-                <div className={styles.itemDetails}>
-                  <span className={styles.itemName}>{item.name}</span>
-                  <span className={styles.itemMeta}>{item.id} • HSN/SAC: {item.code} • {item.category}</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ fontSize: '11px', padding: '2px 6px', borderRadius: '4px', backgroundColor: item.type === 'Item' ? '#eaf2ff' : '#f3e8ff', color: item.type === 'Item' ? '#1d4ed8' : '#7c3aed' }}>
-                    {item.type}
-                  </span>
-                  <ArrowRight size={16} style={{ color: 'var(--color-primary)' }} />
-                </div>
+            {loading ? (
+              <div style={{ padding: '20px', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
+                Loading catalogue items...
               </div>
-            ))}
+            ) : filteredItems.map(item => {
+              const itemType = (item.isService || item.category === 'Professional Services' || item.category === 'Logistics') ? 'Service' : 'Item';
+              return (
+                <div 
+                  key={item.itemId} 
+                  className={`${styles.itemRow} ${selectedItemId === item.itemId ? styles.itemRowActive : ''}`}
+                  onClick={() => setSelectedItemId(item.itemId || '')}
+                >
+                  <div className={styles.itemDetails}>
+                    <span className={styles.itemName}>{item.itemName}</span>
+                    <span className={styles.itemMeta}>{item.itemId} • HSN/SAC: {item.hsnCode} • {item.category}</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '11px', padding: '2px 6px', borderRadius: '4px', backgroundColor: itemType === 'Item' ? '#eaf2ff' : '#f3e8ff', color: itemType === 'Item' ? '#1d4ed8' : '#7c3aed' }}>
+                      {itemType}
+                    </span>
+                    <ArrowRight size={16} style={{ color: 'var(--color-primary)' }} />
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -156,7 +218,7 @@ export const VendorMapping: React.FC = () => {
             </div>
 
             <div style={{ fontSize: '13px', color: 'var(--color-text-secondary)', marginBottom: '16px' }}>
-              Showing mapped suppliers for <strong>{currentItem.name}</strong>
+              Showing mapped suppliers for <strong>{currentItem?.itemName || 'Selected Item'}</strong>
             </div>
 
             {currentVendors.length > 0 ? (

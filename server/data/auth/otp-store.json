@@ -1,28 +1,19 @@
 [
   {
-    "otpId": "OTP-1001",
-    "username": "super_admin",
+    "username": "admin",
     "otp": "123456",
     "status": "USED",
     "expiresInSeconds": 300
   },
   {
-    "otpId": "OTP-1002",
-    "username": "tenant_admin",
-    "otp": "123456",
-    "status": "USED",
-    "expiresInSeconds": 300
-  },
-  {
-    "otpId": "OTP-1003",
     "username": "vendor",
     "otp": "123456",
-    "status": "USED",
+    "status": "ACTIVE",
     "expiresInSeconds": 300
   },
   {
-    "otpId": "OTP-1090",
-    "username": "super_admin",
+    "otpId": "OTP-3195",
+    "username": "vendor",
     "otp": "123456",
     "status": "ACTIVE",
     "expiresInSeconds": 300

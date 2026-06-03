@@ -1,0 +1,254 @@
+{
+  "vendors": [
+    {
+      "vendorId": "VND-2025-00029",
+      "vendorName": "ABC Infotech Private Limited",
+      "country": "India",
+      "pan": "AAACA1234A",
+      "gstin": "27AAACA1234A1Z5",
+      "screeningResult": {
+        "unList": "No Match",
+        "ofacList": "No Match",
+        "euList": "No Match",
+        "rbiRestricted": "No Match",
+        "sebiBlacklist": "No Match"
+      },
+      "matchScore": 0,
+      "screeningStatus": "Cleared",
+      "lastScreenedOn": "2026-05-15",
+      "nextScreeningDate": "2026-11-15",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "legalTeam": "Approved",
+        "procurementHead": "Approved",
+        "final": "Approved"
+      },
+      "screeningHistory": [
+        {
+          "screenedBy": "Compliance Team",
+          "screeningDate": "2026-05-15",
+          "result": "Cleared",
+          "comments": "No sanctions match found on global watchlists."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-88001",
+      "vendorName": "HDFC Bank Limited",
+      "country": "India",
+      "pan": "AAACH1111A",
+      "gstin": "27AAACH1111A1Z8",
+      "screeningResult": {
+        "unList": "No Match",
+        "ofacList": "No Match",
+        "euList": "No Match",
+        "rbiRestricted": "No Match",
+        "sebiBlacklist": "No Match"
+      },
+      "matchScore": 0,
+      "screeningStatus": "Cleared",
+      "lastScreenedOn": "2026-05-22",
+      "nextScreeningDate": "2026-11-22",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "legalTeam": "Approved",
+        "procurementHead": "Approved",
+        "final": "Approved"
+      },
+      "screeningHistory": [
+        {
+          "screenedBy": "Compliance Team",
+          "screeningDate": "2026-05-22",
+          "result": "Cleared",
+          "comments": "Screening completed. Zero matches across UN, OFAC, and domestic regulators."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-50469",
+      "vendorName": "My Money Mantra",
+      "country": "India",
+      "pan": "MMMCM1234M",
+      "gstin": "09AVIPY8039N2ZG",
+      "screeningResult": {
+        "unList": "No Match",
+        "ofacList": "No Match",
+        "euList": "No Match",
+        "rbiRestricted": "No Match",
+        "sebiBlacklist": "No Match"
+      },
+      "matchScore": 0,
+      "screeningStatus": "Cleared",
+      "lastScreenedOn": "2026-05-29",
+      "nextScreeningDate": "2026-06-25",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Approved",
+        "legalTeam": "Approved",
+        "procurementHead": "Approved",
+        "final": "Approved"
+      },
+      "screeningHistory": [
+        {
+          "screenedBy": "Compliance Team",
+          "screeningDate": "2026-05-29",
+          "result": "Cleared",
+          "comments": "Entity is clear of active watchlist restrictions."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-11002",
+      "vendorName": "Apex Facility Services",
+      "country": "India",
+      "pan": "APEXF1234P",
+      "gstin": "27APEXF1234P1Z4",
+      "screeningResult": {
+        "unList": "No Match",
+        "ofacList": "No Match",
+        "euList": "No Match",
+        "rbiRestricted": "Match Found",
+        "sebiBlacklist": "No Match"
+      },
+      "matchScore": 45,
+      "screeningStatus": "Under Review",
+      "lastScreenedOn": "2026-05-10",
+      "nextScreeningDate": "2026-06-20",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Pending",
+        "legalTeam": "Pending",
+        "procurementHead": "Pending",
+        "final": "Pending"
+      },
+      "screeningHistory": [
+        {
+          "screenedBy": "Compliance Analyst",
+          "screeningDate": "2026-05-10",
+          "result": "Under Review",
+          "comments": "Low confidence match found on RBI Restricted list. Escalating for investigation."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-22003",
+      "vendorName": "Secure Guards Co.",
+      "country": "India",
+      "pan": "SECUG5678R",
+      "gstin": "27SECUG5678R1Z1",
+      "screeningResult": {
+        "unList": "No Match",
+        "ofacList": "No Match",
+        "euList": "No Match",
+        "rbiRestricted": "No Match",
+        "sebiBlacklist": "Match Found"
+      },
+      "matchScore": 90,
+      "screeningStatus": "Blocked",
+      "lastScreenedOn": "2026-05-01",
+      "nextScreeningDate": "2026-06-15",
+      "workflow": {
+        "analyst": "Rejected",
+        "complianceManager": "Rejected",
+        "legalTeam": "Rejected",
+        "procurementHead": "Rejected",
+        "final": "Rejected"
+      },
+      "screeningHistory": [
+        {
+          "screenedBy": "Legal Auditor",
+          "screeningDate": "2026-05-01",
+          "result": "Blocked",
+          "comments": "Confirmed match in SEBI Blacklisted registry. Vendor immediately blocked."
+        }
+      ],
+      "evidenceFiles": [
+        {
+          "fileId": "SAN-001",
+          "fileName": "SEBI_Blacklist_Entry_Guards.pdf",
+          "filePath": "/uploads/kyc/sanctions/SEBI_Blacklist_Entry_Guards.pdf",
+          "uploadedBy": "Legal Auditor",
+          "uploadedOn": "2026-05-01"
+        }
+      ]
+    },
+    {
+      "vendorId": "VND-2026-44005",
+      "vendorName": "Vostok Trading LLC",
+      "country": "Russia",
+      "screeningResult": {
+        "unList": "Match Found",
+        "ofacList": "Match Found",
+        "euList": "Match Found",
+        "rbiRestricted": "No Match",
+        "sebiBlacklist": "No Match"
+      },
+      "matchScore": 98,
+      "screeningStatus": "Blocked",
+      "lastScreenedOn": "2026-05-18",
+      "nextScreeningDate": "2026-06-18",
+      "workflow": {
+        "analyst": "Rejected",
+        "complianceManager": "Rejected",
+        "legalTeam": "Rejected",
+        "procurementHead": "Rejected",
+        "final": "Rejected"
+      },
+      "screeningHistory": [
+        {
+          "screenedBy": "Compliance Team",
+          "screeningDate": "2026-05-18",
+          "result": "Blocked",
+          "comments": "Confirmed match on OFAC SDN list and EU consolidated sanctions list."
+        }
+      ],
+      "evidenceFiles": [
+        {
+          "fileId": "SAN-002",
+          "fileName": "OFAC_SDN_Vostok_Report.pdf",
+          "filePath": "/uploads/kyc/sanctions/OFAC_SDN_Vostok_Report.pdf",
+          "uploadedBy": "Compliance Manager",
+          "uploadedOn": "2026-05-18"
+        }
+      ]
+    },
+    {
+      "vendorId": "VND-2026-55006",
+      "vendorName": "Apex Tech Solutions",
+      "country": "Singapore",
+      "screeningResult": {
+        "unList": "No Match",
+        "ofacList": "Match Found",
+        "euList": "No Match",
+        "rbiRestricted": "No Match",
+        "sebiBlacklist": "No Match"
+      },
+      "matchScore": 65,
+      "screeningStatus": "Under Review",
+      "lastScreenedOn": "2026-05-25",
+      "nextScreeningDate": "2026-11-25",
+      "workflow": {
+        "analyst": "Approved",
+        "complianceManager": "Pending",
+        "legalTeam": "Pending",
+        "procurementHead": "Pending",
+        "final": "Pending"
+      },
+      "screeningHistory": [
+        {
+          "screenedBy": "Compliance Analyst",
+          "screeningDate": "2026-05-25",
+          "result": "Under Review",
+          "comments": "Potential name match on OFAC Consolidated Non-SDN list. Initiated manual verification."
+        }
+      ],
+      "evidenceFiles": []
+    }
+  ]
+}

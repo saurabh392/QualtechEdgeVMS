@@ -1,0 +1,410 @@
+{
+  "vendors": [
+    {
+      "vendorId": "VND-2025-00029",
+      "vendorName": "ABC Infotech Private Limited",
+      "category": "IT Services",
+      "riskLevel": "Low",
+      "kycStatus": "Verified",
+      "documents": {
+        "pan": {
+          "number": "AAACA1234A",
+          "status": "Verified",
+          "verifiedOn": "2026-05-01",
+          "file": {
+            "fileId": "FILE-001",
+            "fileName": "PAN_ABC.pdf",
+            "filePath": "/uploads/documents/PAN_ABC.pdf",
+            "uploadedBy": "Saurabh Anand",
+            "uploadedOn": "2026-05-01"
+          }
+        },
+        "gstin": {
+          "number": "27AAACA1234A1Z5",
+          "status": "Verified",
+          "verifiedOn": "2026-05-01",
+          "file": {
+            "fileId": "FILE-002",
+            "fileName": "GST_ABC.pdf",
+            "filePath": "/uploads/documents/GST_ABC.pdf",
+            "uploadedBy": "Saurabh Anand",
+            "uploadedOn": "2026-05-01"
+          }
+        },
+        "aadhaar": {
+          "number": "XXXX-XXXX-1234",
+          "status": "Verified",
+          "verifiedOn": "2026-05-01",
+          "file": null
+        },
+        "cin": {
+          "number": "U72900MH2015PTC123456",
+          "status": "Verified",
+          "verifiedOn": "2026-05-01",
+          "file": {
+            "fileId": "FILE-003",
+            "fileName": "COI_ABC.pdf",
+            "filePath": "/uploads/documents/COI_ABC.pdf",
+            "uploadedBy": "Saurabh Anand",
+            "uploadedOn": "2026-05-01"
+          }
+        },
+        "msme": {
+          "number": "UDYAM-MH-01-0001234",
+          "status": "Verified",
+          "verifiedOn": "2026-05-01",
+          "file": {
+            "fileId": "FILE-004",
+            "fileName": "MSME_ABC.pdf",
+            "filePath": "/uploads/documents/MSME_ABC.pdf",
+            "uploadedBy": "Saurabh Anand",
+            "uploadedOn": "2026-05-01"
+          }
+        },
+        "bankAccount": {
+          "accountNumber": "50100234567890",
+          "ifsc": "HDFC0001234",
+          "status": "Verified",
+          "verifiedOn": "2026-05-01",
+          "file": {
+            "fileId": "FILE-005",
+            "fileName": "ABC_Cheque.jpg",
+            "filePath": "/uploads/documents/ABC_Cheque.jpg",
+            "uploadedBy": "Saurabh Anand",
+            "uploadedOn": "2026-05-01"
+          }
+        }
+      },
+      "lastVerifiedOn": "2026-05-01",
+      "reKycDueDate": "2027-05-01",
+      "workflow": {
+        "procurement": "Approved",
+        "compliance": "Approved",
+        "legal": "Approved",
+        "final": "Approved"
+      },
+      "verificationHistory": [
+        {
+          "verifiedBy": "Saurabh Anand",
+          "action": "KYC Approved",
+          "comments": "All corporate registration documents are valid and verified.",
+          "timestamp": "2026-05-01T10:30:00Z"
+        }
+      ]
+    },
+    {
+      "vendorId": "VND-2026-88001",
+      "vendorName": "HDFC Bank Limited",
+      "category": "Consulting",
+      "riskLevel": "High",
+      "kycStatus": "Re-KYC Due",
+      "documents": {
+        "pan": {
+          "number": "AAACH1111A",
+          "status": "Verified",
+          "verifiedOn": "2026-06-01",
+          "file": {
+            "fileId": "FILE-006",
+            "fileName": "HDFC_PAN.pdf",
+            "filePath": "/uploads/documents/HDFC_PAN.pdf",
+            "uploadedBy": "Saurabh Anand",
+            "uploadedOn": "2026-05-22"
+          }
+        },
+        "gstin": {
+          "number": "27AAACH1111A1Z8",
+          "status": "Verified",
+          "verifiedOn": "2026-05-22",
+          "file": {
+            "fileId": "FILE-007",
+            "fileName": "HDFC_GST.pdf",
+            "filePath": "/uploads/documents/HDFC_GST.pdf",
+            "uploadedBy": "Saurabh Anand",
+            "uploadedOn": "2026-05-22"
+          }
+        },
+        "aadhaar": {
+          "number": "XXXX-XXXX-9999",
+          "status": "Pending",
+          "verifiedOn": null,
+          "file": null
+        },
+        "cin": {
+          "number": "L65190MH1994PLC080618",
+          "status": "Verified",
+          "verifiedOn": "2026-05-22",
+          "file": {
+            "fileId": "FILE-008",
+            "fileName": "HDFC_COI.pdf",
+            "filePath": "/uploads/documents/HDFC_COI.pdf",
+            "uploadedBy": "Saurabh Anand",
+            "uploadedOn": "2026-05-22"
+          }
+        },
+        "msme": {
+          "number": "",
+          "status": "Pending",
+          "verifiedOn": null,
+          "file": null
+        },
+        "bankAccount": {
+          "accountNumber": "99010048128491",
+          "ifsc": "RBI00000001",
+          "status": "Verified",
+          "verifiedOn": "2026-05-22",
+          "file": {
+            "fileId": "FILE-009",
+            "fileName": "HDFC_Cancelled_Cheque.pdf",
+            "filePath": "/uploads/documents/HDFC_Cancelled_Cheque.pdf",
+            "uploadedBy": "Saurabh Anand",
+            "uploadedOn": "2026-05-22"
+          }
+        }
+      },
+      "lastVerifiedOn": "2026-06-01",
+      "reKycDueDate": "2026-06-25",
+      "workflow": {
+        "procurement": "Approved",
+        "compliance": "Pending",
+        "legal": "Pending",
+        "final": "Pending"
+      },
+      "verificationHistory": [
+        {
+          "verifiedBy": "Saurabh Anand",
+          "action": "Rejected PAN",
+          "comments": "PAN image is blurry. Please re-upload.",
+          "timestamp": "2026-05-22T11:00:00Z"
+        },
+        {
+          "verifiedBy": "Super Administrator",
+          "action": "Verified PAN",
+          "comments": "PAN number matches HDFC Bank record.",
+          "timestamp": "2026-06-01T06:39:14.696Z"
+        },
+        {
+          "verifiedBy": "Super Administrator",
+          "action": "PROCUREMENT Review: Approved",
+          "comments": "Procurement check passed.",
+          "timestamp": "2026-06-01T06:40:44.452Z"
+        }
+      ]
+    },
+    {
+      "vendorId": "VND-2026-50469",
+      "vendorName": "My Money Mantra",
+      "category": "IT Services",
+      "riskLevel": "Medium",
+      "kycStatus": "In Progress",
+      "documents": {
+        "pan": {
+          "number": "MMMCM1234M",
+          "status": "Verified",
+          "verifiedOn": "2026-05-29",
+          "file": {
+            "fileId": "FILE-010",
+            "fileName": "PAN_Card.jpg",
+            "filePath": "/uploads/file-1780054925508-458867517.jpg",
+            "uploadedBy": "Saurabh Anand",
+            "uploadedOn": "2026-05-29"
+          }
+        },
+        "gstin": {
+          "number": "09AVIPY8039N2ZG",
+          "status": "Verified",
+          "verifiedOn": "2026-05-29",
+          "file": {
+            "fileId": "FILE-011",
+            "fileName": "GST_Cert.jpg",
+            "filePath": "/uploads/file-1780054929937-423471015.jpg",
+            "uploadedBy": "Saurabh Anand",
+            "uploadedOn": "2026-05-29"
+          }
+        },
+        "aadhaar": {
+          "number": "XXXX-XXXX-4567",
+          "status": "Verified",
+          "verifiedOn": "2026-05-29",
+          "file": null
+        },
+        "cin": {
+          "number": "L65190MH1994PLC080620",
+          "status": "Verified",
+          "verifiedOn": "2026-05-29",
+          "file": {
+            "fileId": "FILE-012",
+            "fileName": "Incorporation_Mantra.png",
+            "filePath": "/uploads/file-1780054934588-415702143.png",
+            "uploadedBy": "Saurabh Anand",
+            "uploadedOn": "2026-05-29"
+          }
+        },
+        "msme": {
+          "number": "UDYAM-DL-01-0001235",
+          "status": "Verified",
+          "verifiedOn": "2026-05-29",
+          "file": {
+            "fileId": "FILE-013",
+            "fileName": "MSME_Mantra.png",
+            "filePath": "/uploads/file-1780054939122-882252488.png",
+            "uploadedBy": "Saurabh Anand",
+            "uploadedOn": "2026-05-29"
+          }
+        },
+        "bankAccount": {
+          "accountNumber": "5012563498451",
+          "ifsc": "HDFC0000060",
+          "status": "Pending",
+          "verifiedOn": null,
+          "file": {
+            "fileId": "FILE-014",
+            "fileName": "Cancelled_Cheque.jpg",
+            "filePath": "/uploads/documents/download (2).jpg",
+            "uploadedBy": "Saurabh Anand",
+            "uploadedOn": "2026-05-29"
+          }
+        }
+      },
+      "lastVerifiedOn": "2026-05-29",
+      "reKycDueDate": "2027-05-29",
+      "workflow": {
+        "procurement": "Approved",
+        "compliance": "Pending",
+        "legal": "Pending",
+        "final": "Pending"
+      },
+      "verificationHistory": [
+        {
+          "verifiedBy": "Saurabh Anand",
+          "action": "Procurement Verification Completed",
+          "comments": "Basic documents verified. Bank cheque verification pending compliance review.",
+          "timestamp": "2026-05-29T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "vendorId": "VND-2026-11002",
+      "vendorName": "Apex Facility Services",
+      "category": "Facility Management",
+      "riskLevel": "Low",
+      "kycStatus": "Verified",
+      "documents": {
+        "pan": {
+          "number": "APEXF1234P",
+          "status": "Verified",
+          "verifiedOn": "2026-04-15",
+          "file": null
+        },
+        "gstin": {
+          "number": "27APEXF1234P1Z4",
+          "status": "Verified",
+          "verifiedOn": "2026-04-15",
+          "file": null
+        },
+        "aadhaar": {
+          "number": "",
+          "status": "Pending",
+          "verifiedOn": null,
+          "file": null
+        },
+        "cin": {
+          "number": "U72900MH2016PTC222222",
+          "status": "Verified",
+          "verifiedOn": "2026-04-15",
+          "file": null
+        },
+        "msme": {
+          "number": "UDYAM-MH-02-1234567",
+          "status": "Verified",
+          "verifiedOn": "2026-04-15",
+          "file": null
+        },
+        "bankAccount": {
+          "accountNumber": "123456789012",
+          "ifsc": "ICIC0000123",
+          "status": "Verified",
+          "verifiedOn": "2026-04-15",
+          "file": null
+        }
+      },
+      "lastVerifiedOn": "2026-04-15",
+      "reKycDueDate": "2026-06-20",
+      "workflow": {
+        "procurement": "Approved",
+        "compliance": "Approved",
+        "legal": "Approved",
+        "final": "Approved"
+      },
+      "verificationHistory": [
+        {
+          "verifiedBy": "Compliance Auditor",
+          "action": "Approved KYC",
+          "comments": "Vendor KYC verified manually via public register sites.",
+          "timestamp": "2026-04-15T09:00:00Z"
+        }
+      ]
+    },
+    {
+      "vendorId": "VND-2026-22003",
+      "vendorName": "Secure Guards Co.",
+      "category": "Security",
+      "riskLevel": "Critical",
+      "kycStatus": "Rejected",
+      "documents": {
+        "pan": {
+          "number": "SECUG5678R",
+          "status": "Rejected",
+          "verifiedOn": "2026-05-10",
+          "file": null
+        },
+        "gstin": {
+          "number": "27SECUG5678R1Z1",
+          "status": "Verified",
+          "verifiedOn": "2026-05-10",
+          "file": null
+        },
+        "aadhaar": {
+          "number": "",
+          "status": "Pending",
+          "verifiedOn": null,
+          "file": null
+        },
+        "cin": {
+          "number": "U72900MH2017PTC333333",
+          "status": "Rejected",
+          "verifiedOn": "2026-05-10",
+          "file": null
+        },
+        "msme": {
+          "number": "",
+          "status": "Pending",
+          "verifiedOn": null,
+          "file": null
+        },
+        "bankAccount": {
+          "accountNumber": "98765432101",
+          "ifsc": "SBIN0000456",
+          "status": "Verified",
+          "verifiedOn": "2026-05-10",
+          "file": null
+        }
+      },
+      "lastVerifiedOn": "2026-05-10",
+      "reKycDueDate": "2027-05-10",
+      "workflow": {
+        "procurement": "Approved",
+        "compliance": "Rejected",
+        "legal": "Pending",
+        "final": "Rejected"
+      },
+      "verificationHistory": [
+        {
+          "verifiedBy": "Legal Auditor",
+          "action": "Rejected Compliance",
+          "comments": "PAN and CIN mismatch found. Legal entity blacklisted on MCA portal.",
+          "timestamp": "2026-05-10T14:30:00Z"
+        }
+      ]
+    }
+  ]
+}

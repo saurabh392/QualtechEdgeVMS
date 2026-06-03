@@ -60,7 +60,7 @@ export const CatalogueApprovals: React.FC = () => {
           id: item.itemId,
           approvalId: item.approvalId || item.itemId,
           name: item.itemName,
-          type: (item.category === 'Professional Services' || item.category === 'Logistics' ? 'Service' : 'Item') as 'Service' | 'Item',
+          type: (item.isService || item.category === 'Professional Services' || item.category === 'Logistics' ? 'Service' : 'Item') as 'Service' | 'Item',
           category: item.category,
           preferredVendor: item.preferredVendor || 'N/A',
           rate: item.rate || '₹72,500',

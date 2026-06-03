@@ -1,0 +1,452 @@
+{
+  "vendors": [
+    {
+      "vendorId": "VND-2025-00155",
+      "vendorName": "ABC Enterprises",
+      "country": "India",
+      "pan": "AAACA1234A",
+      "gstin": "27AAACA1234A1Z5",
+      "validations": {
+        "physicalAddress": {
+          "status": "Failed",
+          "addressSharedWith": 120,
+          "remarks": "Registered address is a known virtual office shared by 120 companies."
+        },
+        "employeeCount": {
+          "status": "Failed",
+          "employeeCount": 0,
+          "remarks": "Zero employees found on payroll registries."
+        },
+        "websitePresence": {
+          "status": "Failed",
+          "websiteAvailable": false,
+          "remarks": "No active website domain or corporate email records found."
+        },
+        "financialFilings": {
+          "status": "Missing",
+          "remarks": "No annual corporate or regulatory filings available."
+        },
+        "businessOperations": {
+          "status": "Unverified",
+          "remarks": "No active office operations or customer references verified."
+        }
+      },
+      "shellRiskScore": 100,
+      "riskLevel": "Critical",
+      "shellCompanyStatus": "Potential Shell Company",
+      "lastCheckedOn": "2026-05-15",
+      "nextReviewDate": "2026-06-10",
+      "workflow": {
+        "analyst": "Blocked",
+        "riskManager": "Pending",
+        "fraudTeam": "Pending",
+        "legalTeam": "Pending",
+        "procurementHead": "Pending",
+        "final": "Pending"
+      },
+      "assessmentHistory": [
+        {
+          "assessmentDate": "2026-05-15",
+          "performedBy": "Risk Analyst",
+          "riskScore": 100,
+          "result": "Potential Shell Company",
+          "actionTaken": "Vendor Blocked",
+          "remarks": "Initial automated sweep flagged address sharing, zero headcount, and missing filings. Blocked onboarding."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-88001",
+      "vendorName": "HDFC Bank Limited",
+      "country": "India",
+      "pan": "AAACH1111A",
+      "gstin": "27AAACH1111A1Z8",
+      "validations": {
+        "physicalAddress": {
+          "status": "Passed",
+          "addressSharedWith": 1,
+          "remarks": "Unique registered commercial corporate headquarters."
+        },
+        "employeeCount": {
+          "status": "Passed",
+          "employeeCount": 150000,
+          "remarks": "Verified large active workforce and public payroll records."
+        },
+        "websitePresence": {
+          "status": "Passed",
+          "websiteAvailable": true,
+          "remarks": "Active secured website domain with official email domains."
+        },
+        "financialFilings": {
+          "status": "Passed",
+          "remarks": "Regular filings up to Q4 2025 available on registrar databases."
+        },
+        "businessOperations": {
+          "status": "Passed",
+          "remarks": "Active operations with extensive retail and corporate customer base."
+        }
+      },
+      "shellRiskScore": 0,
+      "riskLevel": "Low",
+      "shellCompanyStatus": "Verified",
+      "lastCheckedOn": "2026-05-22",
+      "nextReviewDate": "2026-11-22",
+      "workflow": {
+        "analyst": "Verified",
+        "riskManager": "Verified",
+        "fraudTeam": "Verified",
+        "legalTeam": "Verified",
+        "procurementHead": "Verified",
+        "final": "Verified"
+      },
+      "assessmentHistory": [
+        {
+          "assessmentDate": "2026-05-22",
+          "performedBy": "Compliance Officer",
+          "riskScore": 0,
+          "result": "Legitimate Company",
+          "actionTaken": "Approve Vendor",
+          "remarks": "Screening completed. Zero risk matches found."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2025-00029",
+      "vendorName": "ABC Infotech Private Limited",
+      "country": "India",
+      "pan": "AAACA1234A",
+      "gstin": "27AAACA1234A1Z5",
+      "validations": {
+        "physicalAddress": {
+          "status": "Passed",
+          "addressSharedWith": 2,
+          "remarks": "Office premises located in registered IT park."
+        },
+        "employeeCount": {
+          "status": "Passed",
+          "employeeCount": 45,
+          "remarks": "Workforce size verified via social security and tax filing declarations."
+        },
+        "websitePresence": {
+          "status": "Passed",
+          "websiteAvailable": true,
+          "remarks": "Active corporate website containing contact details."
+        },
+        "financialFilings": {
+          "status": "Passed",
+          "remarks": "Annual returns submitted for FY 2024-25."
+        },
+        "businessOperations": {
+          "status": "Failed",
+          "remarks": "Could not verify active clients or service delivery evidence. Listed operations unverified."
+        }
+      },
+      "shellRiskScore": 20,
+      "riskLevel": "Low",
+      "shellCompanyStatus": "Verified",
+      "lastCheckedOn": "2026-05-15",
+      "nextReviewDate": "2026-11-15",
+      "workflow": {
+        "analyst": "Verified",
+        "riskManager": "Verified",
+        "fraudTeam": "Verified",
+        "legalTeam": "Verified",
+        "procurementHead": "Verified",
+        "final": "Verified"
+      },
+      "assessmentHistory": [
+        {
+          "assessmentDate": "2026-05-15",
+          "performedBy": "Compliance Team",
+          "riskScore": 20,
+          "result": "Legitimate Company",
+          "actionTaken": "Approve Vendor",
+          "remarks": "Low risk profile. Minor operation verification gap assessed as immaterial."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-50469",
+      "vendorName": "My Money Mantra Pvt Ltd",
+      "country": "India",
+      "pan": "AAACM4528A",
+      "gstin": "27AAACM4528A1Z9",
+      "validations": {
+        "physicalAddress": {
+          "status": "Passed",
+          "addressSharedWith": 1,
+          "remarks": "Dedicated commercial office address verified."
+        },
+        "employeeCount": {
+          "status": "Passed",
+          "employeeCount": 850,
+          "remarks": "Large active headcount verified via corporate registries."
+        },
+        "websitePresence": {
+          "status": "Passed",
+          "websiteAvailable": true,
+          "remarks": "Established secure web domain."
+        },
+        "financialFilings": {
+          "status": "Passed",
+          "remarks": "Up-to-date filing compliance on Ministry of Corporate Affairs."
+        },
+        "businessOperations": {
+          "status": "Passed",
+          "remarks": "Active financial advisory operations with physical branches."
+        }
+      },
+      "shellRiskScore": 0,
+      "riskLevel": "Low",
+      "shellCompanyStatus": "Verified",
+      "lastCheckedOn": "2026-05-29",
+      "nextReviewDate": "2026-11-29",
+      "workflow": {
+        "analyst": "Verified",
+        "riskManager": "Verified",
+        "fraudTeam": "Verified",
+        "legalTeam": "Verified",
+        "procurementHead": "Verified",
+        "final": "Verified"
+      },
+      "assessmentHistory": [
+        {
+          "assessmentDate": "2026-05-29",
+          "performedBy": "System",
+          "riskScore": 0,
+          "result": "Legitimate Company",
+          "actionTaken": "Approve Vendor",
+          "remarks": "Scheduled screening sweep passed. Zero shell company risk indicators detected."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-11002",
+      "vendorName": "Apex Facility Services",
+      "country": "India",
+      "pan": "AAACA3344X",
+      "gstin": "27AAACA3344X1Z0",
+      "validations": {
+        "physicalAddress": {
+          "status": "Passed",
+          "addressSharedWith": 4,
+          "remarks": "Registered office located in shared commercial business hub."
+        },
+        "employeeCount": {
+          "status": "Failed",
+          "employeeCount": 0,
+          "remarks": "Headcount registers empty or unlinked to PF database."
+        },
+        "websitePresence": {
+          "status": "Passed",
+          "websiteAvailable": true,
+          "remarks": "Active domain but simple landing page template."
+        },
+        "financialFilings": {
+          "status": "Failed",
+          "remarks": "Did not file corporate returns for current and previous cycles."
+        },
+        "businessOperations": {
+          "status": "Passed",
+          "remarks": "Active contracts on site services and facility operations verified."
+        }
+      },
+      "shellRiskScore": 40,
+      "riskLevel": "Medium",
+      "shellCompanyStatus": "Additional Verification Required",
+      "lastCheckedOn": "2026-05-10",
+      "nextReviewDate": "2026-06-15",
+      "workflow": {
+        "analyst": "Under Investigation",
+        "riskManager": "Pending",
+        "fraudTeam": "Pending",
+        "legalTeam": "Pending",
+        "procurementHead": "Pending",
+        "final": "Pending"
+      },
+      "assessmentHistory": [
+        {
+          "assessmentDate": "2026-05-10",
+          "performedBy": "Analyst compliance",
+          "riskScore": 40,
+          "result": "Additional Verification Required",
+          "actionTaken": "Enhanced Due Diligence",
+          "remarks": "Address and operations are active, but zero headcount and missing filings triggered additional EDD review."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-22003",
+      "vendorName": "Secure Guards Co.",
+      "country": "UAE",
+      "pan": "AAACS7777D",
+      "gstin": "27AAACS7777D1Z2",
+      "validations": {
+        "physicalAddress": {
+          "status": "Failed",
+          "addressSharedWith": 45,
+          "remarks": "Virtual office mail drop box registered address shared with 45 offshore entities."
+        },
+        "employeeCount": {
+          "status": "Failed",
+          "employeeCount": 0,
+          "remarks": "Zero security guard employees declared under payroll."
+        },
+        "websitePresence": {
+          "status": "Failed",
+          "websiteAvailable": false,
+          "remarks": "No active website domain or corporate registration portal."
+        },
+        "financialFilings": {
+          "status": "Failed",
+          "remarks": "Offshore entity with zero financial records filed locally."
+        },
+        "businessOperations": {
+          "status": "Passed",
+          "remarks": "Invoices and client contracts from associate companies provided."
+        }
+      },
+      "shellRiskScore": 80,
+      "riskLevel": "High",
+      "shellCompanyStatus": "High Risk",
+      "lastCheckedOn": "2026-05-15",
+      "nextReviewDate": "2026-06-20",
+      "workflow": {
+        "analyst": "Under Investigation",
+        "riskManager": "Under Investigation",
+        "fraudTeam": "Pending",
+        "legalTeam": "Pending",
+        "procurementHead": "Pending",
+        "final": "Pending"
+      },
+      "assessmentHistory": [
+        {
+          "assessmentDate": "2026-05-15",
+          "performedBy": "Risk Manager",
+          "riskScore": 80,
+          "result": "High Risk",
+          "actionTaken": "Enhanced Due Diligence",
+          "remarks": "Offshore mail box shared address, zero headcount, and no website. Escalated to Fraud Team to investigate operations validation."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-44005",
+      "vendorName": "Vostok Trading LLC",
+      "country": "Russia",
+      "pan": "AAACV2222R",
+      "gstin": "27AAACV2222R1Z7",
+      "validations": {
+        "physicalAddress": {
+          "status": "Failed",
+          "addressSharedWith": 95,
+          "remarks": "Shared address list in high-risk offshore zone."
+        },
+        "employeeCount": {
+          "status": "Failed",
+          "employeeCount": 0,
+          "remarks": "No declared employee records."
+        },
+        "websitePresence": {
+          "status": "Failed",
+          "websiteAvailable": false,
+          "remarks": "No corporate domain."
+        },
+        "financialFilings": {
+          "status": "Missing",
+          "remarks": "Missing all financial and tax returns statements."
+        },
+        "businessOperations": {
+          "status": "Failed",
+          "remarks": "No evidence of physical trade or customer transaction history."
+        }
+      },
+      "shellRiskScore": 100,
+      "riskLevel": "Critical",
+      "shellCompanyStatus": "Potential Shell Company",
+      "lastCheckedOn": "2026-05-18",
+      "nextReviewDate": "2026-06-08",
+      "workflow": {
+        "analyst": "Blocked",
+        "riskManager": "Blocked",
+        "fraudTeam": "Pending",
+        "legalTeam": "Pending",
+        "procurementHead": "Pending",
+        "final": "Pending"
+      },
+      "assessmentHistory": [
+        {
+          "assessmentDate": "2026-05-18",
+          "performedBy": "Compliance Lead",
+          "riskScore": 100,
+          "result": "Potential Shell Company",
+          "actionTaken": "Vendor Blocked",
+          "remarks": "Entity failed all shell verification parameters. Blocked and referred to Fraud Team."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-99008",
+      "vendorName": "Global Consult Group",
+      "country": "USA",
+      "pan": "AAACG8899G",
+      "gstin": "27AAACG8899G1Z4",
+      "validations": {
+        "physicalAddress": {
+          "status": "Failed",
+          "addressSharedWith": 32,
+          "remarks": "Registered under Delaware virtual registered agent shared address."
+        },
+        "employeeCount": {
+          "status": "Failed",
+          "employeeCount": 1,
+          "remarks": "Only 1 employee declared."
+        },
+        "websitePresence": {
+          "status": "Failed",
+          "websiteAvailable": false,
+          "remarks": "No active company website domain exists."
+        },
+        "financialFilings": {
+          "status": "Passed",
+          "remarks": "Annual corporate franchise tax filings active in Delaware."
+        },
+        "businessOperations": {
+          "status": "Passed",
+          "remarks": "Provides verified management consulting services."
+        }
+      },
+      "shellRiskScore": 60,
+      "riskLevel": "Medium",
+      "shellCompanyStatus": "Additional Verification Required",
+      "lastCheckedOn": "2026-05-20",
+      "nextReviewDate": "2026-06-15",
+      "workflow": {
+        "analyst": "Under Investigation",
+        "riskManager": "Pending",
+        "fraudTeam": "Pending",
+        "legalTeam": "Pending",
+        "procurementHead": "Pending",
+        "final": "Pending"
+      },
+      "assessmentHistory": [
+        {
+          "assessmentDate": "2026-05-20",
+          "performedBy": "Saurabh Anand",
+          "riskScore": 60,
+          "result": "Additional Verification Required",
+          "actionTaken": "Enhanced Due Diligence",
+          "remarks": "Delaware shell structure with 1 employee, but active filings and customer delivery check passed. EDD in progress."
+        }
+      ],
+      "evidenceFiles": []
+    }
+  ]
+}

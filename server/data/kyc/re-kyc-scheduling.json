@@ -1,0 +1,204 @@
+{
+  "vendors": [
+    {
+      "vendorId": "VND-2025-00045",
+      "vendorName": "ABC Facility Services",
+      "vendorCategory": "Facility Management",
+      "riskLevel": "High",
+      "lastKycDate": "2025-07-20",
+      "nextReKycDate": "2026-07-20",
+      "assignedTo": "Compliance Team",
+      "lastReviewResult": "Approved",
+      "autoReminderEnabled": true,
+      "workflow": {
+        "status": "Pending",
+        "stage": "Vendor Selected",
+        "comments": "Scheduled for annual re-kyc review."
+      },
+      "reviewHistory": [
+        {
+          "reviewDate": "2025-07-20",
+          "reviewer": "Compliance Analyst",
+          "result": "Approved",
+          "comments": "Vendor approved during initial onboarding review."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-88001",
+      "vendorName": "HDFC Bank Limited",
+      "vendorCategory": "Consulting",
+      "riskLevel": "Low",
+      "lastKycDate": "2024-04-10",
+      "nextReKycDate": "2027-04-10",
+      "assignedTo": "Risk Team",
+      "lastReviewResult": "Approved",
+      "autoReminderEnabled": true,
+      "workflow": {
+        "status": "Completed",
+        "stage": "Re-KYC Completed",
+        "comments": "Approved. Next review scheduled for 2027."
+      },
+      "reviewHistory": [
+        {
+          "reviewDate": "2024-04-10",
+          "reviewer": "Compliance Lead",
+          "result": "Approved",
+          "comments": "Legitimate banking entity. Regular audit completed."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2025-00029",
+      "vendorName": "ABC Infotech Private Limited",
+      "vendorCategory": "IT Services",
+      "riskLevel": "Low",
+      "lastKycDate": "2023-07-22",
+      "nextReKycDate": "2026-07-22",
+      "assignedTo": "Compliance Team",
+      "lastReviewResult": "Approved",
+      "autoReminderEnabled": true,
+      "workflow": {
+        "status": "Pending",
+        "stage": "Vendor Selected",
+        "comments": "Due soon. Auto notification reminders active."
+      },
+      "reviewHistory": [
+        {
+          "reviewDate": "2023-07-22",
+          "reviewer": "System",
+          "result": "Approved",
+          "comments": "Onboard checks clear."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-50469",
+      "vendorName": "My Money Mantra Pvt Ltd",
+      "vendorCategory": "Consulting",
+      "riskLevel": "Medium",
+      "lastKycDate": "2024-05-18",
+      "nextReKycDate": "2026-05-18",
+      "assignedTo": "Compliance Team",
+      "lastReviewResult": "Approved",
+      "autoReminderEnabled": true,
+      "workflow": {
+        "status": "Under Investigation",
+        "stage": "Document Collection",
+        "comments": "Overdue. Outreach initiated to collect current corporate directories."
+      },
+      "reviewHistory": [
+        {
+          "reviewDate": "2024-05-18",
+          "reviewer": "Compliance Team",
+          "result": "Approved",
+          "comments": "Medium risk review cycle established."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-11002",
+      "vendorName": "Apex Facility Services",
+      "vendorCategory": "Facility Management",
+      "riskLevel": "Medium",
+      "lastKycDate": "2025-02-15",
+      "nextReKycDate": "2027-02-15",
+      "assignedTo": "Compliance Team",
+      "lastReviewResult": "Approved",
+      "autoReminderEnabled": false,
+      "workflow": {
+        "status": "Pending",
+        "stage": "Vendor Selected",
+        "comments": "Active status. No current review triggers."
+      },
+      "reviewHistory": [
+        {
+          "reviewDate": "2025-02-15",
+          "reviewer": "Compliance Team",
+          "result": "Approved",
+          "comments": "Onboard checks verified."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-22003",
+      "vendorName": "Secure Guards Co.",
+      "vendorCategory": "Security",
+      "riskLevel": "Medium",
+      "lastKycDate": "2024-06-15",
+      "nextReKycDate": "2026-06-15",
+      "assignedTo": "Risk Team",
+      "lastReviewResult": "Approved",
+      "autoReminderEnabled": true,
+      "workflow": {
+        "status": "Under Investigation",
+        "stage": "Verification",
+        "comments": "Action Required. Documents received, verifying PAN and directors details."
+      },
+      "reviewHistory": [
+        {
+          "reviewDate": "2024-06-15",
+          "reviewer": "Risk Analyst",
+          "result": "Approved",
+          "comments": "Physical site verification passed."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-44005",
+      "vendorName": "Vostok Trading LLC",
+      "vendorCategory": "Others",
+      "riskLevel": "High",
+      "lastKycDate": "2025-02-10",
+      "nextReKycDate": "2026-02-10",
+      "assignedTo": "Compliance Lead",
+      "lastReviewResult": "Approved",
+      "autoReminderEnabled": true,
+      "workflow": {
+        "status": "Under Investigation",
+        "stage": "Compliance Review",
+        "comments": "Critical Overdue (>90 days). Vendor blocked/suspended. Legal team review pending."
+      },
+      "reviewHistory": [
+        {
+          "reviewDate": "2025-02-10",
+          "reviewer": "Compliance Lead",
+          "result": "Approved",
+          "comments": "Initial approval granted."
+        }
+      ],
+      "evidenceFiles": []
+    },
+    {
+      "vendorId": "VND-2026-99008",
+      "vendorName": "Global Consult Group",
+      "vendorCategory": "Consulting",
+      "riskLevel": "High",
+      "lastKycDate": "2026-05-20",
+      "nextReKycDate": "2027-05-20",
+      "assignedTo": "Compliance Team",
+      "lastReviewResult": "Approved",
+      "autoReminderEnabled": true,
+      "workflow": {
+        "status": "Pending",
+        "stage": "Vendor Selected",
+        "comments": "Active. Review due next year."
+      },
+      "reviewHistory": [
+        {
+          "reviewDate": "2026-05-20",
+          "reviewer": "Compliance Team",
+          "result": "Approved",
+          "comments": "Transition review completed."
+        }
+      ],
+      "evidenceFiles": []
+    }
+  ]
+}

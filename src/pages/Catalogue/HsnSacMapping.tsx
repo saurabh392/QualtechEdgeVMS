@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Plus, 
   AlertTriangle, 
@@ -10,6 +10,7 @@ import { CatalogueHeader } from './CatalogueHeader';
 import { Button } from '../../components/Button/Button';
 import { Card } from '../../components/Card/Card';
 import styles from './HsnSacMapping.module.css';
+import { getAllItems } from '../../services/itemMasterService';
 
 interface HsnCode {
   code: string;
@@ -24,10 +25,27 @@ interface HsnCode {
 
 export const HsnSacMapping: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [catItems, setCatItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   
   // Tax simulator states
   const [simPrice, setSimPrice] = useState('50000');
   const [selectedHsn, setSelectedHsn] = useState('84713010');
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        setLoading(true);
+        const list = await getAllItems();
+        setCatItems(list);
+      } catch (err) {
+        console.error("Error loading catalogue items in HsnSacMapping:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
 
   const hsnCodes: HsnCode[] = [
     { code: '84713010', type: 'HSN', description: 'Personal Laptops, notebooks and tablet computers', category: 'IT Hardware', cgst: 9, sgst: 9, igst: 18, status: 'Active' },
@@ -197,6 +215,53 @@ export const HsnSacMapping: React.FC = () => {
               Tax mapping matches 100% of GSTN database files. HSN codes mapped to IT hardware pass statutory GST ledger checks.
             </p>
           </Card>
+        </div>
+      </div>
+
+      {/* Catalogue Items Tax Mappings */}
+      <div className={styles.tableCard} style={{ marginTop: '24px' }}>
+        <div className={styles.tableHeader}>
+          <span className={styles.title}>Catalogue Item Tax Mappings</span>
+          <span style={{ fontSize: '11px', padding: '2px 8px', borderRadius: '12px', backgroundColor: '#e0f2fe', color: '#0369a1', fontWeight: 600 }}>
+            {catItems.length} Mapped
+          </span>
+        </div>
+        
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
+            <thead>
+              <tr style={{ backgroundColor: 'var(--color-background)', borderBottom: '1px solid var(--color-border)' }}>
+                <th style={{ padding: '10px 12px', fontWeight: 600 }}>Item ID</th>
+                <th style={{ padding: '10px 12px', fontWeight: 600 }}>Item Name</th>
+                <th style={{ padding: '10px 12px', fontWeight: 600 }}>Category</th>
+                <th style={{ padding: '10px 12px', fontWeight: 600 }}>HSN/SAC Code</th>
+                <th style={{ padding: '10px 12px', fontWeight: 600 }}>Tax Slab</th>
+                <th style={{ padding: '10px 12px', fontWeight: 600 }}>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan={6} style={{ padding: '20px', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
+                    Loading tax mappings...
+                  </td>
+                </tr>
+              ) : catItems.map(item => (
+                <tr key={item.itemId} style={{ borderBottom: '1px solid var(--color-border)' }}>
+                  <td style={{ padding: '10px 12px', fontWeight: '600', color: 'var(--color-primary)' }}>{item.itemId}</td>
+                  <td style={{ padding: '10px 12px', fontWeight: '500' }}>{item.itemName}</td>
+                  <td style={{ padding: '10px 12px' }}>{item.category}</td>
+                  <td style={{ padding: '10px 12px', fontWeight: '600', color: '#0b1f5f' }}>{item.hsnCode || 'N/A'}</td>
+                  <td style={{ padding: '10px 12px', fontWeight: '600', color: 'var(--color-success)' }}>{item.taxCode || item.taxCategory || 'GST 18%'}</td>
+                  <td style={{ padding: '10px 12px' }}>
+                    <span style={{ fontSize: '11px', padding: '2px 6px', borderRadius: '4px', backgroundColor: item.status === 'Published' ? '#f0fdf4' : '#fff7ed', color: item.status === 'Published' ? '#15803d' : '#c2410c' }}>
+                      {item.status || 'Pending Approval'}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

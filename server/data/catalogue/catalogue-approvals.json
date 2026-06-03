@@ -1,0 +1,50 @@
+[
+  {
+    "approvalId": "APP-001",
+    "targetId": "CAT-002",
+    "name": "Annual Security Audit Service",
+    "type": "Service",
+    "category": "Professional Services",
+    "submittedBy": "Rajesh Kumar",
+    "submittedDate": "2026-05-28",
+    "status": "Pending",
+    "currentApprover": "Procurement Checker",
+    "details": {
+      "serviceId": "CAT-002",
+      "serviceCode": "SRV-SEC-001",
+      "serviceName": "Annual Security Audit Service",
+      "category": "Professional Services",
+      "description": "SOC 2 Type II audit service",
+      "sacCode": "998311",
+      "billingCycle": "Monthly Retainer",
+      "slaLevel": "ISO 27001",
+      "status": "Pending Approval"
+    }
+  },
+  {
+    "approvalId": "APP-002",
+    "targetId": "ITM-2026-4298",
+    "name": "Dell Latitude 5530 Business Laptop",
+    "type": "Item",
+    "category": "IT Hardware",
+    "submittedBy": "Saurabh Anand",
+    "submittedDate": "2026-05-30",
+    "status": "Pending",
+    "currentApprover": "Procurement Checker",
+    "details": {
+      "itemId": "ITM-2026-4298",
+      "itemCode": "IT-LAP-5530",
+      "itemName": "Dell Latitude 5530 Business Laptop",
+      "category": "IT Hardware",
+      "subCategory": "Laptops",
+      "description": "15.6-inch business laptop, Intel i7 12th Gen, 16GB RAM, 512GB SSD.",
+      "brand": "Dell",
+      "countryOfOrigin": "India",
+      "minimumOrderQuantity": 5,
+      "expectedLeadTime": "10 days",
+      "hsnCode": "84713010",
+      "unitOfMeasurement": "Nos",
+      "status": "Pending Approval"
+    }
+  }
+]
