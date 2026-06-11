@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, ChevronRight, CheckCircle2, Bot, Scale } from 'lucide-react';
+import { toast } from 'sonner';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Badge } from '../../components/Badge/Badge';
@@ -39,7 +40,7 @@ export const PaymentApprovals: React.FC = () => {
   const selectedBatch = batches.find(b => b.id === selectedBatchId);
 
   const handleAction = (statusText: string) => {
-    alert(`Batch ${selectedBatchId} has been successfully ${statusText} with remarks: "${remarks}"`);
+    toast.success(`Batch ${selectedBatchId} ${statusText} successfully.`);
     setBatches(prev => prev.filter(b => b.id !== selectedBatchId));
     setRemarks('');
     const remaining = batches.filter(b => b.id !== selectedBatchId);

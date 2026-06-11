@@ -1848,6 +1848,7 @@ const VENDOR_PORTAL_NOTIFICATIONS_PATH = path.join(VENDOR_PORTAL_DIR, 'notificat
 const VENDOR_PORTAL_AUDIT_LOG_PATH = path.join(VENDOR_PORTAL_DIR, 'auditTrail.json');
 const VENDOR_PORTAL_DASHBOARD_PATH = path.join(VENDOR_PORTAL_DIR, 'dashboardCache.json');
 const VENDOR_PORTAL_FILES_PATH = path.join(VENDOR_PORTAL_DIR, 'files.json');
+const VENDOR_PORTAL_ESIGN_PATH = path.join(VENDOR_PORTAL_DIR, 'esignRequests.json');
 
 const VENDOR_UPLOADS_DIR = path.join(UPLOADS_DIR, 'vendor');
 
@@ -2034,7 +2035,8 @@ async function ensureVendorDirs() {
           "status": "Verified Partner",
           "bankSecurityNode": true,
           "onboardingDate": "2026-01-10",
-          "lastLogin": "2026-06-03"
+          "lastLogin": "2026-06-03",
+          "onboardingComplete": false
         }
       ], null, 2)
     },
@@ -2224,6 +2226,10 @@ async function ensureVendorDirs() {
         "expiredDocuments": 1,
         "activeTickets": 1
       }, null, 2)
+    },
+    {
+      path: VENDOR_PORTAL_ESIGN_PATH,
+      defaultVal: '[]'
     },
     {
       path: VENDOR_PORTAL_FILES_PATH,
@@ -3008,8 +3014,13 @@ app.post('/api/contracts/reject', async (req, res) => {
 // ==========================================
 
 const vendorStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, VENDOR_UPLOADS_DIR);
+  destination: async (req, file, cb) => {
+    try {
+      await fs.mkdir(VENDOR_UPLOADS_DIR, { recursive: true });
+      cb(null, VENDOR_UPLOADS_DIR);
+    } catch (err) {
+      cb(err);
+    }
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -3126,6 +3137,20 @@ app.post('/api/vendor-portal/notifications/read-all', async (req, res) => {
   }
 });
 
+app.post('/api/vendor-portal/onboarding/complete', async (req, res) => {
+  try {
+    const profiles = await readJsonFile(VENDOR_PORTAL_PROFILE_PATH);
+    const idx = profiles.findIndex(p => p.vendorId === 'VND-001');
+    if (idx !== -1) {
+      profiles[idx].onboardingComplete = true;
+      await writeJsonFile(VENDOR_PORTAL_PROFILE_PATH, profiles);
+    }
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // 3. GET /api/vendor-portal/profile
 app.get('/api/vendor-portal/profile', async (req, res) => {
   try {
@@ -3232,13 +3257,20 @@ app.post('/api/vendor-portal/documents/upload', vendorUpload.single('file'), asy
     if (documentId) {
       const idx = documents.findIndex(d => d.documentId === documentId);
       if (idx !== -1) {
+        const old = documents[idx];
+        const prevVersions = old.versions || [];
+        if (old.fileId) {
+          prevVersions.push({ fileId: old.fileId, uploadDate: old.uploadDate, uploadedBy: 'Vendor User' });
+        }
         documents[idx] = {
-          ...documents[idx],
+          ...old,
           documentName: documentName || req.file.originalname,
           uploadDate: new Date().toISOString().split('T')[0],
           expiryDate: expiryDate && expiryDate !== 'null' && expiryDate !== 'undefined' ? expiryDate : null,
           status: "Verified",
-          fileId
+          fileId,
+          filePath: cleanPath,
+          versions: prevVersions,
         };
         docEntry = documents[idx];
       }
@@ -3254,7 +3286,8 @@ app.post('/api/vendor-portal/documents/upload', vendorUpload.single('file'), asy
         uploadDate: new Date().toISOString().split('T')[0],
         expiryDate: expiryDate && expiryDate !== 'null' && expiryDate !== 'undefined' ? expiryDate : null,
         status: "Verified",
-        fileId
+        fileId,
+        filePath: cleanPath
       };
       documents.push(docEntry);
     }
@@ -3266,6 +3299,25 @@ app.post('/api/vendor-portal/documents/upload', vendorUpload.single('file'), asy
 
     res.json({ success: true, document: docEntry });
   } catch (error) {
+    console.error('[vendor-upload] ERROR:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 5b. DELETE /api/vendor-portal/documents/:documentId
+app.delete('/api/vendor-portal/documents/:documentId', async (req, res) => {
+  try {
+    const { documentId } = req.params;
+    const documents = await readJsonFile(VENDOR_PORTAL_DOCUMENTS_PATH);
+    const idx = documents.findIndex(d => d.documentId === documentId);
+    if (idx === -1) return res.status(404).json({ success: false, message: 'Document not found' });
+    documents.splice(idx, 1);
+    await writeJsonFile(VENDOR_PORTAL_DOCUMENTS_PATH, documents);
+    await addVendorAuditTrail("Document Deleted", documentId, "Vendor User");
+    await updateVendorDashboardMetrics();
+    res.json({ success: true });
+  } catch (error) {
+    console.error('[vendor-delete] ERROR:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -3376,6 +3428,86 @@ app.get('/api/vendor-portal/contracts', async (req, res) => {
     );
     res.json(filtered);
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 8b. E-SIGN — initiate
+app.post('/api/vendor-portal/contracts/:contractId/esign/initiate', async (req, res) => {
+  try {
+    const { contractId } = req.params;
+    const { signerName, signerEmail, signerPhone, otpMethod } = req.body;
+
+    // Check no active request already exists
+    const existing = await readJsonFile(VENDOR_PORTAL_ESIGN_PATH);
+    const active = existing.find(r => r.contractId === contractId && ['Initiated', 'Sent'].includes(r.status));
+    if (active) return res.status(409).json({ success: false, message: 'A signing request is already in progress for this contract.' });
+
+    // Mock SignDesk API call — in production replace with:
+    //   const sdRes = await axios.post('https://api.signdesk.in/api/live/esign/initiateEsignDocument', { ... }, { headers: { 'x-parse-application-id': SIGNDESK_APP_ID } })
+    const signDeskRequestId = `SD-${Date.now()}-${Math.floor(Math.random() * 9000 + 1000)}`;
+    const signingUrl = `https://esign.signdesk.in/sign/${signDeskRequestId}`;  // mock URL
+
+    const request = {
+      requestId: `ESIGN-${Math.floor(1000 + Math.random() * 9000)}`,
+      contractId,
+      vendorId: 'VND-001',
+      signerName,
+      signerEmail,
+      signerPhone,
+      otpMethod,          // 'aadhaar' | 'email'
+      status: 'Sent',
+      initiatedAt: new Date().toISOString(),
+      completedAt: null,
+      signDeskRequestId,
+      signingUrl,
+      signedDocUrl: null,
+    };
+
+    existing.push(request);
+    await writeJsonFile(VENDOR_PORTAL_ESIGN_PATH, existing);
+    await addVendorAuditTrail('E-Sign Initiated', contractId, signerName);
+    await addVendorNotification(`E-signature request sent for contract ${contractId}. Please check your ${otpMethod === 'aadhaar' ? 'Aadhaar-linked mobile' : 'email'} for the OTP.`);
+
+    res.json({ success: true, request });
+  } catch (error) {
+    console.error('[esign-initiate] ERROR:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 8c. E-SIGN — get status for a contract
+app.get('/api/vendor-portal/contracts/:contractId/esign/status', async (req, res) => {
+  try {
+    const { contractId } = req.params;
+    const all = await readJsonFile(VENDOR_PORTAL_ESIGN_PATH);
+    // Return the latest request for this contract
+    const sorted = all.filter(r => r.contractId === contractId).sort((a, b) => new Date(b.initiatedAt) - new Date(a.initiatedAt));
+    res.json(sorted[0] ?? null);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 8d. E-SIGN — simulate completion (dev/demo only — mimics SignDesk webhook)
+app.post('/api/vendor-portal/contracts/:contractId/esign/simulate-complete', async (req, res) => {
+  try {
+    const { contractId } = req.params;
+    const all = await readJsonFile(VENDOR_PORTAL_ESIGN_PATH);
+    const idx = all.findIndex(r => r.contractId === contractId && r.status === 'Sent');
+    if (idx === -1) return res.status(404).json({ success: false, message: 'No active signing request found.' });
+
+    all[idx].status = 'Signed';
+    all[idx].completedAt = new Date().toISOString();
+    all[idx].signedDocUrl = `/uploads/vendor/signed_${contractId}.pdf`;  // mock path
+
+    await writeJsonFile(VENDOR_PORTAL_ESIGN_PATH, all);
+    await addVendorAuditTrail('E-Sign Completed', contractId, all[idx].signerName);
+    await addVendorNotification(`Contract ${contractId} has been successfully e-signed via SignDesk.`);
+
+    res.json({ success: true, request: all[idx] });
+  } catch (error) {
+    console.error('[esign-simulate] ERROR:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -7486,6 +7618,204 @@ app.use('/uploads/settings', express.static(SETTINGS_UPLOADS_DIR));
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: err.message || 'Internal Server Error' });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SPRINT 3: SSE real-time notifications + email alerts + cron jobs
+// ─────────────────────────────────────────────────────────────────────────────
+
+// SSE client registry (vendorId → Set of response objects)
+const sseClients = new Map();
+
+function broadcastToVendor(vendorId, event, data) {
+  const clients = sseClients.get(vendorId);
+  if (!clients) return;
+  const payload = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
+  clients.forEach(res => { try { res.write(payload); } catch (_) {} });
+}
+
+app.get('/api/vendor-portal/events', (req, res) => {
+  const vendorId = 'VND-001'; // in production: derive from session/JWT
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.setHeader('X-Accel-Buffering', 'no');
+  res.flushHeaders();
+
+  if (!sseClients.has(vendorId)) sseClients.set(vendorId, new Set());
+  sseClients.get(vendorId).add(res);
+
+  // Send initial heartbeat
+  res.write('event: connected\ndata: {"status":"ok"}\n\n');
+
+  // Heartbeat every 25s to prevent proxy timeouts
+  const heartbeat = setInterval(() => {
+    try { res.write(': heartbeat\n\n'); } catch (_) { clearInterval(heartbeat); }
+  }, 25000);
+
+  req.on('close', () => {
+    clearInterval(heartbeat);
+    sseClients.get(vendorId)?.delete(res);
+  });
+});
+
+// Patch addVendorNotification to also push SSE event
+async function addVendorNotificationAndBroadcast(message, type = 'info') {
+  try {
+    const notif = {
+      notificationId: `NOT-${Math.floor(1000 + Math.random() * 9000)}`,
+      vendorId: 'VND-001',
+      message,
+      type,
+      read: false,
+      createdDate: new Date().toISOString().split('T')[0],
+    };
+    await appendJsonData(VENDOR_PORTAL_NOTIFICATIONS_PATH, notif);
+    broadcastToVendor('VND-001', 'notification', notif);
+    return notif;
+  } catch (err) {
+    console.error('Failed to add vendor notification:', err);
+  }
+}
+
+// Vendor settings path (Sprint 3 server-persist)
+const VENDOR_PORTAL_SETTINGS_PATH = path.join(VENDOR_PORTAL_DIR, 'vendorSettings.json');
+
+app.get('/api/vendor-portal/settings', async (req, res) => {
+  try {
+    let settings;
+    try { settings = JSON.parse(await fs.readFile(VENDOR_PORTAL_SETTINGS_PATH, 'utf8')); }
+    catch (_) { settings = { notifications: {}, language: 'en', theme: 'system' }; }
+    res.json(settings);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+app.put('/api/vendor-portal/settings', async (req, res) => {
+  try {
+    let current;
+    try { current = JSON.parse(await fs.readFile(VENDOR_PORTAL_SETTINGS_PATH, 'utf8')); }
+    catch (_) { current = {}; }
+    const merged = { ...current, ...req.body };
+    await fs.writeFile(VENDOR_PORTAL_SETTINGS_PATH, JSON.stringify(merged, null, 2));
+    res.json(merged);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// Helpdesk reply endpoint (Sprint 3 thread view)
+app.post('/api/vendor-portal/tickets/:ticketId/reply', async (req, res) => {
+  try {
+    const { ticketId } = req.params;
+    const { message, author = 'Vendor User' } = req.body;
+    const tickets = await readJsonFile(VENDOR_PORTAL_TICKETS_PATH);
+    const idx = tickets.findIndex(t => t.ticketId === ticketId);
+    if (idx === -1) return res.status(404).json({ error: 'Ticket not found' });
+    if (!tickets[idx].replies) tickets[idx].replies = [];
+    const reply = {
+      replyId: `RPL-${Math.floor(1000 + Math.random() * 9000)}`,
+      message,
+      author,
+      createdDate: new Date().toISOString(),
+    };
+    tickets[idx].replies.push(reply);
+    await writeJsonFile(VENDOR_PORTAL_TICKETS_PATH, tickets);
+    broadcastToVendor('VND-001', 'ticket_reply', { ticketId, reply });
+    res.json({ success: true, reply });
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// Audit trail read endpoint (Sprint 3)
+app.get('/api/vendor-portal/audit-trail', async (req, res) => {
+  try {
+    const logs = await readJsonFile(VENDOR_PORTAL_AUDIT_LOG_PATH);
+    res.json(logs.slice().reverse().slice(0, 100)); // latest 100
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// ── Cron: daily doc-expiry + PO-unacknowledged alerts ─────────────────────
+import cron from 'node-cron';
+
+cron.schedule('0 8 * * *', async () => {
+  console.log('[CRON] Running daily vendor alerts scan...');
+  try {
+    const today = new Date();
+
+    // 1. Document expiry alerts (30-day window)
+    const docs = await readJsonFile(VENDOR_PORTAL_DOCUMENTS_PATH);
+    for (const doc of docs) {
+      if (!doc.expiryDate) continue;
+      const expiry = new Date(doc.expiryDate);
+      const days = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+      if (days === 30 || days === 14 || days === 7) {
+        await addVendorNotificationAndBroadcast(
+          `⚠️ Document "${doc.documentName}" expires in ${days} day${days !== 1 ? 's' : ''} (${doc.expiryDate}). Please renew.`,
+          'warning'
+        );
+      }
+      if (days <= 0 && doc.status !== 'Expired') {
+        doc.status = 'Expired';
+        await addVendorNotificationAndBroadcast(
+          `🔴 Document "${doc.documentName}" has expired. Upload a renewed copy immediately.`,
+          'danger'
+        );
+      }
+    }
+    await writeJsonFile(VENDOR_PORTAL_DOCUMENTS_PATH, docs);
+
+    // 2. PO unacknowledged > 48hrs
+    const pos = await readJsonFile(VENDOR_PORTAL_POS_PATH);
+    for (const po of pos) {
+      if (!po.status.startsWith('Pending')) continue;
+      const issued = new Date(po.issueDate);
+      const hoursOld = (today - issued) / (1000 * 60 * 60);
+      if (hoursOld > 48) {
+        await addVendorNotificationAndBroadcast(
+          `📦 PO ${po.poId} issued ${Math.floor(hoursOld / 24)} days ago is still pending acknowledgement.`,
+          'warning'
+        );
+      }
+    }
+
+    // 3. Contract expiry (30-day window) — uses admin contracts data
+    try {
+      const contracts = await readJsonFile(CONTRACTS_PATH);
+      for (const c of contracts) {
+        if (!c.expiryDate || c.vendorName !== 'VND-001') continue;
+        const expiry = new Date(c.expiryDate);
+        const days = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+        if (days === 30 || days === 7) {
+          await addVendorNotificationAndBroadcast(
+            `📑 Contract "${c.contractName}" expires in ${days} days (${c.expiryDate}). Contact procurement for renewal.`,
+            'warning'
+          );
+        }
+      }
+    } catch (_) {}
+
+    console.log('[CRON] Daily vendor alerts complete.');
+  } catch (err) {
+    console.error('[CRON] Error:', err);
+  }
+});
+
+// Manually trigger alert scan (for testing without waiting for cron)
+app.post('/api/vendor-portal/run-alerts', async (req, res) => {
+  res.json({ status: 'Alert scan triggered (check server logs)' });
+  // fire-and-forget
+  (async () => {
+    const today = new Date();
+    const docs = await readJsonFile(VENDOR_PORTAL_DOCUMENTS_PATH);
+    for (const doc of docs) {
+      if (!doc.expiryDate) continue;
+      const days = Math.ceil((new Date(doc.expiryDate) - today) / (1000 * 60 * 60 * 24));
+      if (days <= 30 && days > 0) {
+        await addVendorNotificationAndBroadcast(
+          `⚠️ Document "${doc.documentName}" expires in ${days} day${days !== 1 ? 's' : ''}. Renew soon.`,
+          'warning'
+        );
+        broadcastToVendor('VND-001', 'dashboard_refresh', {});
+      }
+    }
+  })().catch(console.error);
 });
 
 app.listen(PORT, () => {

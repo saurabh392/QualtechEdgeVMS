@@ -1,17 +1,65 @@
 import React, { useRef, useState } from 'react';
-import { Upload, RefreshCw, History, ChevronDown, ChevronRight, X, FileText } from 'lucide-react';
-import { useVendorDocuments, useUploadDocument } from '../../hooks/useVendorPortal';
+import { Upload, RefreshCw, X, FileText, Eye, Download, Trash2, AlertTriangle } from 'lucide-react';
+import { useVendorDocuments, useUploadDocument, useDeleteDocument } from '../../hooks/useVendorPortal';
 import type { VendorDocument } from '../../services/vendorPortalService';
 import s from './vendor.module.css';
 
 const TYPES = ['GST Certificate', 'PAN Card', 'MSME Certificate', 'Bank Statement', 'Incorporation Certificate', 'Other'];
 
 const statusBadge = (status: string) => {
-  if (status === 'Verified') return <span className={s.badgeSuccess}>{status}</span>;
-  if (status === 'Expired' || status === 'Rejected') return <span className={s.badgeDanger}>{status}</span>;
-  return <span className={s.badgeWarning}>{status}</span>;
+  if (status === 'Verified') return <span className={s.badgeSuccess}>Verified</span>;
+  if (status === 'Rejected') return <span className={s.badgeDanger}>Rejected</span>;
+  if (status === 'Expired') return <span className={s.badgeDanger}>Expired</span>;
+  return <span className={s.badgeWarning}>Pending</span>;
 };
 
+/* ── Confirm Dialog ─────────────────────────────────────────────────────── */
+interface ConfirmDialogProps {
+  title: string;
+  message: string;
+  confirmLabel?: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+  loading?: boolean;
+}
+
+const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
+  title, message, confirmLabel = 'Delete', onConfirm, onCancel, loading,
+}) => (
+  <div className={s.modalBackdrop} onClick={onCancel}>
+    <div
+      className={s.modal}
+      style={{ maxWidth: 420 }}
+      onClick={e => e.stopPropagation()}
+    >
+      <div className={s.modalHeader}>
+        <div className={s.modalTitle} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <AlertTriangle size={18} style={{ color: 'var(--color-danger)', flexShrink: 0 }} />
+          {title}
+        </div>
+        <button className={s.modalClose} onClick={onCancel}><X size={18} /></button>
+      </div>
+      <div className={s.modalBody}>
+        <p style={{ margin: 0, fontSize: 14, color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
+          {message}
+        </p>
+      </div>
+      <div className={s.modalFooter}>
+        <button className={s.btnOutline} onClick={onCancel} disabled={loading}>Cancel</button>
+        <button
+          className={s.btnPrimary}
+          style={{ background: 'var(--color-danger)', borderColor: 'var(--color-danger)' }}
+          onClick={onConfirm}
+          disabled={loading}
+        >
+          {loading ? 'Deleting…' : confirmLabel}
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
+/* ── Upload / Renew Modal ───────────────────────────────────────────────── */
 interface UploadModalProps { doc?: VendorDocument | null; onClose: () => void; }
 
 const UploadModal: React.FC<UploadModalProps> = ({ doc, onClose }) => {
@@ -101,17 +149,51 @@ const UploadModal: React.FC<UploadModalProps> = ({ doc, onClose }) => {
   );
 };
 
+/* ── Document Preview Modal ─────────────────────────────────────────────── */
+interface PreviewModalProps { doc: VendorDocument; onClose: () => void; }
+
+const PreviewModal: React.FC<PreviewModalProps> = ({ doc, onClose }) => {
+  const url = doc.filePath!;
+  const isImage = /\.(png|jpe?g)$/i.test(url);
+
+  return (
+    <div className={s.modalBackdrop} onClick={onClose}>
+      <div
+        className={s.modal}
+        style={{ width: '90vw', maxWidth: 900, height: '85vh', display: 'flex', flexDirection: 'column' }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div className={s.modalHeader}>
+          <div className={s.modalTitle}><FileText size={15} /> {doc.documentName}</div>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <a href={url} download className={s.btnGhost}
+              style={{ padding: '5px 10px', fontSize: 12, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+              <Download size={13} /> Download
+            </a>
+            <button className={s.modalClose} onClick={onClose}><X size={18} /></button>
+          </div>
+        </div>
+        <div style={{ flex: 1, overflow: 'hidden', background: 'var(--color-surface-2)', borderRadius: '0 0 12px 12px' }}>
+          {isImage ? (
+            <img src={url} alt={doc.documentName} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 16 }} />
+          ) : (
+            <iframe src={url} title={doc.documentName} style={{ width: '100%', height: '100%', border: 'none' }} />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ── Main Page ──────────────────────────────────────────────────────────── */
 export const VendorDocuments: React.FC = () => {
   const { data: docs = [], isLoading } = useVendorDocuments();
+  const deleteDoc = useDeleteDocument();
+
   const [showModal, setShowModal] = useState(false);
   const [renewDoc, setRenewDoc] = useState<VendorDocument | null>(null);
-  const [expandedHistory, setExpandedHistory] = useState<Set<string>>(new Set());
-
-  const toggleHistory = (id: string) => setExpandedHistory(prev => {
-    const next = new Set(prev);
-    next.has(id) ? next.delete(id) : next.add(id);
-    return next;
-  });
+  const [previewDoc, setPreviewDoc] = useState<VendorDocument | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<VendorDocument | null>(null);
 
   if (isLoading) {
     return (
@@ -125,10 +207,30 @@ export const VendorDocuments: React.FC = () => {
     );
   }
 
+  const handleConfirmDelete = () => {
+    if (!deleteTarget) return;
+    deleteDoc.mutate(deleteTarget.documentId, {
+      onSettled: () => setDeleteTarget(null),
+    });
+  };
+
   return (
     <div className={s.page}>
       {(showModal || renewDoc) && (
         <UploadModal doc={renewDoc} onClose={() => { setShowModal(false); setRenewDoc(null); }} />
+      )}
+      {previewDoc && (
+        <PreviewModal doc={previewDoc} onClose={() => setPreviewDoc(null)} />
+      )}
+      {deleteTarget && (
+        <ConfirmDialog
+          title="Delete Document"
+          message={`Are you sure you want to delete "${deleteTarget.documentName}"? This action cannot be undone.`}
+          confirmLabel="Delete"
+          loading={deleteDoc.isPending}
+          onConfirm={handleConfirmDelete}
+          onCancel={() => setDeleteTarget(null)}
+        />
       )}
 
       <div className={s.pageHeader}>
@@ -156,49 +258,52 @@ export const VendorDocuments: React.FC = () => {
             <table className={s.table}>
               <thead>
                 <tr>
-                  <th>Document Name</th><th>Type</th><th>Uploaded</th>
-                  <th>Expiry</th><th>Status</th><th>History</th><th>Actions</th>
+                  <th>Document Name</th>
+                  <th>Type</th>
+                  <th>Uploaded</th>
+                  <th>Expiry</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {docs.map(doc => (
-                  <React.Fragment key={doc.documentId}>
-                    <tr>
-                      <td>{doc.documentName}</td>
-                      <td>{doc.documentType}</td>
-                      <td>{doc.uploadDate}</td>
-                      <td>{doc.expiryDate || '—'}</td>
-                      <td>{statusBadge(doc.status)}</td>
-                      <td>
-                        {(doc.versions?.length ?? 0) > 0 && (
-                          <button className={s.btnGhost} style={{ padding: '4px 8px' }}
-                            onClick={() => toggleHistory(doc.documentId)}>
-                            <History size={13} /> {doc.versions!.length}
-                            {expandedHistory.has(doc.documentId) ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+                  <tr key={doc.documentId}>
+                    <td>{doc.documentName}</td>
+                    <td>{doc.documentType}</td>
+                    <td>{doc.uploadDate}</td>
+                    <td>{doc.expiryDate || '—'}</td>
+                    <td>{statusBadge(doc.status)}</td>
+                    <td>
+                      <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                        {doc.filePath && (
+                          <button className={s.btnGhost} style={{ padding: '5px 10px', fontSize: 11 }}
+                            onClick={() => setPreviewDoc(doc)}>
+                            <Eye size={12} /> View
                           </button>
                         )}
-                      </td>
-                      <td>
                         {(doc.status === 'Expired' || doc.status === 'Rejected') && (
                           <button className={s.btnOutline} style={{ padding: '5px 10px', fontSize: 11 }}
                             onClick={() => setRenewDoc(doc)}>
                             <RefreshCw size={12} /> Renew
                           </button>
                         )}
-                      </td>
-                    </tr>
-                    {expandedHistory.has(doc.documentId) && doc.versions?.map((v, i) => (
-                      <tr key={v.fileId} style={{ background: 'var(--color-surface-2)' }}>
-                        <td colSpan={2} style={{ paddingLeft: 32, color: 'var(--color-text-tertiary)', fontSize: 12 }}>
-                          Version {doc.versions!.length - i} (replaced)
-                        </td>
-                        <td style={{ fontSize: 12, color: 'var(--color-text-tertiary)' }}>{v.uploadDate}</td>
-                        <td colSpan={4} style={{ fontSize: 12, color: 'var(--color-text-tertiary)' }}>
-                          {v.uploadedBy ? `Uploaded by ${v.uploadedBy}` : 'Previous version'}
-                        </td>
-                      </tr>
-                    ))}
-                  </React.Fragment>
+                        {doc.status === 'Verified' && (
+                          <button className={s.btnGhost} style={{ padding: '5px 10px', fontSize: 11 }}
+                            onClick={() => setRenewDoc(doc)}>
+                            <Upload size={12} /> Replace
+                          </button>
+                        )}
+                        <button
+                          className={s.btnGhost}
+                          style={{ padding: '5px 8px', fontSize: 11, color: 'var(--color-danger)' }}
+                          onClick={() => setDeleteTarget(doc)}
+                        >
+                          <Trash2 size={12} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
                 ))}
               </tbody>
             </table>

@@ -1,11 +1,10 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import clsx from 'clsx';
-import { 
-  LayoutDashboard, 
-  Users, 
-  FileText, 
-  ShieldCheck, 
+import {
+  LayoutDashboard,
+  Users,
+  FileText,
+  ShieldCheck,
   FileSignature,
   ShoppingCart,
   Receipt,
@@ -15,44 +14,52 @@ import {
   LogOut,
   ChevronDown,
   ChevronUp,
+  ChevronLeft,
+  ChevronRight,
   Globe,
-  Package
+  Package,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import styles from './Sidebar.module.css';
 
+interface Props {
+  collapsed: boolean;
+  onToggleCollapse: () => void;
+  mobileOpen: boolean;
+}
+
 const NAV_ITEMS = [
   { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
-  { 
-    name: 'Vendors', 
-    path: '/vendors', 
+  {
+    name: 'Vendors',
+    path: '/vendors',
     icon: Users,
     subItems: [
       { name: 'Vendor List', path: '/vendors' },
       { name: 'Add Vendor', path: '/vendors/add' },
       { name: 'Approvals', path: '/vendors/approvals' },
-    ]
+    ],
   },
-  { 
-    name: 'Documents', 
-    path: '/documents', 
+  {
+    name: 'Documents',
+    path: '/documents',
     icon: FileText,
     subItems: [
       { name: 'Document List', path: '/documents' },
       { name: 'Upload Document', path: '/documents/upload' },
       { name: 'Expiry Tracker', path: '/documents/expiry' },
       { name: 'Verification Queue', path: '/documents/approvals' },
-    ]
+    ],
   },
-  { 
-    name: 'Due Diligence & KYC', 
-    path: '/kyc/dashboard', 
+  {
+    name: 'Due Diligence & KYC',
+    path: '/kyc/dashboard',
     icon: ShieldCheck,
     subItems: [
-      { name: 'KYC Dashboard',       path: '/kyc/dashboard' },
+      { name: 'KYC Dashboard', path: '/kyc/dashboard' },
       { name: 'AI Screening & Risk', path: '/kyc/screening' },
-      { name: 'Reviews & Approvals', path: '/kyc/reviews'   },
-    ]
+      { name: 'Reviews & Approvals', path: '/kyc/reviews' },
+    ],
   },
   {
     name: 'Item & Service Catalogue',
@@ -68,13 +75,12 @@ const NAV_ITEMS = [
       { name: 'UOM Management', path: '/catalogue/uom' },
       { name: 'Rate & Price Reference', path: '/catalogue/rates' },
       { name: 'Quality Standards', path: '/catalogue/quality' },
-      { name: 'Approval Workflow', path: '/catalogue/approvals' }
-    ]
+      { name: 'Approval Workflow', path: '/catalogue/approvals' },
+    ],
   },
-
-  { 
-    name: 'Contracts & SLAs', 
-    path: '/contracts', 
+  {
+    name: 'Contracts & SLAs',
+    path: '/contracts',
     icon: FileSignature,
     subItems: [
       { name: 'Dashboard', path: '/contracts/dashboard' },
@@ -82,21 +88,21 @@ const NAV_ITEMS = [
       { name: 'Clause Library', path: '/contracts/clauses' },
       { name: 'Renewals', path: '/contracts/renewals' },
       { name: 'Approvals', path: '/contracts/approvals' },
-    ]
+    ],
   },
-  { 
-    name: 'Purchase Orders', 
-    path: '/purchase-orders', 
+  {
+    name: 'Purchase Orders',
+    path: '/purchase-orders',
     icon: ShoppingCart,
     subItems: [
       { name: 'PO Dashboard', path: '/purchase-orders/dashboard' },
       { name: 'Create Requisition', path: '/purchase-orders/create' },
       { name: 'Approvals', path: '/purchase-orders/approvals' },
-    ]
+    ],
   },
-  { 
-    name: 'Invoices', 
-    path: '/invoices', 
+  {
+    name: 'Invoices',
+    path: '/invoices',
     icon: Receipt,
     subItems: [
       { name: 'Invoice Dashboard', path: '/invoices/dashboard' },
@@ -104,52 +110,50 @@ const NAV_ITEMS = [
       { name: 'Goods Receipt (GRN)', path: '/invoices/grn' },
       { name: '3-Way Match Engine', path: '/invoices/match' },
       { name: 'Approvals', path: '/invoices/approvals' },
-    ]
+    ],
   },
-  { 
-    name: 'Payments', 
-    path: '/payments', 
+  {
+    name: 'Payments',
+    path: '/payments',
     icon: CreditCard,
     subItems: [
       { name: 'Payments Dashboard', path: '/payments/dashboard' },
       { name: 'Payment Processing', path: '/payments/processing' },
       { name: 'Approvals', path: '/payments/approvals' },
-    ]
+    ],
   },
-  { 
-    name: 'Reports & MIS', 
-    path: '/reports', 
+  {
+    name: 'Reports & MIS',
+    path: '/reports',
     icon: BarChart,
     subItems: [
-      { name: 'MIS Dashboard',           path: '/reports/dashboard'     },
-      { name: 'Performance & Analytics',  path: '/reports/performance'   },
-      { name: 'AI Insights',             path: '/reports/insights'      },
-    ]
+      { name: 'MIS Dashboard', path: '/reports/dashboard' },
+      { name: 'Performance & Analytics', path: '/reports/performance' },
+      { name: 'AI Insights', path: '/reports/insights' },
+    ],
   },
-  { 
-    name: 'Vendor Portal', 
-    path: '/vendor-portal', 
+  {
+    name: 'Vendor Portal',
+    path: '/vendor-portal',
     icon: Globe,
-    subItems: [
-      { name: 'Portal Dashboard', path: '/vendor-portal' }
-    ]
+    subItems: [{ name: 'Portal Dashboard', path: '/vendor-portal' }],
   },
-  { 
-    name: 'Settings', 
-    path: '/settings', 
+  {
+    name: 'Settings',
+    path: '/settings',
     icon: Settings,
     subItems: [
-      { name: 'General Settings',    path: '/settings/general' },
-      { name: 'Users & Roles',       path: '/settings/users' },
-      { name: 'System Preferences',  path: '/settings/preferences' },
-    ]
+      { name: 'General Settings', path: '/settings/general' },
+      { name: 'Users & Roles', path: '/settings/users' },
+      { name: 'System Preferences', path: '/settings/preferences' },
+    ],
   },
 ];
 
 const VENDOR_NAV_ITEMS = [
-  { 
-    name: 'Vendor Portal', 
-    path: '/vendor/dashboard', 
+  {
+    name: 'Vendor Portal',
+    path: '/vendor/dashboard',
     icon: Globe,
     subItems: [
       { name: 'Vendor Dashboard', path: '/vendor/dashboard?tab=overview' },
@@ -159,104 +163,134 @@ const VENDOR_NAV_ITEMS = [
       { name: 'Invoices', path: '/vendor/dashboard?tab=invoices' },
       { name: 'Payments', path: '/vendor/dashboard?tab=invoices' },
       { name: 'Profile', path: '/vendor/dashboard?tab=profile' },
-      { name: 'Support', path: '/vendor/dashboard?tab=queries' }
-    ]
-  }
+      { name: 'Support', path: '/vendor/dashboard?tab=queries' },
+    ],
+  },
 ];
 
-export const Sidebar: React.FC = () => {
+const END_PATHS = new Set([
+  '/vendors', '/documents', '/kyc', '/catalogue/dashboard', '/contracts/dashboard',
+  '/purchase-orders/dashboard', '/invoices/dashboard', '/payments/dashboard',
+  '/reports/dashboard', '/vendor-portal', '/vendor/dashboard', '/settings/dashboard',
+]);
+
+export const Sidebar: React.FC<Props> = ({ collapsed, onToggleCollapse, mobileOpen }) => {
   const { user, logout, hasPermission } = useAuth();
   const navigate = useNavigate();
 
   const [expandedMenus, setExpandedMenus] = React.useState<Record<string, boolean>>({
-    'Vendors': false,
-    'Documents': false,
+    Vendors: false,
+    Documents: false,
     'Due Diligence & KYC': false,
     'Item & Service Catalogue': false,
     'Contracts & SLAs': false,
     'Purchase Orders': false,
-    'Invoices': false,
-    'Payments': false,
+    Invoices: false,
+    Payments: false,
     'Reports & MIS': false,
     'Vendor Portal': true,
-    'Settings': false
+    Settings: false,
   });
 
   const toggleMenu = (name: string, e: React.MouseEvent) => {
     e.preventDefault();
+    if (collapsed) return;
     setExpandedMenus(prev => ({ ...prev, [name]: !prev[name] }));
   };
 
-  const handleLogoutClick = async (e: React.MouseEvent) => {
+  const handleLogout = async (e: React.MouseEvent) => {
     e.preventDefault();
     await logout();
     navigate('/login');
   };
 
-  // 1. Get raw items list based on role
-  const rawItems = user?.role === 'VENDOR' ? VENDOR_NAV_ITEMS : NAV_ITEMS;
+  const initials = user?.fullName
+    ? user.fullName.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
+    : 'A';
 
-  // 2. Filter root level items
+  const rawItems = user?.role === 'VENDOR' ? VENDOR_NAV_ITEMS : NAV_ITEMS;
   const filteredNavItems = rawItems.filter(item => {
     if (['ADMIN', 'PROCUREMENT', 'COMPLIANCE', 'FINANCE'].includes(user?.role || '')) {
-      if (item.name === 'Vendor Portal') {
-        return false;
-      }
+      if (item.name === 'Vendor Portal') return false;
     }
     return hasPermission(item.name);
   });
 
-  const getFilteredSubItems = (item: typeof NAV_ITEMS[0]) => {
-    if (!item.subItems) return undefined;
-    
-    return item.subItems;
-  };
-
   return (
-    <aside className={styles.sidebar}>
+    <aside
+      className={[
+        styles.sidebar,
+        collapsed ? styles.collapsed : '',
+        mobileOpen ? styles.mobileOpen : '',
+      ].join(' ')}
+    >
+      {/* Logo */}
       <div className={styles.logoContainer}>
         <div className={styles.logoIcon}>
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M2 17L12 22L22 17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M2 12L12 17L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M2 17L12 22L22 17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M2 12L12 17L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <div className={styles.logoText}>
-          <h2>Qualtech Edge VMS</h2>
-          <p>AI-Powered Vendor Management System</p>
-        </div>
+        {!collapsed && (
+          <div className={styles.logoText}>
+            <h2>Qualtech Edge VMS</h2>
+            <p>AI-Powered Vendor Management</p>
+          </div>
+        )}
       </div>
-      
-      <nav className={styles.nav}>
-        {filteredNavItems.map((item) => {
+
+      {/* User identity card */}
+      <div className={styles.userCard}>
+        <div className={styles.userAvatar}>{initials}</div>
+        {!collapsed && (
+          <div className={styles.userInfo}>
+            <div className={styles.userName}>{user?.fullName || 'Admin'}</div>
+            <div className={styles.userRole}>{user?.role || 'Administrator'}</div>
+          </div>
+        )}
+      </div>
+
+      {/* Nav */}
+      <nav className={styles.nav} aria-label="Main navigation">
+        {filteredNavItems.map(item => {
           const Icon = item.icon;
           const isExpanded = expandedMenus[item.name];
-          const displaySubItems = getFilteredSubItems(item);
 
-          if (displaySubItems && displaySubItems.length > 0) {
+          if (item.subItems && item.subItems.length > 0) {
             return (
               <div key={item.name} className={styles.navGroup}>
-                <div 
-                  className={styles.navItem} 
+                <div
+                  className={styles.navItem}
                   onClick={(e) => toggleMenu(item.name, e)}
-                  style={{ cursor: 'pointer' }}
+                  role="button"
+                  aria-expanded={isExpanded}
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === 'Enter' && toggleMenu(item.name, e as any)}
+                  title={collapsed ? item.name : undefined}
                 >
-                  <Icon size={20} />
+                  <span className={styles.navIcon}><Icon size={18} /></span>
                   <span className={styles.navLabel}>{item.name}</span>
-                  {isExpanded ? <ChevronUp size={16} className={styles.chevron} /> : <ChevronDown size={16} className={styles.chevron} />}
+                  {!collapsed && (
+                    isExpanded
+                      ? <ChevronUp size={14} className={styles.chevron} />
+                      : <ChevronDown size={14} className={styles.chevron} />
+                  )}
                 </div>
-                
-                {isExpanded && (
+
+                {isExpanded && !collapsed && (
                   <div className={styles.subMenu}>
-                    {displaySubItems.map(subItem => (
+                    {item.subItems.map(sub => (
                       <NavLink
-                        key={subItem.name}
-                        to={subItem.path}
-                        end={subItem.path === '/vendors' || subItem.path === '/documents' || subItem.path === '/kyc' || subItem.path === '/catalogue/dashboard' || subItem.path === '/contracts/dashboard' || subItem.path === '/purchase-orders/dashboard' || subItem.path === '/invoices/dashboard' || subItem.path === '/payments/dashboard' || subItem.path === '/reports/dashboard' || subItem.path === '/vendor-portal' || subItem.path === '/vendor/dashboard' || subItem.path === '/settings/dashboard'}
-                        className={({ isActive }) => clsx(styles.subNavItem, isActive && styles.activeSub)}
+                        key={sub.name}
+                        to={sub.path}
+                        end={END_PATHS.has(sub.path)}
+                        className={({ isActive }) =>
+                          [styles.subNavItem, isActive ? styles.activeSub : ''].join(' ')
+                        }
                       >
-                        {subItem.name}
+                        {sub.name}
                       </NavLink>
                     ))}
                   </div>
@@ -269,19 +303,34 @@ export const Sidebar: React.FC = () => {
             <NavLink
               key={item.name}
               to={item.path}
-              className={({ isActive }) => clsx(styles.navItem, isActive && styles.active)}
+              className={({ isActive }) =>
+                [styles.navItem, isActive ? styles.active : ''].join(' ')
+              }
+              title={collapsed ? item.name : undefined}
             >
-              <Icon size={20} />
-              <span>{item.name}</span>
+              <span className={styles.navIcon}><Icon size={18} /></span>
+              <span className={styles.navLabel}>{item.name}</span>
             </NavLink>
           );
         })}
       </nav>
-      
+
+      {/* Footer */}
       <div className={styles.footer}>
-        <button onClick={handleLogoutClick} className={styles.logoutBtn} style={{ background: 'none', border: 'none', display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '12px 16px', color: 'rgba(255,255,255,0.7)', cursor: 'pointer' }}>
-          <LogOut size={20} />
-          <span style={{ fontSize: '0.9rem', fontWeight: 500 }}>Logout</span>
+        <button
+          className={styles.collapseBtn}
+          onClick={onToggleCollapse}
+          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        >
+          <span className={styles.navIcon}>
+            {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+          </span>
+          <span className={styles.navLabel}>Collapse</span>
+        </button>
+        <button className={styles.logoutBtn} onClick={handleLogout} title="Logout">
+          <span className={styles.navIcon}><LogOut size={18} /></span>
+          <span className={styles.navLabel}>Logout</span>
         </button>
       </div>
     </aside>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Plus, Users, UserCheck, Clock, XCircle, Eye, Edit2, Trash2, Loader2 } from 'lucide-react';
 import axios from 'axios';
 import clsx from 'clsx';
+import { toast } from 'sonner';
 import { useVendorFilters } from '../../context/VendorFilterContext';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
@@ -60,7 +61,7 @@ export const VendorList: React.FC = () => {
       setVendors(res.data);
     } catch (err) {
       console.error('Error fetching vendors:', err);
-      alert('Failed to load vendors from server database.');
+      toast.error('Failed to load vendors from server database.');
     } finally {
       setLoading(false);
     }
@@ -75,11 +76,11 @@ export const VendorList: React.FC = () => {
     if (confirmDelete) {
       try {
         await axios.delete(`/api/vendors/${vendorId}`);
-        alert('Vendor record deleted successfully.');
+        toast.success('Vendor record deleted successfully.');
         fetchVendors();
       } catch (err) {
         console.error('Error deleting vendor:', err);
-        alert('Failed to delete vendor record.');
+        toast.error('Failed to delete vendor record.');
       }
     }
   };
@@ -192,6 +193,41 @@ export const VendorList: React.FC = () => {
       ) 
     },
   ];
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <header className={styles.pageHeader}>
+          <div>
+            <h1 className={styles.title}>Vendor List</h1>
+            <p className={styles.breadcrumbs}>Home / Vendors / Vendor List</p>
+          </div>
+        </header>
+        <div className={styles.kpiGrid}>
+          {[1, 2, 3, 4].map(i => (
+            <div key={i} style={{ height: 96, borderRadius: 12, padding: 16, background: 'var(--color-surface)', border: '1px solid var(--color-border)', display: 'flex', gap: 12 }}>
+              <div style={{ flex: 1 }}>
+                <div className="skeleton" style={{ height: 12, width: '55%', marginBottom: 10 }} />
+                <div className="skeleton" style={{ height: 28, width: '35%' }} />
+              </div>
+              <div className="skeleton" style={{ width: 48, height: 48, borderRadius: 10, flexShrink: 0 }} />
+            </div>
+          ))}
+        </div>
+        <div style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 12, padding: 20 }}>
+          <div className="skeleton" style={{ height: 40, marginBottom: 16 }} />
+          {[1, 2, 3, 4, 5].map(i => (
+            <div key={i} style={{ display: 'flex', gap: 16, padding: '12px 0', borderBottom: '1px solid var(--color-border)' }}>
+              <div className="skeleton" style={{ height: 14, flex: 2 }} />
+              <div className="skeleton" style={{ height: 14, flex: 3 }} />
+              <div className="skeleton" style={{ height: 22, width: 80, borderRadius: 20 }} />
+              <div className="skeleton" style={{ height: 14, flex: 1 }} />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>

@@ -3,49 +3,105 @@
     "notificationId": "NOT-001",
     "vendorId": "VND-001",
     "message": "Purchase Order PO-2026-981 requires acknowledgement.",
-    "read": false,
+    "read": true,
     "createdDate": "2026-06-03"
   },
   {
     "notificationId": "NOT-4383",
     "vendorId": "VND-001",
     "message": "Profile contact information updated successfully.",
-    "read": false,
+    "read": true,
     "createdDate": "2026-06-03"
   },
   {
     "notificationId": "NOT-2891",
     "vendorId": "VND-001",
     "message": "Profile contact information updated successfully.",
-    "read": false,
+    "read": true,
     "createdDate": "2026-06-04"
   },
   {
     "notificationId": "NOT-8681",
     "vendorId": "VND-001",
     "message": "Support ticket TKT-7526 raised successfully.",
-    "read": false,
+    "read": true,
     "createdDate": "2026-06-04"
   },
   {
     "notificationId": "NOT-1951",
     "vendorId": "VND-001",
     "message": "Support ticket TKT-4913 raised successfully.",
-    "read": false,
+    "read": true,
     "createdDate": "2026-06-04"
   },
   {
     "notificationId": "NOT-3992",
     "vendorId": "VND-001",
     "message": "Support ticket TKT-4859 raised successfully.",
-    "read": false,
+    "read": true,
     "createdDate": "2026-06-04"
   },
   {
     "notificationId": "NOT-1463",
     "vendorId": "VND-001",
     "message": "KYC registration numbers updated and verified.",
-    "read": false,
+    "read": true,
     "createdDate": "2026-06-07"
+  },
+  {
+    "notificationId": "NOT-4850",
+    "vendorId": "VND-001",
+    "message": "KYC registration numbers updated and verified.",
+    "read": true,
+    "createdDate": "2026-06-10"
+  },
+  {
+    "notificationId": "NOT-8440",
+    "vendorId": "VND-001",
+    "message": "Purchase Order PO-2026-981 acknowledged successfully.",
+    "read": true,
+    "createdDate": "2026-06-10"
+  },
+  {
+    "notificationId": "NOT-8155",
+    "vendorId": "VND-001",
+    "message": "Invoice INV-23232323 successfully matched and Paid.",
+    "read": true,
+    "createdDate": "2026-06-10"
+  },
+  {
+    "notificationId": "NOT-2706",
+    "vendorId": "VND-001",
+    "message": "Document gfg uploaded successfully.",
+    "read": true,
+    "createdDate": "2026-06-10"
+  },
+  {
+    "notificationId": "NOT-8639",
+    "vendorId": "VND-001",
+    "message": "KYC registration numbers updated and verified.",
+    "read": true,
+    "createdDate": "2026-06-10"
+  },
+  {
+    "notificationId": "NOT-7055",
+    "vendorId": "VND-001",
+    "message": "Profile contact information updated successfully.",
+    "read": true,
+    "createdDate": "2026-06-10"
+  },
+  {
+    "notificationId": "NOT-5720",
+    "vendorId": "VND-001",
+    "message": "Document bank statement uploaded successfully.",
+    "read": true,
+    "createdDate": "2026-06-11"
+  },
+  {
+    "notificationId": "NOT-4626",
+    "vendorId": "VND-001",
+    "message": "KYC registration numbers updated and verified.",
+    "read": false,
+    "createdDate": "2026-06-11"
   }
 ]

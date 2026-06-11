@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Users, 
   UserCheck, 
@@ -68,6 +68,31 @@ const approvalQueue = [
 ];
 
 export const Dashboard: React.FC = () => {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => { const t = setTimeout(() => setLoading(false), 600); return () => clearTimeout(t); }, []);
+
+  if (loading) {
+    return (
+      <div className={styles.dashboard}>
+        <div className={styles.kpiGrid}>
+          {[1, 2, 3, 4, 5, 6].map(i => (
+            <div key={i} style={{ height: 100, borderRadius: 12, padding: 16, background: 'var(--color-surface)', border: '1px solid var(--color-border)', display: 'flex', gap: 14 }}>
+              <div className="skeleton" style={{ width: 44, height: 44, borderRadius: 10, flexShrink: 0 }} />
+              <div style={{ flex: 1 }}>
+                <div className="skeleton" style={{ height: 10, width: '60%', marginBottom: 8 }} />
+                <div className="skeleton" style={{ height: 24, width: '40%' }} />
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+          <div className="skeleton" style={{ height: 280, borderRadius: 12 }} />
+          <div className="skeleton" style={{ height: 280, borderRadius: 12 }} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.dashboard}>
       <header className={styles.header}>

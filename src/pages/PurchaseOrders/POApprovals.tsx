@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ChevronRight, CheckCircle2, XCircle, Send, Bot } from 'lucide-react';
+import { toast } from 'sonner';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Badge } from '../../components/Badge/Badge';
@@ -69,21 +70,21 @@ export const POApprovals: React.FC = () => {
       if (action === 'Approve') {
         const res = await approvePO(selectedApproval.requisitionId, remarks, 'Saurabh Anand');
         if (res.success) {
-          alert(`Requisition ${selectedApproval.requisitionId} approved successfully! PO generated.`);
+          toast.success(`Requisition ${selectedApproval.requisitionId} approved — PO generated.`);
           setRemarks('');
           loadApprovals();
         }
       } else {
         const res = await rejectPO(selectedApproval.requisitionId, remarks, 'Saurabh Anand', action === 'Send Back' ? 'Send Back' : 'Reject');
         if (res.success) {
-          alert(`Requisition ${selectedApproval.requisitionId} ${action === 'Send Back' ? 'sent back' : 'rejected'} successfully.`);
+          toast.success(`Requisition ${selectedApproval.requisitionId} ${action === 'Send Back' ? 'sent back' : 'rejected'} successfully.`);
           setRemarks('');
           loadApprovals();
         }
       }
     } catch (err) {
       console.error('Action execution failed:', err);
-      alert('Failed to execute action. Please check logs.');
+      toast.error('Failed to execute action. Please check logs.');
     } finally {
       setActionLoading(false);
     }

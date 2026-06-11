@@ -38,6 +38,7 @@ export interface VendorDocument {
   expiryDate: string | null;
   status: 'Verified' | 'Pending Verification' | 'Expired' | 'Rejected';
   fileId: string;
+  filePath?: string;
   versions?: VendorDocumentVersion[];
 }
 
@@ -83,6 +84,32 @@ export interface VendorContract {
   billingFrequency: string;
   riskLevel: string;
   uploadedFiles: string[];
+}
+
+export type EsignStatus = 'Initiated' | 'Sent' | 'Signed' | 'Failed';
+export type OtpMethod  = 'aadhaar' | 'email';
+
+export interface EsignRequest {
+  requestId: string;
+  contractId: string;
+  vendorId: string;
+  signerName: string;
+  signerEmail: string;
+  signerPhone: string;
+  otpMethod: OtpMethod;
+  status: EsignStatus;
+  initiatedAt: string;
+  completedAt: string | null;
+  signDeskRequestId: string;
+  signingUrl: string;
+  signedDocUrl: string | null;
+}
+
+export interface InitiateEsignPayload {
+  signerName: string;
+  signerEmail: string;
+  signerPhone: string;
+  otpMethod: OtpMethod;
 }
 
 export interface VendorTicket {
@@ -165,6 +192,10 @@ export async function uploadVendorDocument(
   return res.data;
 }
 
+export async function deleteVendorDocument(documentId: string): Promise<void> {
+  await axios.delete(`/api/vendor-portal/documents/${documentId}`);
+}
+
 // 5. Purchase Orders
 export async function getVendorPOs(): Promise<VendorPO[]> {
   const res = await axios.get('/api/vendor-portal/pos');
@@ -199,6 +230,22 @@ export async function getVendorPayments(): Promise<VendorPayment[]> {
 // 7. Contracts
 export async function getVendorContracts(): Promise<VendorContract[]> {
   const res = await axios.get('/api/vendor-portal/contracts');
+  return res.data;
+}
+
+// 7b. E-Sign (SignDesk)
+export async function initiateEsign(contractId: string, payload: InitiateEsignPayload): Promise<{ success: boolean; request: EsignRequest }> {
+  const res = await axios.post(`/api/vendor-portal/contracts/${contractId}/esign/initiate`, payload);
+  return res.data;
+}
+
+export async function getEsignStatus(contractId: string): Promise<EsignRequest | null> {
+  const res = await axios.get(`/api/vendor-portal/contracts/${contractId}/esign/status`);
+  return res.data;
+}
+
+export async function simulateEsignComplete(contractId: string): Promise<{ success: boolean; request: EsignRequest }> {
+  const res = await axios.post(`/api/vendor-portal/contracts/${contractId}/esign/simulate-complete`);
   return res.data;
 }
 

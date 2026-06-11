@@ -56,7 +56,9 @@ export const VendorPOs: React.FC = () => {
           <div className={s.tableWrapper}>
             <table className={s.table}>
               <thead>
-                <tr><th>PO Reference</th><th>Issue Date</th><th>Line Items</th><th>Value (₹)</th><th>Status</th><th>Action</th></tr>
+                <tr><th>PO Reference</th><th>Issue Date</th><th>Line Items</th><th>Value (₹)</th><th>Status</th>
+                {/* <th>Action</th> */}
+              </tr>
               </thead>
               <tbody>
                 {filtered.map(po => (
@@ -66,7 +68,7 @@ export const VendorPOs: React.FC = () => {
                     <td>{po.items}</td>
                     <td>₹{po.value.toLocaleString('en-IN')}</td>
                     <td>{statusBadge(po.status)}</td>
-                    <td>
+                    {/* <td>
                       {(po.status === 'Pending Acknowledgement' || po.status === 'Pending Acknowledgment') ? (
                         <button className={s.btnPrimary} style={{ padding: '5px 12px', fontSize: 12 }}
                           disabled={ackMutation.isPending}
@@ -74,7 +76,7 @@ export const VendorPOs: React.FC = () => {
                           <CheckCircle size={13} /> Acknowledge
                         </button>
                       ) : <span style={{ fontSize: 12, color: 'var(--color-text-tertiary)' }}>—</span>}
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>

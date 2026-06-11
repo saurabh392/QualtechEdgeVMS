@@ -9,10 +9,8 @@ import {
   Package,
   Receipt,
   CreditCard,
-  BarChart2,
   HelpCircle,
   Settings,
-  ClipboardList,
   LogOut,
   ChevronLeft,
   ChevronRight,
@@ -39,9 +37,7 @@ const NAV = [
   { label: 'Invoices', path: '/vendor/invoices', icon: Receipt },
   { label: 'Payments', path: '/vendor/payments', icon: CreditCard },
   null,
-  { label: 'Analytics', path: '/vendor/analytics', icon: BarChart2 },
   { label: 'Support Tickets', path: '/vendor/helpdesk', icon: HelpCircle },
-  { label: 'Audit Trail', path: '/vendor/audit-trail', icon: ClipboardList },
   { label: 'Settings', path: '/vendor/settings', icon: Settings },
 ];
 

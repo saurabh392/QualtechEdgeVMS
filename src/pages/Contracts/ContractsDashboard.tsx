@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  FileText, 
-  Clock, 
-  AlertCircle, 
-  UploadCloud, 
-  FileSignature, 
+import { toast } from 'sonner';
+import {
+  FileText,
+  Clock,
+  AlertCircle,
+  UploadCloud,
+  FileSignature,
   Plus,
   Download,
   Eye,
@@ -62,7 +63,7 @@ export const ContractsDashboard: React.FC = () => {
       link.click();
       document.body.removeChild(link);
     } else {
-      alert(`No physical PDF document is linked to Contract ${row.contractId}. You can upload one by editing the contract.`);
+      toast.info(`No PDF linked to Contract ${row.contractId}. Upload one by editing the contract.`);
     }
   };
 

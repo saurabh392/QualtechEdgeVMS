@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, ChevronRight, CheckCircle2, XCircle, Send, ShieldAlert, FileText } from 'lucide-react';
+import { toast } from 'sonner';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Badge } from '../../components/Badge/Badge';
@@ -81,7 +82,7 @@ export const ContractApprovals: React.FC = () => {
     if (!selectedContract) return;
 
     if ((action === 'Reject' || action === 'Send Back') && !remarks.trim()) {
-      alert('Please enter remarks for this rejection or revision request.');
+      toast.warning('Please enter remarks for this rejection or revision request.');
       return;
     }
 
@@ -100,12 +101,12 @@ export const ContractApprovals: React.FC = () => {
       }
 
       if (res.success) {
-        alert(`Contract ${selectedContract.contractId} has been successfully ${action === 'Approve' ? 'Approved' : action === 'Send Back' ? 'Sent Back' : 'Rejected'}.`);
+        toast.success(`Contract ${selectedContract.contractId} ${action === 'Approve' ? 'approved' : action === 'Send Back' ? 'sent back' : 'rejected'} successfully.`);
         // Refresh queue
         await loadApprovalsQueue();
       }
     } catch (err) {
-      alert('Error resolving contract: ' + (err as Error).message);
+      toast.error('Error resolving contract: ' + (err as Error).message);
     } finally {
       setActionLoading(false);
     }

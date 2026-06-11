@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Search, Eye, X } from 'lucide-react';
+import { toast } from 'sonner';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
@@ -108,14 +109,14 @@ export const POThreeWayMatch: React.FC = () => {
     try {
       const res = await processThreeWayMatch(matchPayload);
       if (res.success) {
-        alert(`3-Way Match processing completed! Status: ${res.match.matchStatus}`);
+        toast.success(`3-Way Match completed — Status: ${res.match.matchStatus}`);
         setShowModal(false);
         setInvoiceId('');
         loadData();
       }
     } catch (err) {
       console.error('Failed to run 3-Way Match:', err);
-      alert('Action failed. Check console.');
+      toast.error('Action failed. Check console.');
     } finally {
       setSubmitting(false);
     }

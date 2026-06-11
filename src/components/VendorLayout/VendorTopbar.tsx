@@ -18,9 +18,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/vendor/purchase-orders': 'Purchase Orders',
   '/vendor/invoices': 'Invoices',
   '/vendor/payments': 'Payments',
-  '/vendor/analytics': 'Analytics',
   '/vendor/helpdesk': 'Support Tickets',
-  '/vendor/audit-trail': 'Audit Trail',
   '/vendor/settings': 'Settings',
 };
 

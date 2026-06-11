@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Search, Eye, X, Upload } from 'lucide-react';
+import { toast } from 'sonner';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
@@ -97,7 +98,7 @@ export const POReceipt: React.FC = () => {
     try {
       const res = await createGRN(grnPayload);
       if (res.success) {
-        alert(`Goods Receipt Note ${res.grn.grnId} generated successfully!`);
+        toast.success(`Goods Receipt Note ${res.grn.grnId} generated successfully.`);
         setShowModal(false);
         setRemarks('');
         setReceivedQty(1);
@@ -108,7 +109,7 @@ export const POReceipt: React.FC = () => {
       }
     } catch (err) {
       console.error('Failed to create Goods Receipt Note:', err);
-      alert('Action failed. Check console for details.');
+      toast.error('Action failed. Check console for details.');
     } finally {
       setSubmitting(false);
     }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, ChevronRight, CheckCircle2, XCircle, Send, Loader2, Info } from 'lucide-react';
 import axios from 'axios';
+import { toast } from 'sonner';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Badge } from '../../components/Badge/Badge';
@@ -31,7 +32,7 @@ export const VendorApprovals: React.FC = () => {
       }
     } catch (err) {
       console.error('Error fetching pending vendors:', err);
-      alert('Failed to load pending approvals from server.');
+      toast.error('Failed to load pending approvals from server.');
     } finally {
       setLoading(false);
     }
@@ -50,7 +51,7 @@ export const VendorApprovals: React.FC = () => {
     if (!selectedVendor) return;
 
     if ((actionType === 'reject' || actionType === 'sendback') && !remarks.trim()) {
-      alert(`Remarks are required to execute a ${actionType === 'reject' ? 'Reject' : 'Send Back'} action.`);
+      toast.warning(`Remarks are required to execute a ${actionType === 'reject' ? 'Reject' : 'Send Back'} action.`);
       return;
     }
 
@@ -62,12 +63,12 @@ export const VendorApprovals: React.FC = () => {
       };
 
       await axios.post(`/api/vendors/${selectedVendor.vendorId}/${actionType}`, payload);
-      alert(`Vendor Onboarding workflow successfully updated to: ${actionType === 'approve' ? 'Approved' : actionType === 'reject' ? 'Rejected' : 'Sent Back'}.`);
+      toast.success(`Vendor onboarding ${actionType === 'approve' ? 'approved' : actionType === 'reject' ? 'rejected' : 'sent back'} successfully.`);
       setRemarks('');
       await fetchPendingVendors();
     } catch (err) {
       console.error(`Error performing action ${actionType}:`, err);
-      alert('Failed to submit approval workflow action.');
+      toast.error('Failed to submit approval workflow action.');
     } finally {
       setActionLoading(false);
     }

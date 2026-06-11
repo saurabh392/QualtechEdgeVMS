@@ -66,9 +66,7 @@ import { VendorInvoices } from './pages/VendorPortal/VendorInvoices';
 import { VendorPayments } from './pages/VendorPortal/VendorPayments';
 import { VendorProfile } from './pages/VendorPortal/VendorProfile';
 import { VendorHelpdesk } from './pages/VendorPortal/VendorHelpdesk';
-import { VendorAnalytics } from './pages/VendorPortal/VendorAnalytics';
 import { VendorSettings } from './pages/VendorPortal/VendorSettings';
-import { VendorAuditTrail } from './pages/VendorPortal/VendorAuditTrail';
 
 import { CatalogueDashboard } from './pages/Catalogue/CatalogueDashboard';
 import { ItemMaster } from './pages/Catalogue/ItemMaster';
@@ -227,9 +225,7 @@ function App() {
               <Route path="/vendor/purchase-orders" element={<VendorPOs />} />
               <Route path="/vendor/invoices" element={<VendorInvoices />} />
               <Route path="/vendor/payments" element={<VendorPayments />} />
-              <Route path="/vendor/analytics" element={<VendorAnalytics />} />
               <Route path="/vendor/helpdesk" element={<VendorHelpdesk />} />
-              <Route path="/vendor/audit-trail" element={<VendorAuditTrail />} />
               <Route path="/vendor/settings" element={<VendorSettings />} />
               <Route path="/vendor/*" element={<Navigate to="/vendor/overview" replace />} />
             </Route>

@@ -8,12 +8,17 @@ import {
   updateVendorKyc,
   getVendorDocuments,
   uploadVendorDocument,
+  deleteVendorDocument,
   getVendorPOs,
   acknowledgePO,
   getVendorInvoices,
   submitVendorInvoice,
   getVendorPayments,
   getVendorContracts,
+  initiateEsign,
+  getEsignStatus,
+  simulateEsignComplete,
+  type InitiateEsignPayload,
   getVendorTickets,
   submitVendorTicket,
   getVendorNotifications,
@@ -31,6 +36,7 @@ export const VQ = {
   invoices:      ['vendor', 'invoices']     as const,
   payments:      ['vendor', 'payments']     as const,
   contracts:     ['vendor', 'contracts']    as const,
+  esign:         (id: string) => ['vendor', 'esign', id] as const,
   tickets:       ['vendor', 'tickets']      as const,
   notifications: ['vendor', 'notifications'] as const,
 };
@@ -44,6 +50,38 @@ export const useVendorPOs        = () => useQuery({ queryKey: VQ.pos,           
 export const useVendorInvoices   = () => useQuery({ queryKey: VQ.invoices,      queryFn: getVendorInvoices });
 export const useVendorPayments   = () => useQuery({ queryKey: VQ.payments,      queryFn: getVendorPayments });
 export const useVendorContracts  = () => useQuery({ queryKey: VQ.contracts,     queryFn: getVendorContracts });
+
+export const useEsignStatus = (contractId: string) =>
+  useQuery({ queryKey: VQ.esign(contractId), queryFn: () => getEsignStatus(contractId), staleTime: 10_000 });
+
+export const useInitiateEsign = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ contractId, payload }: { contractId: string; payload: InitiateEsignPayload }) =>
+      initiateEsign(contractId, payload),
+    onSuccess: (_, { contractId }) => {
+      qc.invalidateQueries({ queryKey: VQ.esign(contractId) });
+      qc.invalidateQueries({ queryKey: VQ.notifications });
+      toast.success('E-signature request sent via SignDesk. Please complete signing using the OTP sent to you.');
+    },
+    onError: (err: { response?: { data?: { message?: string } } }) => {
+      toast.error(err?.response?.data?.message ?? 'Failed to initiate e-signature. Please try again.');
+    },
+  });
+};
+
+export const useSimulateEsign = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (contractId: string) => simulateEsignComplete(contractId),
+    onSuccess: (_, contractId) => {
+      qc.invalidateQueries({ queryKey: VQ.esign(contractId) });
+      qc.invalidateQueries({ queryKey: VQ.notifications });
+      toast.success('Contract signed successfully via SignDesk.');
+    },
+    onError: () => toast.error('Simulation failed.'),
+  });
+};
 export const useVendorTickets    = () => useQuery({ queryKey: VQ.tickets,       queryFn: getVendorTickets });
 export const useVendorNotifications = () => useQuery({ queryKey: VQ.notifications, queryFn: getVendorNotifications });
 
@@ -84,6 +122,19 @@ export const useUploadDocument = () => {
       toast.success(vars.docId ? 'Document renewed successfully' : 'Document uploaded and sent for verification');
     },
     onError: () => toast.error('Upload failed. Please try again.'),
+  });
+};
+
+export const useDeleteDocument = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (documentId: string) => deleteVendorDocument(documentId),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: VQ.documents });
+      qc.invalidateQueries({ queryKey: VQ.dashboard });
+      toast.success('Document deleted successfully.');
+    },
+    onError: () => toast.error('Delete failed. Please try again.'),
   });
 };
 
