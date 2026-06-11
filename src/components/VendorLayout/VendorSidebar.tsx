@@ -48,7 +48,7 @@ export const VendorSidebar: React.FC<Props> = ({
   pendingPOs = 0,
   expiredDocs = 0,
 }) => {
-  const { user, logout } = useAuth();
+  const { user, logout, hasPermission } = useAuth();
   const navigate = useNavigate();
 
   const badges: Record<string, number> = { pendingPOs, expiredDocs };
@@ -61,6 +61,25 @@ export const VendorSidebar: React.FC<Props> = ({
     await logout();
     navigate('/login');
   };
+
+  const getMappedLabelName = (label: string): string => {
+    switch (label) {
+      case 'Documents': return 'My Documents';
+      case 'KYC Status': return 'My KYC';
+      case 'Contracts & SLAs': return 'My Contracts';
+      case 'Purchase Orders': return 'My Purchase Orders';
+      case 'Invoices': return 'My Invoices';
+      case 'Payments': return 'My Payments';
+      default: return label;
+    }
+  };
+
+  const filteredNav = NAV.filter(item => {
+    if (item === null) return true;
+    if (['Dashboard', 'My Profile', 'Support Tickets'].includes(item.label)) return true;
+    const mappedName = getMappedLabelName(item.label);
+    return hasPermission(mappedName);
+  });
 
   return (
     <aside
@@ -103,7 +122,7 @@ export const VendorSidebar: React.FC<Props> = ({
 
       {/* Nav */}
       <nav className={styles.nav}>
-        {NAV.map((item, i) => {
+        {filteredNav.map((item, i) => {
           if (item === null) return <div key={i} className={styles.navDivider} />;
           const Icon = item.icon;
           const badgeCount = item.badgeKey ? badges[item.badgeKey] : 0;

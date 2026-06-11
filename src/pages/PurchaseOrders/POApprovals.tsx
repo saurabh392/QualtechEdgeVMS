@@ -14,9 +14,11 @@ import type {
   ApprovalQueueItem, 
   RequisitionRecord 
 } from '../../services/purchaseOrderService';
+import { useAuth } from '../../context/AuthContext';
 import styles from './POApprovals.module.css';
 
 export const POApprovals: React.FC = () => {
+  const { hasActionPermission } = useAuth();
   const [approvals, setApprovals] = useState<ApprovalQueueItem[]>([]);
   const [selectedApproval, setSelectedApproval] = useState<ApprovalQueueItem | null>(null);
   const [selectedReq, setSelectedReq] = useState<RequisitionRecord | null>(null);
@@ -262,44 +264,47 @@ export const POApprovals: React.FC = () => {
                   </div>
                 </div>
 
-                <h3 className={styles.actionTitle}>Approval Action</h3>
+                {hasActionPermission('APPROVE_PO') && (
+                  <>
+                    <h3 className={styles.actionTitle}>Approval Action</h3>
+                    <div className={styles.actionButtons}>
+                      <Button 
+                        className={styles.approveBtn} 
+                        icon={<CheckCircle2 size={16} />}
+                        onClick={() => handleAction('Approve')}
+                        disabled={actionLoading}
+                      >
+                        {selectedApproval.currentStage === 'Procurement Head Approval' ? 'Approve & Generate PO' : 'Approve Requisition'}
+                      </Button>
+                      <Button 
+                        className={styles.rejectBtn} 
+                        icon={<XCircle size={16} />}
+                        onClick={() => handleAction('Reject')}
+                        disabled={actionLoading}
+                      >
+                        Reject Requisition
+                      </Button>
+                      <Button 
+                        className={styles.sendBackBtn} 
+                        icon={<Send size={16} />}
+                        onClick={() => handleAction('Send Back')}
+                        disabled={actionLoading}
+                      >
+                        Send Back
+                      </Button>
+                    </div>
 
-                <div className={styles.actionButtons}>
-                  <Button 
-                    className={styles.approveBtn} 
-                    icon={<CheckCircle2 size={16} />}
-                    onClick={() => handleAction('Approve')}
-                    disabled={actionLoading}
-                  >
-                    {selectedApproval.currentStage === 'Procurement Head Approval' ? 'Approve & Generate PO' : 'Approve Requisition'}
-                  </Button>
-                  <Button 
-                    className={styles.rejectBtn} 
-                    icon={<XCircle size={16} />}
-                    onClick={() => handleAction('Reject')}
-                    disabled={actionLoading}
-                  >
-                    Reject Requisition
-                  </Button>
-                  <Button 
-                    className={styles.sendBackBtn} 
-                    icon={<Send size={16} />}
-                    onClick={() => handleAction('Send Back')}
-                    disabled={actionLoading}
-                  >
-                    Send Back
-                  </Button>
-                </div>
-
-                <div className={styles.remarksSection}>
-                  <label className={styles.remarksLabel}>Approval Notes / Remarks</label>
-                  <textarea 
-                    className={styles.remarksInput} 
-                    placeholder="Enter remarks required for rejection or send-back..."
-                    value={remarks}
-                    onChange={(e) => setRemarks(e.target.value)}
-                  ></textarea>
-                </div>
+                    <div className={styles.remarksSection}>
+                      <label className={styles.remarksLabel}>Approval Notes / Remarks</label>
+                      <textarea 
+                        className={styles.remarksInput} 
+                        placeholder="Enter remarks required for rejection or send-back..."
+                        value={remarks}
+                        onChange={(e) => setRemarks(e.target.value)}
+                      ></textarea>
+                    </div>
+                  </>
+                )}
               </Card>
             ) : (
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: '300px', border: '1px dashed var(--color-border)', borderRadius: '12px', color: 'var(--color-text-secondary)' }}>

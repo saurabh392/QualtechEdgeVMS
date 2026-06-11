@@ -25,5 +25,14 @@
     "submitDate": "2026-05-12",
     "verificationStage": "3-Way Match",
     "paymentStatus": "Pending"
+  },
+  {
+    "invoiceId": "INV-INV-2026-0025",
+    "vendorId": "VND-001",
+    "poId": "PO-2026-880",
+    "amount": 600000,
+    "submitDate": "2026-06-11",
+    "verificationStage": "Paid",
+    "paymentStatus": "Paid"
   }
 ]

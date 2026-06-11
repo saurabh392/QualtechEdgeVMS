@@ -38,7 +38,7 @@ export const Login: React.FC = () => {
           {
             "id": "USR-001",
             "name": "Saurabh Anand",
-            "role": "System Administrator",
+            "role": "Tenant Admin",
             "portal": "Admin Portal",
             "username": "admin",
             "password": "admin123",
@@ -60,10 +60,10 @@ export const Login: React.FC = () => {
           {
             "id": "USR-003",
             "name": "Rahul Verma",
-            "role": "Compliance Officer",
-            "portal": "Compliance Portal",
-            "username": "compliance",
-            "password": "compliance123",
+            "role": "Vendor Onboarding Officer",
+            "portal": "Onboarding Portal",
+            "username": "onboarding",
+            "password": "onboarding123",
             "redirectUrl": "/compliance/dashboard",
             "color": "purple",
             "initials": "RV"
@@ -82,7 +82,7 @@ export const Login: React.FC = () => {
           {
             "id": "USR-005",
             "name": "Acme Vendor",
-            "role": "Vendor Representative",
+            "role": "Vendor Portal User",
             "portal": "Vendor Portal",
             "username": "vendor",
             "password": "vendor123",
@@ -103,7 +103,7 @@ export const Login: React.FC = () => {
         navigate('/administrator/dashboard');
       } else if (user.role === 'PROCUREMENT') {
         navigate('/procurement/dashboard');
-      } else if (user.role === 'COMPLIANCE') {
+      } else if (user.role === 'COMPLIANCE' || user.role === 'ONBOARDING') {
         navigate('/compliance/dashboard');
       } else if (user.role === 'FINANCE') {
         navigate('/finance/dashboard');

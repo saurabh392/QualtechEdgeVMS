@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { AlertTriangle, CheckCircle2, XCircle, Shield, Search, ChevronDown } from 'lucide-react';
 import { Card } from '../../components/Card/Card';
 import { Badge } from '../../components/Badge/Badge';
 import styles from './ScreeningRisk.module.css';
-import screeningData from '../../../server/data/kyc/risk-screening.json';
+import { getScreenings } from '../../services/screeningService';
 
 type ScreeningTab = 'All Checks' | 'Sanctions' | 'PEP' | 'Adverse Media' | 'Shell Check';
 
@@ -25,8 +25,6 @@ interface Screening {
   shellCompany: CheckDetail;
   riskScore: number;
 }
-
-const screenings: Screening[] = screeningData.screenings as Screening[];
 
 const resultVariant = (result: string): 'success' | 'danger' | 'warning' | 'default' => {
   if (result === 'Clear' || result === 'No Findings') return 'success';
@@ -50,13 +48,31 @@ const riskScoreLabel = (score: number) => {
 };
 
 export const ScreeningRisk: React.FC = () => {
-  const [selectedVendorId, setSelectedVendorId] = useState<string>(screenings[0]?.vendorId ?? '');
+  const [screenings, setScreenings] = useState<Screening[]>([]);
+  const [selectedVendorId, setSelectedVendorId] = useState<string>('');
   const [activeTab, setActiveTab] = useState<ScreeningTab>('All Checks');
   const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getScreenings()
+      .then(data => {
+        setScreenings(data.screenings || []);
+        if (data.screenings && data.screenings.length > 0) {
+          setSelectedVendorId(data.screenings[0].vendorId);
+        }
+      })
+      .catch(err => {
+        console.error('Failed to load screenings data', err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   const screening = useMemo(
     () => screenings.find(s => s.vendorId === selectedVendorId) ?? screenings[0],
-    [selectedVendorId]
+    [selectedVendorId, screenings]
   );
 
   const tabs: ScreeningTab[] = ['All Checks', 'Sanctions', 'PEP', 'Adverse Media', 'Shell Check'];
@@ -79,6 +95,14 @@ export const ScreeningRisk: React.FC = () => {
   const searchedVendors = search.length > 0
     ? screenings.filter(s => s.vendorName.toLowerCase().includes(search.toLowerCase()))
     : [];
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px', color: '#64748b' }}>
+        <p>Loading Screening & Risk Assessment...</p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>

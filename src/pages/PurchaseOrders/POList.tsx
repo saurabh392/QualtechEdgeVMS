@@ -7,10 +7,12 @@ import { Input } from '../../components/Input/Input';
 import { DataTable } from '../../components/DataTable/DataTable';
 import { getAllPOs } from '../../services/purchaseOrderService';
 import type { PurchaseOrderRecord } from '../../services/purchaseOrderService';
+import { useAuth } from '../../context/AuthContext';
 import styles from './POList.module.css';
 
 export const POList: React.FC = () => {
   const navigate = useNavigate();
+  const { hasActionPermission } = useAuth();
   const [poList, setPoList] = useState<PurchaseOrderRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -120,7 +122,9 @@ export const POList: React.FC = () => {
           <h1 className={styles.title}>Purchase Orders</h1>
           <p className={styles.breadcrumbs}>Home / Purchase Orders / PO List</p>
         </div>
-        <Button icon={<Plus size={16} />} onClick={() => navigate('/purchase-orders/create')}>Create Requisition</Button>
+        {hasActionPermission('CREATE_PO') && (
+          <Button icon={<Plus size={16} />} onClick={() => navigate('/purchase-orders/create')}>Create Requisition</Button>
+        )}
       </header>
 
       <Card className={styles.tableCard}>

@@ -4,6 +4,7 @@ import { Search, ChevronRight, CheckCircle2, XCircle, Send, AlertCircle } from '
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Badge } from '../../components/Badge/Badge';
+import { useAuth } from '../../context/AuthContext';
 import styles from './DocumentApprovals.module.css';
 
 interface Document {
@@ -44,6 +45,7 @@ interface Document {
 }
 
 export const DocumentApprovals: React.FC = () => {
+  const { hasActionPermission } = useAuth();
   const [documents, setDocuments] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
@@ -382,10 +384,10 @@ export const DocumentApprovals: React.FC = () => {
                   <label className={styles.remarksLabel}>Remarks (Optional)</label>
                   <textarea 
                     className={styles.remarksInput} 
-                    placeholder="Enter remarks..."
+                    placeholder={hasActionPermission('VERIFY_DOCUMENTS') ? "Enter remarks..." : "You do not have verification privileges."}
                     value={remarks}
                     onChange={(e) => setRemarks(e.target.value)}
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !hasActionPermission('VERIFY_DOCUMENTS')}
                   ></textarea>
                 </div>
               </Card>
@@ -399,34 +401,36 @@ export const DocumentApprovals: React.FC = () => {
               </Card>
             </div>
             
-            <Card className={styles.actionCard}>
-              <div className={styles.actionButtons}>
-                <Button 
-                  className={styles.approveBtn} 
-                  icon={<CheckCircle2 size={16} />}
-                  onClick={() => handleAction('Approve')}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? 'Processing...' : 'Approve'}
-                </Button>
-                <Button 
-                  className={styles.rejectBtn} 
-                  icon={<XCircle size={16} />}
-                  onClick={() => handleAction('Reject')}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? 'Processing...' : 'Reject'}
-                </Button>
-                <Button 
-                  className={styles.sendBackBtn} 
-                  icon={<Send size={16} />}
-                  onClick={() => handleAction('Send Back')}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? 'Processing...' : 'Send Back'}
-                </Button>
-              </div>
-            </Card>
+            {hasActionPermission('VERIFY_DOCUMENTS') && (
+              <Card className={styles.actionCard}>
+                <div className={styles.actionButtons}>
+                  <Button 
+                    className={styles.approveBtn} 
+                    icon={<CheckCircle2 size={16} />}
+                    onClick={() => handleAction('Approve')}
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Processing...' : 'Approve'}
+                  </Button>
+                  <Button 
+                    className={styles.rejectBtn} 
+                    icon={<XCircle size={16} />}
+                    onClick={() => handleAction('Reject')}
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Processing...' : 'Reject'}
+                  </Button>
+                  <Button 
+                    className={styles.sendBackBtn} 
+                    icon={<Send size={16} />}
+                    onClick={() => handleAction('Send Back')}
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Processing...' : 'Send Back'}
+                  </Button>
+                </div>
+              </Card>
+            )}
           </div>
         ) : (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1, backgroundColor: 'white', borderRadius: '8px', border: '1px solid var(--color-border)', minHeight: '400px' }}>

@@ -1,0 +1,53 @@
+{
+  "roles":[
+    {
+      "id":"ADMIN",
+      "name":"Tenant Admin",
+      "modules":["*"]
+    },
+    {
+      "id":"PROCUREMENT",
+      "name":"Procurement Manager",
+      "modules":[
+        "vendors",
+        "documents",
+        "catalogue",
+        "contracts",
+        "purchaseOrders",
+        "reports"
+      ]
+    },
+    {
+      "id":"FINANCE",
+      "name":"Finance Manager",
+      "modules":[
+        "invoices",
+        "payments",
+        "purchaseOrders",
+        "reports"
+      ]
+    },
+    {
+      "id":"ONBOARDING",
+      "name":"Vendor Onboarding Officer",
+      "modules":[
+        "vendors",
+        "documents",
+        "kyc",
+        "reports"
+      ]
+    },
+    {
+      "id":"VENDOR",
+      "name":"Vendor Portal User",
+      "modules":[
+        "myDocuments",
+        "myKyc",
+        "myContracts",
+        "myPOs",
+        "myInvoices",
+        "myPayments"
+      ]
+    }
+  ]
+}

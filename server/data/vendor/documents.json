@@ -38,5 +38,16 @@
     "expiryDate": "2026-05-10",
     "status": "Expired",
     "fileId": "FILE-004"
+  },
+  {
+    "documentId": "DOC-849",
+    "vendorId": "VND-001",
+    "documentName": "456434534",
+    "documentType": "GST Certificate",
+    "uploadDate": "2026-06-11",
+    "expiryDate": null,
+    "status": "Verified",
+    "fileId": "FILE-9280",
+    "filePath": "/uploads/vendor/VND_1781175411985-341923663.png"
   }
 ]

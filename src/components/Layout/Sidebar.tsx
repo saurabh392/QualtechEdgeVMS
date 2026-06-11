@@ -210,7 +210,7 @@ export const Sidebar: React.FC<Props> = ({ collapsed, onToggleCollapse, mobileOp
 
   const rawItems = user?.role === 'VENDOR' ? VENDOR_NAV_ITEMS : NAV_ITEMS;
   const filteredNavItems = rawItems.filter(item => {
-    if (['ADMIN', 'PROCUREMENT', 'COMPLIANCE', 'FINANCE'].includes(user?.role || '')) {
+    if (['ADMIN', 'PROCUREMENT', 'COMPLIANCE', 'ONBOARDING', 'FINANCE'].includes(user?.role || '')) {
       if (item.name === 'Vendor Portal') return false;
     }
     return hasPermission(item.name);
@@ -247,7 +247,15 @@ export const Sidebar: React.FC<Props> = ({ collapsed, onToggleCollapse, mobileOp
         {!collapsed && (
           <div className={styles.userInfo}>
             <div className={styles.userName}>{user?.fullName || 'Admin'}</div>
-            <div className={styles.userRole}>{user?.role || 'Administrator'}</div>
+            <div className={styles.userRole}>
+              {user?.role === 'ADMIN' && 'Tenant Admin'}
+              {user?.role === 'PROCUREMENT' && 'Procurement Manager'}
+              {user?.role === 'FINANCE' && 'Finance Manager'}
+              {user?.role === 'ONBOARDING' && 'Vendor Onboarding Officer'}
+              {user?.role === 'COMPLIANCE' && 'Vendor Onboarding Officer'}
+              {user?.role === 'VENDOR' && 'Vendor Portal User'}
+              {!['ADMIN', 'PROCUREMENT', 'FINANCE', 'ONBOARDING', 'COMPLIANCE', 'VENDOR'].includes(user?.role || '') && (user?.role || 'Administrator')}
+            </div>
           </div>
         )}
       </div>

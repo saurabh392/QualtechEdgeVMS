@@ -46,5 +46,29 @@
     "referenceId": "VND-001",
     "performedBy": "Vendor User",
     "timestamp": "2026-06-07T18:20:27.292Z"
+  },
+  {
+    "auditId": "AUD-2658",
+    "vendorId": "VND-001",
+    "action": "Document Upload",
+    "referenceId": "DOC-849",
+    "performedBy": "Vendor User",
+    "timestamp": "2026-06-11T10:56:52.154Z"
+  },
+  {
+    "auditId": "AUD-3888",
+    "vendorId": "VND-001",
+    "action": "KYC Update",
+    "referenceId": "VND-001",
+    "performedBy": "Vendor User",
+    "timestamp": "2026-06-11T10:56:58.401Z"
+  },
+  {
+    "auditId": "AUD-8595",
+    "vendorId": "VND-001",
+    "action": "Invoice Submission",
+    "referenceId": "INV-INV-2026-0025",
+    "performedBy": "Vendor User",
+    "timestamp": "2026-06-11T10:59:47.612Z"
   }
 ]

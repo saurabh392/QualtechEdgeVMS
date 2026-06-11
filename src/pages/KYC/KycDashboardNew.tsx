@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Users, CheckCircle2, Clock, AlertTriangle, RefreshCcw,
@@ -8,7 +8,7 @@ import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Badge } from '../../components/Badge/Badge';
 import styles from './KycDashboardNew.module.css';
-import kycData from '../../../server/data/kyc/kyc-dashboard.json';
+import { getKycDashboard } from '../../services/kycService';
 
 type KycStatus = 'Verified' | 'Pending' | 'In Progress' | 'High Risk' | 'Re-KYC Due';
 type RiskLevel = 'Low' | 'Medium' | 'High' | 'Critical';
@@ -23,8 +23,6 @@ interface Vendor {
   lastVerified: string;
   nextReviewDate: string;
 }
-
-const vendors: Vendor[] = kycData.vendors as Vendor[];
 
 const kycStatusVariant = (s: KycStatus) => {
   switch (s) {
@@ -57,6 +55,21 @@ export const KycDashboardNew: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<FilterKey>('All');
   const [search, setSearch] = useState('');
   const [riskFilter, setRiskFilter] = useState<'All' | RiskLevel>('All');
+  const [vendors, setVendors] = useState<Vendor[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getKycDashboard()
+      .then(data => {
+        setVendors(data.vendors || []);
+      })
+      .catch(err => {
+        console.error('Failed to load KYC dashboard data', err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   const counts = useMemo(() => ({
     All:           vendors.length,
@@ -65,7 +78,7 @@ export const KycDashboardNew: React.FC = () => {
     'In Progress': vendors.filter(v => v.kycStatus === 'In Progress').length,
     'High Risk':   vendors.filter(v => v.kycStatus === 'High Risk').length,
     'Re-KYC Due':  vendors.filter(v => v.kycStatus === 'Re-KYC Due').length,
-  }), []);
+  }), [vendors]);
 
   const filtered = useMemo(() => {
     return vendors.filter(v => {
@@ -75,9 +88,17 @@ export const KycDashboardNew: React.FC = () => {
       if (q) return v.vendorName.toLowerCase().includes(q) || v.vendorId.toLowerCase().includes(q) || v.category.toLowerCase().includes(q);
       return true;
     });
-  }, [activeFilter, riskFilter, search]);
+  }, [activeFilter, riskFilter, search, vendors]);
 
   type KpiDef = { label: string; key: FilterKey; value: number; icon: React.ReactNode; bg: string; color: string; footerClass: string; footer: string };
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px', color: '#64748b' }}>
+        <p>Loading KYC Dashboard...</p>
+      </div>
+    );
+  }
 
   const kpis: KpiDef[] = [
     { label: 'Total Vendors',  key: 'All',          value: counts.All,          icon: <Users size={18} />,       bg: '#eff6ff', color: '#1d4ed8', footerClass: styles.kpiFooter,      footer: 'All registered vendors' },

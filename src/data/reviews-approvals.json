@@ -1,0 +1,216 @@
+{
+  "reviews": [
+    {
+      "reviewId": "REV-2026-001",
+      "vendorId": "VND-2026-00034",
+      "vendorName": "Fincons Consulting LLP",
+      "reviewType": "Enhanced Due Diligence",
+      "dueDate": "2026-06-10",
+      "assignedTo": "Compliance Team",
+      "status": "Scheduled",
+      "priority": "High"
+    },
+    {
+      "reviewId": "REV-2026-002",
+      "vendorId": "VND-2026-00047",
+      "vendorName": "TechBridge Pvt Ltd",
+      "reviewType": "Annual Re-KYC",
+      "dueDate": "2026-06-15",
+      "assignedTo": "KYC Analyst",
+      "status": "Scheduled",
+      "priority": "Medium"
+    },
+    {
+      "reviewId": "REV-2026-003",
+      "vendorId": "VND-2026-00061",
+      "vendorName": "Apex Construction Ltd",
+      "reviewType": "Annual Re-KYC",
+      "dueDate": "2026-06-20",
+      "assignedTo": "KYC Analyst",
+      "status": "In Review",
+      "priority": "High"
+    },
+    {
+      "reviewId": "REV-2026-004",
+      "vendorId": "VND-2026-00045",
+      "vendorName": "Meridian Trade Co.",
+      "reviewType": "Risk-Triggered Re-KYC",
+      "dueDate": "2026-06-05",
+      "assignedTo": "Legal & Compliance",
+      "status": "Overdue",
+      "priority": "Critical"
+    },
+    {
+      "reviewId": "REV-2026-005",
+      "vendorId": "VND-2026-00052",
+      "vendorName": "NovaChem Industries",
+      "reviewType": "Sanctions Review",
+      "dueDate": "2026-07-01",
+      "assignedTo": "Compliance Team",
+      "status": "Scheduled",
+      "priority": "High"
+    },
+    {
+      "reviewId": "REV-2026-006",
+      "vendorId": "VND-2026-00038",
+      "vendorName": "Global Security Solutions",
+      "reviewType": "Periodic Review",
+      "dueDate": "2026-07-20",
+      "assignedTo": "KYC Analyst",
+      "status": "Scheduled",
+      "priority": "Medium"
+    },
+    {
+      "reviewId": "REV-2026-007",
+      "vendorId": "VND-2025-00029",
+      "vendorName": "ABC Infotech Private Limited",
+      "reviewType": "Annual Re-KYC",
+      "dueDate": "2026-07-11",
+      "assignedTo": "Compliance Team",
+      "status": "Scheduled",
+      "priority": "Medium"
+    },
+    {
+      "reviewId": "REV-2026-008",
+      "vendorId": "VND-2025-00029",
+      "vendorName": "ABC Infotech Private Limited",
+      "reviewType": "Enhanced Due Diligence",
+      "dueDate": "2026-07-11",
+      "assignedTo": "Compliance Team",
+      "status": "Scheduled",
+      "priority": "High"
+    },
+    {
+      "reviewId": "REV-2026-009",
+      "vendorId": "VND-2026-88001",
+      "vendorName": "HDFC Bank Limited",
+      "reviewType": "Enhanced Due Diligence",
+      "dueDate": "2026-07-11",
+      "assignedTo": "Compliance Team",
+      "status": "Scheduled",
+      "priority": "High"
+    },
+    {
+      "reviewId": "REV-2026-010",
+      "vendorId": "VND-2026-50469",
+      "vendorName": "My Money Mantra ",
+      "reviewType": "Enhanced Due Diligence",
+      "dueDate": "2026-07-11",
+      "assignedTo": "Compliance Team",
+      "status": "Scheduled",
+      "priority": "High"
+    },
+    {
+      "reviewId": "REV-2026-011",
+      "vendorId": "VND-2026-50469",
+      "vendorName": "My Money Mantra ",
+      "reviewType": "PEP Review",
+      "dueDate": "2026-07-11",
+      "assignedTo": "Compliance Team",
+      "status": "Scheduled",
+      "priority": "High"
+    },
+    {
+      "reviewId": "REV-2026-012",
+      "vendorId": "VND-2026-88164",
+      "vendorName": "axis max life ",
+      "reviewType": "Enhanced Due Diligence",
+      "dueDate": "2026-07-11",
+      "assignedTo": "Compliance Team",
+      "status": "Scheduled",
+      "priority": "High"
+    }
+  ],
+  "pendingApprovals": [
+    {
+      "approvalId": "APR-2026-001",
+      "vendorId": "VND-2026-00034",
+      "vendorName": "Fincons Consulting LLP",
+      "category": "Financial Advisory",
+      "riskLevel": "Medium",
+      "submittedBy": "Rahul Sharma",
+      "submittedOn": "2026-06-02",
+      "stage": "Compliance Review",
+      "workflow": {
+        "procurement": "Approved",
+        "compliance": "Pending",
+        "legal": "Pending",
+        "final": "Pending"
+      }
+    },
+    {
+      "approvalId": "APR-2026-002",
+      "vendorId": "VND-2026-00038",
+      "vendorName": "Global Security Solutions",
+      "category": "Security Services",
+      "riskLevel": "Medium",
+      "submittedBy": "Priya Nair",
+      "submittedOn": "2026-06-03",
+      "stage": "Legal Review",
+      "workflow": {
+        "procurement": "Approved",
+        "compliance": "Approved",
+        "legal": "Pending",
+        "final": "Pending"
+      }
+    },
+    {
+      "approvalId": "APR-2026-003",
+      "vendorId": "VND-2026-00052",
+      "vendorName": "NovaChem Industries",
+      "category": "Chemicals",
+      "riskLevel": "Critical",
+      "submittedBy": "Amit Verma",
+      "submittedOn": "2026-06-01",
+      "stage": "Final Approval",
+      "workflow": {
+        "procurement": "Approved",
+        "compliance": "Approved",
+        "legal": "Approved",
+        "final": "Pending"
+      }
+    }
+  ],
+  "completedReviews": [
+    {
+      "reviewId": "REV-2025-088",
+      "vendorId": "VND-2026-00029",
+      "vendorName": "ABC Infotech Pvt Ltd",
+      "reviewType": "Annual Re-KYC",
+      "completedDate": "2026-05-01",
+      "reviewedBy": "Compliance Team",
+      "outcome": "Approved",
+      "nextReviewDate": "2027-05-01"
+    },
+    {
+      "reviewId": "REV-2025-089",
+      "vendorId": "VND-2026-00031",
+      "vendorName": "Secure Facilities Ltd",
+      "reviewType": "Periodic Review",
+      "completedDate": "2026-04-15",
+      "reviewedBy": "KYC Analyst",
+      "outcome": "Approved",
+      "nextReviewDate": "2027-04-15"
+    },
+    {
+      "reviewId": "REV-2025-090",
+      "vendorId": "VND-2026-00041",
+      "vendorName": "DataSoft Technologies",
+      "reviewType": "Annual Re-KYC",
+      "completedDate": "2026-03-22",
+      "reviewedBy": "Compliance Team",
+      "outcome": "Approved",
+      "nextReviewDate": "2027-03-22"
+    },
+    {
+      "reviewId": "REV-2025-091",
+      "vendorId": "VND-2026-00058",
+      "vendorName": "SwiftLogix Pvt Ltd",
+      "reviewType": "Initial KYC",
+      "completedDate": "2026-01-30",
+      "reviewedBy": "KYC Analyst",
+      "outcome": "Approved",
+      "nextReviewDate": "2027-01-30"
+    }
+  ]
+}

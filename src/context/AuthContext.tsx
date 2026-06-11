@@ -13,6 +13,7 @@ import {
   clearLocalSession 
 } from '../services/authService';
 import type { User } from '../services/authService';
+import rolesConfig from '../data/roles.json';
 
 interface AuthContextType {
   user: User | null;
@@ -25,6 +26,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   hasPermission: (moduleName: string) => boolean;
   hasRole: (roles: string[]) => boolean;
+  hasActionPermission: (action: string) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -147,15 +149,91 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!user) return false;
     const role = user.role;
 
-    if (['ADMIN', 'PROCUREMENT', 'COMPLIANCE', 'FINANCE'].includes(role)) {
-      return moduleName !== 'Vendor Portal';
+    const moduleMap: Record<string, string> = {
+      'Vendors': 'vendors',
+      'Documents': 'documents',
+      'Due Diligence & KYC': 'kyc',
+      'Item & Service Catalogue': 'catalogue',
+      'Contracts & SLAs': 'contracts',
+      'Purchase Orders': 'purchaseOrders',
+      'Invoices': 'invoices',
+      'Payments': 'payments',
+      'Reports & MIS': 'reports',
+      'Settings': 'settings',
+      'My Documents': 'myDocuments',
+      'My KYC': 'myKyc',
+      'My Contracts': 'myContracts',
+      'My Purchase Orders': 'myPOs',
+      'My Invoices': 'myInvoices',
+      'My Payments': 'myPayments'
+    };
+
+    if (['Dashboard', 'My Profile', 'Support Tickets', 'Support', 'Portal Dashboard'].includes(moduleName)) {
+      return true;
     }
 
-    if (role === 'VENDOR') {
-      return moduleName === 'Vendor Portal';
+    const mappedKey = moduleMap[moduleName] || moduleName.toLowerCase();
+    
+    const roleConfig = rolesConfig.roles.find(r => r.id === role);
+    if (!roleConfig) {
+      if (role === 'COMPLIANCE') {
+        const complConfig = rolesConfig.roles.find(r => r.id === 'ONBOARDING');
+        if (complConfig) return complConfig.modules.includes(mappedKey);
+      }
+      return false;
     }
 
-    return false;
+    if (roleConfig.modules.includes('*')) return true;
+
+    return roleConfig.modules.includes(mappedKey);
+  };
+
+  const hasActionPermission = (action: string): boolean => {
+    if (!user) return false;
+    const role = user.role;
+    if (role === 'ADMIN') return true;
+
+    switch (role) {
+      case 'PROCUREMENT':
+        return [
+          'CREATE_VENDOR',
+          'EDIT_VENDOR',
+          'APPROVE_VENDOR',
+          'CREATE_PO',
+          'APPROVE_PO',
+          'MANAGE_CATALOGUE',
+          'GENERATE_REPORTS',
+          'VIEW_PO'
+        ].includes(action);
+      case 'FINANCE':
+        return [
+          'APPROVE_INVOICE',
+          'RUN_3WAY_MATCH',
+          'RELEASE_PAYMENT',
+          'GENERATE_REPORTS'
+        ].includes(action);
+      case 'ONBOARDING':
+      case 'COMPLIANCE':
+        return [
+          'CREATE_VENDOR',
+          'VERIFY_DOCUMENTS',
+          'RUN_SCREENING',
+          'APPROVE_KYC',
+          'INITIATE_RE_KYC',
+          'GENERATE_REPORTS'
+        ].includes(action);
+      case 'VENDOR':
+        return [
+          'UPLOAD_DOCUMENTS',
+          'VIEW_PO',
+          'SUBMIT_INVOICE',
+          'TRACK_PAYMENT',
+          'RAISE_QUERY',
+          'UPDATE_PROFILE'
+        ].includes(action);
+      default:
+        return false;
+    }
   };
 
   const hasRole = (roles: string[]): boolean => {
@@ -174,7 +252,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       triggerSendOtp, 
       logout, 
       hasPermission, 
-      hasRole 
+      hasRole,
+      hasActionPermission
     }}>
       {children}
     </AuthContext.Provider>

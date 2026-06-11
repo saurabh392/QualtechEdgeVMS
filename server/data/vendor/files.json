@@ -30,5 +30,13 @@
     "fileType": "application/pdf",
     "filePath": "/uploads/vendor/ISO_27001_InfoSec.pdf",
     "uploadDate": "2025-05-10"
+  },
+  {
+    "fileId": "FILE-9280",
+    "vendorId": "VND-001",
+    "fileName": "Screenshot 2025-12-02 142918.png",
+    "fileType": "image/png",
+    "filePath": "/uploads/vendor/VND_1781175411985-341923663.png",
+    "uploadDate": "2026-06-11"
   }
 ]

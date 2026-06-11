@@ -2,7 +2,7 @@
   {
     "id": "USR-001",
     "name": "Saurabh Anand",
-    "role": "System Administrator",
+    "role": "Tenant Admin",
     "portal": "Admin Portal",
     "username": "admin",
     "password": "admin123",
@@ -24,10 +24,10 @@
   {
     "id": "USR-003",
     "name": "Rahul Verma",
-    "role": "Compliance Officer",
-    "portal": "Compliance Portal",
-    "username": "compliance",
-    "password": "compliance123",
+    "role": "Vendor Onboarding Officer",
+    "portal": "Onboarding Portal",
+    "username": "onboarding",
+    "password": "onboarding123",
     "redirectUrl": "/compliance/dashboard",
     "color": "purple",
     "initials": "RV"
@@ -46,11 +46,11 @@
   {
     "id": "USR-005",
     "name": "Acme Vendor",
-    "role": "Vendor Representative",
+    "role": "Vendor Portal User",
     "portal": "Vendor Portal",
     "username": "vendor",
     "password": "vendor123",
-    "redirectUrl": "/vendor/dashboard",
+    "redirectUrl": "/vendor/overview",
     "color": "teal",
     "initials": "AV"
   }

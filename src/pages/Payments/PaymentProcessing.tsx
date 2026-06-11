@@ -4,6 +4,7 @@ import { ChevronLeft, CheckCircle2, Bot, Check, AlertTriangle, Calendar } from '
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
+import { useAuth } from '../../context/AuthContext';
 import styles from './PaymentProcessing.module.css';
 
 const STEPS = [
@@ -21,9 +22,16 @@ const mockPayables = [
 
 export const PaymentProcessing: React.FC = () => {
   const navigate = useNavigate();
+  const { hasActionPermission } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  React.useEffect(() => {
+    if (!hasActionPermission('RELEASE_PAYMENT')) {
+      navigate('/access-denied');
+    }
+  }, [hasActionPermission, navigate]);
 
   const handleNext = () => {
     if (currentStep === 1) {

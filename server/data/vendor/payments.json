@@ -5,5 +5,12 @@
     "amount": 2210000,
     "paymentDate": "2026-03-15",
     "status": "Paid"
+  },
+  {
+    "paymentId": "PAY-143",
+    "invoiceId": "INV-INV-2026-0025",
+    "amount": 600000,
+    "paymentDate": "2026-06-11",
+    "status": "Paid"
   }
 ]

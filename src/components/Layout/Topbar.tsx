@@ -29,6 +29,12 @@ export const Topbar: React.FC<Props> = ({ onMobileMenuToggle }) => {
 
   const formattedRole = (role: string) => {
     if (!role) return '';
+    if (role === 'ADMIN') return 'Tenant Admin';
+    if (role === 'PROCUREMENT') return 'Procurement Manager';
+    if (role === 'FINANCE') return 'Finance Manager';
+    if (role === 'ONBOARDING') return 'Vendor Onboarding Officer';
+    if (role === 'COMPLIANCE') return 'Vendor Onboarding Officer';
+    if (role === 'VENDOR') return 'Vendor Portal User';
     return role.split('_').map(w => w[0] + w.slice(1).toLowerCase()).join(' ');
   };
 

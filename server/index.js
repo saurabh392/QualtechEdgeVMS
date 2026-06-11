@@ -22,8 +22,14 @@ app.use(cors());
 app.use(express.json());
 
 // Resolve database paths
-const VENDORS_PATH = path.join(__dirname, 'data', 'vendors.json');
-const DOCUMENTS_PATH = path.join(__dirname, 'data', 'documents.json');
+const SRC_DATA_DIR = path.join(__dirname, '..', 'src', 'data');
+const VENDORS_PATH = path.join(SRC_DATA_DIR, 'vendors.json');
+const DOCUMENTS_PATH = path.join(SRC_DATA_DIR, 'documents.json');
+const KYC_DASHBOARD_PATH = path.join(SRC_DATA_DIR, 'kyc-dashboard.json');
+const SCREENING_RESULTS_PATH = path.join(SRC_DATA_DIR, 'screening-results.json');
+const REVIEWS_APPROVALS_PATH = path.join(SRC_DATA_DIR, 'reviews-approvals.json');
+const AUDIT_LOG_PATH = path.join(SRC_DATA_DIR, 'audit-log.json');
+
 const APPROVALS_PATH = path.join(__dirname, 'data', 'approvals.json');
 const AUDIT_LOGS_PATH = path.join(__dirname, 'data', 'audit-logs.json');
 const DOC_TYPES_PATH = path.join(__dirname, 'data', 'document-types.json');
@@ -40,8 +46,13 @@ const KYC_SHELL_COMPANY_PATH = path.join(__dirname, 'data', 'kyc', 'shell-compan
 const KYC_RE_KYC_SCHEDULING_PATH = path.join(__dirname, 'data', 'kyc', 're-kyc-scheduling.json');
 const KYC_REKYC_REMINDERS_PATH = path.join(__dirname, 'data', 'kyc', 'rekyc-reminders.json');
 const KYC_APPROVALS_PATH = path.join(__dirname, 'data', 'kyc', 'vendor-approvals.json');
+
 const UPLOADS_DIR = path.join(__dirname, 'uploads');
-const DOC_UPLOADS_DIR = path.join(UPLOADS_DIR, 'documents');
+const STORAGE_DIR = path.join(__dirname, '..', 'storage');
+const DOC_UPLOADS_DIR = path.join(STORAGE_DIR, 'documents');
+const VENDOR_STORAGE_DIR = path.join(STORAGE_DIR, 'vendors');
+const SCREENING_STORAGE_DIR = path.join(STORAGE_DIR, 'screening');
+const REVIEWS_STORAGE_DIR = path.join(STORAGE_DIR, 'reviews');
 const KYC_UPLOADS_DIR = path.join(UPLOADS_DIR, 'kyc');
 const SANCTIONS_UPLOADS_DIR = path.join(KYC_UPLOADS_DIR, 'sanctions');
 const BLACKLIST_UPLOADS_DIR = path.join(KYC_UPLOADS_DIR, 'blacklist');
@@ -89,12 +100,84 @@ const CAT_SERVICES_UPLOADS_DIR = path.join(CAT_UPLOADS_DIR, 'services');
 
 // Ensure directories exist
 async function ensureDirectories() {
+  await fs.mkdir(SRC_DATA_DIR, { recursive: true });
+  await fs.mkdir(STORAGE_DIR, { recursive: true });
+  await fs.mkdir(DOC_UPLOADS_DIR, { recursive: true });
+  await fs.mkdir(VENDOR_STORAGE_DIR, { recursive: true });
+  await fs.mkdir(SCREENING_STORAGE_DIR, { recursive: true });
+  await fs.mkdir(REVIEWS_STORAGE_DIR, { recursive: true });
+
+  // Sync / Copy vendors.json if not exists in src/data
+  try {
+    await fs.access(VENDORS_PATH);
+  } catch {
+    try {
+      const fallbackVendors = path.join(__dirname, 'data', 'vendors.json');
+      const data = await fs.readFile(fallbackVendors, 'utf8');
+      await fs.writeFile(VENDORS_PATH, data, 'utf8');
+    } catch {
+      await fs.writeFile(VENDORS_PATH, '[]', 'utf8');
+    }
+  }
+
+  // Sync / Copy documents.json if not exists in src/data
+  try {
+    await fs.access(DOCUMENTS_PATH);
+  } catch {
+    try {
+      const fallbackDocs = path.join(__dirname, 'data', 'documents.json');
+      const data = await fs.readFile(fallbackDocs, 'utf8');
+      await fs.writeFile(DOCUMENTS_PATH, data, 'utf8');
+    } catch {
+      await fs.writeFile(DOCUMENTS_PATH, '[]', 'utf8');
+    }
+  }
+
+  // Initialize kyc-dashboard.json
+  try {
+    await fs.access(KYC_DASHBOARD_PATH);
+  } catch {
+    await fs.writeFile(KYC_DASHBOARD_PATH, JSON.stringify({ lastUpdated: "", summary: {}, vendors: [] }), 'utf8');
+  }
+
+  // Initialize screening-results.json
+  try {
+    await fs.access(SCREENING_RESULTS_PATH);
+  } catch {
+    await fs.writeFile(SCREENING_RESULTS_PATH, JSON.stringify({ screenings: [] }), 'utf8');
+  }
+
+  // Initialize reviews-approvals.json
+  try {
+    await fs.access(REVIEWS_APPROVALS_PATH);
+  } catch {
+    try {
+      const fallbackReviews = path.join(__dirname, 'data', 'kyc', 'reviews.json');
+      const data = await fs.readFile(fallbackReviews, 'utf8');
+      const parsed = JSON.parse(data);
+      const reviewsData = {
+        reviews: parsed.reviews || parsed || [],
+        pendingApprovals: parsed.pendingApprovals || [],
+        completedReviews: parsed.completedReviews || []
+      };
+      await fs.writeFile(REVIEWS_APPROVALS_PATH, JSON.stringify(reviewsData, null, 2), 'utf8');
+    } catch {
+      await fs.writeFile(REVIEWS_APPROVALS_PATH, JSON.stringify({ reviews: [], pendingApprovals: [], completedReviews: [] }), 'utf8');
+    }
+  }
+
+  // Initialize audit-log.json
+  try {
+    await fs.access(AUDIT_LOG_PATH);
+  } catch {
+    await fs.writeFile(AUDIT_LOG_PATH, '[]', 'utf8');
+  }
+
   await fs.mkdir(path.join(__dirname, 'data'), { recursive: true });
   await fs.mkdir(path.join(__dirname, 'data', 'catalogue'), { recursive: true });
   await fs.mkdir(path.join(__dirname, 'data', 'kyc'), { recursive: true });
   await fs.mkdir(AUTH_DIR, { recursive: true });
   await fs.mkdir(UPLOADS_DIR, { recursive: true });
-  await fs.mkdir(DOC_UPLOADS_DIR, { recursive: true });
   await fs.mkdir(KYC_UPLOADS_DIR, { recursive: true });
   await fs.mkdir(CAT_SPECS_DIR, { recursive: true });
   await fs.mkdir(CAT_IMAGES_DIR, { recursive: true });
@@ -136,6 +219,314 @@ async function ensureDirectories() {
   }
 }
 ensureDirectories().catch(console.error);
+
+// Enterprise VMS Audit Logger
+async function logVmsAuditTrail(action, details, performedBy = 'Saurabh Anand', status = 'Success') {
+  try {
+    let logs = [];
+    try {
+      logs = await readJsonFile(AUDIT_LOG_PATH);
+      if (!Array.isArray(logs)) logs = [];
+    } catch (e) {
+      logs = [];
+    }
+    const newLog = {
+      id: `AUD-2026-${String(logs.length + 1).padStart(4, '0')}`,
+      timestamp: new Date().toISOString(),
+      action,
+      details,
+      performedBy,
+      status
+    };
+    logs.push(newLog);
+    await writeJsonFile(AUDIT_LOG_PATH, logs);
+    console.log(`VMS Audit logged: ${action} - ${details}`);
+  } catch (err) {
+    console.error('Error logging VMS audit:', err);
+  }
+}
+
+// Enterprise VMS Recalculation Engine
+async function recalculateVmsSystem() {
+  try {
+    console.log('Running connected VMS Recalculation Engine...');
+    const vendors = await readJsonFile(VENDORS_PATH);
+    const documents = await readJsonFile(DOCUMENTS_PATH);
+
+    // 1. Recalculate KYC Statuses & Dashboard Counts
+    const kycVendorsList = vendors.map(v => {
+      const vendorId = v.vendorId;
+      const vendorName = v.vendorName || v.basicDetails?.legalName || v.basicDetails?.tradeName || 'Unnamed Vendor';
+      
+      // Filter documents for this vendor
+      const vendorDocs = documents.filter(d => 
+        (d.vendor?.vendorId === vendorId) || 
+        (d.vendorId === vendorId)
+      );
+
+      const panDoc = vendorDocs.find(d => 
+        (d.documentName || '').toUpperCase().includes('PAN') || 
+        (d.documentType || '').toUpperCase().includes('PAN')
+      );
+      const gstDoc = vendorDocs.find(d => 
+        (d.documentName || '').toUpperCase().includes('GST') || 
+        (d.documentType || '').toUpperCase().includes('GST')
+      );
+      const msmeDoc = vendorDocs.find(d => 
+        (d.documentName || '').toUpperCase().includes('MSME') || 
+        (d.documentType || '').toUpperCase().includes('MSME')
+      );
+
+      let kycStatus = 'Pending';
+      let lastVerified = '-';
+      let nextReview = '-';
+
+      const checkVerified = (doc) => {
+        if (!doc) return false;
+        const statusVal = (doc.verificationStatus || doc.approvalStatus || doc.status || '').toUpperCase();
+        return statusVal === 'VERIFIED' || statusVal === 'APPROVED';
+      };
+
+      const checkRejected = (doc) => {
+        if (!doc) return false;
+        const statusVal = (doc.verificationStatus || doc.approvalStatus || doc.status || '').toUpperCase();
+        return statusVal === 'REJECTED';
+      };
+
+      const anyRejected = checkRejected(panDoc) || checkRejected(gstDoc) || checkRejected(msmeDoc);
+
+      if (anyRejected) {
+        kycStatus = 'In Progress'; // Rejected documents put it back in progress for remediation
+      } else if (panDoc && gstDoc && msmeDoc && checkVerified(panDoc) && checkVerified(gstDoc) && checkVerified(msmeDoc)) {
+        lastVerified = panDoc.uploadedAt?.split('T')[0] || panDoc.uploadedDate || new Date().toISOString().split('T')[0];
+        
+        // Calculate next review date (lastVerified + 365 days)
+        try {
+          const lvDate = new Date(lastVerified);
+          const nrDate = new Date(lvDate.getTime() + 365 * 24 * 60 * 60 * 1000);
+          nextReview = nrDate.toISOString().split('T')[0];
+          
+          if (new Date() > nrDate) {
+            kycStatus = 'Re-KYC Due';
+          } else {
+            kycStatus = 'Verified';
+          }
+        } catch (e) {
+          kycStatus = 'Verified';
+        }
+      } else if (panDoc || gstDoc || msmeDoc) {
+        kycStatus = 'In Progress';
+      }
+
+      // Check if periodic review overrides to Re-KYC Due
+      if (v.status === 'Re-KYC Due' || v.kycStatus === 'Re-KYC Due') {
+        kycStatus = 'Re-KYC Due';
+      }
+
+      const riskLevel = v.riskLevel || (v.businessDetails?.criticalVendor ? 'High' : 'Low');
+      const category = v.category || v.basicDetails?.businessType || 'General';
+
+      return {
+        vendorId,
+        vendorName,
+        category,
+        riskLevel,
+        kycStatus,
+        lastVerified,
+        nextReview,
+        nextReviewDate: nextReview
+      };
+    });
+
+    const summary = {
+      totalVendors: kycVendorsList.length,
+      verified: kycVendorsList.filter(v => v.kycStatus === 'Verified').length,
+      pending: kycVendorsList.filter(v => v.kycStatus === 'Pending').length,
+      inProgress: kycVendorsList.filter(v => v.kycStatus === 'In Progress').length,
+      highRisk: kycVendorsList.filter(v => v.riskLevel === 'High' || v.riskLevel === 'Critical').length,
+      reKycDue: kycVendorsList.filter(v => v.kycStatus === 'Re-KYC Due').length
+    };
+
+    const kycDashboard = {
+      lastUpdated: new Date().toISOString().split('T')[0],
+      summary,
+      vendors: kycVendorsList
+    };
+
+    await writeJsonFile(KYC_DASHBOARD_PATH, kycDashboard);
+
+    // 2. Run Risk Screening Engine & Update screening-results.json
+    let existingScreenings = [];
+    try {
+      const data = await readJsonFile(SCREENING_RESULTS_PATH);
+      existingScreenings = data.screenings || [];
+    } catch (e) {
+      existingScreenings = [];
+    }
+
+    const screeningResults = kycVendorsList.map(kv => {
+      const vendorId = kv.vendorId;
+      const vendorName = kv.vendorName;
+
+      // Check if name has triggers for higher scores
+      let sanctionsStatus = 'Clear';
+      let sanctionsScore = 0;
+      let sanctionsDetails = 'No matches found in OFAC, UN, EU sanctions lists.';
+      if (vendorName.toLowerCase().includes('secure') || vendorId === 'VND-2026-22003') {
+        sanctionsStatus = 'Match Found';
+        sanctionsScore = 80;
+        sanctionsDetails = 'Entity name partial match on OFAC SDN list. Under investigation.';
+      }
+
+      let pepStatus = 'Clear';
+      let pepScore = 0;
+      let pepDetails = 'No politically exposed persons identified.';
+      if (vendorName.toLowerCase().includes('money') || vendorId === 'VND-2026-50469') {
+        pepStatus = 'Match Found';
+        pepScore = 50;
+        pepDetails = 'Director linked to a former state minister. Awaiting enhanced due diligence.';
+      } else if (vendorName.toLowerCase().includes('secure') || vendorId === 'VND-2026-22003') {
+        pepStatus = 'Match Found';
+        pepScore = 60;
+        pepDetails = 'Beneficial owner linked to politically exposed individual.';
+      }
+
+      let adverseMediaStatus = 'No Findings';
+      let adverseMediaScore = 0;
+      let adverseMediaDetails = 'No adverse news coverage detected.';
+      if (vendorName.toLowerCase().includes('hdfc') || vendorId === 'VND-2026-88001') {
+        adverseMediaStatus = '1 Finding';
+        adverseMediaScore = 10;
+        adverseMediaDetails = 'Minor regulatory notice in 2024. Case closed.';
+      } else if (vendorName.toLowerCase().includes('money') || vendorId === 'VND-2026-50469') {
+        adverseMediaStatus = '2 Findings';
+        adverseMediaScore = 20;
+        adverseMediaDetails = 'Tax dispute (2023) and delayed regulatory filing (2024).';
+      } else if (vendorName.toLowerCase().includes('secure') || vendorId === 'VND-2026-22003') {
+        adverseMediaStatus = '5 Findings';
+        adverseMediaScore = 40;
+        adverseMediaDetails = 'Multiple fraud allegations and customs violations reported.';
+      }
+
+      let blacklistStatus = 'Clear';
+      let blacklistScore = 0;
+      let blacklistDetails = 'Not present in any industry or government blacklist.';
+      if (vendorName.toLowerCase().includes('secure') || vendorId === 'VND-2026-22003') {
+        blacklistStatus = 'Blacklisted';
+        blacklistScore = 100;
+        blacklistDetails = 'Listed on MCA debarred entities list.';
+      }
+
+      let shellStatus = 'Low Risk';
+      let shellScore = 5;
+      let shellDetails = 'Registered entity with 8+ years of operational history.';
+      if (vendorName.toLowerCase().includes('secure') || vendorId === 'VND-2026-22003') {
+        shellStatus = 'High Risk';
+        shellScore = 70;
+        shellDetails = 'No physical address. Nominee directors. Possible shell.';
+      } else if (vendorName.toLowerCase().includes('money') || vendorId === 'VND-2026-50469') {
+        shellStatus = 'Medium Risk';
+        shellScore = 20;
+        shellDetails = 'Complex shareholding structure identified. Review ongoing.';
+      } else if (vendorId === 'VND-2026-11002') {
+        shellStatus = 'Low Risk';
+        shellScore = 10;
+        shellDetails = 'Verified physical address and staffing.';
+      }
+
+      const totalRiskScore = sanctionsScore + pepScore + adverseMediaScore + blacklistScore + shellScore;
+      let overallRisk = 'Low Risk';
+      if (totalRiskScore > 120 || kv.riskLevel === 'High' || kv.riskLevel === 'Critical') {
+        overallRisk = 'High Risk';
+      } else if (totalRiskScore > 20) {
+        overallRisk = 'Medium Risk';
+      }
+
+      return {
+        vendorId,
+        vendorName,
+        screeningDate: new Date().toISOString().split('T')[0],
+        sanctions: { status: sanctionsStatus, result: sanctionsStatus, score: sanctionsScore, lastChecked: new Date().toISOString().split('T')[0], details: sanctionsDetails },
+        pep: { status: pepStatus, result: pepStatus, score: pepScore, lastChecked: new Date().toISOString().split('T')[0], details: pepDetails },
+        adverseMedia: { status: adverseMediaStatus, result: adverseMediaStatus, score: adverseMediaScore, lastChecked: new Date().toISOString().split('T')[0], details: adverseMediaDetails },
+        blacklist: { status: blacklistStatus, result: blacklistStatus, score: blacklistScore, lastChecked: new Date().toISOString().split('T')[0], details: blacklistDetails },
+        shellCompany: { status: shellStatus, result: shellStatus, score: shellScore, lastChecked: new Date().toISOString().split('T')[0], details: shellDetails },
+        totalRiskScore,
+        riskScore: totalRiskScore,
+        overallRisk
+      };
+    });
+
+    await writeJsonFile(SCREENING_RESULTS_PATH, { screenings: screeningResults });
+
+    // 3. Run Review Engine & Update reviews-approvals.json
+    let reviewsApprovals = { reviews: [], pendingApprovals: [], completedReviews: [] };
+    try {
+      const data = await readJsonFile(REVIEWS_APPROVALS_PATH);
+      if (data) {
+        reviewsApprovals = {
+          reviews: data.reviews || [],
+          pendingApprovals: data.pendingApprovals || [],
+          completedReviews: data.completedReviews || []
+        };
+      }
+    } catch (e) {
+      reviewsApprovals = { reviews: [], pendingApprovals: [], completedReviews: [] };
+    }
+
+    const generatedReviews = [];
+    let reviewCounter = reviewsApprovals.reviews.length + 1;
+
+    for (const kv of kycVendorsList) {
+      const screening = screeningResults.find(s => s.vendorId === kv.vendorId);
+      
+      const addReview = (reviewType, priority) => {
+        const exists = reviewsApprovals.reviews.some(r => r.vendorId === kv.vendorId && r.reviewType === reviewType) ||
+                       generatedReviews.some(r => r.vendorId === kv.vendorId && r.reviewType === reviewType);
+        if (!exists) {
+          const rId = `REV-2026-${String(reviewCounter++).padStart(3, '0')}`;
+          const dueDate = new Date();
+          dueDate.setDate(dueDate.getDate() + 30);
+          generatedReviews.push({
+            reviewId: rId,
+            vendorId: kv.vendorId,
+            vendorName: kv.vendorName,
+            reviewType,
+            dueDate: dueDate.toISOString().split('T')[0],
+            assignedTo: 'Compliance Team',
+            status: 'Scheduled',
+            priority
+          });
+        }
+      };
+
+      if (kv.kycStatus === 'Re-KYC Due') {
+        addReview('Annual Re-KYC', 'Medium');
+      }
+      if (kv.riskLevel === 'High' || kv.riskLevel === 'Critical') {
+        addReview('Enhanced Due Diligence', 'High');
+      }
+      if (screening) {
+        if (screening.sanctions?.status !== 'Clear') {
+          addReview('Sanctions Review', 'High');
+        }
+        if (screening.pep?.status !== 'Clear') {
+          addReview('PEP Review', 'High');
+        }
+        if (screening.shellCompany?.score > 50) {
+          addReview('Shell Company Investigation', 'High');
+        }
+      }
+    }
+
+    reviewsApprovals.reviews = [...reviewsApprovals.reviews, ...generatedReviews];
+    await writeJsonFile(REVIEWS_APPROVALS_PATH, reviewsApprovals);
+    console.log('Connected VMS Recalculation Engine ran successfully.');
+
+  } catch (err) {
+    console.error('Error during VMS recalculation:', err);
+  }
+}
 
 // Static files for uploads (allows downloading files)
 app.use('/uploads', express.static(UPLOADS_DIR));
@@ -524,7 +915,7 @@ app.post('/api/documents/upload', docUpload.single('file'), async (req, res) => 
 
     const originalFileName = req.file.originalname;
     const storedFileName = req.file.filename;
-    const filePath = `/uploads/documents/${storedFileName}`;
+    const filePath = `/storage/documents/${storedFileName}`;
     const fileExtension = path.extname(originalFileName).toLowerCase();
     const fileSizeKB = Math.round(req.file.size / 1024);
 
@@ -602,6 +993,9 @@ app.post('/api/documents/upload', docUpload.single('file'), async (req, res) => 
       });
       await updateJsonData(VENDORS_PATH, 'vendorId', vendorId, { documents: vendorDocs });
     }
+
+    await recalculateVmsSystem();
+    await logVmsAuditTrail('Document Uploaded', `Document ${documentId} (${documentName}) uploaded for vendor ${vendorName || vendorId}.`);
 
     res.status(201).json({
       success: true,
@@ -712,6 +1106,9 @@ app.delete('/api/documents/:id', async (req, res) => {
       await updateJsonData(VENDORS_PATH, 'vendorId', doc.vendor?.vendorId, { documents: filteredVendorDocs });
     }
     
+    await recalculateVmsSystem();
+    await logVmsAuditTrail('Document Deleted', `Document ${req.params.id} (${doc.documentName}) deleted for vendor ${doc.vendor?.vendorName || doc.vendor?.vendorId}.`);
+
     res.json({ success: true, message: 'Document deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -787,6 +1184,9 @@ app.post('/api/documents/verify', async (req, res) => {
       }
     }
     
+    await recalculateVmsSystem();
+    await logVmsAuditTrail('Document Verified', `Document ${documentId} (${doc.documentName}) verified (${verStatus}) by ${userName}.`);
+
     res.json({
       success: true,
       message: `Document verification ${action}d successfully.`,
@@ -845,6 +1245,8 @@ app.post('/api/vendors', async (req, res) => {
     vendorData.createdAt = vendorData.createdAt || new Date().toISOString();
     
     await appendJsonData(VENDORS_PATH, vendorData);
+    await recalculateVmsSystem();
+    await logVmsAuditTrail('Vendor Added', `Vendor ${vendorData.vendorId} (${vendorData.vendorName || vendorData.basicDetails?.legalName}) onboarding initiated.`);
 
     // Write audit trail log
     await logAction(
@@ -864,6 +1266,8 @@ app.post('/api/vendors', async (req, res) => {
 app.put('/api/vendors/:id', async (req, res) => {
   try {
     const updated = await updateJsonData(VENDORS_PATH, 'vendorId', req.params.id, req.body);
+    await recalculateVmsSystem();
+    await logVmsAuditTrail('Vendor Updated', `Vendor ${req.params.id} (${updated.vendorName || updated.basicDetails?.legalName}) profile updated.`);
     
     await logAction(
       req.body.approvalWorkflow?.submittedBy || 'Saurabh Anand',
@@ -888,6 +1292,8 @@ app.delete('/api/vendors/:id', async (req, res) => {
     }
 
     await deleteJsonData(VENDORS_PATH, 'vendorId', req.params.id);
+    await recalculateVmsSystem();
+    await logVmsAuditTrail('Vendor Deleted', `Vendor ${req.params.id} (${vendor.vendorName || vendor.basicDetails?.legalName}) profile deleted.`);
 
     await logAction(
       'Saurabh Anand',
@@ -940,13 +1346,15 @@ app.post('/api/vendors/:id/approve', async (req, res) => {
     const approvalHistory = {
       id: `APP-${Math.floor(Math.random() * 90000) + 10000}`,
       vendorId: req.params.id,
-      vendorName: vendor.basicDetails.legalName,
+      vendorName: vendor.basicDetails?.legalName || vendor.vendorName,
       performedBy: performedBy || 'Saurabh Anand',
       action: 'Approved',
       remarks,
       timestamp: new Date().toISOString()
     };
     await appendJsonData(APPROVALS_PATH, approvalHistory);
+    await recalculateVmsSystem();
+    await logVmsAuditTrail('KYC Approved', `Vendor ${req.params.id} (${vendor.vendorName || vendor.basicDetails?.legalName}) onboarding approved by Checker.`);
 
     await logAction(
       performedBy || 'Saurabh Anand',
@@ -4751,6 +5159,60 @@ const calculateKycStatus = (vendor) => {
   // IN PROGRESS (all mandatory uploaded but not all verified yet)
   return 'In Progress';
 };
+
+// GET /api/kyc/dashboard
+app.get('/api/kyc/dashboard', async (req, res) => {
+  try {
+    await recalculateVmsSystem();
+    const data = await readJsonFile(KYC_DASHBOARD_PATH);
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET /api/kyc/screening
+app.get('/api/kyc/screening', async (req, res) => {
+  try {
+    const data = await readJsonFile(SCREENING_RESULTS_PATH);
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET /api/kyc/reviews
+app.get('/api/kyc/reviews', async (req, res) => {
+  try {
+    const data = await readJsonFile(REVIEWS_APPROVALS_PATH);
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET /api/kyc/audit-log
+app.get('/api/kyc/audit-log', async (req, res) => {
+  try {
+    const data = await readJsonFile(AUDIT_LOG_PATH);
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/kyc/screening/run
+app.post('/api/kyc/screening/run', async (req, res) => {
+  try {
+    const { vendorId } = req.body;
+    await recalculateVmsSystem();
+    await logVmsAuditTrail('Risk Screening Run', `AI Screening rerun triggered for vendor ${vendorId}.`);
+    const data = await readJsonFile(SCREENING_RESULTS_PATH);
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // GET /api/kyc/vendors
 app.get('/api/kyc/vendors', async (req, res) => {

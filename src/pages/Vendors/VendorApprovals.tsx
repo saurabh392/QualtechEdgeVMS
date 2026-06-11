@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Badge } from '../../components/Badge/Badge';
+import { useAuth } from '../../context/AuthContext';
 import styles from './VendorApprovals.module.css';
 
 export const VendorApprovals: React.FC = () => {
@@ -13,6 +14,7 @@ export const VendorApprovals: React.FC = () => {
   const [vendors, setVendors] = useState<any[]>([]);
   const [selectedVendor, setSelectedVendor] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
+  const { hasActionPermission } = useAuth();
   const [remarks, setRemarks] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -212,32 +214,34 @@ export const VendorApprovals: React.FC = () => {
                   <span className={styles.remarksHint}>Comments will be visible to maker in the vendor audit history.</span>
                 </div>
                 
-                <div className={styles.actionButtons}>
-                  <Button 
-                    className={styles.approveBtn} 
-                    icon={actionLoading ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}
-                    onClick={() => handleAction('approve')}
-                    disabled={actionLoading}
-                  >
-                    Approve
-                  </Button>
-                  <Button 
-                    className={styles.rejectBtn} 
-                    icon={actionLoading ? <Loader2 size={16} className="animate-spin" /> : <XCircle size={16} />}
-                    onClick={() => handleAction('reject')}
-                    disabled={actionLoading}
-                  >
-                    Reject
-                  </Button>
-                  <Button 
-                    className={styles.sendBackBtn} 
-                    icon={actionLoading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
-                    onClick={() => handleAction('sendback')}
-                    disabled={actionLoading}
-                  >
-                    Send Back
-                  </Button>
-                </div>
+                {hasActionPermission('APPROVE_VENDOR') && (
+                  <div className={styles.actionButtons}>
+                    <Button 
+                      className={styles.approveBtn} 
+                      icon={actionLoading ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}
+                      onClick={() => handleAction('approve')}
+                      disabled={actionLoading}
+                    >
+                      Approve
+                    </Button>
+                    <Button 
+                      className={styles.rejectBtn} 
+                      icon={actionLoading ? <Loader2 size={16} className="animate-spin" /> : <XCircle size={16} />}
+                      onClick={() => handleAction('reject')}
+                      disabled={actionLoading}
+                    >
+                      Reject
+                    </Button>
+                    <Button 
+                      className={styles.sendBackBtn} 
+                      icon={actionLoading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
+                      onClick={() => handleAction('sendback')}
+                      disabled={actionLoading}
+                    >
+                      Send Back
+                    </Button>
+                  </div>
+                )}
               </Card>
             ) : (
               <Card style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '64px', minHeight: '300px', color: '#64748b' }}>

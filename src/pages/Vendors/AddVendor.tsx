@@ -6,6 +6,7 @@ import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
 import { Badge } from '../../components/Badge/Badge';
+import { useAuth } from '../../context/AuthContext';
 import styles from './AddVendor.module.css';
 
 const STEPS = ['Basic Details', 'Business Details', 'Bank Details', 'Documents', 'Review'];
@@ -23,7 +24,15 @@ export const AddVendor: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const editVendorId = searchParams.get('id');
-  const isViewMode = searchParams.get('view') === 'true';
+  const { hasActionPermission } = useAuth();
+
+  const isEdit = !!editVendorId;
+  const hasEditPermission = hasActionPermission('EDIT_VENDOR');
+  const hasCreatePermission = hasActionPermission('CREATE_VENDOR');
+
+  const isViewMode = searchParams.get('view') === 'true' ||
+                     (isEdit && !hasEditPermission) ||
+                     (!isEdit && !hasCreatePermission);
 
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);

@@ -1,50 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, CheckCircle2, Clock, AlertTriangle, ChevronRight, ThumbsUp, ThumbsDown, RotateCcw } from 'lucide-react';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Badge } from '../../components/Badge/Badge';
+import { useAuth } from '../../context/AuthContext';
 import styles from './ReviewsApprovals.module.css';
-import reviewsData from '../../../server/data/kyc/reviews.json';
+import { getReviewsAndApprovals } from '../../services/reviewService';
+import type { Review, Approval, CompletedReview } from '../../services/reviewService';
 
 type TabKey = 'Schedule' | 'Approvals' | 'Completed';
-
-interface Review {
-  reviewId: string;
-  vendorId: string;
-  vendorName: string;
-  reviewType: string;
-  dueDate: string;
-  assignedTo: string;
-  status: string;
-  priority: string;
-}
-
-interface Approval {
-  approvalId: string;
-  vendorId: string;
-  vendorName: string;
-  category: string;
-  riskLevel: string;
-  submittedBy: string;
-  submittedOn: string;
-  stage: string;
-  workflow: { procurement: string; compliance: string; legal: string; final: string };
-}
-
-interface CompletedReview {
-  reviewId: string;
-  vendorId: string;
-  vendorName: string;
-  reviewType: string;
-  completedDate: string;
-  reviewedBy: string;
-  outcome: string;
-  nextReviewDate: string;
-}
-
-const reviews: Review[] = reviewsData.reviews as Review[];
-const approvals: Approval[] = reviewsData.pendingApprovals as Approval[];
-const completed: CompletedReview[] = reviewsData.completedReviews as CompletedReview[];
 
 const daysUntil = (dateStr: string) => Math.ceil((new Date(dateStr).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
 
@@ -69,8 +33,36 @@ const stepLabel: Record<typeof workflowSteps[number], string> = {
 };
 
 export const ReviewsApprovals: React.FC = () => {
+  const { hasActionPermission } = useAuth();
   const [activeTab, setActiveTab] = useState<TabKey>('Schedule');
   const [showOverdueOnly, setShowOverdueOnly] = useState(false);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [approvals, setApprovals] = useState<Approval[]>([]);
+  const [completed, setCompleted] = useState<CompletedReview[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getReviewsAndApprovals()
+      .then(data => {
+        setReviews(data.reviews || []);
+        setApprovals(data.pendingApprovals || []);
+        setCompleted(data.completedReviews || []);
+      })
+      .catch(err => {
+        console.error('Failed to load reviews and approvals data', err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px', color: '#64748b' }}>
+        <p>Loading Reviews & Approvals...</p>
+      </div>
+    );
+  }
 
   const tabs: { key: TabKey; label: string; count: number }[] = [
     { key: 'Schedule',  label: 'Review Schedule',   count: reviews.length   },
@@ -87,7 +79,9 @@ export const ReviewsApprovals: React.FC = () => {
           <p className={styles.subtitle}>Re-KYC scheduling, vendor approval workflows, and completed review history</p>
         </div>
         <div className={styles.headerActions}>
-          <Button icon={<Calendar size={16} />} variant="outline">Schedule Review</Button>
+          {hasActionPermission('INITIATE_RE_KYC') && (
+            <Button icon={<Calendar size={16} />} variant="outline">Schedule Review</Button>
+          )}
         </div>
       </header>
 
@@ -207,7 +201,9 @@ export const ReviewsApprovals: React.FC = () => {
                       <td><Badge variant={statusVariant(r.status)}>{r.status}</Badge></td>
                       <td>
                         <div className={styles.actionsCell}>
-                          <button className={styles.actionBtn}>Start Review</button>
+                          {hasActionPermission('RUN_SCREENING') && (
+                            <button className={styles.actionBtn}>Start Review</button>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -259,11 +255,13 @@ export const ReviewsApprovals: React.FC = () => {
                 </div>
 
                 {/* Actions */}
-                <div className={styles.approvalActions}>
-                  <button className={styles.approveBtn}><ThumbsUp size={14} /> Approve</button>
-                  <button className={styles.rejectBtn}><ThumbsDown size={14} /> Reject</button>
-                  <button className={styles.sendBackBtn}><RotateCcw size={14} /> Send Back</button>
-                </div>
+                {hasActionPermission('APPROVE_KYC') && (
+                  <div className={styles.approvalActions}>
+                    <button className={styles.approveBtn}><ThumbsUp size={14} /> Approve</button>
+                    <button className={styles.rejectBtn}><ThumbsDown size={14} /> Reject</button>
+                    <button className={styles.sendBackBtn}><RotateCcw size={14} /> Send Back</button>
+                  </div>
+                )}
               </Card>
             ))}
           </div>

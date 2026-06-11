@@ -54,7 +54,47 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (allowedRoles && !allowedRoles.includes(user.role)) {
+  // Normalize allowedRoles to support role transition (COMPLIANCE -> ONBOARDING)
+  const userRole = user.role;
+  const matchesAllowedRole = allowedRoles ? allowedRoles.some(r => {
+    if (r === userRole) return true;
+    if (r === 'COMPLIANCE' && userRole === 'ONBOARDING') return true;
+    if (r === 'ONBOARDING' && userRole === 'COMPLIANCE') return true;
+    return false;
+  }) : true;
+
+  if (allowedRoles && !matchesAllowedRole) {
+    return <Navigate to="/access-denied" replace />;
+  }
+
+  // Dynamic path-to-module authorization mapping
+  const getModuleForPath = (pathName: string): string | null => {
+    const cleanPath = pathName.replace(/\/$/, '');
+    
+    if (cleanPath.startsWith('/vendors')) return 'Vendors';
+    if (cleanPath.startsWith('/documents')) return 'Documents';
+    if (cleanPath.startsWith('/kyc')) return 'Due Diligence & KYC';
+    if (cleanPath.startsWith('/catalogue')) return 'Item & Service Catalogue';
+    if (cleanPath.startsWith('/contracts')) return 'Contracts & SLAs';
+    if (cleanPath.startsWith('/purchase-orders')) return 'Purchase Orders';
+    if (cleanPath.startsWith('/invoices')) return 'Invoices';
+    if (cleanPath.startsWith('/payments')) return 'Payments';
+    if (cleanPath.startsWith('/reports')) return 'Reports & MIS';
+    if (cleanPath.startsWith('/settings')) return 'Settings';
+
+    // Vendor self-service paths
+    if (cleanPath.startsWith('/vendor/documents')) return 'My Documents';
+    if (cleanPath.startsWith('/vendor/kyc')) return 'My KYC';
+    if (cleanPath.startsWith('/vendor/contracts')) return 'My Contracts';
+    if (cleanPath.startsWith('/vendor/purchase-orders')) return 'My Purchase Orders';
+    if (cleanPath.startsWith('/vendor/invoices')) return 'My Invoices';
+    if (cleanPath.startsWith('/vendor/payments')) return 'My Payments';
+
+    return null;
+  };
+
+  const currentModule = getModuleForPath(location.pathname);
+  if (currentModule && !hasPermission(currentModule)) {
     return <Navigate to="/access-denied" replace />;
   }
 

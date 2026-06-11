@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Package, CheckCircle, Search } from 'lucide-react';
-import { useVendorPOs, useAcknowledgePO } from '../../hooks/useVendorPortal';
+import { Package, Search } from 'lucide-react';
+import { useVendorPOs } from '../../hooks/useVendorPortal';
 import s from './vendor.module.css';
 
 const statusBadge = (status: string) => {
@@ -11,7 +11,6 @@ const statusBadge = (status: string) => {
 
 export const VendorPOs: React.FC = () => {
   const { data: pos = [], isLoading } = useVendorPOs();
-  const ackMutation = useAcknowledgePO();
   const [search, setSearch] = useState('');
 
   const filtered = pos.filter(p =>

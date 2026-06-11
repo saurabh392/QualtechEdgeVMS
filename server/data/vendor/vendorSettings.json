@@ -1,0 +1,11 @@
+{
+  "notifications": {
+    "poIssued": true,
+    "invoiceStatus": true,
+    "paymentCleared": true,
+    "docExpiry": true,
+    "ticketUpdate": false
+  },
+  "language": "en",
+  "theme": "light"
+}

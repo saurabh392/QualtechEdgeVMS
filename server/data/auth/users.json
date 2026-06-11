@@ -14,14 +14,14 @@
     "permissions": [
       "FULL_ENTERPRISE_ACCESS"
     ],
-    "lastLogin": "9/6/2026, 4:42:33 pm"
+    "lastLogin": "11/6/2026, 6:30:27 pm"
   },
   {
     "userId": "USR-1002",
     "username": "vendor",
     "password": "vendor123",
     "fullName": "Acme Vendor",
-    "email": "vendor@qualtechedge.com",
+    "email": "vendor@abcinfotech.com",
     "role": "VENDOR",
     "status": "Active",
     "dashboardRoute": "/vendor/dashboard",
@@ -31,7 +31,7 @@
     "permissions": [
       "VENDOR_PORTAL_ACCESS"
     ],
-    "lastLogin": "9/6/2026, 4:29:26 pm"
+    "lastLogin": "11/6/2026, 6:36:12 pm"
   },
   {
     "userId": "USR-1003",
@@ -48,23 +48,24 @@
     "permissions": [
       "PROCUREMENT_ACCESS"
     ],
-    "lastLogin": "8/6/2026, 9:03:43 am"
+    "lastLogin": "11/6/2026, 6:37:33 pm"
   },
   {
     "userId": "USR-1004",
-    "username": "compliance",
-    "password": "compliance123",
+    "username": "onboarding",
+    "password": "onboarding123",
     "fullName": "Rahul Verma",
-    "email": "compliance@qualtechedge.com",
-    "role": "COMPLIANCE",
+    "email": "onboarding@qualtechedge.com",
+    "role": "ONBOARDING",
     "status": "Active",
     "dashboardRoute": "/compliance/dashboard",
     "profileImage": "/assets/profile/compliance.png",
     "twoFactorEnabled": true,
     "defaultOtp": "123456",
     "permissions": [
-      "COMPLIANCE_ACCESS"
-    ]
+      "ONBOARDING_ACCESS"
+    ],
+    "lastLogin": "11/6/2026, 6:37:11 pm"
   },
   {
     "userId": "USR-1005",
@@ -81,6 +82,6 @@
     "permissions": [
       "FINANCE_ACCESS"
     ],
-    "lastLogin": "8/6/2026, 9:04:10 am"
+    "lastLogin": "11/6/2026, 6:36:21 pm"
   }
 ]

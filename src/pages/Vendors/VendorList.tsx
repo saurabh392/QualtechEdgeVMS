@@ -9,12 +9,14 @@ import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
 import { DataTable } from '../../components/DataTable/DataTable';
+import { useAuth } from '../../context/AuthContext';
 import styles from './VendorList.module.css';
 
 export const VendorList: React.FC = () => {
   const navigate = useNavigate();
   const [vendors, setVendors] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const { hasActionPermission } = useAuth();
 
   // Search & Filter state from Context
   const { filters, setFilters, setFilterValue, resetFilters } = useVendorFilters();
@@ -174,21 +176,25 @@ export const VendorList: React.FC = () => {
           >
             <Eye size={16} />
           </button>
-          <button 
-            className={styles.actionBtn} 
-            onClick={() => navigate(`/vendors/add?id=${row.vendorId}`)} 
-            title="Edit Details"
-          >
-            <Edit2 size={16} />
-          </button>
-          <button 
-            className={styles.actionBtn} 
-            onClick={() => handleDelete(row.vendorId)} 
-            title="Delete Record" 
-            style={{ color: 'var(--color-danger)' }}
-          >
-            <Trash2 size={16} />
-          </button>
+          {hasActionPermission('EDIT_VENDOR') && (
+            <button 
+              className={styles.actionBtn} 
+              onClick={() => navigate(`/vendors/add?id=${row.vendorId}`)} 
+              title="Edit Details"
+            >
+              <Edit2 size={16} />
+            </button>
+          )}
+          {hasActionPermission('DELETE_VENDOR') && (
+            <button 
+              className={styles.actionBtn} 
+              onClick={() => handleDelete(row.vendorId)} 
+              title="Delete Record" 
+              style={{ color: 'var(--color-danger)' }}
+            >
+              <Trash2 size={16} />
+            </button>
+          )}
         </div>
       ) 
     },
@@ -318,9 +324,11 @@ export const VendorList: React.FC = () => {
                 onChange={(e) => setFilterValue('search', e.target.value)}
               />
             </div>
-            <Button onClick={() => navigate('/vendors/add')} icon={<Plus size={16} />}>
-              Add Vendor
-            </Button>
+            {hasActionPermission('CREATE_VENDOR') && (
+              <Button onClick={() => navigate('/vendors/add')} icon={<Plus size={16} />}>
+                Add Vendor
+              </Button>
+            )}
           </div>
           <div style={{ display: 'flex', gap: '16px', alignItems: 'center', borderTop: '1px solid var(--color-border)', paddingTop: '16px', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>

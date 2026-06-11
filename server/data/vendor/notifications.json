@@ -103,5 +103,26 @@
     "message": "KYC registration numbers updated and verified.",
     "read": false,
     "createdDate": "2026-06-11"
+  },
+  {
+    "notificationId": "NOT-6863",
+    "vendorId": "VND-001",
+    "message": "Document 456434534 uploaded successfully.",
+    "read": false,
+    "createdDate": "2026-06-11"
+  },
+  {
+    "notificationId": "NOT-1920",
+    "vendorId": "VND-001",
+    "message": "KYC registration numbers updated and verified.",
+    "read": false,
+    "createdDate": "2026-06-11"
+  },
+  {
+    "notificationId": "NOT-8890",
+    "vendorId": "VND-001",
+    "message": "Invoice INV-INV-2026-0025 successfully matched and Paid.",
+    "read": false,
+    "createdDate": "2026-06-11"
   }
 ]

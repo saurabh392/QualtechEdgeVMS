@@ -3,6 +3,7 @@ import { Search, ChevronRight, CheckCircle2, XCircle, Send, Bot, Scale } from 'l
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Badge } from '../../components/Badge/Badge';
+import { useAuth } from '../../context/AuthContext';
 import styles from './InvoiceApprovals.module.css';
 
 const pendingInvoices = [
@@ -12,6 +13,7 @@ const pendingInvoices = [
 ];
 
 export const InvoiceApprovals: React.FC = () => {
+  const { hasActionPermission } = useAuth();
   const [remarks, setRemarks] = useState('');
 
   return (
@@ -129,23 +131,26 @@ export const InvoiceApprovals: React.FC = () => {
               </div>
             </div>
 
-            <h3 className={styles.actionTitle}>Authorized AP Action</h3>
+            {hasActionPermission('APPROVE_INVOICE') && (
+              <>
+                <h3 className={styles.actionTitle}>Authorized AP Action</h3>
+                <div className={styles.actionButtons}>
+                  <Button className={styles.approveBtn} icon={<CheckCircle2 size={16} />}>Approve & Release Payment</Button>
+                  <Button className={styles.rejectBtn} icon={<XCircle size={16} />}>Reject Invoice</Button>
+                  <Button className={styles.sendBackBtn} icon={<Send size={16} />}>Send Back to Vendor Portal</Button>
+                </div>
 
-            <div className={styles.actionButtons}>
-              <Button className={styles.approveBtn} icon={<CheckCircle2 size={16} />}>Approve & Release Payment</Button>
-              <Button className={styles.rejectBtn} icon={<XCircle size={16} />}>Reject Invoice</Button>
-              <Button className={styles.sendBackBtn} icon={<Send size={16} />}>Send Back to Vendor Portal</Button>
-            </div>
-
-            <div className={styles.remarksSection}>
-              <label className={styles.remarksLabel}>Audit Notes / remarks</label>
-              <textarea 
-                className={styles.remarksInput} 
-                placeholder="Enter remarks required for rejection or return..."
-                value={remarks}
-                onChange={(e) => setRemarks(e.target.value)}
-              ></textarea>
-            </div>
+                <div className={styles.remarksSection}>
+                  <label className={styles.remarksLabel}>Audit Notes / remarks</label>
+                  <textarea 
+                    className={styles.remarksInput} 
+                    placeholder="Enter remarks required for rejection or return..."
+                    value={remarks}
+                    onChange={(e) => setRemarks(e.target.value)}
+                  ></textarea>
+                </div>
+              </>
+            )}
           </Card>
         </div>
       </div>
