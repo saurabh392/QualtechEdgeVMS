@@ -87,6 +87,7 @@ function App() {
         <VendorFilterProvider>
           <DocumentFilterProvider>
             <Routes>
+          <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/auth/2fa" element={<TwoFactorAuth />} />
           
