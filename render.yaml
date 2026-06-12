@@ -1,0 +1,14 @@
+# Render Blueprint — deploys the Express backend on the free tier.
+# NOTE: the free tier sleeps after 15 min idle and its disk is ephemeral,
+# so JSON data and uploads reset on each sleep/redeploy. Fine for a demo.
+services:
+  - type: web
+    name: qualtechedgevms-api
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm install
+    startCommand: node server/index.js
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
