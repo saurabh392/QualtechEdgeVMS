@@ -24,5 +24,12 @@
     "otp": "123456",
     "status": "USED",
     "expiresInSeconds": 300
+  },
+  {
+    "otpId": "OTP-9934",
+    "username": "onboarding",
+    "otp": "123456",
+    "status": "USED",
+    "expiresInSeconds": 300
   }
 ]

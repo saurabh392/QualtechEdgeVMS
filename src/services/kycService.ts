@@ -9,6 +9,7 @@ export interface Vendor {
   category: string;
   kycStatus: KycStatus;
   riskLevel: RiskLevel;
+  riskScore: number;
   lastVerified: string;
   nextReviewDate: string;
   nextReview?: string;

@@ -187,7 +187,7 @@ export const Login: React.FC = () => {
         <div className={styles.demoHeader}>
           <div className={styles.demoBadge}>
             <span className={styles.badgePulse}></span>
-            Demo Ready Environment
+            Demo Ready User
           </div>
           <span className={styles.demoCount}>{demoUsers.length} Roles Available</span>
         </div>

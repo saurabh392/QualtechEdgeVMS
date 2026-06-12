@@ -28,6 +28,7 @@ import { KycReKycScheduling } from './pages/KYC/KycReKycScheduling';
 import { KycDashboardNew } from './pages/KYC/KycDashboardNew';
 import { ScreeningRisk } from './pages/KYC/ScreeningRisk';
 import { ReviewsApprovals } from './pages/KYC/ReviewsApprovals';
+import { ApprovalDetail } from './pages/KYC/ApprovalDetail';
 import { ContractsDashboard } from './pages/Contracts/ContractsDashboard';
 import { CreateContract } from './pages/Contracts/CreateContract';
 import { ContractApprovals } from './pages/Contracts/ContractApprovals';
@@ -113,6 +114,7 @@ function App() {
                 <Route path="/kyc/dashboard" element={<KycDashboardNew />} />
                 <Route path="/kyc/screening" element={<ScreeningRisk />} />
                 <Route path="/kyc/reviews" element={<ReviewsApprovals />} />
+                <Route path="/kyc/approval/:vendorId" element={<ApprovalDetail />} />
                 <Route path="/kyc/:id" element={<KycDetail />} />
                 <Route path="/kyc/approvals" element={<KycApprovals />} />
                 <Route path="/kyc/risk" element={<KycRiskAssessment />} />

@@ -38,6 +38,9 @@ export const DocumentFilterProvider: React.FC<{ children: React.ReactNode }> = (
     } else if (statusParam === 'rejected') {
       selectedCard = 'rejected';
       status = 'Rejected';
+    } else if (statusParam === 'verified') {
+      selectedCard = 'verified';
+      status = 'Verified';
     } else if (statusParam === 'expiring30' || filterParam === 'expiring30') {
       selectedCard = 'expiring30';
       status = 'Expiring in 30 Days';
@@ -69,6 +72,8 @@ export const DocumentFilterProvider: React.FC<{ children: React.ReactNode }> = (
       params.status = 'pending';
     } else if (filters.status === 'Rejected') {
       params.status = 'rejected';
+    } else if (filters.status === 'Verified') {
+      params.status = 'verified';
     } else if (filters.status === 'Expiring in 30 Days') {
       params.status = 'expiring30';
     } else if (filters.status === 'Expired Documents') {
@@ -107,6 +112,9 @@ export const DocumentFilterProvider: React.FC<{ children: React.ReactNode }> = (
     } else if (statusParam === 'rejected') {
       selectedCard = 'rejected';
       status = 'Rejected';
+    } else if (statusParam === 'verified') {
+      selectedCard = 'verified';
+      status = 'Verified';
     } else if (statusParam === 'expiring30' || filterParam === 'expiring30') {
       selectedCard = 'expiring30';
       status = 'Expiring in 30 Days';
@@ -144,6 +152,7 @@ export const DocumentFilterProvider: React.FC<{ children: React.ReactNode }> = (
         if (value === 'All') updated.selectedCard = 'all';
         else if (value === 'Pending Verification') updated.selectedCard = 'pending';
         else if (value === 'Rejected') updated.selectedCard = 'rejected';
+        else if (value === 'Verified') updated.selectedCard = 'verified';
         else if (value === 'Expiring in 30 Days') updated.selectedCard = 'expiring30';
         else if (value === 'Expired Documents') updated.selectedCard = 'expired';
         else updated.selectedCard = '';

@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Users, CheckCircle2, Clock, AlertTriangle, RefreshCcw,
+  Users, CheckCircle2, Clock, AlertTriangle,
   Search, Filter, Download, Eye, ShieldCheck, ChevronRight
 } from 'lucide-react';
 import { Card } from '../../components/Card/Card';
@@ -12,12 +12,13 @@ import { getKycDashboard } from '../../services/kycService';
 
 type KycStatus = 'Verified' | 'Pending' | 'In Progress' | 'High Risk' | 'Re-KYC Due';
 type RiskLevel = 'Low' | 'Medium' | 'High' | 'Critical';
-type FilterKey = 'All' | KycStatus;
+type FilterKey = 'All' | 'Verified' | 'Pending' | 'High Risk';
 
 interface Vendor {
   vendorId: string;
   vendorName: string;
   category: string;
+  riskScore: number;
   kycStatus: KycStatus;
   riskLevel: RiskLevel;
   lastVerified: string;
@@ -45,6 +46,27 @@ const riskVariant = (r: RiskLevel) => {
   }
 };
 
+const getRiskScoreStyle = (score: number) => {
+  if (score <= 30) return { backgroundColor: '#dcfce7', color: '#16a34a', padding: '4px 10px', borderRadius: '100px', fontWeight: 600, fontSize: '0.75rem' };
+  if (score <= 60) return { backgroundColor: '#fffbeb', color: '#d97706', padding: '4px 10px', borderRadius: '100px', fontWeight: 600, fontSize: '0.75rem' };
+  if (score <= 80) return { backgroundColor: '#fef2f2', color: '#dc2626', padding: '4px 10px', borderRadius: '100px', fontWeight: 600, fontSize: '0.75rem' };
+  return { backgroundColor: '#fee2e2', color: '#991b1b', padding: '4px 10px', borderRadius: '100px', fontWeight: 600, fontSize: '0.75rem' };
+};
+
+const getRiskBadge = (r: RiskLevel) => {
+  if (r === 'Critical') {
+    return (
+      <Badge 
+        variant="danger" 
+        style={{ backgroundColor: '#7f1d1d', color: '#fca5a5', borderColor: '#991b1b' }}
+      >
+        {r}
+      </Badge>
+    );
+  }
+  return <Badge variant={riskVariant(r)}>{r}</Badge>;
+};
+
 const daysUntil = (dateStr: string) => {
   const diff = new Date(dateStr).getTime() - Date.now();
   return Math.ceil(diff / (1000 * 60 * 60 * 24));
@@ -57,6 +79,14 @@ export const KycDashboardNew: React.FC = () => {
   const [riskFilter, setRiskFilter] = useState<'All' | RiskLevel>('All');
   const [vendors, setVendors] = useState<Vendor[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const riskLevels = useMemo(() => {
+    const levels = new Set<RiskLevel>();
+    vendors.forEach(v => {
+      if (v.riskLevel) levels.add(v.riskLevel);
+    });
+    return Array.from(levels);
+  }, [vendors]);
 
   useEffect(() => {
     getKycDashboard()
@@ -75,14 +105,16 @@ export const KycDashboardNew: React.FC = () => {
     All:           vendors.length,
     Verified:      vendors.filter(v => v.kycStatus === 'Verified').length,
     Pending:       vendors.filter(v => v.kycStatus === 'Pending').length,
-    'In Progress': vendors.filter(v => v.kycStatus === 'In Progress').length,
-    'High Risk':   vendors.filter(v => v.kycStatus === 'High Risk').length,
-    'Re-KYC Due':  vendors.filter(v => v.kycStatus === 'Re-KYC Due').length,
+    'High Risk':   vendors.filter(v => v.riskLevel === 'High' || v.riskLevel === 'Critical').length,
   }), [vendors]);
 
   const filtered = useMemo(() => {
     return vendors.filter(v => {
-      if (activeFilter !== 'All' && v.kycStatus !== activeFilter) return false;
+      if (activeFilter === 'High Risk') {
+        if (v.riskLevel !== 'High' && v.riskLevel !== 'Critical') return false;
+      } else if (activeFilter !== 'All' && v.kycStatus !== activeFilter) {
+        return false;
+      }
       if (riskFilter  !== 'All' && v.riskLevel  !== riskFilter)  return false;
       const q = search.toLowerCase();
       if (q) return v.vendorName.toLowerCase().includes(q) || v.vendorId.toLowerCase().includes(q) || v.category.toLowerCase().includes(q);
@@ -104,9 +136,7 @@ export const KycDashboardNew: React.FC = () => {
     { label: 'Total Vendors',  key: 'All',          value: counts.All,          icon: <Users size={18} />,       bg: '#eff6ff', color: '#1d4ed8', footerClass: styles.kpiFooter,      footer: 'All registered vendors' },
     { label: 'Verified',       key: 'Verified',      value: counts.Verified,     icon: <CheckCircle2 size={18} />, bg: '#dcfce7', color: '#16a34a', footerClass: styles.kpiFooterGreen, footer: 'KYC fully approved' },
     { label: 'Pending',        key: 'Pending',       value: counts.Pending,      icon: <Clock size={18} />,        bg: '#fffbeb', color: '#f59e0b', footerClass: styles.kpiFooter,      footer: 'Awaiting verification' },
-    { label: 'In Progress',    key: 'In Progress',   value: counts['In Progress'],icon: <Clock size={18} />,        bg: '#e0f2fe', color: '#0284c7', footerClass: styles.kpiFooterInfo,   footer: 'Under active review' },
     { label: 'High Risk',      key: 'High Risk',     value: counts['High Risk'],  icon: <AlertTriangle size={18} />, bg: '#fee2e2', color: '#dc2626', footerClass: styles.kpiFooterRed,  footer: 'Requires escalation' },
-    { label: 'Re-KYC Due',     key: 'Re-KYC Due',   value: counts['Re-KYC Due'], icon: <RefreshCcw size={18} />,   bg: '#f3e8ff', color: '#7c3aed', footerClass: styles.kpiFooterRed,  footer: 'Periodic renewal due' },
   ];
 
   return (
@@ -146,7 +176,7 @@ export const KycDashboardNew: React.FC = () => {
       <Card className={styles.tableCard}>
         {/* Tabs */}
         <div className={styles.tabs}>
-          {(['All', 'Verified', 'Pending', 'In Progress', 'High Risk', 'Re-KYC Due'] as FilterKey[]).map(tab => (
+          {(['All', 'Verified', 'Pending', 'High Risk'] as FilterKey[]).map(tab => (
             <button
               key={tab}
               className={`${styles.tab} ${activeFilter === tab ? styles.activeTab : ''}`}
@@ -176,10 +206,9 @@ export const KycDashboardNew: React.FC = () => {
               onChange={e => setRiskFilter(e.target.value as 'All' | RiskLevel)}
             >
               <option value="All">All Risk Levels</option>
-              <option value="Low">Low</option>
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
-              <option value="Critical">Critical</option>
+              {riskLevels.map(level => (
+                <option key={level} value={level}>{level}</option>
+              ))}
             </select>
             <Button variant="ghost" icon={<Filter size={16} />}>Filters</Button>
           </div>
@@ -202,6 +231,7 @@ export const KycDashboardNew: React.FC = () => {
               <tr>
                 <th>Vendor</th>
                 <th>Category</th>
+                <th>Risk Score</th>
                 <th>Risk Level</th>
                 <th>KYC Status</th>
                 <th>Last Verified</th>
@@ -221,7 +251,12 @@ export const KycDashboardNew: React.FC = () => {
                       </div>
                     </td>
                     <td>{v.category}</td>
-                    <td><Badge variant={riskVariant(v.riskLevel)}>{v.riskLevel}</Badge></td>
+                    <td>
+                      <span style={getRiskScoreStyle(v.riskScore || 0)}>
+                        {v.riskScore || 0}
+                      </span>
+                    </td>
+                    <td>{getRiskBadge(v.riskLevel)}</td>
                     <td><Badge variant={kycStatusVariant(v.kycStatus) as any}>{v.kycStatus}</Badge></td>
                     <td>{v.lastVerified}</td>
                     <td>
@@ -249,7 +284,7 @@ export const KycDashboardNew: React.FC = () => {
               })}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={7} className={styles.emptyRow}>No vendors match the selected filter.</td>
+                  <td colSpan={8} className={styles.emptyRow}>No vendors match the selected filter.</td>
                 </tr>
               )}
             </tbody>
