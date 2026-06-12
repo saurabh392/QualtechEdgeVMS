@@ -3,7 +3,7 @@ import { AlertTriangle, CheckCircle2, XCircle, Shield, Search, ChevronDown } fro
 import { Card } from '../../components/Card/Card';
 import { Badge } from '../../components/Badge/Badge';
 import styles from './ScreeningRisk.module.css';
-import { getScreenings } from '../../services/screeningService';
+import { getScreenings, runScreening } from '../../services/screeningService';
 
 type ScreeningTab = 'All Checks' | 'Sanctions' | 'PEP' | 'Adverse Media' | 'Shell Check';
 
@@ -69,6 +69,17 @@ export const ScreeningRisk: React.FC = () => {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    if (!selectedVendorId) return;
+    runScreening(selectedVendorId)
+      .then(data => {
+        setScreenings(data.screenings || []);
+      })
+      .catch(err => {
+        console.error('Failed to run screening automatically on selection:', err);
+      });
+  }, [selectedVendorId]);
 
   const screening = useMemo(
     () => screenings.find(s => s.vendorId === selectedVendorId) ?? screenings[0],

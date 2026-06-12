@@ -24,7 +24,7 @@
 
 .kpiGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
 }
 
@@ -67,6 +67,17 @@
 .kpiCardActive[data-card="rejected"] {
   border-color: #dc2626 !important;
   background-color: #fef2f2 !important;
+}
+
+.kpiCardActive[data-card="verified"] {
+  border-color: #10b981 !important;
+  background-color: #ecfdf5 !important;
+}
+
+.kpiSubtext {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+  margin-top: 4px;
 }
 
 .kpiHeader {

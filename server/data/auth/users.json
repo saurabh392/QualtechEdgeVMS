@@ -14,7 +14,7 @@
     "permissions": [
       "FULL_ENTERPRISE_ACCESS"
     ],
-    "lastLogin": "11/6/2026, 6:30:27 pm"
+    "lastLogin": "12/6/2026, 6:28:29 pm"
   },
   {
     "userId": "USR-1002",
@@ -65,7 +65,7 @@
     "permissions": [
       "ONBOARDING_ACCESS"
     ],
-    "lastLogin": "11/6/2026, 6:37:11 pm"
+    "lastLogin": "12/6/2026, 5:00:55 pm"
   },
   {
     "userId": "USR-1005",
@@ -82,6 +82,6 @@
     "permissions": [
       "FINANCE_ACCESS"
     ],
-    "lastLogin": "11/6/2026, 6:36:21 pm"
+    "lastLogin": "12/6/2026, 12:56:51 pm"
   }
 ]

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { UploadCloud, Eye, Download, Trash2, Search, X } from 'lucide-react';
+import { UploadCloud, Eye, Download, Trash2, Search, X, ShieldCheck } from 'lucide-react';
 import clsx from 'clsx';
 import { useDocumentFilters } from '../../context/DocumentFilterContext';
 import { Card } from '../../components/Card/Card';
@@ -59,7 +59,7 @@ export const DocumentList: React.FC = () => {
   const typeFilter = filters.documentType;
   const statusFilter = filters.status;
 
-  const handleCardClick = (cardType: 'all' | 'expiring30' | 'expired' | 'pending' | 'rejected') => {
+  const handleCardClick = (cardType: 'all' | 'expiring30' | 'expired' | 'pending' | 'rejected' | 'verified') => {
     if (cardType === 'all') {
       resetFilters();
     } else if (cardType === 'expiring30') {
@@ -91,6 +91,14 @@ export const DocumentList: React.FC = () => {
         selectedCard: 'rejected',
         expiryFilter: 'all',
         status: 'Rejected',
+        documentType: 'All',
+        search: ''
+      });
+    } else if (cardType === 'verified') {
+      setFilters({
+        selectedCard: 'verified',
+        expiryFilter: 'all',
+        status: 'Verified',
         documentType: 'All',
         search: ''
       });
@@ -176,10 +184,12 @@ export const DocumentList: React.FC = () => {
   // KPI calculations
   const totalDocsCount = documents.length;
   
-
-
   const pendingCount = documents.filter(doc => 
     (doc?.verificationStatus || doc?.status) === 'Pending Verification'
+  ).length;
+
+  const verifiedCount = documents.filter(doc => 
+    (doc?.verificationStatus || doc?.status) === 'Verified'
   ).length;
 
   const rejectedCount = documents.filter(doc => 
@@ -300,8 +310,6 @@ export const DocumentList: React.FC = () => {
           </div>
         </Card>
 
-
-
         <Card 
           className={clsx(styles.kpiCard, filters.selectedCard === 'pending' && styles.kpiCardActive)}
           onClick={() => handleCardClick('pending')}
@@ -310,6 +318,21 @@ export const DocumentList: React.FC = () => {
           <div className={styles.kpiHeader}>
             <span className={styles.kpiLabel}>Pending Verification</span>
             <div className={styles.kpiValue} style={{ color: '#0ea5e9' }}>{pendingCount}</div>
+          </div>
+        </Card>
+
+        <Card 
+          className={clsx(styles.kpiCard, filters.selectedCard === 'verified' && styles.kpiCardActive)}
+          onClick={() => handleCardClick('verified')}
+          data-card="verified"
+        >
+          <div className={styles.kpiHeader}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+              <span className={styles.kpiLabel}>Verified Documents</span>
+              <ShieldCheck size={18} style={{ color: '#10b981' }} />
+            </div>
+            <div className={styles.kpiValue} style={{ color: '#10b981' }}>{verifiedCount}</div>
+            <span className={styles.kpiSubtext}>Fully Approved</span>
           </div>
         </Card>
 

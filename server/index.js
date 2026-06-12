@@ -28,6 +28,7 @@ const DOCUMENTS_PATH = path.join(SRC_DATA_DIR, 'documents.json');
 const KYC_DASHBOARD_PATH = path.join(SRC_DATA_DIR, 'kyc-dashboard.json');
 const SCREENING_RESULTS_PATH = path.join(SRC_DATA_DIR, 'screening-results.json');
 const REVIEWS_APPROVALS_PATH = path.join(SRC_DATA_DIR, 'reviews-approvals.json');
+const REVIEWS_PATH = path.join(SRC_DATA_DIR, 'reviews.json');
 const AUDIT_LOG_PATH = path.join(SRC_DATA_DIR, 'audit-log.json');
 
 const APPROVALS_PATH = path.join(__dirname, 'data', 'approvals.json');
@@ -166,6 +167,13 @@ async function ensureDirectories() {
     }
   }
 
+  // Initialize reviews.json
+  try {
+    await fs.access(REVIEWS_PATH);
+  } catch {
+    await fs.writeFile(REVIEWS_PATH, JSON.stringify({ reviews: [] }), 'utf8');
+  }
+
   // Initialize audit-log.json
   try {
     await fs.access(AUDIT_LOG_PATH);
@@ -253,8 +261,66 @@ async function recalculateVmsSystem() {
     const vendors = await readJsonFile(VENDORS_PATH);
     const documents = await readJsonFile(DOCUMENTS_PATH);
 
+    // CENTRALIZED RISK CALCULATION & SAVE TO vendors.json
+    const updatedVendors = vendors.map(v => {
+      const vendorId = v.vendorId;
+      const vendorName = v.vendorName || v.basicDetails?.legalName || v.basicDetails?.tradeName || 'Unnamed Vendor';
+
+      let sanctionsScore = 0;
+      if (vendorName.toLowerCase().includes('secure') || vendorId === 'VND-2026-22003') {
+        sanctionsScore = 80;
+      }
+
+      let pepScore = 0;
+      if (vendorName.toLowerCase().includes('money') || vendorId === 'VND-2026-50469') {
+        pepScore = 50;
+      } else if (vendorName.toLowerCase().includes('secure') || vendorId === 'VND-2026-22003') {
+        pepScore = 60;
+      }
+
+      let adverseMediaScore = 0;
+      if (vendorName.toLowerCase().includes('hdfc') || vendorId === 'VND-2026-88001') {
+        adverseMediaScore = 10;
+      } else if (vendorName.toLowerCase().includes('money') || vendorId === 'VND-2026-50469') {
+        adverseMediaScore = 20;
+      } else if (vendorName.toLowerCase().includes('secure') || vendorId === 'VND-2026-22003') {
+        adverseMediaScore = 40;
+      }
+
+      let blacklistScore = 0;
+      if (vendorName.toLowerCase().includes('secure') || vendorId === 'VND-2026-22003') {
+        blacklistScore = 100;
+      }
+
+      let shellScore = 5;
+      if (vendorName.toLowerCase().includes('secure') || vendorId === 'VND-2026-22003') {
+        shellScore = 70;
+      } else if (vendorName.toLowerCase().includes('money') || vendorId === 'VND-2026-50469') {
+        shellScore = 20;
+      } else if (vendorId === 'VND-2026-11002') {
+        shellScore = 10;
+      }
+
+      const totalRiskScore = sanctionsScore + pepScore + adverseMediaScore + blacklistScore + shellScore;
+      let overallRisk = 'Low';
+      if (totalRiskScore <= 30) overallRisk = 'Low';
+      else if (totalRiskScore <= 60) overallRisk = 'Medium';
+      else if (totalRiskScore <= 80) overallRisk = 'High';
+      else overallRisk = 'Critical';
+
+      v.risk = {
+        score: totalRiskScore,
+        level: overallRisk
+      };
+      v.riskLevel = overallRisk;
+
+      return v;
+    });
+
+    await writeJsonFile(VENDORS_PATH, updatedVendors);
+
     // 1. Recalculate KYC Statuses & Dashboard Counts
-    const kycVendorsList = vendors.map(v => {
+    const kycVendorsList = updatedVendors.map(v => {
       const vendorId = v.vendorId;
       const vendorName = v.vendorName || v.basicDetails?.legalName || v.basicDetails?.tradeName || 'Unnamed Vendor';
       
@@ -323,13 +389,15 @@ async function recalculateVmsSystem() {
         kycStatus = 'Re-KYC Due';
       }
 
-      const riskLevel = v.riskLevel || (v.businessDetails?.criticalVendor ? 'High' : 'Low');
+      const riskScore = v.risk?.score || 0;
+      const riskLevel = v.risk?.level || 'Low';
       const category = v.category || v.basicDetails?.businessType || 'General';
 
       return {
         vendorId,
         vendorName,
         category,
+        riskScore,
         riskLevel,
         kycStatus,
         lastVerified,
@@ -436,11 +504,10 @@ async function recalculateVmsSystem() {
 
       const totalRiskScore = sanctionsScore + pepScore + adverseMediaScore + blacklistScore + shellScore;
       let overallRisk = 'Low Risk';
-      if (totalRiskScore > 120 || kv.riskLevel === 'High' || kv.riskLevel === 'Critical') {
-        overallRisk = 'High Risk';
-      } else if (totalRiskScore > 20) {
-        overallRisk = 'Medium Risk';
-      }
+      if (totalRiskScore <= 30) overallRisk = 'Low Risk';
+      else if (totalRiskScore <= 60) overallRisk = 'Medium Risk';
+      else if (totalRiskScore <= 80) overallRisk = 'High Risk';
+      else overallRisk = 'Critical Risk';
 
       return {
         vendorId,
@@ -521,6 +588,90 @@ async function recalculateVmsSystem() {
 
     reviewsApprovals.reviews = [...reviewsApprovals.reviews, ...generatedReviews];
     await writeJsonFile(REVIEWS_APPROVALS_PATH, reviewsApprovals);
+
+    // Dynamic generation of new reviews.json
+    let newReviewsData = { reviews: [] };
+    try {
+      const existingReviewsContent = await readJsonFile(REVIEWS_PATH);
+      newReviewsData = {
+        reviews: existingReviewsContent.reviews || existingReviewsContent || []
+      };
+      if (Array.isArray(existingReviewsContent)) {
+        newReviewsData = { reviews: existingReviewsContent };
+      }
+    } catch (e) {
+      newReviewsData = { reviews: [] };
+    }
+
+    const currentReviews = newReviewsData.reviews || [];
+    const updatedReviewsList = [];
+    let reviewIndex = currentReviews.length + 1;
+
+    for (const kv of kycVendorsList) {
+      let rItem = currentReviews.find(r => r.vendorId === kv.vendorId);
+      const screening = screeningResults.find(s => s.vendorId === kv.vendorId);
+      
+      let screeningStatus = 'Cleared';
+      if (screening) {
+        if (screening.pep?.status === 'Match Found') {
+          screeningStatus = 'High Risk';
+        } else if (screening.adverseMedia?.status !== 'No Findings' && screening.adverseMedia?.status !== 'Clear') {
+          screeningStatus = 'Review Required';
+        } else if (screening.shellCompany?.status !== 'Low Risk' && screening.shellCompany?.status !== 'Clear') {
+          screeningStatus = 'Investigation Required';
+        }
+      }
+
+      let approvalStatus = 'Pending Review';
+      const vendorRecord = updatedVendors.find(v => v.vendorId === kv.vendorId);
+      if (vendorRecord && vendorRecord.approvalWorkflow?.approvalStatus) {
+        const backendApprovalStatus = vendorRecord.approvalWorkflow.approvalStatus;
+        if (backendApprovalStatus === 'Approved') approvalStatus = 'Approved';
+        else if (backendApprovalStatus === 'Rejected') approvalStatus = 'Rejected';
+        else if (backendApprovalStatus === 'Pending') approvalStatus = 'Pending Review';
+        else if (backendApprovalStatus === 'Clarification Required' || backendApprovalStatus === 'Send Back') approvalStatus = 'Clarification Required';
+      }
+
+      if (rItem) {
+        rItem.vendorName = kv.vendorName;
+        rItem.category = kv.category;
+        rItem.riskScore = kv.riskScore;
+        rItem.riskLevel = kv.riskLevel;
+        rItem.kycStatus = kv.kycStatus;
+        rItem.screeningStatus = screeningStatus;
+        if (!rItem.approvalStatus || rItem.approvalStatus === 'Pending Review') {
+          rItem.approvalStatus = approvalStatus;
+        }
+      } else {
+        const rId = `REV-2026-${String(reviewIndex++).padStart(3, '0')}`;
+        const dueDate = new Date();
+        dueDate.setDate(dueDate.getDate() + 30);
+        rItem = {
+          reviewId: rId,
+          vendorId: kv.vendorId,
+          vendorName: kv.vendorName,
+          category: kv.category,
+          riskScore: kv.riskScore,
+          riskLevel: kv.riskLevel,
+          kycStatus: kv.kycStatus,
+          screeningStatus: screeningStatus,
+          approvalStatus: approvalStatus,
+          assignedTo: 'Compliance Team',
+          dueDate: dueDate.toISOString().split('T')[0],
+          comments: []
+        };
+      }
+      updatedReviewsList.push(rItem);
+    }
+
+    currentReviews.forEach(er => {
+      if (!updatedReviewsList.some(ur => ur.vendorId === er.vendorId)) {
+        updatedReviewsList.push(er);
+      }
+    });
+
+    await writeJsonFile(REVIEWS_PATH, { reviews: updatedReviewsList });
+
     console.log('Connected VMS Recalculation Engine ran successfully.');
 
   } catch (err) {
@@ -1171,6 +1322,17 @@ app.post('/api/documents/verify', async (req, res) => {
     );
     
     await logDocAction(documentId, doc.documentName, `Verification ${action}d`, userName, remarks);
+    
+    if (action === 'Approve') {
+      const customAuditLog = {
+        event: "Document Verified",
+        documentId: documentId,
+        vendor: doc.vendor?.vendorName || "Unknown Vendor",
+        verifiedBy: userName === 'Saurabh Anand' ? 'Admin' : userName,
+        date: new Date().toISOString().split('T')[0]
+      };
+      await appendJsonData(DOC_AUDIT_LOGS_PATH, customAuditLog);
+    }
     
     // Update document status inside vendor registry
     const vendors = await readJsonFile(VENDORS_PATH);
@@ -5184,8 +5346,232 @@ app.get('/api/kyc/screening', async (req, res) => {
 // GET /api/kyc/reviews
 app.get('/api/kyc/reviews', async (req, res) => {
   try {
-    const data = await readJsonFile(REVIEWS_APPROVALS_PATH);
-    res.json(data);
+    await recalculateVmsSystem();
+    const data = await readJsonFile(REVIEWS_PATH);
+    const reviews = data.reviews || [];
+
+    // Calculate summary counts dynamically
+    const summary = {
+      pendingReviews: reviews.filter(r => r.approvalStatus === 'Pending Review' || r.approvalStatus === 'Pending').length,
+      inProgress: reviews.filter(r => r.approvalStatus === 'In Review' || r.approvalStatus === 'Clarification Required').length,
+      readyForApproval: reviews.filter(r => r.approvalStatus === 'Ready For Approval').length,
+      approved: reviews.filter(r => r.approvalStatus === 'Approved').length,
+      rejected: reviews.filter(r => r.approvalStatus === 'Rejected').length
+    };
+
+    res.json({ summary, reviews });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET /api/kyc/reviews/detail/:vendorId
+app.get('/api/kyc/reviews/detail/:vendorId', async (req, res) => {
+  try {
+    const vendorId = req.params.vendorId;
+    const vendors = await readJsonFile(VENDORS_PATH);
+    const vendor = vendors.find(v => v.vendorId === vendorId);
+    if (!vendor) {
+      return res.status(404).json({ message: 'Vendor not found' });
+    }
+
+    const reviewsData = await readJsonFile(REVIEWS_PATH);
+    let review = (reviewsData.reviews || []).find(r => r.vendorId === vendorId);
+    
+    // Find screening results
+    const screeningData = await readJsonFile(SCREENING_RESULTS_PATH);
+    const screening = (screeningData.screenings || []).find(s => s.vendorId === vendorId);
+    
+    // Find documents
+    const documents = await readJsonFile(DOCUMENTS_PATH);
+    const vendorDocs = documents.filter(d => (d.vendor?.vendorId === vendorId) || (d.vendorId === vendorId));
+
+    // Get specific document statuses
+    const checkDocStatus = (docName) => {
+      const doc = vendorDocs.find(d => (d.documentName || '').toUpperCase().includes(docName.toUpperCase()));
+      return doc ? doc.verificationStatus || doc.approvalStatus || doc.status || 'Pending' : 'Not Uploaded';
+    };
+
+    // Summary counts of documents
+    const documentSummary = {
+      total: vendorDocs.length,
+      verified: vendorDocs.filter(d => {
+        const s = (d.verificationStatus || d.approvalStatus || d.status || '').toUpperCase();
+        return s === 'VERIFIED' || s === 'APPROVED';
+      }).length,
+      pending: vendorDocs.filter(d => {
+        const s = (d.verificationStatus || d.approvalStatus || d.status || '').toUpperCase();
+        return s === 'PENDING' || s === 'PENDING VERIFICATION';
+      }).length,
+      rejected: vendorDocs.filter(d => {
+        const s = (d.verificationStatus || d.approvalStatus || d.status || '').toUpperCase();
+        return s === 'REJECTED';
+      }).length
+    };
+
+    // If review record doesn't exist, create a temporary/default one
+    if (!review) {
+      review = {
+        reviewId: `REV-${Date.now().toString().slice(-4)}`,
+        vendorId,
+        vendorName: vendor.vendorName || vendor.basicDetails?.legalName || 'Unnamed Vendor',
+        category: vendor.category || vendor.basicDetails?.businessType || 'General',
+        riskScore: vendor.risk?.score || 0,
+        riskLevel: vendor.risk?.level || 'Low',
+        kycStatus: vendor.kycStatus || 'Pending',
+        screeningStatus: 'Cleared',
+        approvalStatus: 'Pending Review',
+        assignedTo: 'Compliance Team',
+        dueDate: new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0],
+        comments: []
+      };
+    }
+
+    const detailData = {
+      reviewId: review.reviewId,
+      vendorId: vendor.vendorId,
+      vendorName: vendor.vendorName || vendor.basicDetails?.legalName || 'Unnamed Vendor',
+      vendorCode: vendor.vendorId,
+      category: vendor.category || vendor.basicDetails?.businessType || 'General',
+      kycStatus: vendor.kycStatus || 'Pending',
+      riskScore: vendor.risk?.score || 0,
+      riskLevel: vendor.risk?.level || 'Low',
+      approvalStatus: review.approvalStatus,
+      comments: review.comments || [],
+      kycSummary: {
+        panStatus: checkDocStatus('PAN'),
+        gstStatus: checkDocStatus('GST'),
+        cinStatus: checkDocStatus('CIN') || checkDocStatus('Incorporation'),
+        bankStatus: checkDocStatus('Bank') || checkDocStatus('Cheque'),
+        rocStatus: checkDocStatus('ROC') || 'Verified',
+        itrStatus: checkDocStatus('ITR') || 'Verified',
+        status: vendor.kycStatus || 'Pending'
+      },
+      screeningSummary: {
+        sanctions: {
+          status: screening?.sanctions?.status || 'Clear',
+          score: screening?.sanctions?.score || 0,
+          remarks: screening?.sanctions?.details || 'No matches found in OFAC, UN, EU sanctions lists.'
+        },
+        pep: {
+          status: screening?.pep?.status || 'Clear',
+          score: screening?.pep?.score || 0,
+          remarks: screening?.pep?.details || 'No politically exposed persons identified.'
+        },
+        adverseMedia: {
+          status: screening?.adverseMedia?.status || 'No Findings',
+          score: screening?.adverseMedia?.score || 0,
+          remarks: screening?.adverseMedia?.details || 'No adverse news coverage detected.'
+        },
+        blacklist: {
+          status: screening?.blacklist?.status || 'Clear',
+          score: screening?.blacklist?.score || 0,
+          remarks: screening?.blacklist?.details || 'Not present in any industry or government blacklist.'
+        },
+        shellCompany: {
+          status: screening?.shellCompany?.status || 'Low Risk',
+          score: screening?.shellCompany?.score || 5,
+          remarks: screening?.shellCompany?.details || 'Registered entity with operational history.'
+        }
+      },
+      documentSummary,
+      riskAssessment: {
+        score: vendor.risk?.score || 0,
+        level: vendor.risk?.level || 'Low',
+        breakdown: {
+          business: screening?.shellCompany?.score || 5,
+          financial: screening?.adverseMedia?.score || 10,
+          compliance: (screening?.sanctions?.score || 0) + (screening?.blacklist?.score || 0),
+          operational: screening?.pep?.score || 5
+        }
+      }
+    };
+
+    res.json(detailData);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/kyc/reviews/action
+app.post('/api/kyc/reviews/action', async (req, res) => {
+  try {
+    const { vendorId, action, comment } = req.body;
+    
+    // Read databases
+    const vendors = await readJsonFile(VENDORS_PATH);
+    const reviewsData = await readJsonFile(REVIEWS_PATH);
+    
+    const vendorIndex = vendors.findIndex(v => v.vendorId === vendorId);
+    if (vendorIndex === -1) {
+      return res.status(404).json({ message: 'Vendor not found' });
+    }
+
+    const reviews = reviewsData.reviews || [];
+    let review = reviews.find(r => r.vendorId === vendorId);
+    
+    // Map workflow statuses
+    let newApprovalStatus = 'Pending Review';
+    let newKycStatus = 'Pending';
+    let actionLog = '';
+
+    if (action === 'Approve') {
+      newApprovalStatus = 'Approved';
+      newKycStatus = 'Verified';
+      actionLog = 'Approved';
+    } else if (action === 'Reject') {
+      newApprovalStatus = 'Rejected';
+      newKycStatus = 'Rejected';
+      actionLog = 'Rejected';
+    } else if (action === 'SendBack') {
+      newApprovalStatus = 'Clarification Required';
+      newKycStatus = 'Pending';
+      actionLog = 'Sent back for clarification';
+    }
+
+    // Update vendor record
+    vendors[vendorIndex].kycStatus = newKycStatus;
+    vendors[vendorIndex].status = newKycStatus === 'Verified' ? 'Active' : newKycStatus === 'Rejected' ? 'Suspended' : 'Pending Approval';
+    if (!vendors[vendorIndex].approvalWorkflow) {
+      vendors[vendorIndex].approvalWorkflow = {};
+    }
+    vendors[vendorIndex].approvalWorkflow.approvalStatus = newApprovalStatus;
+    vendors[vendorIndex].approvalWorkflow.approverRemarks = comment || '';
+    vendors[vendorIndex].approvalWorkflow.approvedBy = 'Compliance Team';
+    vendors[vendorIndex].approvalWorkflow.approvedDate = new Date().toISOString();
+
+    // Log in vendor audit trail
+    if (!vendors[vendorIndex].auditTrail) vendors[vendorIndex].auditTrail = [];
+    vendors[vendorIndex].auditTrail.push({
+      action: `KYC Review ${actionLog}`,
+      performedBy: 'Compliance Team',
+      timestamp: new Date().toISOString(),
+      remarks: comment || ''
+    });
+
+    // Write back vendors database
+    await writeJsonFile(VENDORS_PATH, vendors);
+
+    // Update review record
+    if (review) {
+      review.approvalStatus = newApprovalStatus;
+      review.kycStatus = newKycStatus;
+      if (!review.comments) review.comments = [];
+      review.comments.push({
+        author: 'Compliance Team',
+        text: comment || `Action: ${actionLog}`
+      });
+    }
+
+    await writeJsonFile(REVIEWS_PATH, { reviews });
+
+    // Log VMS Audit Trail
+    await logVmsAuditTrail(`KYC Workflow ${action}`, `Vendor ${vendorId} KYC was ${actionLog}.`);
+
+    // Recalculate VMS Dashboard states
+    await recalculateVmsSystem();
+
+    res.json({ success: true, message: `Vendor review ${actionLog} successfully.` });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

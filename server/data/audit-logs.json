@@ -130,5 +130,27 @@
     "ipAddress": "127.0.0.1",
     "status": "Success",
     "severity": "High"
+  },
+  {
+    "id": "AUD-82091",
+    "timestamp": "12/6/2026, 5:39:34 pm",
+    "actor": "Saurabh Anand",
+    "role": "Procurement Checker",
+    "tenant": "Qualtech Corporate",
+    "action": "Verification Approved for document DOC-2026-0001 (PAN Card) of vendor ABC Infotech Private Limited",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
+  },
+  {
+    "id": "AUD-35382",
+    "timestamp": "12/6/2026, 5:39:37 pm",
+    "actor": "Saurabh Anand",
+    "role": "Procurement Checker",
+    "tenant": "Qualtech Corporate",
+    "action": "Verification Approved for document DOC-2026-0002 (PAN Card) of vendor HDFC Bank Limited",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
   }
 ]

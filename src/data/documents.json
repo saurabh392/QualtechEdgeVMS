@@ -1,6 +1,6 @@
 [
   {
-    "documentId": "DOC-2025-0001",
+    "documentId": "DOC-2026-0001",
     "documentType": "KYC Documents",
     "documentName": "PAN Card",
     "documentCategory": "Identity Proof",
@@ -9,244 +9,21 @@
       "vendorName": "ABC Infotech Private Limited"
     },
     "documentNumber": "AAACA1234A",
-    "issueDate": "2015-06-15",
-    "expiryDate": null,
-    "issuedBy": "Income Tax Department",
-    "remarks": "Standard PAN card copy verified.",
-    "verificationStatus": "Verified",
-    "approvalStatus": "Approved",
-    "uploadedBy": {
-      "userId": "USR-001",
-      "userName": "Saurabh Anand"
-    },
-    "uploadedAt": "2025-05-10T10:30:00Z",
-    "fileDetails": {
-      "originalFileName": "PAN_ABC.pdf",
-      "storedFileName": "DOC_2025_0001_PAN.pdf",
-      "filePath": "/uploads/documents/DOC_2025_0001_PAN.pdf",
-      "fileType": "application/pdf",
-      "fileSizeKB": 185,
-      "fileExtension": ".pdf"
-    },
-    "previewImage": null,
-    "documentUsage": {
-      "usedInKYC": true,
-      "usedInVendorOnboarding": true,
-      "usedInCompliance": false,
-      "usedInContracts": false,
-      "usedInInvoiceVerification": false
-    },
-    "versionHistory": [
-      {
-        "version": 1,
-        "uploadedAt": "2025-05-10T10:30:00Z",
-        "uploadedBy": "Saurabh Anand",
-        "status": "Initial Upload"
-      }
-    ],
-    "auditTrail": [
-      {
-        "action": "Document Uploaded",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2025-05-10T10:30:00Z"
-      },
-      {
-        "action": "Document Verified",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2025-05-11T12:00:00Z"
-      }
-    ]
-  },
-  {
-    "documentId": "DOC-2025-0002",
-    "documentType": "Tax Documents",
-    "documentName": "GST Certificate",
-    "documentCategory": "GST Certificate",
-    "vendor": {
-      "vendorId": "VND-2025-00029",
-      "vendorName": "ABC Infotech Private Limited"
-    },
-    "documentNumber": "27AAACA1234A1Z5",
-    "issueDate": "2018-07-01",
-    "expiryDate": null,
-    "issuedBy": "GSTN Authority",
-    "remarks": "Active GSTIN.",
-    "verificationStatus": "Verified",
-    "approvalStatus": "Approved",
-    "uploadedBy": {
-      "userId": "USR-001",
-      "userName": "Saurabh Anand"
-    },
-    "uploadedAt": "2025-05-10T11:00:00Z",
-    "fileDetails": {
-      "originalFileName": "GST_ABC.pdf",
-      "storedFileName": "DOC_2025_0002_GST.pdf",
-      "filePath": "/uploads/documents/DOC_2025_0002_GST.pdf",
-      "fileType": "application/pdf",
-      "fileSizeKB": 310,
-      "fileExtension": ".pdf"
-    },
-    "previewImage": null,
-    "documentUsage": {
-      "usedInKYC": true,
-      "usedInVendorOnboarding": true,
-      "usedInCompliance": true,
-      "usedInContracts": false,
-      "usedInInvoiceVerification": true
-    },
-    "versionHistory": [
-      {
-        "version": 1,
-        "uploadedAt": "2025-05-10T11:00:00Z",
-        "uploadedBy": "Saurabh Anand",
-        "status": "Initial Upload"
-      }
-    ],
-    "auditTrail": [
-      {
-        "action": "Document Uploaded",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2025-05-10T11:00:00Z"
-      }
-    ]
-  },
-  {
-    "documentId": "DOC-2025-0003",
-    "documentType": "Compliance Documents",
-    "documentName": "MSME Certificate",
-    "documentCategory": "MSME",
-    "vendor": {
-      "vendorId": "VND-2025-00029",
-      "vendorName": "ABC Infotech Private Limited"
-    },
-    "documentNumber": "UDYAM-MH-12-0012345",
-    "issueDate": "2021-04-10",
-    "expiryDate": "2026-06-15",
-    "issuedBy": "Ministry of MSME",
-    "remarks": "Expiring soon. Class: Small.",
-    "verificationStatus": "Verified",
-    "approvalStatus": "Approved",
-    "uploadedBy": {
-      "userId": "USR-001",
-      "userName": "Saurabh Anand"
-    },
-    "uploadedAt": "2025-05-10T11:20:00Z",
-    "fileDetails": {
-      "originalFileName": "MSME_ABC.pdf",
-      "storedFileName": "DOC_2025_0003_MSME.pdf",
-      "filePath": "/uploads/documents/DOC_2025_0003_MSME.pdf",
-      "fileType": "application/pdf",
-      "fileSizeKB": 145,
-      "fileExtension": ".pdf"
-    },
-    "previewImage": null,
-    "documentUsage": {
-      "usedInKYC": false,
-      "usedInVendorOnboarding": true,
-      "usedInCompliance": true,
-      "usedInContracts": false,
-      "usedInInvoiceVerification": false
-    },
-    "versionHistory": [
-      {
-        "version": 1,
-        "uploadedAt": "2025-05-10T11:20:00Z",
-        "uploadedBy": "Saurabh Anand",
-        "status": "Initial Upload"
-      }
-    ],
-    "auditTrail": [
-      {
-        "action": "Document Uploaded",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2025-05-10T11:20:00Z"
-      }
-    ]
-  },
-  {
-    "documentId": "DOC-2026-0001",
-    "documentType": "KYC Documents",
-    "documentName": "PAN Card",
-    "documentCategory": "Identity Proof",
-    "vendor": {
-      "vendorId": "VND-2026-88001",
-      "vendorName": "HDFC Bank Limited"
-    },
-    "documentNumber": "AAACH1111A",
-    "issueDate": "1994-08-30",
-    "expiryDate": null,
-    "issuedBy": "Income Tax Department",
-    "remarks": "Awaiting Checker Approval",
-    "verificationStatus": "Verified",
-    "approvalStatus": "Approved",
-    "uploadedBy": {
-      "userId": "USR-001",
-      "userName": "Saurabh Anand"
-    },
-    "uploadedAt": "2026-05-22T08:42:00Z",
-    "fileDetails": {
-      "originalFileName": "HDFC_PAN.pdf",
-      "storedFileName": "DOC_2026_0001_PAN.pdf",
-      "filePath": "/uploads/documents/DOC_2026_0001_PAN.pdf",
-      "fileType": "application/pdf",
-      "fileSizeKB": 420,
-      "fileExtension": ".pdf"
-    },
-    "previewImage": null,
-    "documentUsage": {
-      "usedInKYC": true,
-      "usedInVendorOnboarding": true,
-      "usedInCompliance": false,
-      "usedInContracts": false,
-      "usedInInvoiceVerification": false
-    },
-    "versionHistory": [
-      {
-        "version": 1,
-        "uploadedAt": "2026-05-22T08:42:00Z",
-        "uploadedBy": "Saurabh Anand",
-        "status": "Initial Upload"
-      }
-    ],
-    "auditTrail": [
-      {
-        "action": "Document Uploaded",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2026-05-22T08:42:00Z"
-      },
-      {
-        "action": "Verification Approved",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2026-05-29T11:53:50.623Z",
-        "remarks": ""
-      }
-    ]
-  },
-  {
-    "documentId": "DOC-2026-0002",
-    "documentType": "KYC Documents",
-    "documentName": "PAN Card",
-    "documentCategory": "Identity Proof",
-    "vendor": {
-      "vendorId": "VND-2026-88001",
-      "vendorName": "HDFC Bank Limited"
-    },
-    "documentNumber": "AAACH1111B",
-    "issueDate": "2024-01-01",
-    "expiryDate": null,
-    "issuedBy": "Income tax dept ",
+    "issueDate": "2026-04-08",
+    "expiryDate": "2027-05-10",
+    "issuedBy": "Income tax",
     "remarks": "",
-    "verificationStatus": "Rejected",
-    "approvalStatus": "Rejected",
+    "verificationStatus": "Verified",
+    "approvalStatus": "Approved",
     "uploadedBy": {
       "userId": "USR-001",
       "userName": "Saurabh Anand"
     },
-    "uploadedAt": "2026-05-22T09:24:44.006Z",
+    "uploadedAt": "2026-06-12T11:51:19.601Z",
     "fileDetails": {
       "originalFileName": "A_sample_of_Permanent_Account_Number_(PAN)_Card.jpg",
-      "storedFileName": "DOC_2026_5768_DOC.jpg",
-      "filePath": "/uploads/documents/DOC_2026_5768_DOC.jpg",
+      "storedFileName": "DOC_2026_2639_DOC.jpg",
+      "filePath": "/storage/documents/DOC_2026_2639_DOC.jpg",
       "fileType": "image/jpeg",
       "fileSizeKB": 51,
       "fileExtension": ".jpg"
@@ -262,7 +39,7 @@
     "versionHistory": [
       {
         "version": 1,
-        "uploadedAt": "2026-05-22T09:24:44.006Z",
+        "uploadedAt": "2026-06-12T11:51:19.601Z",
         "uploadedBy": "Saurabh Anand",
         "status": "Initial Upload"
       }
@@ -271,55 +48,74 @@
       {
         "action": "Document Uploaded",
         "performedBy": "Saurabh Anand",
-        "timestamp": "2026-05-22T09:24:44.006Z"
+        "timestamp": "2026-06-12T11:51:19.601Z"
       },
       {
-        "action": "Verification Rejectd",
+        "action": "Verification Approved",
         "performedBy": "Saurabh Anand",
-        "timestamp": "2026-05-29T13:10:48.891Z",
+        "timestamp": "2026-06-12T12:09:34.517Z",
         "remarks": ""
       }
     ]
   },
   {
-    "id": "DOC-32985",
-    "documentType": "PAN Card",
-    "fileName": "A_sample_of_Permanent_Account_Number_(PAN)_Card.jpg",
-    "savedFileName": "file-1780054925508-458867517.jpg",
-    "filePath": "/uploads/file-1780054925508-458867517.jpg",
-    "sizeBytes": 52130,
-    "status": "Uploaded",
-    "uploadedAt": "2026-05-29T11:42:05.543Z"
-  },
-  {
-    "id": "DOC-40899",
-    "documentType": "GST Certificate",
-    "fileName": "download (2).jpg",
-    "savedFileName": "file-1780054929937-423471015.jpg",
-    "filePath": "/uploads/file-1780054929937-423471015.jpg",
-    "sizeBytes": 6203,
-    "status": "Uploaded",
-    "uploadedAt": "2026-05-29T11:42:09.940Z"
-  },
-  {
-    "id": "DOC-78860",
-    "documentType": "Certificate of Incorporation",
-    "fileName": "ChatGPT Image May 19, 2026, 01_31_57 PM.png",
-    "savedFileName": "file-1780054934588-415702143.png",
-    "filePath": "/uploads/file-1780054934588-415702143.png",
-    "sizeBytes": 1455660,
-    "status": "Uploaded",
-    "uploadedAt": "2026-05-29T11:42:14.755Z"
-  },
-  {
-    "id": "DOC-27098",
-    "documentType": "MSME Certificate",
-    "fileName": "ChatGPT Image May 19, 2026, 03_01_40 PM.png",
-    "savedFileName": "file-1780054939122-882252488.png",
-    "filePath": "/uploads/file-1780054939122-882252488.png",
-    "sizeBytes": 1484137,
-    "status": "Uploaded",
-    "uploadedAt": "2026-05-29T11:42:19.237Z"
+    "documentId": "DOC-2026-0002",
+    "documentType": "KYC Documents",
+    "documentName": "PAN Card",
+    "documentCategory": "Identity Proof",
+    "vendor": {
+      "vendorId": "VND-2026-88001",
+      "vendorName": "HDFC Bank Limited"
+    },
+    "documentNumber": "ASDC1234D",
+    "issueDate": "2026-03-17",
+    "expiryDate": "2026-06-30",
+    "issuedBy": "Income Tax Dept ",
+    "remarks": "",
+    "verificationStatus": "Verified",
+    "approvalStatus": "Approved",
+    "uploadedBy": {
+      "userId": "USR-001",
+      "userName": "Saurabh Anand"
+    },
+    "uploadedAt": "2026-06-12T11:55:33.596Z",
+    "fileDetails": {
+      "originalFileName": "WhatsApp Image 2025-08-27 at 11.45.53 (1).jpeg",
+      "storedFileName": "DOC_2026_9266_DOC.jpeg",
+      "filePath": "/storage/documents/DOC_2026_9266_DOC.jpeg",
+      "fileType": "image/jpeg",
+      "fileSizeKB": 269,
+      "fileExtension": ".jpeg"
+    },
+    "previewImage": null,
+    "documentUsage": {
+      "usedInKYC": true,
+      "usedInVendorOnboarding": true,
+      "usedInCompliance": false,
+      "usedInContracts": false,
+      "usedInInvoiceVerification": false
+    },
+    "versionHistory": [
+      {
+        "version": 1,
+        "uploadedAt": "2026-06-12T11:55:33.596Z",
+        "uploadedBy": "Saurabh Anand",
+        "status": "Initial Upload"
+      }
+    ],
+    "auditTrail": [
+      {
+        "action": "Document Uploaded",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-12T11:55:33.596Z"
+      },
+      {
+        "action": "Verification Approved",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-12T12:09:37.761Z",
+        "remarks": ""
+      }
+    ]
   },
   {
     "documentId": "DOC-2026-0003",
@@ -330,9 +126,9 @@
       "vendorId": "VND-2026-50469",
       "vendorName": "My Money Mantra "
     },
-    "documentNumber": "",
-    "issueDate": "2026-05-05",
-    "expiryDate": "2026-06-10",
+    "documentNumber": "QWEC1354F",
+    "issueDate": "2026-06-09",
+    "expiryDate": "2026-06-17",
     "issuedBy": "",
     "remarks": "",
     "verificationStatus": "Pending Verification",
@@ -341,11 +137,11 @@
       "userId": "USR-001",
       "userName": "Saurabh Anand"
     },
-    "uploadedAt": "2026-05-29T12:24:12.676Z",
+    "uploadedAt": "2026-06-12T11:56:21.528Z",
     "fileDetails": {
       "originalFileName": "download (2).jpg",
-      "storedFileName": "DOC_2026_1150_DOC.jpg",
-      "filePath": "/uploads/documents/DOC_2026_1150_DOC.jpg",
+      "storedFileName": "DOC_2026_8438_DOC.jpg",
+      "filePath": "/storage/documents/DOC_2026_8438_DOC.jpg",
       "fileType": "image/jpeg",
       "fileSizeKB": 6,
       "fileExtension": ".jpg"
@@ -361,7 +157,7 @@
     "versionHistory": [
       {
         "version": 1,
-        "uploadedAt": "2026-05-29T12:24:12.676Z",
+        "uploadedAt": "2026-06-12T11:56:21.528Z",
         "uploadedBy": "Saurabh Anand",
         "status": "Initial Upload"
       }
@@ -370,301 +166,12 @@
       {
         "action": "Document Uploaded",
         "performedBy": "Saurabh Anand",
-        "timestamp": "2026-05-29T12:24:12.676Z"
+        "timestamp": "2026-06-12T11:56:21.528Z"
       }
     ]
   },
   {
     "documentId": "DOC-2026-0004",
-    "documentType": "Others",
-    "documentName": "Others",
-    "documentCategory": "Others",
-    "vendor": {
-      "vendorId": "VND-2026-50469",
-      "vendorName": "My Money Mantra "
-    },
-    "documentNumber": "",
-    "issueDate": null,
-    "expiryDate": "2026-05-27",
-    "issuedBy": "",
-    "remarks": "",
-    "verificationStatus": "Pending Verification",
-    "approvalStatus": "Pending",
-    "uploadedBy": {
-      "userId": "USR-001",
-      "userName": "Saurabh Anand"
-    },
-    "uploadedAt": "2026-05-29T13:13:39.603Z",
-    "fileDetails": {
-      "originalFileName": "Screenshot 2025-12-02 142955.png",
-      "storedFileName": "DOC_2026_4539_DOC.png",
-      "filePath": "/uploads/documents/DOC_2026_4539_DOC.png",
-      "fileType": "image/png",
-      "fileSizeKB": 24,
-      "fileExtension": ".png"
-    },
-    "previewImage": null,
-    "documentUsage": {
-      "usedInKYC": false,
-      "usedInVendorOnboarding": true,
-      "usedInCompliance": false,
-      "usedInContracts": false,
-      "usedInInvoiceVerification": false
-    },
-    "versionHistory": [
-      {
-        "version": 1,
-        "uploadedAt": "2026-05-29T13:13:39.603Z",
-        "uploadedBy": "Saurabh Anand",
-        "status": "Initial Upload"
-      }
-    ],
-    "auditTrail": [
-      {
-        "action": "Document Uploaded",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2026-05-29T13:13:39.603Z"
-      }
-    ]
-  },
-  {
-    "id": "DOC-2026-35364",
-    "documentType": "PAN Card",
-    "fileName": "ChatGPT Image May 14, 2026, 05_06_16 PM.png",
-    "savedFileName": "file-1780379733658-133992551.png",
-    "filePath": "/uploads/file-1780379733658-133992551.png",
-    "sizeBytes": 1444875,
-    "status": "Verified",
-    "uploadedAt": "2026-06-02T05:55:33.684Z",
-    "documentId": "DOC-2026-35364",
-    "documentName": "PAN Card",
-    "documentCategory": "PAN Card",
-    "vendor": {
-      "vendorId": "VND-UNKNOWN",
-      "vendorName": "Qualtech Corporate (Internal)"
-    },
-    "documentNumber": "N/A",
-    "issueDate": null,
-    "expiryDate": null,
-    "issuedBy": "N/A",
-    "remarks": "",
-    "verificationStatus": "Verified",
-    "approvalStatus": "Approved",
-    "uploadedBy": {
-      "userId": "USR-001",
-      "userName": "Saurabh Anand"
-    },
-    "fileDetails": {
-      "originalFileName": "ChatGPT Image May 14, 2026, 05_06_16 PM.png",
-      "storedFileName": "file-1780379733658-133992551.png",
-      "filePath": "/uploads/file-1780379733658-133992551.png",
-      "fileType": "image/png",
-      "fileSizeKB": 1411,
-      "fileExtension": ".png"
-    },
-    "previewImage": null,
-    "documentUsage": {
-      "usedInKYC": false,
-      "usedInVendorOnboarding": true,
-      "usedInCompliance": false,
-      "usedInContracts": false,
-      "usedInInvoiceVerification": false
-    },
-    "versionHistory": [
-      {
-        "version": 1,
-        "uploadedAt": "2026-06-02T05:55:33.684Z",
-        "uploadedBy": "Saurabh Anand",
-        "status": "Initial Upload"
-      }
-    ],
-    "auditTrail": [
-      {
-        "action": "Document Uploaded",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2026-06-02T05:55:33.684Z"
-      }
-    ]
-  },
-  {
-    "id": "DOC-2026-28725",
-    "documentType": "GST Certificate",
-    "fileName": "ChatGPT Image May 19, 2026, 02_02_28 PM.png",
-    "savedFileName": "file-1780379736666-207420036.png",
-    "filePath": "/uploads/file-1780379736666-207420036.png",
-    "sizeBytes": 1450693,
-    "status": "Verified",
-    "uploadedAt": "2026-06-02T05:55:36.686Z",
-    "documentId": "DOC-2026-28725",
-    "documentName": "GST Certificate",
-    "documentCategory": "GST Certificate",
-    "vendor": {
-      "vendorId": "VND-UNKNOWN",
-      "vendorName": "Qualtech Corporate (Internal)"
-    },
-    "documentNumber": "N/A",
-    "issueDate": null,
-    "expiryDate": null,
-    "issuedBy": "N/A",
-    "remarks": "",
-    "verificationStatus": "Verified",
-    "approvalStatus": "Approved",
-    "uploadedBy": {
-      "userId": "USR-001",
-      "userName": "Saurabh Anand"
-    },
-    "fileDetails": {
-      "originalFileName": "ChatGPT Image May 19, 2026, 02_02_28 PM.png",
-      "storedFileName": "file-1780379736666-207420036.png",
-      "filePath": "/uploads/file-1780379736666-207420036.png",
-      "fileType": "image/png",
-      "fileSizeKB": 1417,
-      "fileExtension": ".png"
-    },
-    "previewImage": null,
-    "documentUsage": {
-      "usedInKYC": false,
-      "usedInVendorOnboarding": true,
-      "usedInCompliance": false,
-      "usedInContracts": false,
-      "usedInInvoiceVerification": false
-    },
-    "versionHistory": [
-      {
-        "version": 1,
-        "uploadedAt": "2026-06-02T05:55:36.686Z",
-        "uploadedBy": "Saurabh Anand",
-        "status": "Initial Upload"
-      }
-    ],
-    "auditTrail": [
-      {
-        "action": "Document Uploaded",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2026-06-02T05:55:36.686Z"
-      }
-    ]
-  },
-  {
-    "id": "DOC-2026-85525",
-    "documentType": "Certificate of Incorporation",
-    "fileName": "ChatGPT Image May 19, 2026, 02_20_57 PM.png",
-    "savedFileName": "file-1780379739348-412663032.png",
-    "filePath": "/uploads/file-1780379739348-412663032.png",
-    "sizeBytes": 1470760,
-    "status": "Verified",
-    "uploadedAt": "2026-06-02T05:55:39.371Z",
-    "documentId": "DOC-2026-85525",
-    "documentName": "Certificate of Incorporation",
-    "documentCategory": "Certificate of Incorporation",
-    "vendor": {
-      "vendorId": "VND-UNKNOWN",
-      "vendorName": "Qualtech Corporate (Internal)"
-    },
-    "documentNumber": "N/A",
-    "issueDate": null,
-    "expiryDate": null,
-    "issuedBy": "N/A",
-    "remarks": "",
-    "verificationStatus": "Verified",
-    "approvalStatus": "Approved",
-    "uploadedBy": {
-      "userId": "USR-001",
-      "userName": "Saurabh Anand"
-    },
-    "fileDetails": {
-      "originalFileName": "ChatGPT Image May 19, 2026, 02_20_57 PM.png",
-      "storedFileName": "file-1780379739348-412663032.png",
-      "filePath": "/uploads/file-1780379739348-412663032.png",
-      "fileType": "image/png",
-      "fileSizeKB": 1436,
-      "fileExtension": ".png"
-    },
-    "previewImage": null,
-    "documentUsage": {
-      "usedInKYC": false,
-      "usedInVendorOnboarding": true,
-      "usedInCompliance": false,
-      "usedInContracts": false,
-      "usedInInvoiceVerification": false
-    },
-    "versionHistory": [
-      {
-        "version": 1,
-        "uploadedAt": "2026-06-02T05:55:39.371Z",
-        "uploadedBy": "Saurabh Anand",
-        "status": "Initial Upload"
-      }
-    ],
-    "auditTrail": [
-      {
-        "action": "Document Uploaded",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2026-06-02T05:55:39.371Z"
-      }
-    ]
-  },
-  {
-    "id": "DOC-2026-12900",
-    "documentType": "MSME Certificate",
-    "fileName": "ChatGPT Image May 19, 2026, 03_01_40 PM.png",
-    "savedFileName": "file-1780379742003-628729597.png",
-    "filePath": "/uploads/file-1780379742003-628729597.png",
-    "sizeBytes": 1484137,
-    "status": "Verified",
-    "uploadedAt": "2026-06-02T05:55:42.046Z",
-    "documentId": "DOC-2026-12900",
-    "documentName": "MSME Certificate",
-    "documentCategory": "MSME Certificate",
-    "vendor": {
-      "vendorId": "VND-UNKNOWN",
-      "vendorName": "Qualtech Corporate (Internal)"
-    },
-    "documentNumber": "N/A",
-    "issueDate": null,
-    "expiryDate": null,
-    "issuedBy": "N/A",
-    "remarks": "",
-    "verificationStatus": "Verified",
-    "approvalStatus": "Approved",
-    "uploadedBy": {
-      "userId": "USR-001",
-      "userName": "Saurabh Anand"
-    },
-    "fileDetails": {
-      "originalFileName": "ChatGPT Image May 19, 2026, 03_01_40 PM.png",
-      "storedFileName": "file-1780379742003-628729597.png",
-      "filePath": "/uploads/file-1780379742003-628729597.png",
-      "fileType": "image/png",
-      "fileSizeKB": 1449,
-      "fileExtension": ".png"
-    },
-    "previewImage": null,
-    "documentUsage": {
-      "usedInKYC": false,
-      "usedInVendorOnboarding": true,
-      "usedInCompliance": false,
-      "usedInContracts": false,
-      "usedInInvoiceVerification": false
-    },
-    "versionHistory": [
-      {
-        "version": 1,
-        "uploadedAt": "2026-06-02T05:55:42.046Z",
-        "uploadedBy": "Saurabh Anand",
-        "status": "Initial Upload"
-      }
-    ],
-    "auditTrail": [
-      {
-        "action": "Document Uploaded",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2026-06-02T05:55:42.046Z"
-      }
-    ]
-  },
-  {
-    "documentId": "DOC-2026-0009",
     "documentType": "KYC Documents",
     "documentName": "PAN Card",
     "documentCategory": "Identity Proof",
@@ -672,9 +179,9 @@
       "vendorId": "VND-2026-88164",
       "vendorName": "axis max life "
     },
-    "documentNumber": "bnppa1234g",
-    "issueDate": "2026-03-10",
-    "expiryDate": "2026-06-04",
+    "documentNumber": "ASDC34565F",
+    "issueDate": "2026-06-09",
+    "expiryDate": "2027-01-14",
     "issuedBy": "",
     "remarks": "",
     "verificationStatus": "Pending Verification",
@@ -683,14 +190,14 @@
       "userId": "USR-001",
       "userName": "Saurabh Anand"
     },
-    "uploadedAt": "2026-06-02T05:57:16.227Z",
+    "uploadedAt": "2026-06-12T11:57:33.957Z",
     "fileDetails": {
-      "originalFileName": "WhatsApp Image 2025-08-27 at 11.45.53.jpeg",
-      "storedFileName": "DOC_2026_8457_DOC.jpeg",
-      "filePath": "/uploads/documents/DOC_2026_8457_DOC.jpeg",
+      "originalFileName": "A_sample_of_Permanent_Account_Number_(PAN)_Card.jpg",
+      "storedFileName": "DOC_2026_8268_DOC.jpg",
+      "filePath": "/storage/documents/DOC_2026_8268_DOC.jpg",
       "fileType": "image/jpeg",
-      "fileSizeKB": 255,
-      "fileExtension": ".jpeg"
+      "fileSizeKB": 51,
+      "fileExtension": ".jpg"
     },
     "previewImage": null,
     "documentUsage": {
@@ -703,7 +210,7 @@
     "versionHistory": [
       {
         "version": 1,
-        "uploadedAt": "2026-06-02T05:57:16.227Z",
+        "uploadedAt": "2026-06-12T11:57:33.957Z",
         "uploadedBy": "Saurabh Anand",
         "status": "Initial Upload"
       }
@@ -712,113 +219,7 @@
       {
         "action": "Document Uploaded",
         "performedBy": "Saurabh Anand",
-        "timestamp": "2026-06-02T05:57:16.227Z"
-      }
-    ]
-  },
-  {
-    "documentId": "DOC-2026-0010",
-    "documentType": "KYC Documents",
-    "documentName": "PAN Card",
-    "documentCategory": "Identity Proof",
-    "vendor": {
-      "vendorId": "VND-2025-00029",
-      "vendorName": "ABC Infotech Private Limited"
-    },
-    "documentNumber": "",
-    "issueDate": null,
-    "expiryDate": null,
-    "issuedBy": "",
-    "remarks": "",
-    "verificationStatus": "Pending Verification",
-    "approvalStatus": "Pending",
-    "uploadedBy": {
-      "userId": "USR-001",
-      "userName": "Saurabh Anand"
-    },
-    "uploadedAt": "2026-06-08T04:14:29.585Z",
-    "fileDetails": {
-      "originalFileName": "Screenshot 2025-12-02 142918.png",
-      "storedFileName": "DOC_2026_3482_DOC.png",
-      "filePath": "/uploads/documents/DOC_2026_3482_DOC.png",
-      "fileType": "image/png",
-      "fileSizeKB": 21,
-      "fileExtension": ".png"
-    },
-    "previewImage": null,
-    "documentUsage": {
-      "usedInKYC": true,
-      "usedInVendorOnboarding": true,
-      "usedInCompliance": false,
-      "usedInContracts": false,
-      "usedInInvoiceVerification": false
-    },
-    "versionHistory": [
-      {
-        "version": 1,
-        "uploadedAt": "2026-06-08T04:14:29.585Z",
-        "uploadedBy": "Saurabh Anand",
-        "status": "Initial Upload"
-      }
-    ],
-    "auditTrail": [
-      {
-        "action": "Document Uploaded",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2026-06-08T04:14:29.585Z"
-      }
-    ]
-  },
-  {
-    "documentId": "DOC-2026-0011",
-    "documentType": "KYC Documents",
-    "documentName": "PAN Card",
-    "documentCategory": "Identity Proof",
-    "vendor": {
-      "vendorId": "VND-2025-00029",
-      "vendorName": "ABC Infotech Private Limited"
-    },
-    "documentNumber": "",
-    "issueDate": null,
-    "expiryDate": null,
-    "issuedBy": "",
-    "remarks": "",
-    "verificationStatus": "Pending Verification",
-    "approvalStatus": "Pending",
-    "uploadedBy": {
-      "userId": "USR-001",
-      "userName": "Saurabh Anand"
-    },
-    "uploadedAt": "2026-06-09T08:39:43.915Z",
-    "fileDetails": {
-      "originalFileName": "ChatGPT Image May 14, 2026, 05_06_16 PM.png",
-      "storedFileName": "DOC_2026_3149_DOC.png",
-      "filePath": "/uploads/documents/DOC_2026_3149_DOC.png",
-      "fileType": "image/png",
-      "fileSizeKB": 1411,
-      "fileExtension": ".png"
-    },
-    "previewImage": null,
-    "documentUsage": {
-      "usedInKYC": true,
-      "usedInVendorOnboarding": true,
-      "usedInCompliance": false,
-      "usedInContracts": false,
-      "usedInInvoiceVerification": false
-    },
-    "versionHistory": [
-      {
-        "version": 1,
-        "uploadedAt": "2026-06-09T08:39:43.915Z",
-        "uploadedBy": "Saurabh Anand",
-        "status": "Initial Upload"
-      }
-    ],
-    "auditTrail": [
-      {
-        "action": "Document Uploaded",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2026-06-09T08:39:43.915Z"
+        "timestamp": "2026-06-12T11:57:33.957Z"
       }
     ]
   }
