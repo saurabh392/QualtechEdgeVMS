@@ -520,7 +520,7 @@ export const KycReKycScheduling: React.FC = () => {
       <div className={styles.pageHeader}>
         <div>
           <h2 className={styles.title}>Re-KYC Scheduling & Periodic Reviews</h2>
-          <div className={styles.breadcrumbs}>Due Diligence & KYC &gt; Re-KYC Scheduling</div>
+          <div className={styles.breadcrumbs}>Vendor Onboarding & KYC &gt; Re-KYC Scheduling</div>
         </div>
         <div>
           <Button onClick={exportToCSV} variant="secondary" size="md">

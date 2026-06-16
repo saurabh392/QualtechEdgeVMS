@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { getLocal2faVerified } from '../../services/authService';
+import rolesConfig from '../../data/roles.json';
 
 interface ProtectedRouteProps {
   allowedRoles?: string[];
@@ -71,6 +72,14 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const getModuleForPath = (pathName: string): string | null => {
     const cleanPath = pathName.replace(/\/$/, '');
     
+    if (cleanPath === '/dashboard' || 
+        cleanPath === '/administrator/dashboard' || 
+        cleanPath === '/procurement/dashboard' || 
+        cleanPath === '/compliance/dashboard' || 
+        cleanPath === '/finance/dashboard') {
+      return 'Dashboard';
+    }
+
     if (cleanPath.startsWith('/vendors')) return 'Vendors';
     if (cleanPath.startsWith('/documents')) return 'Documents';
     if (cleanPath.startsWith('/kyc')) return 'Due Diligence & KYC';
@@ -79,7 +88,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     if (cleanPath.startsWith('/purchase-orders')) return 'Purchase Orders';
     if (cleanPath.startsWith('/invoices')) return 'Invoices';
     if (cleanPath.startsWith('/payments')) return 'Payments';
-    if (cleanPath.startsWith('/reports')) return 'Reports & MIS';
+    if (cleanPath.startsWith('/reports') || cleanPath.startsWith('/mis')) return 'Reports & MIS';
     if (cleanPath.startsWith('/settings')) return 'Settings';
 
     // Vendor self-service paths
@@ -95,6 +104,23 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   const currentModule = getModuleForPath(location.pathname);
   if (currentModule && !hasPermission(currentModule)) {
+    if (currentModule === 'Dashboard' && user) {
+      let rId = user.role;
+      if (rId === 'COMPLIANCE') rId = 'ONBOARDING';
+      const roleConfig = rolesConfig.roles.find(r => r.id === rId);
+      if (roleConfig?.defaultRoute) {
+        return <Navigate to={roleConfig.defaultRoute} replace />;
+      }
+    }
+    if ((currentModule === 'Documents' || currentModule === 'My Documents') && user) {
+      let rId = user.role;
+      if (rId === 'COMPLIANCE') rId = 'ONBOARDING';
+      const roleConfig = rolesConfig.roles.find(r => r.id === rId);
+      if (roleConfig?.defaultRoute) {
+        return <Navigate to={roleConfig.defaultRoute} replace />;
+      }
+      return <Navigate to="/dashboard" replace />;
+    }
     return <Navigate to="/access-denied" replace />;
   }
 

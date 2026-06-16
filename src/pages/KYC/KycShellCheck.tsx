@@ -629,7 +629,7 @@ export const KycShellCheck: React.FC = () => {
       <div className={styles.pageHeader}>
         <div>
           <h2 className={styles.title}>Shell Company Validation Checks</h2>
-          <div className={styles.breadcrumbs}>Due Diligence & KYC &gt; Shell Company Checks</div>
+          <div className={styles.breadcrumbs}>Vendor Onboarding & KYC &gt; Shell Company Checks</div>
         </div>
         <div>
           <Button onClick={exportToCSV} variant="secondary" size="md">

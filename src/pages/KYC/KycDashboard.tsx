@@ -531,7 +531,7 @@ export const KycDashboard: React.FC = () => {
       <header className={styles.pageHeader}>
         <div>
           <h1 className={styles.title}>KYC Verification</h1>
-          <p className={styles.breadcrumbs}>Due Diligence & KYC / KYC Verification</p>
+          <p className={styles.breadcrumbs}>Vendor Onboarding & KYC / KYC Verification</p>
         </div>
       </header>
 

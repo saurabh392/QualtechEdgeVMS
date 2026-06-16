@@ -582,7 +582,7 @@ export const KycRiskAssessment: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.pageHeader}>
         <div>
-          <div className={styles.breadcrumbs}>Due Diligence & KYC &gt; Risk Assessment</div>
+          <div className={styles.breadcrumbs}>Vendor Onboarding & KYC &gt; Risk Assessment</div>
           <h2 className={styles.title}>Vendor Risk Assessment Dashboard</h2>
         </div>
         <div className="flex gap-3">

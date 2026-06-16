@@ -438,5 +438,193 @@
       "level": "Low"
     },
     "riskLevel": "Low"
+  },
+  {
+    "status": "Pending Approval",
+    "basicDetails": {
+      "legalName": "New Age Software Solutions",
+      "tradeName": "New Age Software ",
+      "dateOfIncorporation": "2026-03-10",
+      "cinNumber": "L65190MH1994PLC080760",
+      "panNumber": "AAACM1234t",
+      "gstin": "09AVIPY8039N2ZS",
+      "msmeClassification": "Not Applicable",
+      "companyWebsite": "",
+      "businessType": "Private Limited Company"
+    },
+    "businessDetails": {
+      "vendorCategory": "IT Services",
+      "subCategory": "Software Development",
+      "serviceAreas": [
+        "Mumbai",
+        "Pune",
+        "Bengaluru"
+      ],
+      "productsServicesOffered": "Custom Software Development, Support & Maintenance",
+      "annualTurnover": 50000000,
+      "employeeCount": 120,
+      "majorClients": [
+        "TCS",
+        "HDFC Bank"
+      ],
+      "criticalVendor": true
+    },
+    "bankDetails": {
+      "bankName": "state bank of india ",
+      "accountNumber": "476575746375675",
+      "accountType": "Current Account",
+      "ifscCode": "SBIN0000065",
+      "branchName": "Mumbai - Andheri East",
+      "cancelledChequeFile": "download (2).jpg",
+      "bankVerificationStatus": "Verified"
+    },
+    "documents": [
+      {
+        "documentType": "PAN Card",
+        "fileName": "A_sample_of_Permanent_Account_Number_(PAN)_Card.jpg",
+        "savedFileName": "file-1781519504663-329256138.jpg",
+        "filePath": "/uploads/file-1781519504663-329256138.jpg",
+        "status": "Verified",
+        "expiryDate": null
+      },
+      {
+        "documentType": "GST Certificate",
+        "fileName": "ChatGPT Image May 14, 2026, 05_06_16 PM.png",
+        "savedFileName": "file-1781519508629-697004393.png",
+        "filePath": "/uploads/file-1781519508629-697004393.png",
+        "status": "Verified",
+        "expiryDate": null
+      },
+      {
+        "documentType": "Certificate of Incorporation",
+        "fileName": "download (2).jpg",
+        "savedFileName": "file-1781519513636-355770043.jpg",
+        "filePath": "/uploads/file-1781519513636-355770043.jpg",
+        "status": "Verified",
+        "expiryDate": null
+      },
+      {
+        "documentType": "MSME Certificate",
+        "fileName": "ChatGPT Image May 19, 2026, 01_31_57 PM.png",
+        "savedFileName": "file-1781519520837-443780032.png",
+        "filePath": "/uploads/file-1781519520837-443780032.png",
+        "status": "Verified",
+        "expiryDate": "2026-03-15"
+      }
+    ],
+    "approvalWorkflow": {
+      "submittedBy": "Saurabh Anand",
+      "submittedDate": "2026-06-15T10:32:04.090Z",
+      "currentStage": "Procurement Approval",
+      "approvalStatus": "Pending"
+    },
+    "auditTrail": [
+      {
+        "action": "Vendor Onboarding Created",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-15T10:32:04.090Z"
+      }
+    ],
+    "vendorId": "VND-2026-45682",
+    "createdAt": "2026-06-15T10:32:04.133Z",
+    "risk": {
+      "score": 5,
+      "level": "Low"
+    },
+    "riskLevel": "Low"
+  },
+  {
+    "vendorId": "VND-2026-55028",
+    "status": "Pending Approval",
+    "basicDetails": {
+      "legalName": "Global Logistics Partners ",
+      "tradeName": "Global Logistics Partners ",
+      "dateOfIncorporation": "2025-10-29",
+      "cinNumber": "L65190MH1994PLC080767",
+      "panNumber": "AAACM1234u",
+      "gstin": "09AVIPY8039N2Ze",
+      "msmeClassification": "Not Applicable",
+      "companyWebsite": "",
+      "businessType": "Private Limited Company"
+    },
+    "businessDetails": {
+      "vendorCategory": "IT Services",
+      "subCategory": "Hardware Supply",
+      "serviceAreas": [
+        "Mumbai",
+        "Pune",
+        "Bengaluru"
+      ],
+      "productsServicesOffered": "Custom Software Development, Support & Maintenance",
+      "annualTurnover": 12345467,
+      "employeeCount": 500,
+      "majorClients": [
+        "TCS",
+        "HDFC Bank"
+      ],
+      "criticalVendor": true
+    },
+    "bankDetails": {
+      "bankName": "HDFC Bank",
+      "accountNumber": "56474838474",
+      "accountType": "Current Account",
+      "ifscCode": "hdfc0000058",
+      "branchName": "Mumbai - Andheri East",
+      "cancelledChequeFile": "download (2).jpg",
+      "bankVerificationStatus": "Verified"
+    },
+    "documents": [
+      {
+        "documentType": "PAN Card",
+        "fileName": "A_sample_of_Permanent_Account_Number_(PAN)_Card.jpg",
+        "savedFileName": "file-1781595463433-387254470.jpg",
+        "filePath": "/uploads/file-1781595463433-387254470.jpg",
+        "status": "Verified",
+        "expiryDate": null
+      },
+      {
+        "documentType": "GST Certificate",
+        "fileName": "ChatGPT Image May 14, 2026, 05_06_16 PM.png",
+        "savedFileName": "file-1781595467108-722416958.png",
+        "filePath": "/uploads/file-1781595467108-722416958.png",
+        "status": "Verified",
+        "expiryDate": null
+      },
+      {
+        "documentType": "Certificate of Incorporation",
+        "fileName": "ChatGPT Image May 19, 2026, 01_31_57 PM.png",
+        "savedFileName": "file-1781595470008-412919315.png",
+        "filePath": "/uploads/file-1781595470008-412919315.png",
+        "status": "Verified",
+        "expiryDate": null
+      },
+      {
+        "documentType": "MSME Certificate",
+        "fileName": "dd_kyc_module_flow_diagram.png",
+        "savedFileName": "file-1781595473752-76261404.png",
+        "filePath": "/uploads/file-1781595473752-76261404.png",
+        "status": "Verified",
+        "expiryDate": "2026-03-15"
+      }
+    ],
+    "approvalWorkflow": {
+      "submittedBy": "Saurabh Anand",
+      "submittedDate": "2026-06-16T07:37:56.699Z",
+      "currentStage": "Procurement Approval",
+      "approvalStatus": "Pending"
+    },
+    "auditTrail": [
+      {
+        "action": "Vendor Onboarding Created",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-16T07:37:56.699Z"
+      }
+    ],
+    "createdAt": "2026-06-16T07:37:56.763Z",
+    "risk": {
+      "score": 5,
+      "level": "Low"
+    },
+    "riskLevel": "Low"
   }
 ]

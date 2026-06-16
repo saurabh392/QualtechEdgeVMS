@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { VendorProvider } from './context/VendorContext';
 import { VendorFilterProvider } from './context/VendorFilterContext';
 import { DocumentFilterProvider } from './context/DocumentFilterContext';
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
@@ -10,13 +11,11 @@ import { AccessDenied } from './pages/Login/AccessDenied';
 import { Dashboard } from './pages/Dashboard/Dashboard';
 import { VendorList } from './pages/Vendors/VendorList';
 import { AddVendor } from './pages/Vendors/AddVendor';
-import { VendorApprovals } from './pages/Vendors/VendorApprovals';
 import { DocumentList } from './pages/Documents/DocumentList';
 import { UploadDocument } from './pages/Documents/UploadDocument';
 import { DocumentApprovals } from './pages/Documents/DocumentApprovals';
 import { ExpiryTracker } from './pages/Documents/ExpiryTracker';
 
-import { KycDetail } from './pages/KYC/KycDetail';
 import { KycApprovals } from './pages/KYC/KycApprovals';
 import { KycRiskAssessment } from './pages/KYC/KycRiskAssessment';
 import { KycSanctionsScreening } from './pages/KYC/KycSanctionsScreening';
@@ -133,114 +132,154 @@ function App() {
                 <Route path="/kyc/schedule" element={<KycReKycScheduling />} />
                 <Route path="/kyc/re-kyc" element={<KycReKycScheduling />} />
                 
-                <Route path="/catalogue" element={<Navigate to="/catalogue/dashboard" replace />} />
-                <Route path="/catalogue/dashboard" element={<CatalogueDashboard />} />
-                <Route path="/catalogue/items" element={<ItemMaster />} />
-                <Route path="/catalogue/services" element={<ServiceMaster />} />
-                <Route path="/catalogue/vendor-mapping" element={<VendorMapping />} />
-                <Route path="/catalogue/categories" element={<CategoryManagement />} />
-                <Route path="/catalogue/hsn-sac" element={<HsnSacMapping />} />
-                <Route path="/catalogue/uom" element={<UomManagement />} />
-                <Route path="/catalogue/rates" element={<RatePriceReference />} />
-                <Route path="/catalogue/pricing" element={<RatePriceReference />} />
-                <Route path="/catalogue/quality" element={<QualityStandards />} />
-                <Route path="/catalogue/quality-standards" element={<QualityStandards />} />
-                <Route path="/catalogue/approvals" element={<CatalogueApprovals />} />
-                <Route path="/catalogue/approval-workflow" element={<CatalogueApprovals />} />
-                <Route path="/catalogue/published" element={<PublishCatalogue />} />
-                <Route path="/catalogue/publish" element={<PublishCatalogue />} />
+                {/* Main layout guarded by general login check */}
+                <Route element={<ProtectedRoute />}>
+                  <Route element={<Layout />}>
+                    <Route path="/access-denied" element={<AccessDenied />} />
 
-                <Route path="/contracts" element={<Navigate to="/contracts/dashboard" replace />} />
-                <Route path="/contracts/dashboard" element={<ContractsDashboard />} />
-                <Route path="/contracts/repository" element={<Navigate to="/contracts/dashboard" replace />} />
-                <Route path="/contracts/create" element={<CreateContract />} />
-                <Route path="/contracts/approvals" element={<ContractApprovals />} />
-                <Route path="/contracts/clauses" element={<ClauseLibrary />} />
-                <Route path="/contracts/renewals" element={<Renewals />} />
+                    {/* Internal Procurement Modules: restricted to ADMIN, PROCUREMENT, COMPLIANCE, FINANCE */}
+                    <Route element={<ProtectedRoute allowedRoles={['ADMIN', 'PROCUREMENT', 'COMPLIANCE', 'FINANCE']} />}>
+                      <Route path="/dashboard" element={<Dashboard />} />
+                      <Route path="/administrator/dashboard" element={<Dashboard />} />
+                      <Route path="/procurement/dashboard" element={<Dashboard />} />
+                      <Route path="/compliance/dashboard" element={<Dashboard />} />
+                      <Route path="/finance/dashboard" element={<Dashboard />} />
+                      <Route path="/vendors" element={<VendorList />} />
+                      <Route path="/vendors/add" element={<AddVendor />} />
+                      <Route path="/documents" element={<DocumentList />} />
+                      <Route path="/documents/upload" element={<UploadDocument />} />
+                      <Route path="/documents/approvals" element={<DocumentApprovals />} />
+                      <Route path="/documents/expiry" element={<ExpiryTracker />} />
+                      <Route path="/kyc" element={<Navigate to="/kyc/dashboard" replace />} />
+                      <Route path="/kyc/dashboard" element={<KycDashboardNew />} />
+                      <Route path="/kyc/screening" element={<ScreeningRisk />} />
+                      <Route path="/kyc/reviews" element={<ReviewsApprovals />} />
+                      <Route path="/kyc/approval/:vendorId" element={<ApprovalDetail />} />
+                      <Route path="/kyc/approvals" element={<KycApprovals />} />
+                      <Route path="/kyc/risk" element={<KycRiskAssessment />} />
+                      <Route path="/kyc/risk-assessment" element={<KycRiskAssessment />} />
+                      <Route path="/kyc/sanctions" element={<KycSanctionsScreening />} />
+                      <Route path="/kyc/sanctions-screening" element={<KycSanctionsScreening />} />
+                      <Route path="/kyc/blacklist" element={<KycBlacklistCheck />} />
+                      <Route path="/kyc/blacklist-check" element={<KycBlacklistCheck />} />
+                      <Route path="/kyc/pep" element={<KycPepScreening />} />
+                      <Route path="/kyc/pep-screening" element={<KycPepScreening />} />
+                      <Route path="/kyc/media" element={<KycAdverseMedia />} />
+                      <Route path="/kyc/adverse-media" element={<KycAdverseMedia />} />
+                      <Route path="/kyc/shell" element={<KycShellCheck />} />
+                      <Route path="/kyc/shell-company-check" element={<KycShellCheck />} />
+                      <Route path="/kyc/schedule" element={<KycReKycScheduling />} />
+                      <Route path="/kyc/re-kyc" element={<KycReKycScheduling />} />
+                      
+                      <Route path="/catalogue" element={<Navigate to="/catalogue/dashboard" replace />} />
+                      <Route path="/catalogue/dashboard" element={<CatalogueDashboard />} />
+                      <Route path="/catalogue/items" element={<ItemMaster />} />
+                      <Route path="/catalogue/services" element={<ServiceMaster />} />
+                      <Route path="/catalogue/vendor-mapping" element={<VendorMapping />} />
+                      <Route path="/catalogue/categories" element={<CategoryManagement />} />
+                      <Route path="/catalogue/hsn-sac" element={<HsnSacMapping />} />
+                      <Route path="/catalogue/uom" element={<UomManagement />} />
+                      <Route path="/catalogue/rates" element={<RatePriceReference />} />
+                      <Route path="/catalogue/pricing" element={<RatePriceReference />} />
+                      <Route path="/catalogue/quality" element={<QualityStandards />} />
+                      <Route path="/catalogue/quality-standards" element={<QualityStandards />} />
+                      <Route path="/catalogue/approvals" element={<CatalogueApprovals />} />
+                      <Route path="/catalogue/approval-workflow" element={<CatalogueApprovals />} />
+                      <Route path="/catalogue/published" element={<PublishCatalogue />} />
+                      <Route path="/catalogue/publish" element={<PublishCatalogue />} />
 
-                <Route path="/purchase-orders" element={<Navigate to="/purchase-orders/dashboard" replace />} />
-                <Route path="/purchase-orders/dashboard" element={<PODashboard />} />
-                <Route path="/purchase-orders/create" element={<CreatePO />} />
-                <Route path="/purchase-orders/list" element={<POList />} />
-                <Route path="/purchase-orders/approvals" element={<POApprovals />} />
+                      <Route path="/contracts" element={<Navigate to="/contracts/dashboard" replace />} />
+                      <Route path="/contracts/dashboard" element={<ContractsDashboard />} />
+                      <Route path="/contracts/repository" element={<Navigate to="/contracts/dashboard" replace />} />
+                      <Route path="/contracts/create" element={<CreateContract />} />
+                      <Route path="/contracts/approvals" element={<ContractApprovals />} />
+                      <Route path="/contracts/clauses" element={<ClauseLibrary />} />
+                      <Route path="/contracts/renewals" element={<Renewals />} />
 
-                <Route path="/invoices" element={<Navigate to="/invoices/dashboard" replace />} />
-                <Route path="/invoices/dashboard" element={<InvoiceDashboard />} />
-                <Route path="/invoices/upload" element={<UploadInvoice />} />
-                <Route path="/invoices/list" element={<InvoiceList />} />
-                <Route path="/invoices/grn" element={<POReceipt />} />
-                <Route path="/invoices/match" element={<POThreeWayMatch />} />
-                <Route path="/invoices/approvals" element={<InvoiceApprovals />} />
-                <Route path="/invoices/gst" element={<InvoiceDashboard />} />
-                <Route path="/invoices/exceptions" element={<InvoiceDashboard />} />
-                <Route path="/invoices/analytics" element={<InvoiceDashboard />} />
+                      <Route path="/purchase-orders" element={<Navigate to="/purchase-orders/dashboard" replace />} />
+                      <Route path="/purchase-orders/dashboard" element={<PODashboard />} />
+                      <Route path="/purchase-orders/create" element={<CreatePO />} />
+                      <Route path="/purchase-orders/list" element={<POList />} />
+                      <Route path="/purchase-orders/approvals" element={<POApprovals />} />
 
-                <Route path="/payments" element={<Navigate to="/payments/dashboard" replace />} />
-                <Route path="/payments/dashboard" element={<PaymentDashboard />} />
-                <Route path="/payments/processing" element={<PaymentProcessing />} />
-                <Route path="/payments/list" element={<PaymentList />} />
-                <Route path="/payments/approvals" element={<PaymentApprovals />} />
-                <Route path="/payments/recon" element={<PaymentDashboard />} />
-                <Route path="/payments/msme" element={<PaymentDashboard />} />
-                <Route path="/payments/tax" element={<PaymentDashboard />} />
-                <Route path="/payments/failed" element={<PaymentDashboard />} />
-                <Route path="/payments/analytics" element={<PaymentDashboard />} />
+                      <Route path="/invoices" element={<Navigate to="/invoices/dashboard" replace />} />
+                      <Route path="/invoices/dashboard" element={<InvoiceDashboard />} />
+                      <Route path="/invoices/upload" element={<UploadInvoice />} />
+                      <Route path="/invoices/list" element={<InvoiceList />} />
+                      <Route path="/invoices/grn" element={<POReceipt />} />
+                      <Route path="/invoices/match" element={<POThreeWayMatch />} />
+                      <Route path="/invoices/approvals" element={<InvoiceApprovals />} />
+                      <Route path="/invoices/gst" element={<InvoiceDashboard />} />
+                      <Route path="/invoices/exceptions" element={<InvoiceDashboard />} />
+                      <Route path="/invoices/analytics" element={<InvoiceDashboard />} />
 
-                <Route path="/reports" element={<Navigate to="/reports/dashboard" replace />} />
-                <Route path="/reports/dashboard"   element={<MISDashboard />} />
-                <Route path="/reports/performance" element={<PerformanceAnalytics />} />
-                <Route path="/reports/insights"    element={<AIInsights />} />
+                      <Route path="/payments" element={<Navigate to="/payments/dashboard" replace />} />
+                      <Route path="/payments/dashboard" element={<PaymentDashboard />} />
+                      <Route path="/payments/processing" element={<PaymentProcessing />} />
+                      <Route path="/payments/list" element={<PaymentList />} />
+                      <Route path="/payments/approvals" element={<PaymentApprovals />} />
+                      <Route path="/payments/recon" element={<PaymentDashboard />} />
+                      <Route path="/payments/msme" element={<PaymentDashboard />} />
+                      <Route path="/payments/tax" element={<PaymentDashboard />} />
+                      <Route path="/payments/failed" element={<PaymentDashboard />} />
+                      <Route path="/payments/analytics" element={<PaymentDashboard />} />
 
-                {/* New simplified Settings routes */}
-                <Route path="/settings" element={<Navigate to="/settings/general" replace />} />
-                <Route path="/settings/general" element={<GeneralSettings />} />
-                <Route path="/settings/users" element={<UsersRoles />} />
-                <Route path="/settings/preferences" element={<SystemPreferences />} />
+                      <Route path="/reports" element={<Navigate to="/reports/dashboard" replace />} />
+                      <Route path="/reports/dashboard"   element={<MISDashboard />} />
+                      <Route path="/reports/performance" element={<PerformanceAnalytics />} />
+                      <Route path="/reports/insights"    element={<AIInsights />} />
 
-                {/* Legacy Settings routes — redirect to new simplified pages */}
-                <Route path="/settings/dashboard" element={<Navigate to="/settings/general" replace />} />
-                <Route path="/settings/org" element={<Navigate to="/settings/general" replace />} />
-                <Route path="/settings/roles" element={<Navigate to="/settings/users" replace />} />
-                <Route path="/settings/workflow" element={<Navigate to="/settings/preferences" replace />} />
-                <Route path="/settings/security" element={<Navigate to="/settings/preferences" replace />} />
-                <Route path="/settings/integrations" element={<Navigate to="/settings/preferences" replace />} />
-                <Route path="/settings/publish" element={<Navigate to="/settings/general" replace />} />
-              </Route>
+                      {/* New simplified Settings routes */}
+                      <Route path="/settings" element={<Navigate to="/settings/general" replace />} />
+                      <Route path="/settings/general" element={<GeneralSettings />} />
+                      <Route path="/settings/users" element={<UsersRoles />} />
+                      <Route path="/settings/preferences" element={<SystemPreferences />} />
 
-              {/* Legacy vendor portal redirect */}
-              <Route path="/vendor-portal" element={<Navigate to="/vendor/overview" replace />} />
-              <Route path="/vendor/dashboard" element={<Navigate to="/vendor/overview" replace />} />
+                      {/* Legacy Settings routes — redirect to new simplified pages */}
+                      <Route path="/settings/dashboard" element={<Navigate to="/settings/general" replace />} />
+                      <Route path="/settings/org" element={<Navigate to="/settings/general" replace />} />
+                      <Route path="/settings/roles" element={<Navigate to="/settings/users" replace />} />
+                      <Route path="/settings/workflow" element={<Navigate to="/settings/preferences" replace />} />
+                      <Route path="/settings/security" element={<Navigate to="/settings/preferences" replace />} />
+                      <Route path="/settings/integrations" element={<Navigate to="/settings/preferences" replace />} />
+                      <Route path="/settings/publish" element={<Navigate to="/settings/general" replace />} />
+                    </Route>
+
+                    {/* Legacy vendor portal redirect */}
+                    <Route path="/vendor-portal" element={<Navigate to="/vendor/overview" replace />} />
+                    <Route path="/vendor/dashboard" element={<Navigate to="/vendor/overview" replace />} />
 
 
-              {/* Fallback route */}
-              <Route path="*" element={<Navigate to="/dashboard" replace />} />
-            </Route>
-          </Route>
+                    {/* Fallback route */}
+                    <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                  </Route>
+                </Route>
 
-          {/* ===== VENDOR PORTAL — dedicated layout ===== */}
-          <Route element={<ProtectedRoute allowedRoles={['VENDOR']} />}>
-            <Route element={<VendorLayout />}>
-              <Route path="/vendor/overview" element={<VendorOverview />} />
-              <Route path="/vendor/profile" element={<VendorProfile />} />
-              <Route path="/vendor/documents" element={<VendorDocuments />} />
-              <Route path="/vendor/kyc" element={<VendorKYC />} />
-              <Route path="/vendor/contracts" element={<VendorContracts />} />
-              <Route path="/vendor/purchase-orders" element={<VendorPOs />} />
-              <Route path="/vendor/invoices" element={<VendorInvoices />} />
-              <Route path="/vendor/payments" element={<VendorPayments />} />
-              <Route path="/vendor/helpdesk" element={<VendorHelpdesk />} />
-              <Route path="/vendor/settings" element={<VendorSettings />} />
-              <Route path="/vendor/*" element={<Navigate to="/vendor/overview" replace />} />
-            </Route>
-          </Route>
+                {/* ===== VENDOR PORTAL — dedicated layout ===== */}
+                <Route element={<ProtectedRoute allowedRoles={['VENDOR']} />}>
+                  <Route element={<VendorLayout />}>
+                    <Route path="/vendor/overview" element={<VendorOverview />} />
+                    <Route path="/vendor/profile" element={<VendorProfile />} />
+                    <Route path="/vendor/documents" element={<VendorDocuments />} />
+                    <Route path="/vendor/kyc" element={<VendorKYC />} />
+                    <Route path="/vendor/contracts" element={<VendorContracts />} />
+                    <Route path="/vendor/purchase-orders" element={<VendorPOs />} />
+                    <Route path="/vendor/invoices" element={<VendorInvoices />} />
+                    <Route path="/vendor/payments" element={<VendorPayments />} />
+                    <Route path="/vendor/helpdesk" element={<VendorHelpdesk />} />
+                    <Route path="/vendor/settings" element={<VendorSettings />} />
+                    <Route path="/vendor/*" element={<Navigate to="/vendor/overview" replace />} />
+                  </Route>
+                </Route>
 
-          <Route path="/" element={<Navigate to="/login" replace />} />
-            </Routes>
-          </DocumentFilterProvider>
-        </VendorFilterProvider>
-    </BrowserRouter>
-  </AuthProvider>
-);
+                <Route path="/" element={<Navigate to="/login" replace />} />
+              </Routes>
+            </DocumentFilterProvider>
+          </VendorFilterProvider>
+        </BrowserRouter>
+      </VendorProvider>
+    </AuthProvider>
+  );
 }
 
 export default App;

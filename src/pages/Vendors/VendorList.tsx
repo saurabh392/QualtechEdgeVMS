@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Users, UserCheck, Clock, XCircle, Eye, Edit2, Trash2, Loader2 } from 'lucide-react';
-import axios from 'axios';
+import { Plus, Users, UserCheck, Clock, XCircle, Eye, Edit2, Trash2, Loader2, Play, Shield } from 'lucide-react';
 import clsx from 'clsx';
 import { toast } from 'sonner';
 import { useVendorFilters } from '../../context/VendorFilterContext';
@@ -10,12 +9,12 @@ import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
 import { DataTable } from '../../components/DataTable/DataTable';
 import { useAuth } from '../../context/AuthContext';
+import { useVendors } from '../../context/VendorContext';
 import styles from './VendorList.module.css';
 
 export const VendorList: React.FC = () => {
   const navigate = useNavigate();
-  const [vendors, setVendors] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { vendors, loading, deleteVendor } = useVendors();
   const { hasActionPermission } = useAuth();
 
   // Search & Filter state from Context
@@ -55,31 +54,12 @@ export const VendorList: React.FC = () => {
     }
   };
 
-  // Fetch vendors from Express API
-  const fetchVendors = async () => {
-    setLoading(true);
-    try {
-      const res = await axios.get('/api/vendors');
-      setVendors(res.data);
-    } catch (err) {
-      console.error('Error fetching vendors:', err);
-      toast.error('Failed to load vendors from server database.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchVendors();
-  }, []);
-
   const handleDelete = async (vendorId: string) => {
     const confirmDelete = window.confirm(`Are you sure you want to delete vendor record: ${vendorId}?`);
     if (confirmDelete) {
       try {
-        await axios.delete(`/api/vendors/${vendorId}`);
+        await deleteVendor(vendorId);
         toast.success('Vendor record deleted successfully.');
-        fetchVendors();
       } catch (err) {
         console.error('Error deleting vendor:', err);
         toast.error('Failed to delete vendor record.');
@@ -176,6 +156,26 @@ export const VendorList: React.FC = () => {
           >
             <Eye size={16} />
           </button>
+          {row.kycStatus === 'Pending Screening' && (
+            <button 
+              className={styles.actionBtn} 
+              onClick={() => navigate(`/kyc/screening?vendor=${row.vendorId}`)} 
+              title="Screen Vendor"
+              style={{ color: '#f59e0b' }}
+            >
+              <Play size={16} />
+            </button>
+          )}
+          {row.kycStatus === 'Under Review' && (
+            <button 
+              className={styles.actionBtn} 
+              onClick={() => navigate(`/kyc/reviews`)} 
+              title="Review & Decide"
+              style={{ color: '#10b981' }}
+            >
+              <Shield size={16} />
+            </button>
+          )}
           {hasActionPermission('EDIT_VENDOR') && (
             <button 
               className={styles.actionBtn} 
@@ -206,7 +206,7 @@ export const VendorList: React.FC = () => {
         <header className={styles.pageHeader}>
           <div>
             <h1 className={styles.title}>Vendor List</h1>
-            <p className={styles.breadcrumbs}>Home / Vendors / Vendor List</p>
+            <p className={styles.breadcrumbs}>Home / Vendor Onboarding & KYC / Vendor List</p>
           </div>
         </header>
         <div className={styles.kpiGrid}>
@@ -240,7 +240,7 @@ export const VendorList: React.FC = () => {
       <header className={styles.pageHeader}>
         <div>
           <h1 className={styles.title}>Vendor List</h1>
-          <p className={styles.breadcrumbs}>Home / Vendors / Vendor List</p>
+          <p className={styles.breadcrumbs}>Home / Vendor Onboarding & KYC / Vendor List</p>
         </div>
       </header>
 
@@ -326,7 +326,7 @@ export const VendorList: React.FC = () => {
             </div>
             {hasActionPermission('CREATE_VENDOR') && (
               <Button onClick={() => navigate('/vendors/add')} icon={<Plus size={16} />}>
-                Add Vendor
+                Register Vendor
               </Button>
             )}
           </div>

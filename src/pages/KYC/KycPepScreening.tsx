@@ -822,7 +822,7 @@ export const KycPepScreening: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.pageHeader}>
         <div>
-          <div className={styles.breadcrumbs}>Due Diligence & KYC &gt; PEP Screening</div>
+          <div className={styles.breadcrumbs}>Vendor Onboarding & KYC &gt; PEP Screening</div>
           <h2 className={styles.title}>Politically Exposed Person (PEP) Screening Dashboard</h2>
         </div>
         <div className="flex gap-3">

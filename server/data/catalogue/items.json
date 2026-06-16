@@ -281,12 +281,22 @@
       }
     ],
     "itemId": "ITM-2026-05860",
-    "status": "Pending Approval",
+    "status": "Published",
     "approvalWorkflow": {
       "submittedBy": "Saurabh Anand",
       "submittedDate": "2026-06-08",
-      "approvalStatus": "Pending",
-      "currentApprover": "Procurement Checker"
-    }
+      "approvalStatus": "Approved",
+      "currentApprover": "",
+      "checkerRemarks": "",
+      "checkedBy": "Neha Sharma",
+      "checkedDate": "2026-06-15"
+    },
+    "auditTrail": [
+      {
+        "action": "Item Approved",
+        "user": "Neha Sharma",
+        "dateTime": "2026-06-15 09:15:12"
+      }
+    ]
   }
 ]

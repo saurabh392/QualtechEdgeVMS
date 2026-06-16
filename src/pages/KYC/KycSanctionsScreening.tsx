@@ -652,7 +652,7 @@ export const KycSanctionsScreening: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.pageHeader}>
         <div>
-          <div className={styles.breadcrumbs}>Due Diligence & KYC &gt; Sanctions Screening</div>
+          <div className={styles.breadcrumbs}>Vendor Onboarding & KYC &gt; Sanctions Screening</div>
           <h2 className={styles.title}>Vendor Sanctions Screening Dashboard</h2>
         </div>
         <div className="flex gap-3">

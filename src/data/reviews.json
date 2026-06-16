@@ -70,6 +70,34 @@
       "assignedTo": "Compliance Team",
       "dueDate": "2026-07-11",
       "comments": []
+    },
+    {
+      "reviewId": "REV-2026-005",
+      "vendorId": "VND-2026-45682",
+      "vendorName": "New Age Software Solutions",
+      "category": "Private Limited Company",
+      "riskScore": 5,
+      "riskLevel": "Low",
+      "kycStatus": "Pending",
+      "screeningStatus": "Cleared",
+      "approvalStatus": "Pending Review",
+      "assignedTo": "Compliance Team",
+      "dueDate": "2026-07-15",
+      "comments": []
+    },
+    {
+      "reviewId": "REV-2026-006",
+      "vendorId": "VND-2026-55028",
+      "vendorName": "Global Logistics Partners ",
+      "category": "Private Limited Company",
+      "riskScore": 5,
+      "riskLevel": "Low",
+      "kycStatus": "Pending",
+      "screeningStatus": "Cleared",
+      "approvalStatus": "Pending Review",
+      "assignedTo": "Compliance Team",
+      "dueDate": "2026-07-16",
+      "comments": []
     }
   ]
 }

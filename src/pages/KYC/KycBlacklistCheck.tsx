@@ -617,7 +617,7 @@ export const KycBlacklistCheck: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.pageHeader}>
         <div>
-          <div className={styles.breadcrumbs}>Due Diligence & KYC &gt; Blacklist Check</div>
+          <div className={styles.breadcrumbs}>Vendor Onboarding & KYC &gt; Blacklist Check</div>
           <h2 className={styles.title}>Vendor Blacklist Screening Dashboard</h2>
         </div>
         <div className="flex gap-3">

@@ -22,7 +22,7 @@
     "otpId": "OTP-2694",
     "username": "procurement",
     "otp": "123456",
-    "status": "USED",
+    "status": "ACTIVE",
     "expiresInSeconds": 300
   },
   {

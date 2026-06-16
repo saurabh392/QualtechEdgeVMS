@@ -12,6 +12,7 @@ import { getApprovalDetail, submitApprovalAction } from '../../services/reviewSe
 import type { ApprovalDetailData } from '../../services/reviewService';
 import styles from './ApprovalDetail.module.css';
 import { toast } from 'sonner';
+import { useAuth } from '../../context/AuthContext';
 
 const kycStatusVariant = (s: string): 'success' | 'warning' | 'info' | 'danger' | 'default' => {
   switch (s) {
@@ -81,6 +82,7 @@ const getRiskBadge = (r: string) => {
 export const ApprovalDetail: React.FC = () => {
   const { vendorId } = useParams<{ vendorId: string }>();
   const navigate = useNavigate();
+  const { user } = useAuth();
   
   const [data, setData] = useState<ApprovalDetailData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -385,33 +387,112 @@ export const ApprovalDetail: React.FC = () => {
 
           {/* Section 6: Workflow Decisions */}
           <Card className={styles.sectionCard} style={{ borderColor: '#bfdbfe', backgroundColor: '#eff6ff' }}>
-            <h2 className={styles.sectionTitle} style={{ color: '#1e3a8a' }}>Section 6: Final Compliance Decision</h2>
+            {/* Final Approver Badge */}
+            <div style={{
+              marginBottom: '16px',
+              padding: '12px 16px',
+              backgroundColor: '#eff6ff',
+              border: '1px solid #bfdbfe',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '100%'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '11px', fontWeight: 600, color: '#1e3a8a', textTransform: 'uppercase' }}>Final Approver:</span>
+                <span style={{ fontSize: '12px', fontWeight: 700, color: '#0369a1', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e' }}></span>
+                  Saurabh Anand
+                </span>
+              </div>
+              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>Tenant Admin</span>
+            </div>
+
+            <h2 className={styles.sectionTitle} style={{ color: '#1e3a8a' }}>
+              {user?.role === 'ADMIN' ? 'Section 6: Final Compliance Decision' : 'Section 6: Compliance Recommendation'}
+            </h2>
             <div className={styles.decisionInfo}>
               <Info size={16} className={styles.infoIcon} />
-              <p>Submitting a decision will instantly update the vendor registry status, recalculate statistics, and log audits.</p>
+              <p>
+                {user?.role === 'ADMIN' 
+                  ? 'Submitting a decision will instantly update the vendor registry status, recalculate statistics, and log audits.'
+                  : 'Recommending an action will log your compliance notes and escalate the decision queue to the final approver (Saurabh Anand).'}
+              </p>
             </div>
             <div className={styles.decisionActions}>
-              <button
-                className={styles.approveActionBtn}
-                disabled={submittingAction}
-                onClick={() => handleWorkflowAction('Approve')}
-              >
-                <ThumbsUp size={16} /> Approve Vendor
-              </button>
-              <button
-                className={styles.rejectActionBtn}
-                disabled={submittingAction}
-                onClick={() => handleWorkflowAction('Reject')}
-              >
-                <ThumbsDown size={16} /> Reject Vendor
-              </button>
-              <button
-                className={styles.sendBackActionBtn}
-                disabled={submittingAction}
-                onClick={() => handleWorkflowAction('SendBack')}
-              >
-                <RotateCcw size={16} /> Send Back
-              </button>
+              {user?.role === 'ADMIN' ? (
+                <>
+                  <button
+                    className={styles.approveActionBtn}
+                    disabled={submittingAction}
+                    onClick={() => handleWorkflowAction('Approve')}
+                  >
+                    <ThumbsUp size={16} /> Approve Vendor
+                  </button>
+                  <button
+                    className={styles.rejectActionBtn}
+                    disabled={submittingAction}
+                    onClick={() => handleWorkflowAction('Reject')}
+                  >
+                    <ThumbsDown size={16} /> Reject Vendor
+                  </button>
+                  <button
+                    className={styles.sendBackActionBtn}
+                    disabled={submittingAction}
+                    onClick={() => handleWorkflowAction('SendBack')}
+                  >
+                    <RotateCcw size={16} /> Send Back
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className={styles.approveActionBtn}
+                    onClick={() => {
+                      toast.success("Recommendation submitted to Tenant Admin successfully.");
+                      navigate('/kyc/reviews');
+                    }}
+                  >
+                    <ThumbsUp size={16} /> Recommend Approval
+                  </button>
+                  <button
+                    className={styles.sendBackActionBtn}
+                    onClick={() => {
+                      toast.success("Clarification request logged.");
+                      navigate('/kyc/reviews');
+                    }}
+                  >
+                    <RotateCcw size={16} /> Request Maker Clarification
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* Workflow Trail */}
+            <div style={{
+              marginTop: '16px',
+              padding: '16px',
+              backgroundColor: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              borderRadius: '8px',
+              width: '100%'
+            }}>
+              <h4 style={{ margin: '0 0 12px 0', fontSize: '11px', fontWeight: 600, color: '#334155', textTransform: 'uppercase' }}>Workflow Trail</h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                  <span style={{ color: '#64748b' }}>Created By:</span>
+                  <span style={{ fontWeight: 600, color: '#334155' }}>Rahul Verma (Vendor Onboarding Officer)</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                  <span style={{ color: '#64748b' }}>Reviewed By:</span>
+                  <span style={{ fontWeight: 600, color: '#334155' }}>Priya Sharma (Procurement Manager)</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                  <span style={{ color: '#64748b' }}>Approved By:</span>
+                  <span style={{ fontWeight: 600, color: '#16a34a' }}>Saurabh Anand (Tenant Admin)</span>
+                </div>
+              </div>
             </div>
           </Card>
 

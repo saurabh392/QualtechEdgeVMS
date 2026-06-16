@@ -17,7 +17,7 @@
     "portal": "Procurement Portal",
     "username": "procurement",
     "password": "procurement123",
-    "redirectUrl": "/procurement/dashboard",
+    "redirectUrl": "/catalogue/dashboard",
     "color": "green",
     "initials": "PS"
   },
@@ -28,7 +28,7 @@
     "portal": "Onboarding Portal",
     "username": "onboarding",
     "password": "onboarding123",
-    "redirectUrl": "/compliance/dashboard",
+    "redirectUrl": "/vendors",
     "color": "purple",
     "initials": "RV"
   },

@@ -222,5 +222,477 @@
         "timestamp": "2026-06-12T11:57:33.957Z"
       }
     ]
+  },
+  {
+    "id": "DOC-2026-52776",
+    "documentType": "PAN Card",
+    "fileName": "A_sample_of_Permanent_Account_Number_(PAN)_Card.jpg",
+    "savedFileName": "file-1781519504663-329256138.jpg",
+    "filePath": "/uploads/file-1781519504663-329256138.jpg",
+    "sizeBytes": 52130,
+    "status": "Verified",
+    "uploadedAt": "2026-06-15T10:31:44.688Z",
+    "documentId": "DOC-2026-52776",
+    "documentName": "PAN Card",
+    "documentCategory": "PAN Card",
+    "vendor": {
+      "vendorId": "VND-UNKNOWN",
+      "vendorName": "Qualtech Corporate (Internal)"
+    },
+    "documentNumber": "N/A",
+    "issueDate": null,
+    "expiryDate": null,
+    "issuedBy": "N/A",
+    "remarks": "",
+    "verificationStatus": "Verified",
+    "approvalStatus": "Approved",
+    "uploadedBy": {
+      "userId": "USR-001",
+      "userName": "Saurabh Anand"
+    },
+    "fileDetails": {
+      "originalFileName": "A_sample_of_Permanent_Account_Number_(PAN)_Card.jpg",
+      "storedFileName": "file-1781519504663-329256138.jpg",
+      "filePath": "/uploads/file-1781519504663-329256138.jpg",
+      "fileType": "image/jpeg",
+      "fileSizeKB": 51,
+      "fileExtension": ".jpg"
+    },
+    "previewImage": null,
+    "documentUsage": {
+      "usedInKYC": false,
+      "usedInVendorOnboarding": true,
+      "usedInCompliance": false,
+      "usedInContracts": false,
+      "usedInInvoiceVerification": false
+    },
+    "versionHistory": [
+      {
+        "version": 1,
+        "uploadedAt": "2026-06-15T10:31:44.689Z",
+        "uploadedBy": "Saurabh Anand",
+        "status": "Initial Upload"
+      }
+    ],
+    "auditTrail": [
+      {
+        "action": "Document Uploaded",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-15T10:31:44.689Z"
+      }
+    ]
+  },
+  {
+    "id": "DOC-2026-57587",
+    "documentType": "GST Certificate",
+    "fileName": "ChatGPT Image May 14, 2026, 05_06_16 PM.png",
+    "savedFileName": "file-1781519508629-697004393.png",
+    "filePath": "/uploads/file-1781519508629-697004393.png",
+    "sizeBytes": 1444875,
+    "status": "Verified",
+    "uploadedAt": "2026-06-15T10:31:48.675Z",
+    "documentId": "DOC-2026-57587",
+    "documentName": "GST Certificate",
+    "documentCategory": "GST Certificate",
+    "vendor": {
+      "vendorId": "VND-UNKNOWN",
+      "vendorName": "Qualtech Corporate (Internal)"
+    },
+    "documentNumber": "N/A",
+    "issueDate": null,
+    "expiryDate": null,
+    "issuedBy": "N/A",
+    "remarks": "",
+    "verificationStatus": "Verified",
+    "approvalStatus": "Approved",
+    "uploadedBy": {
+      "userId": "USR-001",
+      "userName": "Saurabh Anand"
+    },
+    "fileDetails": {
+      "originalFileName": "ChatGPT Image May 14, 2026, 05_06_16 PM.png",
+      "storedFileName": "file-1781519508629-697004393.png",
+      "filePath": "/uploads/file-1781519508629-697004393.png",
+      "fileType": "image/png",
+      "fileSizeKB": 1411,
+      "fileExtension": ".png"
+    },
+    "previewImage": null,
+    "documentUsage": {
+      "usedInKYC": false,
+      "usedInVendorOnboarding": true,
+      "usedInCompliance": false,
+      "usedInContracts": false,
+      "usedInInvoiceVerification": false
+    },
+    "versionHistory": [
+      {
+        "version": 1,
+        "uploadedAt": "2026-06-15T10:31:48.675Z",
+        "uploadedBy": "Saurabh Anand",
+        "status": "Initial Upload"
+      }
+    ],
+    "auditTrail": [
+      {
+        "action": "Document Uploaded",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-15T10:31:48.676Z"
+      }
+    ]
+  },
+  {
+    "id": "DOC-2026-60799",
+    "documentType": "Certificate of Incorporation",
+    "fileName": "download (2).jpg",
+    "savedFileName": "file-1781519513636-355770043.jpg",
+    "filePath": "/uploads/file-1781519513636-355770043.jpg",
+    "sizeBytes": 6203,
+    "status": "Verified",
+    "uploadedAt": "2026-06-15T10:31:53.638Z",
+    "documentId": "DOC-2026-60799",
+    "documentName": "Certificate of Incorporation",
+    "documentCategory": "Certificate of Incorporation",
+    "vendor": {
+      "vendorId": "VND-UNKNOWN",
+      "vendorName": "Qualtech Corporate (Internal)"
+    },
+    "documentNumber": "N/A",
+    "issueDate": null,
+    "expiryDate": null,
+    "issuedBy": "N/A",
+    "remarks": "",
+    "verificationStatus": "Verified",
+    "approvalStatus": "Approved",
+    "uploadedBy": {
+      "userId": "USR-001",
+      "userName": "Saurabh Anand"
+    },
+    "fileDetails": {
+      "originalFileName": "download (2).jpg",
+      "storedFileName": "file-1781519513636-355770043.jpg",
+      "filePath": "/uploads/file-1781519513636-355770043.jpg",
+      "fileType": "image/jpeg",
+      "fileSizeKB": 6,
+      "fileExtension": ".jpg"
+    },
+    "previewImage": null,
+    "documentUsage": {
+      "usedInKYC": false,
+      "usedInVendorOnboarding": true,
+      "usedInCompliance": false,
+      "usedInContracts": false,
+      "usedInInvoiceVerification": false
+    },
+    "versionHistory": [
+      {
+        "version": 1,
+        "uploadedAt": "2026-06-15T10:31:53.638Z",
+        "uploadedBy": "Saurabh Anand",
+        "status": "Initial Upload"
+      }
+    ],
+    "auditTrail": [
+      {
+        "action": "Document Uploaded",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-15T10:31:53.638Z"
+      }
+    ]
+  },
+  {
+    "id": "DOC-2026-23571",
+    "documentType": "MSME Certificate",
+    "fileName": "ChatGPT Image May 19, 2026, 01_31_57 PM.png",
+    "savedFileName": "file-1781519520837-443780032.png",
+    "filePath": "/uploads/file-1781519520837-443780032.png",
+    "sizeBytes": 1455660,
+    "status": "Verified",
+    "uploadedAt": "2026-06-15T10:32:00.901Z",
+    "documentId": "DOC-2026-23571",
+    "documentName": "MSME Certificate",
+    "documentCategory": "MSME Certificate",
+    "vendor": {
+      "vendorId": "VND-UNKNOWN",
+      "vendorName": "Qualtech Corporate (Internal)"
+    },
+    "documentNumber": "N/A",
+    "issueDate": null,
+    "expiryDate": null,
+    "issuedBy": "N/A",
+    "remarks": "",
+    "verificationStatus": "Verified",
+    "approvalStatus": "Approved",
+    "uploadedBy": {
+      "userId": "USR-001",
+      "userName": "Saurabh Anand"
+    },
+    "fileDetails": {
+      "originalFileName": "ChatGPT Image May 19, 2026, 01_31_57 PM.png",
+      "storedFileName": "file-1781519520837-443780032.png",
+      "filePath": "/uploads/file-1781519520837-443780032.png",
+      "fileType": "image/png",
+      "fileSizeKB": 1422,
+      "fileExtension": ".png"
+    },
+    "previewImage": null,
+    "documentUsage": {
+      "usedInKYC": false,
+      "usedInVendorOnboarding": true,
+      "usedInCompliance": false,
+      "usedInContracts": false,
+      "usedInInvoiceVerification": false
+    },
+    "versionHistory": [
+      {
+        "version": 1,
+        "uploadedAt": "2026-06-15T10:32:00.901Z",
+        "uploadedBy": "Saurabh Anand",
+        "status": "Initial Upload"
+      }
+    ],
+    "auditTrail": [
+      {
+        "action": "Document Uploaded",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-15T10:32:00.901Z"
+      }
+    ]
+  },
+  {
+    "id": "DOC-2026-49604",
+    "documentType": "PAN Card",
+    "fileName": "A_sample_of_Permanent_Account_Number_(PAN)_Card.jpg",
+    "savedFileName": "file-1781595463433-387254470.jpg",
+    "filePath": "/uploads/file-1781595463433-387254470.jpg",
+    "sizeBytes": 52130,
+    "status": "Verified",
+    "uploadedAt": "2026-06-16T07:37:43.475Z",
+    "documentId": "DOC-2026-49604",
+    "documentName": "PAN Card",
+    "documentCategory": "PAN Card",
+    "vendor": {
+      "vendorId": "VND-UNKNOWN",
+      "vendorName": "Qualtech Corporate (Internal)"
+    },
+    "documentNumber": "N/A",
+    "issueDate": null,
+    "expiryDate": null,
+    "issuedBy": "N/A",
+    "remarks": "",
+    "verificationStatus": "Verified",
+    "approvalStatus": "Approved",
+    "uploadedBy": {
+      "userId": "USR-001",
+      "userName": "Saurabh Anand"
+    },
+    "fileDetails": {
+      "originalFileName": "A_sample_of_Permanent_Account_Number_(PAN)_Card.jpg",
+      "storedFileName": "file-1781595463433-387254470.jpg",
+      "filePath": "/uploads/file-1781595463433-387254470.jpg",
+      "fileType": "image/jpeg",
+      "fileSizeKB": 51,
+      "fileExtension": ".jpg"
+    },
+    "previewImage": null,
+    "documentUsage": {
+      "usedInKYC": false,
+      "usedInVendorOnboarding": true,
+      "usedInCompliance": false,
+      "usedInContracts": false,
+      "usedInInvoiceVerification": false
+    },
+    "versionHistory": [
+      {
+        "version": 1,
+        "uploadedAt": "2026-06-16T07:37:43.476Z",
+        "uploadedBy": "Saurabh Anand",
+        "status": "Initial Upload"
+      }
+    ],
+    "auditTrail": [
+      {
+        "action": "Document Uploaded",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-16T07:37:43.476Z"
+      }
+    ]
+  },
+  {
+    "id": "DOC-2026-62521",
+    "documentType": "GST Certificate",
+    "fileName": "ChatGPT Image May 14, 2026, 05_06_16 PM.png",
+    "savedFileName": "file-1781595467108-722416958.png",
+    "filePath": "/uploads/file-1781595467108-722416958.png",
+    "sizeBytes": 1444875,
+    "status": "Verified",
+    "uploadedAt": "2026-06-16T07:37:47.165Z",
+    "documentId": "DOC-2026-62521",
+    "documentName": "GST Certificate",
+    "documentCategory": "GST Certificate",
+    "vendor": {
+      "vendorId": "VND-UNKNOWN",
+      "vendorName": "Qualtech Corporate (Internal)"
+    },
+    "documentNumber": "N/A",
+    "issueDate": null,
+    "expiryDate": null,
+    "issuedBy": "N/A",
+    "remarks": "",
+    "verificationStatus": "Verified",
+    "approvalStatus": "Approved",
+    "uploadedBy": {
+      "userId": "USR-001",
+      "userName": "Saurabh Anand"
+    },
+    "fileDetails": {
+      "originalFileName": "ChatGPT Image May 14, 2026, 05_06_16 PM.png",
+      "storedFileName": "file-1781595467108-722416958.png",
+      "filePath": "/uploads/file-1781595467108-722416958.png",
+      "fileType": "image/png",
+      "fileSizeKB": 1411,
+      "fileExtension": ".png"
+    },
+    "previewImage": null,
+    "documentUsage": {
+      "usedInKYC": false,
+      "usedInVendorOnboarding": true,
+      "usedInCompliance": false,
+      "usedInContracts": false,
+      "usedInInvoiceVerification": false
+    },
+    "versionHistory": [
+      {
+        "version": 1,
+        "uploadedAt": "2026-06-16T07:37:47.165Z",
+        "uploadedBy": "Saurabh Anand",
+        "status": "Initial Upload"
+      }
+    ],
+    "auditTrail": [
+      {
+        "action": "Document Uploaded",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-16T07:37:47.165Z"
+      }
+    ]
+  },
+  {
+    "id": "DOC-2026-53804",
+    "documentType": "Certificate of Incorporation",
+    "fileName": "ChatGPT Image May 19, 2026, 01_31_57 PM.png",
+    "savedFileName": "file-1781595470008-412919315.png",
+    "filePath": "/uploads/file-1781595470008-412919315.png",
+    "sizeBytes": 1455660,
+    "status": "Verified",
+    "uploadedAt": "2026-06-16T07:37:50.062Z",
+    "documentId": "DOC-2026-53804",
+    "documentName": "Certificate of Incorporation",
+    "documentCategory": "Certificate of Incorporation",
+    "vendor": {
+      "vendorId": "VND-UNKNOWN",
+      "vendorName": "Qualtech Corporate (Internal)"
+    },
+    "documentNumber": "N/A",
+    "issueDate": null,
+    "expiryDate": null,
+    "issuedBy": "N/A",
+    "remarks": "",
+    "verificationStatus": "Verified",
+    "approvalStatus": "Approved",
+    "uploadedBy": {
+      "userId": "USR-001",
+      "userName": "Saurabh Anand"
+    },
+    "fileDetails": {
+      "originalFileName": "ChatGPT Image May 19, 2026, 01_31_57 PM.png",
+      "storedFileName": "file-1781595470008-412919315.png",
+      "filePath": "/uploads/file-1781595470008-412919315.png",
+      "fileType": "image/png",
+      "fileSizeKB": 1422,
+      "fileExtension": ".png"
+    },
+    "previewImage": null,
+    "documentUsage": {
+      "usedInKYC": false,
+      "usedInVendorOnboarding": true,
+      "usedInCompliance": false,
+      "usedInContracts": false,
+      "usedInInvoiceVerification": false
+    },
+    "versionHistory": [
+      {
+        "version": 1,
+        "uploadedAt": "2026-06-16T07:37:50.062Z",
+        "uploadedBy": "Saurabh Anand",
+        "status": "Initial Upload"
+      }
+    ],
+    "auditTrail": [
+      {
+        "action": "Document Uploaded",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-16T07:37:50.063Z"
+      }
+    ]
+  },
+  {
+    "id": "DOC-2026-14236",
+    "documentType": "MSME Certificate",
+    "fileName": "dd_kyc_module_flow_diagram.png",
+    "savedFileName": "file-1781595473752-76261404.png",
+    "filePath": "/uploads/file-1781595473752-76261404.png",
+    "sizeBytes": 2407561,
+    "status": "Verified",
+    "uploadedAt": "2026-06-16T07:37:53.838Z",
+    "documentId": "DOC-2026-14236",
+    "documentName": "MSME Certificate",
+    "documentCategory": "MSME Certificate",
+    "vendor": {
+      "vendorId": "VND-UNKNOWN",
+      "vendorName": "Qualtech Corporate (Internal)"
+    },
+    "documentNumber": "N/A",
+    "issueDate": null,
+    "expiryDate": null,
+    "issuedBy": "N/A",
+    "remarks": "",
+    "verificationStatus": "Verified",
+    "approvalStatus": "Approved",
+    "uploadedBy": {
+      "userId": "USR-001",
+      "userName": "Saurabh Anand"
+    },
+    "fileDetails": {
+      "originalFileName": "dd_kyc_module_flow_diagram.png",
+      "storedFileName": "file-1781595473752-76261404.png",
+      "filePath": "/uploads/file-1781595473752-76261404.png",
+      "fileType": "image/png",
+      "fileSizeKB": 2351,
+      "fileExtension": ".png"
+    },
+    "previewImage": null,
+    "documentUsage": {
+      "usedInKYC": false,
+      "usedInVendorOnboarding": true,
+      "usedInCompliance": false,
+      "usedInContracts": false,
+      "usedInInvoiceVerification": false
+    },
+    "versionHistory": [
+      {
+        "version": 1,
+        "uploadedAt": "2026-06-16T07:37:53.838Z",
+        "uploadedBy": "Saurabh Anand",
+        "status": "Initial Upload"
+      }
+    ],
+    "auditTrail": [
+      {
+        "action": "Document Uploaded",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-16T07:37:53.838Z"
+      }
+    ]
   }
 ]

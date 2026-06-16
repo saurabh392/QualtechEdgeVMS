@@ -18,6 +18,7 @@ import {
   getPendingApprovals, 
   resolveApproval 
 } from '../../services/itemMasterService';
+import { useAuth } from '../../context/AuthContext';
 
 interface ApprovalRequest {
   id: string;
@@ -45,6 +46,7 @@ interface ApprovalRequest {
 
 export const CatalogueApprovals: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [requests, setRequests] = useState<ApprovalRequest[]>([]);
   const [selectedReq, setSelectedReq] = useState<ApprovalRequest | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -81,19 +83,19 @@ export const CatalogueApprovals: React.FC = () => {
             },
             {
               level: 2,
-              role: 'Checker L1 (Procurement Manager)',
-              user: 'Neha Sharma (You)',
-              status: 'In Progress' as 'Approved' | 'Pending' | 'In Progress',
-              date: 'Awaiting Your Review',
-              remarks: ''
+              role: 'Reviewer L1 (Procurement Manager)',
+              user: 'Priya Sharma',
+              status: 'Approved' as 'Approved' | 'Pending' | 'In Progress',
+              date: '22 May 2026 11:30 AM',
+              remarks: 'Sourcing vendor pricing matched to references.'
             },
             {
               level: 3,
-              role: 'Checker L2 (Finance Audit Officer)',
-              user: 'Vikram Malhotra',
-              status: 'Pending' as 'Approved' | 'Pending' | 'In Progress',
-              date: '--',
-              remarks: 'Pending L1 sign-off.'
+              role: 'Checker L2 (Final Approver)',
+              user: 'Saurabh Anand (Tenant Admin)',
+              status: 'In Progress' as 'Approved' | 'Pending' | 'In Progress',
+              date: 'Awaiting Final Approval',
+              remarks: ''
             }
           ]
         };
@@ -314,6 +316,28 @@ export const CatalogueApprovals: React.FC = () => {
                 })}
               </div>
 
+              {/* Final Approver Badge */}
+              <div style={{
+                marginTop: '16px',
+                padding: '12px 16px',
+                backgroundColor: '#eff6ff',
+                border: '1px solid #bfdbfe',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '100%'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 600, color: '#1e3a8a', textTransform: 'uppercase' }}>Final Approver:</span>
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: '#0369a1', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e' }}></span>
+                    Saurabh Anand
+                  </span>
+                </div>
+                <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>Tenant Admin</span>
+              </div>
+
               {/* Interactive approval actions panel */}
               <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '20px', marginTop: '20px' }}>
                 <span className={styles.detailLabel}>Approval / Clarification Remarks *</span>
@@ -327,27 +351,51 @@ export const CatalogueApprovals: React.FC = () => {
               </div>
 
               <div className={styles.actionRow}>
-                <Button 
-                  variant="outline" 
-                  icon={<HelpCircle size={16} />}
-                  onClick={() => handleAction('clarify')}
-                >
-                  Send Back for Clarification
-                </Button>
-                <Button 
-                  variant="danger" 
-                  icon={<X size={16} />}
-                  onClick={() => handleAction('reject')}
-                >
-                  Reject Item
-                </Button>
-                <Button 
-                  variant="primary" 
-                  icon={<Check size={16} />}
-                  onClick={() => handleAction('approve')}
-                >
-                  Approve & Forward
-                </Button>
+                {user?.role === 'ADMIN' ? (
+                  <>
+                    <Button 
+                      variant="outline" 
+                      icon={<HelpCircle size={16} />}
+                      onClick={() => handleAction('clarify')}
+                    >
+                      Send Back for Clarification
+                    </Button>
+                    <Button 
+                      variant="danger" 
+                      icon={<X size={16} />}
+                      onClick={() => handleAction('reject')}
+                    >
+                      Reject Item
+                    </Button>
+                    <Button 
+                      variant="primary" 
+                      icon={<Check size={16} />}
+                      onClick={() => handleAction('approve')}
+                    >
+                      Approve & Publish
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button 
+                      variant="outline" 
+                      icon={<HelpCircle size={16} />}
+                      onClick={() => handleAction('clarify')}
+                    >
+                      Send Back for Clarification
+                    </Button>
+                    <Button 
+                      variant="primary" 
+                      icon={<Check size={16} />}
+                      onClick={() => {
+                        alert("Recommendation submitted to Tenant Admin successfully.");
+                        setRemarksInput('');
+                      }}
+                    >
+                      Recommend Approval
+                    </Button>
+                  </>
+                )}
               </div>
             </Card>
           </div>

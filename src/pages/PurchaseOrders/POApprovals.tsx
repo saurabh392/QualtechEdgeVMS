@@ -264,9 +264,32 @@ export const POApprovals: React.FC = () => {
                   </div>
                 </div>
 
-                {hasActionPermission('APPROVE_PO') && (
+                {/* Final Approver Badge */}
+                <div style={{
+                  marginBottom: '16px',
+                  padding: '12px 16px',
+                  backgroundColor: '#eff6ff',
+                  border: '1px solid #bfdbfe',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                  marginTop: '20px'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '11px', fontWeight: 600, color: '#1e3a8a', textTransform: 'uppercase' }}>Final Approver:</span>
+                    <span style={{ fontSize: '12px', fontWeight: 700, color: '#0369a1', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e' }}></span>
+                      Saurabh Anand
+                    </span>
+                  </div>
+                  <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>Tenant Admin</span>
+                </div>
+
+                {hasActionPermission('APPROVE_PO') ? (
                   <>
-                    <h3 className={styles.actionTitle}>Approval Action</h3>
+                    <h3 className={styles.actionTitle}>Approval Action (Final Checker)</h3>
                     <div className={styles.actionButtons}>
                       <Button 
                         className={styles.approveBtn} 
@@ -304,7 +327,71 @@ export const POApprovals: React.FC = () => {
                       ></textarea>
                     </div>
                   </>
+                ) : (
+                  <>
+                    <h3 className={styles.actionTitle}>Review Action (Maker/Reviewer)</h3>
+                    <div className={styles.actionButtons}>
+                      <Button 
+                        className={styles.approveBtn} 
+                        icon={<CheckCircle2 size={16} />}
+                        onClick={() => {
+                          toast.success("PO Requisition recommendation submitted to Tenant Admin successfully.");
+                          setRemarks('');
+                          loadApprovals();
+                        }}
+                      >
+                        Recommend Approval
+                      </Button>
+                      <Button 
+                        className={styles.sendBackBtn} 
+                        icon={<Send size={16} />}
+                        onClick={() => {
+                          toast.success("PO Requisition sent back.");
+                          setRemarks('');
+                          loadApprovals();
+                        }}
+                      >
+                        Send Back
+                      </Button>
+                    </div>
+
+                    <div className={styles.remarksSection}>
+                      <label className={styles.remarksLabel}>Reviewer Notes / Remarks</label>
+                      <textarea 
+                        className={styles.remarksInput} 
+                        placeholder="Enter remarks or justification note for the checker..."
+                        value={remarks}
+                        onChange={(e) => setRemarks(e.target.value)}
+                      ></textarea>
+                    </div>
+                  </>
                 )}
+
+                {/* Workflow Trail */}
+                <div style={{
+                  marginTop: '16px',
+                  padding: '16px',
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                  width: '100%'
+                }}>
+                  <h4 style={{ margin: '0 0 12px 0', fontSize: '11px', fontWeight: 600, color: '#334155', textTransform: 'uppercase' }}>Workflow Trail</h4>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                      <span style={{ color: '#64748b' }}>Created By:</span>
+                      <span style={{ fontWeight: 600, color: '#334155' }}>Rahul Verma (Vendor Onboarding Officer)</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                      <span style={{ color: '#64748b' }}>Reviewed By:</span>
+                      <span style={{ fontWeight: 600, color: '#334155' }}>Priya Sharma (Procurement Manager)</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                      <span style={{ color: '#64748b' }}>Approved By:</span>
+                      <span style={{ fontWeight: 600, color: '#16a34a' }}>Saurabh Anand (Tenant Admin)</span>
+                    </div>
+                  </div>
+                </div>
               </Card>
             ) : (
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: '300px', border: '1px dashed var(--color-border)', borderRadius: '12px', color: 'var(--color-text-secondary)' }}>

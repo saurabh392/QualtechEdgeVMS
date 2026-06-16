@@ -149,8 +149,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!user) return false;
     const role = user.role;
 
+    // Global Documents module disable check
+    const isHidden = (rolesConfig as any).hiddenModules?.includes('documents') && 
+      (moduleName === 'Documents' || moduleName === 'My Documents' || moduleName.toLowerCase() === 'documents' || moduleName.toLowerCase() === 'mydocuments');
+    if (isHidden) {
+      return false;
+    }
+
     const moduleMap: Record<string, string> = {
       'Vendors': 'vendors',
+      'Vendor Onboarding & KYC': 'vendors',
       'Documents': 'documents',
       'Due Diligence & KYC': 'kyc',
       'Item & Service Catalogue': 'catalogue',
@@ -168,24 +176,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       'My Payments': 'myPayments'
     };
 
-    if (['Dashboard', 'My Profile', 'Support Tickets', 'Support', 'Portal Dashboard'].includes(moduleName)) {
+    // Role-based Dashboard visibility check
+    if (moduleName === 'Dashboard') {
+      const roleConfig = rolesConfig.roles.find(r => r.id === role);
+      if (roleConfig) {
+        return roleConfig.showDashboard !== false;
+      }
+      if (role === 'COMPLIANCE') {
+        const complConfig = rolesConfig.roles.find(r => r.id === 'ONBOARDING');
+        if (complConfig) return complConfig.showDashboard !== false;
+      }
+      return true;
+    }
+
+    if (['My Profile', 'Support Tickets', 'Support', 'Portal Dashboard'].includes(moduleName)) {
       return true;
     }
 
     const mappedKey = moduleMap[moduleName] || moduleName.toLowerCase();
+
+    const checkModulePermission = (modules: string[], key: string): boolean => {
+      if (modules.includes('*')) return true;
+      if (key === 'kyc' && (modules.includes('kyc') || modules.includes('due-diligence-kyc'))) return true;
+      if (key === 'due-diligence-kyc' && (modules.includes('kyc') || modules.includes('due-diligence-kyc'))) return true;
+      return modules.includes(key);
+    };
     
     const roleConfig = rolesConfig.roles.find(r => r.id === role);
     if (!roleConfig) {
       if (role === 'COMPLIANCE') {
         const complConfig = rolesConfig.roles.find(r => r.id === 'ONBOARDING');
-        if (complConfig) return complConfig.modules.includes(mappedKey);
+        if (complConfig) return checkModulePermission(complConfig.modules, mappedKey);
       }
       return false;
     }
 
-    if (roleConfig.modules.includes('*')) return true;
-
-    return roleConfig.modules.includes(mappedKey);
+    return checkModulePermission(roleConfig.modules, mappedKey);
   };
 
   const hasActionPermission = (action: string): boolean => {
@@ -198,18 +224,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return [
           'CREATE_VENDOR',
           'EDIT_VENDOR',
-          'APPROVE_VENDOR',
           'CREATE_PO',
-          'APPROVE_PO',
           'MANAGE_CATALOGUE',
           'GENERATE_REPORTS',
           'VIEW_PO'
         ].includes(action);
       case 'FINANCE':
         return [
-          'APPROVE_INVOICE',
           'RUN_3WAY_MATCH',
-          'RELEASE_PAYMENT',
           'GENERATE_REPORTS'
         ].includes(action);
       case 'ONBOARDING':

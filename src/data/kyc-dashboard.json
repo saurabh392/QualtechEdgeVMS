@@ -1,9 +1,9 @@
 {
-  "lastUpdated": "2026-06-12",
+  "lastUpdated": "2026-06-16",
   "summary": {
-    "totalVendors": 4,
+    "totalVendors": 6,
     "verified": 0,
-    "pending": 0,
+    "pending": 2,
     "inProgress": 4,
     "highRisk": 1,
     "reKycDue": 0
@@ -49,6 +49,28 @@
       "riskScore": 5,
       "riskLevel": "Low",
       "kycStatus": "In Progress",
+      "lastVerified": "-",
+      "nextReview": "-",
+      "nextReviewDate": "-"
+    },
+    {
+      "vendorId": "VND-2026-45682",
+      "vendorName": "New Age Software Solutions",
+      "category": "Private Limited Company",
+      "riskScore": 5,
+      "riskLevel": "Low",
+      "kycStatus": "Pending",
+      "lastVerified": "-",
+      "nextReview": "-",
+      "nextReviewDate": "-"
+    },
+    {
+      "vendorId": "VND-2026-55028",
+      "vendorName": "Global Logistics Partners ",
+      "category": "Private Limited Company",
+      "riskScore": 5,
+      "riskLevel": "Low",
+      "kycStatus": "Pending",
       "lastVerified": "-",
       "nextReview": "-",
       "nextReviewDate": "-"

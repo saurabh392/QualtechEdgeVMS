@@ -7,6 +7,7 @@ import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
 import { Badge } from '../../components/Badge/Badge';
 import { useAuth } from '../../context/AuthContext';
+import { useVendors } from '../../context/VendorContext';
 import styles from './AddVendor.module.css';
 
 const STEPS = ['Basic Details', 'Business Details', 'Bank Details', 'Documents', 'Review'];
@@ -25,6 +26,7 @@ export const AddVendor: React.FC = () => {
   const [searchParams] = useSearchParams();
   const editVendorId = searchParams.get('id');
   const { hasActionPermission } = useAuth();
+  const { vendors, registerVendor, updateVendor } = useVendors();
 
   const isEdit = !!editVendorId;
   const hasEditPermission = hasActionPermission('EDIT_VENDOR');
@@ -96,8 +98,14 @@ export const AddVendor: React.FC = () => {
       if (editVendorId) {
         setLoading(true);
         try {
-          const res = await axios.get(`/api/vendors/${editVendorId}`);
-          const vendor = res.data;
+          let vendor = vendors.find((v: any) => v.vendorId === editVendorId);
+          if (!vendor) {
+            const res = await axios.get(`/api/vendors/${editVendorId}`);
+            vendor = res.data;
+          }
+          if (!vendor) {
+            throw new Error('Vendor not found');
+          }
           setForm({
             legalName: vendor.basicDetails?.legalName || '',
             tradeName: vendor.basicDetails?.tradeName || '',
@@ -525,13 +533,13 @@ export const AddVendor: React.FC = () => {
 
       let res;
       if (editVendorId) {
-        res = await axios.put(`/api/vendors/${editVendorId}`, payload);
+        res = await updateVendor(editVendorId, payload);
       } else {
-        res = await axios.post('/api/vendors', payload);
+        res = await registerVendor(payload);
       }
 
-      setSubmittedRef(res.data.vendorId);
-      setSubmittedDate(new Date(res.data.createdAt || new Date()).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
+      setSubmittedRef(res.vendorId);
+      setSubmittedDate(new Date(res.createdAt || new Date()).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
       
       // Clean draft from localStorage
       localStorage.removeItem('vms_vendor_draft');
@@ -599,10 +607,10 @@ export const AddVendor: React.FC = () => {
       <header className={styles.pageHeader}>
         <div>
           <h1 className={styles.title}>
-            {isViewMode ? 'View Vendor Details' : editVendorId ? 'Edit Vendor' : 'Add Vendor'}
+            {isViewMode ? 'View Vendor Details' : editVendorId ? 'Edit Vendor' : 'Register Vendor'}
           </h1>
           <p className={styles.breadcrumbs}>
-            Home / Vendors / {isViewMode ? 'View Vendor' : editVendorId ? 'Edit Vendor' : 'Add Vendor'}
+            Home / Vendor Onboarding & KYC / {isViewMode ? 'View Vendor' : editVendorId ? 'Edit Vendor' : 'Register Vendor'}
           </p>
         </div>
       </header>

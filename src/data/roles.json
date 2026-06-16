@@ -1,53 +1,66 @@
 {
-  "roles":[
+  "hiddenModules": ["documents"],
+  "roles": [
     {
-      "id":"ADMIN",
-      "name":"Tenant Admin",
-      "modules":["*"]
+      "id": "ADMIN",
+      "name": "Tenant Admin",
+      "role": "Tenant Admin",
+      "defaultRoute": "/administrator/dashboard",
+      "modules": ["*"],
+      "showDashboard": true
     },
     {
-      "id":"PROCUREMENT",
-      "name":"Procurement Manager",
-      "modules":[
+      "id": "PROCUREMENT",
+      "name": "Procurement Manager",
+      "role": "Procurement Manager",
+      "defaultRoute": "/catalogue/dashboard",
+      "modules": [
         "vendors",
         "documents",
         "catalogue",
         "contracts",
-        "purchaseOrders",
-        "reports"
-      ]
+        "purchaseOrders"
+      ],
+      "showDashboard": false
     },
     {
-      "id":"FINANCE",
-      "name":"Finance Manager",
-      "modules":[
+      "id": "FINANCE",
+      "name": "Finance Manager",
+      "role": "Finance Manager",
+      "defaultRoute": "/finance/dashboard",
+      "modules": [
         "invoices",
         "payments",
-        "purchaseOrders",
-        "reports"
-      ]
+        "purchaseOrders"
+      ],
+      "showDashboard": true
     },
     {
-      "id":"ONBOARDING",
-      "name":"Vendor Onboarding Officer",
-      "modules":[
+      "id": "ONBOARDING",
+      "name": "Vendor Onboarding Officer",
+      "role": "Vendor Onboarding Officer",
+      "defaultRoute": "/vendors",
+      "modules": [
         "vendors",
         "documents",
-        "kyc",
-        "reports"
-      ]
+        "due-diligence-kyc"
+      ],
+      "showDashboard": false
     },
     {
-      "id":"VENDOR",
-      "name":"Vendor Portal User",
-      "modules":[
+      "id": "VENDOR",
+      "name": "Vendor Portal User",
+      "role": "Vendor Portal User",
+      "defaultRoute": "/vendor/dashboard",
+      "modules": [
         "myDocuments",
         "myKyc",
         "myContracts",
         "myPOs",
         "myInvoices",
         "myPayments"
-      ]
+      ],
+      "showDashboard": true
     }
   ]
 }

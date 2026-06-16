@@ -714,7 +714,7 @@ export const KycAdverseMedia: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.pageHeader}>
         <div>
-          <div className={styles.breadcrumbs}>Due Diligence & KYC &gt; Adverse Media</div>
+          <div className={styles.breadcrumbs}>Vendor Onboarding & KYC &gt; Adverse Media</div>
           <h2 className={styles.title}>Adverse Media & Reputation screening Dashboard</h2>
         </div>
         <div className="flex gap-3">

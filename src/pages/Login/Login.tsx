@@ -4,6 +4,7 @@ import { ShieldCheck, Lock, Mail, ChevronRight, Eye, EyeOff, AlertCircle } from 
 import { Input } from '../../components/Input/Input';
 import { Button } from '../../components/Button/Button';
 import { useAuth } from '../../context/AuthContext';
+import rolesConfig from '../../data/roles.json';
 import styles from './Login.module.css';
 
 export const Login: React.FC = () => {
@@ -53,7 +54,7 @@ export const Login: React.FC = () => {
             "portal": "Procurement Portal",
             "username": "procurement",
             "password": "procurement123",
-            "redirectUrl": "/procurement/dashboard",
+            "redirectUrl": "/catalogue/dashboard",
             "color": "green",
             "initials": "PS"
           },
@@ -64,7 +65,7 @@ export const Login: React.FC = () => {
             "portal": "Onboarding Portal",
             "username": "onboarding",
             "password": "onboarding123",
-            "redirectUrl": "/compliance/dashboard",
+            "redirectUrl": "/vendors",
             "color": "purple",
             "initials": "RV"
           },
@@ -99,16 +100,11 @@ export const Login: React.FC = () => {
   // Auto-redirect if already logged in
   useEffect(() => {
     if (user) {
-      if (user.role === 'ADMIN') {
-        navigate('/administrator/dashboard');
-      } else if (user.role === 'PROCUREMENT') {
-        navigate('/procurement/dashboard');
-      } else if (user.role === 'COMPLIANCE' || user.role === 'ONBOARDING') {
-        navigate('/compliance/dashboard');
-      } else if (user.role === 'FINANCE') {
-        navigate('/finance/dashboard');
-      } else if (user.role === 'VENDOR') {
-        navigate('/vendor/overview');
+      let rId = user.role;
+      if (user.role === 'COMPLIANCE') rId = 'ONBOARDING';
+      const roleConfig = rolesConfig.roles.find(r => r.id === rId);
+      if (roleConfig?.defaultRoute) {
+        navigate(roleConfig.defaultRoute);
       } else {
         navigate('/dashboard');
       }

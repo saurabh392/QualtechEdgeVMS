@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, Lock, ChevronLeft, AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from '../../components/Button/Button';
 import { useAuth } from '../../context/AuthContext';
+import rolesConfig from '../../data/roles.json';
 import styles from './TwoFactorAuth.module.css';
 
 export const TwoFactorAuth: React.FC = () => {
@@ -22,8 +23,11 @@ export const TwoFactorAuth: React.FC = () => {
   useEffect(() => {
     // If user is already fully authenticated with 2fa, redirect to dashboard
     if (user) {
-      if (user.role === 'VENDOR') {
-        navigate('/vendor/dashboard');
+      let rId = user.role;
+      if (user.role === 'COMPLIANCE') rId = 'ONBOARDING';
+      const roleConfig = rolesConfig.roles.find(r => r.id === rId);
+      if (roleConfig?.defaultRoute) {
+        navigate(roleConfig.defaultRoute);
       } else {
         navigate('/dashboard');
       }
@@ -97,7 +101,10 @@ export const TwoFactorAuth: React.FC = () => {
         if (result.redirect) {
           navigate(result.redirect);
         } else {
-          navigate('/dashboard');
+          let rId = user?.role || 'ADMIN';
+          if (rId === 'COMPLIANCE') rId = 'ONBOARDING';
+          const roleConfig = rolesConfig.roles.find(r => r.id === rId);
+          navigate(roleConfig?.defaultRoute || '/dashboard');
         }
       } else {
         setError(result.message || 'Invalid OTP');

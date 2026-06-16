@@ -21,7 +21,10 @@
     "resolutionTime": "7 Days",
     "riskClassification": "High Risk",
     "complianceRequirements": "RBI Security Outsource guidelines",
-    "certifications": ["ISO 27001", "SOC 2"],
+    "certifications": [
+      "ISO 27001",
+      "SOC 2"
+    ],
     "qualityStandards": "ISO 9001",
     "kpiMeasurement": "Milestone sign-off",
     "status": "Pending Approval",
@@ -122,12 +125,21 @@
     ],
     "qualityStandards": "ISO 9001",
     "kpiMeasurement": "Monthly uptime audit",
-    "status": "Pending Approval",
+    "status": "Published",
     "workflowStage": "Vendor Mapping",
     "attachmentIds": [
       "ATT-SRV-001"
     ],
     "createdDate": "2026-06-02",
-    "createdBy": "Admin"
+    "createdBy": "Admin",
+    "approvalWorkflow": {
+      "submittedBy": "Admin",
+      "submittedDate": "2026-06-02",
+      "approvalStatus": "Approved",
+      "currentApprover": "",
+      "checkerRemarks": "",
+      "checkedBy": "Neha Sharma",
+      "checkedDate": "2026-06-15"
+    }
   }
 ]

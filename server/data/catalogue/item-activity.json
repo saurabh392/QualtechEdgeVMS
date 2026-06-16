@@ -47,5 +47,19 @@
     "action": "Item Created & Submitted for Approval",
     "user": "Saurabh Anand",
     "dateTime": "2026-06-08 10:33:28"
+  },
+  {
+    "activityId": "ACT-92802",
+    "itemId": "ITM-2026-05860",
+    "action": "Catalogue unit Approved by Checker",
+    "user": "Neha Sharma",
+    "dateTime": "2026-06-15 09:15:12"
+  },
+  {
+    "activityId": "ACT-29570",
+    "itemId": "SRV-2026-00001",
+    "action": "Catalogue unit Approved by Checker",
+    "user": "Neha Sharma",
+    "dateTime": "2026-06-15 09:15:15"
   }
 ]
