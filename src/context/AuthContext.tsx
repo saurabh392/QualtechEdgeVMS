@@ -232,7 +232,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       case 'FINANCE':
         return [
           'RUN_3WAY_MATCH',
-          'GENERATE_REPORTS'
+          'GENERATE_REPORTS',
+          'RELEASE_PAYMENT',
+          'APPROVE_INVOICE',
+          'APPROVE_PAYMENT'
         ].includes(action);
       case 'ONBOARDING':
       case 'COMPLIANCE':
