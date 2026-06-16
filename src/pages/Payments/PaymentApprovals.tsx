@@ -29,14 +29,9 @@ interface PaymentBatch {
 }
 
 export const PaymentApprovals: React.FC = () => {
-<<<<<<< HEAD
   const navigate = useNavigate();
   const [batches, setBatches] = useState<PaymentBatch[]>([]);
   const [selectedBatchId, setSelectedBatchId] = useState<string | null>(null);
-=======
-  const { user } = useAuth();
-  const [selectedBatchId, setSelectedBatchId] = useState(mockBatches[0].id);
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
   const [remarks, setRemarks] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -209,7 +204,6 @@ export const PaymentApprovals: React.FC = () => {
                   </div>
                 </div>
 
-<<<<<<< HEAD
                 <h4 className={styles.actionTitle}>Checker Authorization Actions</h4>
                 <div className={styles.actionButtons}>
                   <Button className={styles.approveBtn} onClick={handleApprove}>
@@ -221,81 +215,6 @@ export const PaymentApprovals: React.FC = () => {
                   <Button className={styles.rejectBtn} onClick={() => handleAction('Rejected')}>
                     Reject Payout Batch
                   </Button>
-=======
-                {/* Actions */}
-                {/* Final Approver Badge */}
-                <div style={{
-                  marginBottom: '16px',
-                  padding: '12px 16px',
-                  backgroundColor: '#eff6ff',
-                  border: '1px solid #bfdbfe',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  width: '100%',
-                  marginTop: '20px'
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '11px', fontWeight: 600, color: '#1e3a8a', textTransform: 'uppercase' }}>Final Approver:</span>
-                    <span style={{ fontSize: '12px', fontWeight: 700, color: '#0369a1', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e' }}></span>
-                      Saurabh Anand
-                    </span>
-                  </div>
-                  <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>Tenant Admin</span>
-                </div>
-
-                <h4 className={styles.actionTitle}>
-                  {user?.role === 'ADMIN' ? 'Checker Authorization Actions (Final Approver)' : 'Reviewer Actions (Maker/Reviewer)'}
-                </h4>
-
-                <div className={styles.actionButtons}>
-                  {user?.role === 'ADMIN' ? (
-                    <>
-                      <Button className={styles.approveBtn} onClick={() => handleAction('Authorized & Released')}>
-                        Approve & Release Funds
-                      </Button>
-                      <Button className={styles.sendBackBtn} onClick={() => handleAction('Returned to Maker')}>
-                        Send Back to Maker
-                      </Button>
-                      <Button className={styles.rejectBtn} onClick={() => handleAction('Rejected')}>
-                        Reject Payout Batch
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button 
-                        className={styles.approveBtn} 
-                        onClick={() => {
-                          toast.success("Payout recommendation submitted to Tenant Admin successfully.");
-                          setRemarks('');
-                          setBatches(prev => prev.filter(b => b.id !== selectedBatchId));
-                          const remaining = batches.filter(b => b.id !== selectedBatchId);
-                          if (remaining.length > 0) {
-                            setSelectedBatchId(remaining[0].id);
-                          }
-                        }}
-                      >
-                        Recommend Payment
-                      </Button>
-                      <Button 
-                        className={styles.sendBackBtn} 
-                        onClick={() => {
-                          toast.success("Payment batch returned to maker.");
-                          setRemarks('');
-                          setBatches(prev => prev.filter(b => b.id !== selectedBatchId));
-                          const remaining = batches.filter(b => b.id !== selectedBatchId);
-                          if (remaining.length > 0) {
-                            setSelectedBatchId(remaining[0].id);
-                          }
-                        }}
-                      >
-                        Send Back
-                      </Button>
-                    </>
-                  )}
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
                 </div>
 
                 <div className={styles.remarksSection}>

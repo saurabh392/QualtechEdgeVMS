@@ -259,7 +259,6 @@ export const Sidebar: React.FC<Props> = ({ collapsed, onToggleCollapse, mobileOp
     ? user.fullName.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
     : 'A';
 
-<<<<<<< HEAD
   const rawItems = user?.role === 'VENDOR' ? VENDOR_NAV_ITEMS : user?.role === 'FINANCE' ? FINANCE_NAV_ITEMS : NAV_ITEMS;
   const filteredNavItems = rawItems.filter(item => {
     if (['ADMIN', 'PROCUREMENT', 'COMPLIANCE', 'ONBOARDING', 'FINANCE'].includes(user?.role || '')) {
@@ -267,44 +266,6 @@ export const Sidebar: React.FC<Props> = ({ collapsed, onToggleCollapse, mobileOp
     }
     return hasPermission(item.name);
   });
-=======
-  const rawItems = user?.role === 'VENDOR' ? VENDOR_NAV_ITEMS : NAV_ITEMS;
-  const filteredNavItems = rawItems
-    .filter(item => {
-      if (item.name === 'Documents') return false;
-      if (['ADMIN', 'PROCUREMENT', 'COMPLIANCE', 'ONBOARDING', 'FINANCE'].includes(user?.role || '')) {
-        if (item.name === 'Vendor Portal') return false;
-      }
-      return hasPermission(item.name);
-    })
-    .map(item => {
-      if (item.subItems) {
-        return {
-          ...item,
-          subItems: item.subItems.filter(sub => {
-            if (
-              sub.name === 'My Documents' || 
-              sub.name === 'Document List' || 
-              sub.name === 'Upload Document' || 
-              sub.name === 'Expiry Tracker' || 
-              sub.name === 'Verification Queue'
-            ) {
-              return false;
-            }
-            // Check dynamic subItem routing permissions
-            if (sub.path.startsWith('/kyc/')) {
-              return hasPermission('Vendor Onboarding & KYC');
-            }
-            if (sub.path.startsWith('/vendors/')) {
-              return hasPermission('Vendor Onboarding & KYC');
-            }
-            return true;
-          })
-        };
-      }
-      return item;
-    });
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
 
   return (
     <aside

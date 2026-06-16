@@ -3,64 +3,40 @@
     {
       "vendorId": "VND-2025-00029",
       "vendorName": "ABC Infotech Private Limited",
-<<<<<<< HEAD
       "screeningDate": "2026-06-15",
-=======
-      "screeningDate": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
       "sanctions": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "No matches found in OFAC, UN, EU sanctions lists."
       },
       "pep": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "No politically exposed persons identified."
       },
       "adverseMedia": {
         "status": "No Findings",
         "result": "No Findings",
         "score": 0,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "No adverse news coverage detected."
       },
       "blacklist": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "Not present in any industry or government blacklist."
       },
       "shellCompany": {
         "status": "Low Risk",
         "result": "Low Risk",
         "score": 5,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "Registered entity with 8+ years of operational history."
       },
       "totalRiskScore": 5,
@@ -70,64 +46,40 @@
     {
       "vendorId": "VND-2026-88001",
       "vendorName": "HDFC Bank Limited",
-<<<<<<< HEAD
       "screeningDate": "2026-06-15",
-=======
-      "screeningDate": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
       "sanctions": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "No matches found in OFAC, UN, EU sanctions lists."
       },
       "pep": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "No politically exposed persons identified."
       },
       "adverseMedia": {
         "status": "1 Finding",
         "result": "1 Finding",
         "score": 10,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "Minor regulatory notice in 2024. Case closed."
       },
       "blacklist": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "Not present in any industry or government blacklist."
       },
       "shellCompany": {
         "status": "Low Risk",
         "result": "Low Risk",
         "score": 5,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "Registered entity with 8+ years of operational history."
       },
       "totalRiskScore": 15,
@@ -137,64 +89,40 @@
     {
       "vendorId": "VND-2026-50469",
       "vendorName": "My Money Mantra ",
-<<<<<<< HEAD
       "screeningDate": "2026-06-15",
-=======
-      "screeningDate": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
       "sanctions": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "No matches found in OFAC, UN, EU sanctions lists."
       },
       "pep": {
         "status": "Match Found",
         "result": "Match Found",
         "score": 50,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "Director linked to a former state minister. Awaiting enhanced due diligence."
       },
       "adverseMedia": {
         "status": "2 Findings",
         "result": "2 Findings",
         "score": 20,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "Tax dispute (2023) and delayed regulatory filing (2024)."
       },
       "blacklist": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "Not present in any industry or government blacklist."
       },
       "shellCompany": {
         "status": "Medium Risk",
         "result": "Medium Risk",
         "score": 20,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "Complex shareholding structure identified. Review ongoing."
       },
       "totalRiskScore": 90,
@@ -204,64 +132,40 @@
     {
       "vendorId": "VND-2026-88164",
       "vendorName": "axis max life ",
-<<<<<<< HEAD
       "screeningDate": "2026-06-15",
-=======
-      "screeningDate": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
       "sanctions": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "No matches found in OFAC, UN, EU sanctions lists."
       },
       "pep": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "No politically exposed persons identified."
       },
       "adverseMedia": {
         "status": "No Findings",
         "result": "No Findings",
         "score": 0,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "No adverse news coverage detected."
       },
       "blacklist": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "Not present in any industry or government blacklist."
       },
       "shellCompany": {
         "status": "Low Risk",
         "result": "Low Risk",
         "score": 5,
-<<<<<<< HEAD
         "lastChecked": "2026-06-15",
-=======
-        "lastChecked": "2026-06-16",
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
         "details": "Registered entity with 8+ years of operational history."
       },
       "totalRiskScore": 5,

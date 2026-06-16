@@ -1525,5 +1525,41 @@
     "loginStatus": "SUCCESS",
     "ipAddress": "::1",
     "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-8153",
+    "username": "finance",
+    "loginTime": "16/6/2026, 3:24:08 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-8829",
+    "username": "admin",
+    "loginTime": "16/6/2026, 3:24:52 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-6756",
+    "username": "finance",
+    "loginTime": "16/6/2026, 3:25:06 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-5026",
+    "username": "onboarding",
+    "loginTime": "16/6/2026, 3:31:58 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
   }
 ]

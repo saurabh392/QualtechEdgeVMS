@@ -56,5 +56,25 @@
     "link": "/documents",
     "timestamp": "2026-06-16T06:34:15.211Z",
     "read": false
+  },
+  {
+    "id": "ANOTIF-1781603185185-DOC-2026-0002",
+    "dupKey": "doc_expiry_DOC-2026-0002_14",
+    "type": "document_expiry",
+    "title": "Document Expiring Soon",
+    "message": "\"PAN Card\" for HDFC Bank Limited expires in 14 days.",
+    "link": "/documents",
+    "timestamp": "2026-06-16T09:46:25.185Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1781603185216-DOC-2026-0003",
+    "dupKey": "doc_expiry_DOC-2026-0003_1",
+    "type": "document_expiry",
+    "title": "Document Expiring Soon",
+    "message": "\"PAN Card\" for My Money Mantra  expires in 1 day.",
+    "link": "/documents",
+    "timestamp": "2026-06-16T09:46:25.216Z",
+    "read": false
   }
 ]
