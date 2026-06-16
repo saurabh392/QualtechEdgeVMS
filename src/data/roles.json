@@ -19,7 +19,9 @@
         "documents",
         "catalogue",
         "contracts",
-        "purchaseOrders"
+        "purchaseOrders",
+        "invoices",
+        "payments"
       ],
       "showDashboard": false
     },
