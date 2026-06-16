@@ -28,7 +28,7 @@ export const PerformanceAnalytics: React.FC = () => {
           <h1 className={styles.title}>Performance & Analytics</h1>
           <p className={styles.subtitle}>Vendor scorecards, SLA adherence, spend comparison, and category performance</p>
         </div>
-        <Button variant="outline" icon={<Download size={16} />}>Export Report</Button>
+        {/* <Button variant="outline" icon={<Download size={16} />}>Export Report</Button> */}
       </header>
 
       {/* KPI Row */}

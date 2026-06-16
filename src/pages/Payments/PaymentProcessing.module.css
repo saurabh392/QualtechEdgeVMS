@@ -21,7 +21,7 @@
   background: none;
   border: none;
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
   padding: 0;
@@ -33,7 +33,7 @@
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-primary);
 }
@@ -66,7 +66,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   border: 2px solid transparent;
 }
@@ -113,7 +113,7 @@
 
 .formCard {
   width: 100%;
-  max-width: 800px;
+  /* max-width: 800px; */
   padding: 32px;
 }
 
@@ -147,8 +147,8 @@
 .payableRow {
   display: grid;
   grid-template-columns: 80px 1.2fr 2fr 1fr 1fr 1fr;
-  padding: 16px;
-  font-size: 0.8125rem;
+  font-size: 11px;
+    padding: 4px 6px;
   border-bottom: 1px solid var(--color-border);
   align-items: center;
 }
@@ -255,7 +255,7 @@
 
 .verifyItem h5 {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-text-primary);
   margin-bottom: 4px;
@@ -282,7 +282,7 @@
 }
 
 .formGroup label {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--color-text-primary);
 }
@@ -291,7 +291,7 @@
   padding: 10px 12px;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   background-color: white;
   outline: none;
   font-family: inherit;
@@ -319,7 +319,7 @@
 
 .cutOffNotice h5 {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: #1e3a8a;
   margin-bottom: 4px;
@@ -355,7 +355,7 @@
 }
 
 .summaryValue {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-text-primary);
 }
@@ -368,7 +368,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: var(--color-text-primary);
   cursor: pointer;
 }
@@ -391,7 +391,7 @@
 }
 
 .successTitle {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-primary);
   margin-bottom: 12px;
@@ -399,7 +399,7 @@
 
 .successDesc {
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   margin-bottom: 32px;
   max-width: 450px;
 }

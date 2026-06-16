@@ -21,6 +21,9 @@ export const VendorInvoiceModal: React.FC<Props> = ({ po, allPOs, onClose, onSuc
     invoiceNo: '',
     poId: po?.poId ?? '',
     amount: po ? String(po.value) : '',
+    gstAmount: '',
+    tdsSection: '194J',
+    tdsRate: '10',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -54,7 +57,7 @@ export const VendorInvoiceModal: React.FC<Props> = ({ po, allPOs, onClose, onSuc
 
     setLoading(true);
     try {
-      await submitVendorInvoice(form.invoiceNo, form.poId, parseFloat(form.amount));
+      await submitVendorInvoice(form.invoiceNo, form.poId, parseFloat(form.amount), parseFloat(form.gstAmount) || 0, form.tdsSection, parseFloat(form.tdsRate) || 0);
       toast.success(`Invoice ${form.invoiceNo} submitted. OCR pipeline processing started.`);
       onSuccess();
     } catch {
@@ -102,16 +105,46 @@ export const VendorInvoiceModal: React.FC<Props> = ({ po, allPOs, onClose, onSuc
               {errors.poId && <div className={s.fieldError}>{errors.poId}</div>}
             </div>
 
-            <div className={s.formGroup}>
-              <label className={s.label}>Total Invoice Amount (₹)</label>
-              <input
-                type="number"
-                className={[s.input, errors.amount ? s.inputError : ''].join(' ')}
-                placeholder="e.g. 450000"
-                value={form.amount}
-                onChange={e => { setForm(f => ({ ...f, amount: e.target.value })); setErrors(p => ({ ...p, amount: '' })); }}
-              />
-              {errors.amount && <div className={s.fieldError}>{errors.amount}</div>}
+            <div className={s.formGrid} style={{ gridTemplateColumns: '1fr 1fr' }}>
+              <div className={s.formGroup}>
+                <label className={s.label}>Base Amount (₹) <span style={{ color: '#dc2626' }}>*</span></label>
+                <input
+                  type="number"
+                  className={[s.input, errors.amount ? s.inputError : ''].join(' ')}
+                  placeholder="e.g. 450000"
+                  value={form.amount}
+                  onChange={e => { setForm(f => ({ ...f, amount: e.target.value })); setErrors(p => ({ ...p, amount: '' })); }}
+                />
+                {errors.amount && <div className={s.fieldError}>{errors.amount}</div>}
+              </div>
+              <div className={s.formGroup}>
+                <label className={s.label}>GST Amount (₹)</label>
+                <input
+                  type="number"
+                  className={s.input}
+                  placeholder="e.g. 81000"
+                  value={form.gstAmount}
+                  onChange={e => setForm(f => ({ ...f, gstAmount: e.target.value }))}
+                />
+              </div>
+              <div className={s.formGroup}>
+                <label className={s.label}>TDS Section</label>
+                <select className={s.select} value={form.tdsSection} onChange={e => setForm(f => ({ ...f, tdsSection: e.target.value }))}>
+                  <option value="194C">194C — Works Contract (2%)</option>
+                  <option value="194J">194J — Professional Fees (10%)</option>
+                  <option value="194I">194I — Rent (10%)</option>
+                </select>
+              </div>
+              <div className={s.formGroup}>
+                <label className={s.label}>TDS Rate (%)</label>
+                <input
+                  type="number"
+                  className={s.input}
+                  placeholder="e.g. 10"
+                  value={form.tdsRate}
+                  onChange={e => setForm(f => ({ ...f, tdsRate: e.target.value }))}
+                />
+              </div>
             </div>
 
             {/* Real drag-and-drop file upload */}

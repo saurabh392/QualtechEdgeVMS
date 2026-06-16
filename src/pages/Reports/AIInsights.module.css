@@ -1,10 +1,10 @@
 .container { display: flex; flex-direction: column; gap: 24px; }
 .pageHeader { display: flex; justify-content: space-between; align-items: flex-end; }
-.title { font-size: 1.5rem; font-weight: 700; color: var(--color-text-primary); }
-.subtitle { color: var(--color-text-secondary); font-size: 0.875rem; margin-top: 4px; }
+.title { font-size: 1.125rem; font-weight: 700; color: var(--color-text-primary); }
+.subtitle { color: var(--color-text-secondary); font-size: 0.75rem; margin-top: 4px; }
 .backBtn {
   background: none; border: none; cursor: pointer;
-  color: var(--color-text-secondary); font-size: 0.875rem;
+  color: var(--color-text-secondary); font-size: 0.75rem;
   display: flex; align-items: center; gap: 4px;
   margin-bottom: 6px; padding: 0;
 }
@@ -93,7 +93,7 @@
 .fileItem:hover { background: #f1f5f9; }
 .fileIcon { color: #1d4ed8; flex-shrink: 0; }
 .fileMeta { flex: 1; }
-.fileName { font-size: 0.875rem; font-weight: 600; color: var(--color-text-primary); display: block; }
+.fileName { font-size: 0.75rem; font-weight: 600; color: var(--color-text-primary); display: block; }
 .fileInfo { font-size: 0.75rem; color: var(--color-text-secondary); }
 .downloadBtn {
   background: none; border: none; cursor: pointer;

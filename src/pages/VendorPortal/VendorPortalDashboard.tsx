@@ -307,7 +307,7 @@ export const VendorPortalDashboard: React.FC = () => {
             <Card className={styles.kpiCard}>
               <div className={styles.kpiHeader}>
                 <div>
-                  <span className={styles.kpiLabel}>Pending POs</span>
+                  <span className={styles.kpiLabel}>Pending POs Radhe</span>
                   <div className={styles.kpiValue} style={{ color: '#F59E0B' }}>
                     {dashboardStats?.pendingPOs || 0} Orders
                   </div>

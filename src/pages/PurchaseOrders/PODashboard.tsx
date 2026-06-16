@@ -155,87 +155,40 @@ export const PODashboard: React.FC = () => {
 
       {/* KPI Row */}
       <div className={styles.kpiGrid}>
-        <Card 
-          className={`${styles.kpiCard} ${activeTab === 'All' ? styles.kpiCardActive : ''}`}
-          onClick={() => setActiveTab('All')}
-        >
-          <div className={styles.kpiHeader}>
-            <span className={styles.kpiLabel}>Total POs</span>
-            <div className={styles.kpiIcon} style={{ backgroundColor: '#eff6ff', color: '#3b82f6' }}><ShoppingCart size={20} /></div>
-          </div>
-          <div className={styles.kpiValue}>{tabCounts.All.toLocaleString()}</div>
-          <div className={styles.kpiFooterGreen}>↑ 12.5% vs last month</div>
-        </Card>
-        
-        <Card 
-          className={`${styles.kpiCard} ${activeTab === 'Pending Approval' ? styles.kpiCardActive : ''}`}
-          onClick={() => setActiveTab('Pending Approval')}
-        >
-          <div className={styles.kpiHeader}>
-            <span className={styles.kpiLabel}>Pending Approval</span>
-            <div className={styles.kpiIcon} style={{ backgroundColor: '#fffbeb', color: '#f59e0b' }}><Hourglass size={20} /></div>
-          </div>
-          <div className={styles.kpiValue}>{tabCounts['Pending Approval'].toLocaleString()}</div>
-          <div className={styles.kpiFooter}>Requires action</div>
-        </Card>
-
-        <Card 
-          className={`${styles.kpiCard} ${activeTab === 'Sent to Vendor' ? styles.kpiCardActive : ''}`}
-          onClick={() => setActiveTab('Sent to Vendor')}
-        >
-          <div className={styles.kpiHeader}>
-            <span className={styles.kpiLabel}>Sent to Vendor</span>
-            <div className={styles.kpiIcon} style={{ backgroundColor: '#f3e8ff', color: '#8b5cf6' }}><CheckCircle2 size={20} /></div>
-          </div>
-          <div className={styles.kpiValue}>{tabCounts['Sent to Vendor'].toLocaleString()}</div>
-          <div className={styles.kpiFooter}>POs sent to suppliers</div>
-        </Card>
-
-        <Card 
-          className={`${styles.kpiCard} ${activeTab === 'Partially Received' ? styles.kpiCardActive : ''}`}
-          onClick={() => setActiveTab('Partially Received')}
-        >
-          <div className={styles.kpiHeader}>
-            <span className={styles.kpiLabel}>Partially Received</span>
-            <div className={styles.kpiIcon} style={{ backgroundColor: '#dcfce7', color: '#10b981' }}><Truck size={20} /></div>
-          </div>
-          <div className={styles.kpiValue}>{tabCounts['Partially Received'].toLocaleString()}</div>
-          <div className={styles.kpiFooterGreen}>Partial delivery status</div>
-        </Card>
-
-        <Card 
-          className={`${styles.kpiCard} ${activeTab === 'Closed' ? styles.kpiCardActive : ''}`}
-          onClick={() => setActiveTab('Closed')}
-        >
-          <div className={styles.kpiHeader}>
-            <span className={styles.kpiLabel}>Closed POs</span>
-            <div className={styles.kpiIcon} style={{ backgroundColor: '#ffedd5', color: '#f97316' }}><FileText size={20} /></div>
-          </div>
-          <div className={styles.kpiValue}>{tabCounts.Closed.toLocaleString()}</div>
-          <div className={styles.kpiFooter}>Fully completed & closed</div>
-        </Card>
+        {([
+          { tab: 'All',                label: 'Total POs',           icon: <ShoppingCart size={16} />, bg: '#eff6ff', color: '#3b82f6', sub: '+12.5% vs last month',   onClick: () => setActiveTab('All') },
+          { tab: 'Pending Approval',   label: 'Pending Approval',    icon: <Hourglass size={16} />,    bg: '#fffbeb', color: '#f59e0b', sub: 'Requires action',        onClick: () => setActiveTab('Pending Approval') },
+          { tab: 'Sent to Vendor',     label: 'Sent to Vendor',      icon: <CheckCircle2 size={16} />, bg: '#f3e8ff', color: '#8b5cf6', sub: 'POs sent to suppliers',  onClick: () => setActiveTab('Sent to Vendor') },
+          { tab: 'Partially Received', label: 'Partially Received',  icon: <Truck size={16} />,        bg: '#dcfce7', color: '#10b981', sub: 'Partial delivery status', onClick: () => setActiveTab('Partially Received') },
+          { tab: 'Closed',             label: 'Closed POs',          icon: <FileText size={16} />,     bg: '#ffedd5', color: '#f97316', sub: 'Fully completed & closed',onClick: () => setActiveTab('Closed') },
+        ] as const).map(k => (
+          <Card key={k.tab} className={`${styles.kpiCard} ${activeTab === k.tab ? styles.kpiCardActive : ''}`} onClick={k.onClick}>
+            <div className={styles.kpiIcon} style={{ backgroundColor: k.bg, color: k.color, flexShrink: 0 }}>{k.icon}</div>
+            <div>
+              <div className={styles.kpiLabel}>{k.label}</div>
+              <div className={styles.kpiValue}>{tabCounts[k.tab].toLocaleString()}</div>
+              <div style={{ fontSize: '0.65rem', color: 'var(--color-text-secondary)', marginTop: 1 }}>{k.sub}</div>
+            </div>
+          </Card>
+        ))}
       </div>
 
 
 
       {/* PO List Embedded Section */}
       <Card className={styles.tableCard} style={{ marginTop: '24px', marginBottom: '24px' }}>
-        <div className={styles.tabs}>
-          <div className={`${styles.tab} ${activeTab === 'All' ? styles.activeTab : ''}`} onClick={() => setActiveTab('All')}>
-            All POs ({tabCounts.All})
-          </div>
-          <div className={`${styles.tab} ${activeTab === 'Pending Approval' ? styles.activeTab : ''}`} onClick={() => setActiveTab('Pending Approval')}>
-            Pending Approval ({tabCounts['Pending Approval']})
-          </div>
-          <div className={`${styles.tab} ${activeTab === 'Sent to Vendor' ? styles.activeTab : ''}`} onClick={() => setActiveTab('Sent to Vendor')}>
-            Sent to Vendor ({tabCounts['Sent to Vendor']})
-          </div>
-          <div className={`${styles.tab} ${activeTab === 'Partially Received' ? styles.activeTab : ''}`} onClick={() => setActiveTab('Partially Received')}>
-            Partially Received ({tabCounts['Partially Received']})
-          </div>
-          <div className={`${styles.tab} ${activeTab === 'Closed' ? styles.activeTab : ''}`} onClick={() => setActiveTab('Closed')}>
-            Closed ({tabCounts.Closed})
-          </div>
+        <div className={styles.pillTabs}>
+          {([
+            { key: 'All',                label: 'All POs',            count: tabCounts.All },
+            { key: 'Pending Approval',   label: 'Pending Approval',   count: tabCounts['Pending Approval'] },
+            { key: 'Sent to Vendor',     label: 'Sent to Vendor',     count: tabCounts['Sent to Vendor'] },
+            { key: 'Partially Received', label: 'Partially Received', count: tabCounts['Partially Received'] },
+            { key: 'Closed',             label: 'Closed',             count: tabCounts.Closed },
+          ] as const).map(t => (
+            <button key={t.key} className={`${styles.pillTab} ${activeTab === t.key ? styles.pillTabActive : ''}`} onClick={() => setActiveTab(t.key)}>
+              {t.label} <span className={styles.pillCount}>{t.count}</span>
+            </button>
+          ))}
         </div>
 
         <div className={styles.tableToolbar}>

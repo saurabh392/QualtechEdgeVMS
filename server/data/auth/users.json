@@ -14,7 +14,11 @@
     "permissions": [
       "FULL_ENTERPRISE_ACCESS"
     ],
+<<<<<<< HEAD
+    "lastLogin": "16/6/2026, 1:22:11 pm"
+=======
     "lastLogin": "16/6/2026, 1:00:39 pm"
+>>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
   },
   {
     "userId": "USR-1002",
@@ -31,7 +35,11 @@
     "permissions": [
       "VENDOR_PORTAL_ACCESS"
     ],
+<<<<<<< HEAD
+    "lastLogin": "16/6/2026, 9:58:22 am"
+=======
     "lastLogin": "16/6/2026, 11:43:39 am"
+>>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
   },
   {
     "userId": "USR-1003",
@@ -48,7 +56,11 @@
     "permissions": [
       "PROCUREMENT_ACCESS"
     ],
+<<<<<<< HEAD
+    "lastLogin": "12/6/2026, 12:32:36 pm"
+=======
     "lastLogin": "15/6/2026, 5:34:16 pm"
+>>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
   },
   {
     "userId": "USR-1004",
@@ -65,7 +77,11 @@
     "permissions": [
       "ONBOARDING_ACCESS"
     ],
+<<<<<<< HEAD
+    "lastLogin": "15/6/2026, 11:19:08 am"
+=======
     "lastLogin": "16/6/2026, 12:36:51 pm"
+>>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
   },
   {
     "userId": "USR-1005",
@@ -82,6 +98,10 @@
     "permissions": [
       "FINANCE_ACCESS"
     ],
+<<<<<<< HEAD
+    "lastLogin": "16/6/2026, 1:22:29 pm"
+=======
     "lastLogin": "15/6/2026, 3:56:21 pm"
+>>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
   }
 ]

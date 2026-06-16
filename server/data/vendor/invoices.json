@@ -34,5 +34,23 @@
     "submitDate": "2026-06-11",
     "verificationStage": "Paid",
     "paymentStatus": "Paid"
+  },
+  {
+    "invoiceId": "INV-INV-299282",
+    "vendorId": "VND-001",
+    "poId": "PO-2026-981",
+    "amount": 50000,
+    "submitDate": "2026-06-15",
+    "verificationStage": "Paid",
+    "paymentStatus": "Paid"
+  },
+  {
+    "invoiceId": "INV-INV-02884",
+    "vendorId": "VND-001",
+    "poId": "PO-2026-1102",
+    "amount": 4000000,
+    "submitDate": "2026-06-15",
+    "verificationStage": "Paid",
+    "paymentStatus": "Paid"
   }
 ]

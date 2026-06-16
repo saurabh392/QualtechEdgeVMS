@@ -1,0 +1,62 @@
+[
+  {
+    "vendorId": "VND-2025-00029",
+    "vendorName": "ABC Infotech Private Limited",
+    "vendorType": "MSME",
+    "current": 1350000,
+    "days1to30": 734400,
+    "days31to60": 0,
+    "days61to90": 0,
+    "over90": 0,
+    "total": 2084400,
+    "oldestDue": "2026-05-25"
+  },
+  {
+    "vendorId": "VND-2026-88001",
+    "vendorName": "Secure Facilities Ltd",
+    "vendorType": "Non-MSME",
+    "current": 522000,
+    "days1to30": 0,
+    "days31to60": 139200,
+    "days61to90": 0,
+    "over90": 0,
+    "total": 661200,
+    "oldestDue": "2026-04-28"
+  },
+  {
+    "vendorId": "VND-2026-50012",
+    "vendorName": "Global Security Solutions",
+    "vendorType": "Non-MSME",
+    "current": 0,
+    "days1to30": 0,
+    "days31to60": 0,
+    "days61to90": 0,
+    "over90": 0,
+    "total": 0,
+    "oldestDue": ""
+  },
+  {
+    "vendorId": "VND-2026-30045",
+    "vendorName": "Fincons Consulting LLP",
+    "vendorType": "Non-MSME",
+    "current": 2376000,
+    "days1to30": 0,
+    "days31to60": 0,
+    "days61to90": 0,
+    "over90": 0,
+    "total": 2376000,
+    "oldestDue": "2026-06-08"
+  },
+  {
+    "vendorId": "VND-2026-70089",
+    "vendorName": "Tech Solutions Pvt Ltd",
+    "vendorType": "MSME",
+    "current": 0,
+    "days1to30": 367200,
+    "days31to60": 0,
+    "days61to90": 0,
+    "over90": 0,
+    "total": 367200,
+    "oldestDue": "2026-06-01"
+  }
+]

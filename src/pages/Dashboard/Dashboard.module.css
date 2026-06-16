@@ -11,14 +11,14 @@
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-primary);
 }
 
 .subtitle {
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   margin-top: 4px;
 }
 
@@ -41,7 +41,7 @@
 }
 
 .kpiLabel {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--color-text-secondary);
 }
@@ -194,7 +194,7 @@
 }
 
 .viewAll {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--color-primary);
   text-decoration: none;
@@ -219,7 +219,7 @@
   border-radius: var(--border-radius-md);
   background-color: white;
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
 }
@@ -270,7 +270,7 @@
 }
 
 .legendValueBlock {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-text-primary);
   padding-left: 18px;
@@ -379,7 +379,7 @@
 }
 
 .activityTitle {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--color-text-primary);
   margin-bottom: 4px;
@@ -441,7 +441,7 @@
 }
 
 .queueName {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--color-text-primary);
 }

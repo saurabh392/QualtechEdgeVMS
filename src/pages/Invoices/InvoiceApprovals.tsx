@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import { Search, ChevronRight, CheckCircle2, XCircle, Send, Bot, Scale } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'sonner';
+import { Search, ChevronRight, CheckCircle2, XCircle, Send, Bot, Scale, Loader2 } from 'lucide-react';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Badge } from '../../components/Badge/Badge';
@@ -7,15 +10,84 @@ import { useAuth } from '../../context/AuthContext';
 import styles from './InvoiceApprovals.module.css';
 import { toast } from 'sonner';
 
-const pendingInvoices = [
-  { id: 'INV-2026-9908', vendor: 'ABC Infotech Pvt Ltd', value: '₹14,75,000', poRef: 'PO-2026-000789', date: '12 May 2026', active: true },
-  { id: 'INV-2026-9907', vendor: 'Secure Facilities Ltd', value: '₹5,31,000', poRef: 'PO-2026-000788', date: '10 May 2026', active: false },
-  { id: 'INV-2026-9904', vendor: 'Tech Solutions', value: '₹4,01,200', poRef: 'PO-2026-000785', date: '01 May 2026', active: false },
-];
+interface Invoice {
+  invoiceId: string;
+  vendorName: string;
+  vendorGSTIN: string;
+  poRef: string;
+  invoiceDate: string;
+  totalAmount: number;
+  tdsSection: string;
+  tdsRate: number;
+  tdsAmount: number;
+  netPayable: number;
+  status: string;
+  stage: string;
+  threeWayMatch: string;
+  gstMatch: string;
+  riskLevel: string;
+  vendorType: string;
+  remarks: string;
+}
 
 export const InvoiceApprovals: React.FC = () => {
   const { hasActionPermission } = useAuth();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [remarks, setRemarks] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios.get('/api/invoices?status=Approved')
+      .then(r => {
+        const data: Invoice[] = r.data;
+        setInvoices(data);
+        const paramId = searchParams.get('id');
+        if (paramId && data.find(i => i.invoiceId === paramId)) {
+          setSelectedId(paramId);
+        } else if (data.length > 0) {
+          setSelectedId(data[0].invoiceId);
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [searchParams]);
+
+  const selectedInvoice = invoices.find(i => i.invoiceId === selectedId);
+
+  const handleApprove = async () => {
+    if (!selectedId) return;
+    try {
+      await axios.put(`/api/invoices/${selectedId}/approve`, { approvedBy: 'Finance Manager', remarks });
+      toast.success(`Invoice ${selectedId} approved for payment.`);
+      const remaining = invoices.filter(i => i.invoiceId !== selectedId);
+      setInvoices(remaining);
+      setRemarks('');
+      if (remaining.length > 0) {
+        setSelectedId(remaining[0].invoiceId);
+      } else {
+        navigate('/payments/processing');
+      }
+    } catch {
+      toast.error('Failed to approve invoice.');
+    }
+  };
+
+  const handleReject = async () => {
+    if (!selectedId) return;
+    try {
+      await axios.put(`/api/invoices/${selectedId}/reject`, { remarks });
+      toast.success(`Invoice ${selectedId} rejected.`);
+      const remaining = invoices.filter(i => i.invoiceId !== selectedId);
+      setInvoices(remaining);
+      setRemarks('');
+      if (remaining.length > 0) setSelectedId(remaining[0].invoiceId);
+    } catch {
+      toast.error('Failed to reject invoice.');
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -31,36 +103,57 @@ export const InvoiceApprovals: React.FC = () => {
         <Card className={styles.listCard}>
           <div className={styles.listHeader}>
             <h3>Verification Queue</h3>
-            <Badge variant="info">38</Badge>
+            <Badge variant="info">{invoices.length}</Badge>
           </div>
           <div className={styles.searchBox}>
             <Search size={16} className={styles.searchIcon} />
             <input type="text" placeholder="Search invoices..." className={styles.searchInput} />
           </div>
-          
-          <div className={styles.listContainer}>
-            {pendingInvoices.map(item => (
-              <div key={item.id} className={`${styles.listItem} ${item.active ? styles.listActive : ''}`}>
-                <div className={styles.itemContent}>
-                  <div className={styles.itemMeta}>
-                    <span className={styles.itemId}>{item.id}</span>
-                    <span className={styles.itemDate}>{item.date}</span>
+
+          {loading ? (
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '32px' }}>
+              <Loader2 size={24} style={{ animation: 'spin 1s linear infinite' }} />
+            </div>
+          ) : (
+            <div className={styles.listContainer}>
+              {invoices.map(item => (
+                <div
+                  key={item.invoiceId}
+                  className={`${styles.listItem} ${selectedId === item.invoiceId ? styles.listActive : ''}`}
+                  onClick={() => setSelectedId(item.invoiceId)}
+                >
+                  <div className={styles.itemContent}>
+                    <div className={styles.itemMeta}>
+                      <span className={styles.itemId}>{item.invoiceId}</span>
+                      <span className={styles.itemDate}>{item.invoiceDate}</span>
+                    </div>
+                    <span className={styles.itemName}>{item.vendorName}</span>
+                    <span className={styles.itemValue}>₹{item.totalAmount.toLocaleString('en-IN')} • Ref: {item.poRef}</span>
                   </div>
-                  <span className={styles.itemName}>{item.vendor}</span>
-                  <span className={styles.itemValue}>{item.value} • Ref: {item.poRef}</span>
+                  {selectedId === item.invoiceId && <ChevronRight size={18} color="#1d4ed8" />}
                 </div>
-                {item.active && <ChevronRight size={18} color="#1d4ed8" />}
-              </div>
-            ))}
-          </div>
+              ))}
+              {invoices.length === 0 && (
+                <p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', padding: '24px' }}>
+                  No invoices pending approval.
+                </p>
+              )}
+            </div>
+          )}
           <div className={styles.pagination}>
-            <span>Showing 1 to 3 of 38</span>
+            <span>Showing 1 to {invoices.length} of {invoices.length}</span>
           </div>
         </Card>
 
         {/* Right Pane - Detail */}
         <div className={styles.detailPane}>
           <Card className={styles.detailCard}>
+<<<<<<< HEAD
+            {selectedInvoice ? (
+              <>
+                <div className={styles.detailHeader}>
+                  <h3 className={styles.detailTitle}>Invoice Audit Summary</h3>
+=======
             <div className={styles.detailHeader}>
               <h3 className={styles.detailTitle}>Invoice Audit Summary</h3>
             </div>
@@ -162,19 +255,108 @@ export const InvoiceApprovals: React.FC = () => {
                   <Button className={styles.approveBtn} icon={<CheckCircle2 size={16} />} onClick={() => { toast.success("Invoice approved & payment scheduled."); setRemarks(''); }}>Approve & Release Payment</Button>
                   <Button className={styles.rejectBtn} icon={<XCircle size={16} />} onClick={() => { toast.success("Invoice rejected."); setRemarks(''); }}>Reject Invoice</Button>
                   <Button className={styles.sendBackBtn} icon={<Send size={16} />} onClick={() => { toast.success("Invoice sent back."); setRemarks(''); }}>Send Back to Vendor Portal</Button>
+>>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
                 </div>
 
-                <div className={styles.remarksSection}>
-                  <label className={styles.remarksLabel}>Audit Notes / remarks</label>
-                  <textarea 
-                    className={styles.remarksInput} 
-                    placeholder="Enter remarks required for rejection or return..."
-                    value={remarks}
-                    onChange={(e) => setRemarks(e.target.value)}
-                  ></textarea>
+                <div className={styles.infoGrid}>
+                  <div className={styles.infoRow}>
+                    <span className={styles.infoLabel}>Invoice ID</span>
+                    <span className={styles.infoValue}>{selectedInvoice.invoiceId}</span>
+                  </div>
+                  <div className={styles.infoRow}>
+                    <span className={styles.infoLabel}>Vendor</span>
+                    <span className={styles.infoValue}>{selectedInvoice.vendorName} (GSTIN: {selectedInvoice.vendorGSTIN})</span>
+                  </div>
+                  <div className={styles.infoRow}>
+                    <span className={styles.infoLabel}>PO Reference</span>
+                    <span className={styles.infoValue}>{selectedInvoice.poRef} (Approved)</span>
+                  </div>
+                  <div className={styles.infoRow}>
+                    <span className={styles.infoLabel}>TDS Component</span>
+                    <span className={styles.infoValue}>
+                      Section {selectedInvoice.tdsSection} (withheld: ₹{selectedInvoice.tdsAmount.toLocaleString('en-IN')} / {selectedInvoice.tdsRate}%)
+                    </span>
+                  </div>
+                  <div className={styles.infoRow}>
+                    <span className={styles.infoLabel}>Invoice Total</span>
+                    <span className={styles.infoValue}>₹{selectedInvoice.totalAmount.toLocaleString('en-IN')} (Net Payable: ₹{selectedInvoice.netPayable.toLocaleString('en-IN')})</span>
+                  </div>
+                  <div className={styles.infoRow}>
+                    <span className={styles.infoLabel}>Vendor Type</span>
+                    <span className={styles.infoValue}>{selectedInvoice.vendorType}</span>
+                  </div>
                 </div>
+
+                {/* 3-Way Match */}
+                <div className={styles.matchingPanel}>
+                  <h4 className={styles.sectionHeading}><Scale size={16} /> 3-Way Matching Verification</h4>
+                  <div className={styles.matchGrid}>
+                    <div className={styles.matchHeaderRow}>
+                      <span>Check</span>
+                      <span>Result</span>
+                    </div>
+                    <div className={styles.matchRow}>
+                      <span>3-Way Match</span>
+                      <span className={selectedInvoice.threeWayMatch === 'Matched' ? styles.matchBadgeSuccess : styles.matchBadgeDanger}>
+                        {selectedInvoice.threeWayMatch}
+                      </span>
+                    </div>
+                    <div className={styles.matchRow}>
+                      <span>GST Match</span>
+                      <span className={selectedInvoice.gstMatch === 'Matched' ? styles.matchBadgeSuccess : styles.matchBadgeDanger}>
+                        {selectedInvoice.gstMatch}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* AI Fraud & Risk Panel */}
+                <div className={styles.aiRiskPanel}>
+                  <Bot size={18} className={styles.aiIcon} />
+                  <div>
+                    <h4>AI AP Auditor Checks</h4>
+                    <ul className={styles.aiRiskList}>
+                      <li><span className={styles.checkSuccess}>✔</span> No duplicates detected in the active ledger pool.</li>
+                      <li><span className={styles.checkSuccess}>✔</span> GSTIN matches active registration details.</li>
+                      <li><span className={styles.checkSuccess}>✔</span> Invoice date is within PO validity limits.</li>
+                      <li><span className={styles.checkInfo}>i</span> Early settlement eligibility: 2% cash rebate opportunity.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {hasActionPermission('APPROVE_INVOICE') && (
+                  <>
+                    <h3 className={styles.actionTitle}>Authorized AP Action</h3>
+                    <div className={styles.actionButtons}>
+                      <Button className={styles.approveBtn} icon={<CheckCircle2 size={16} />} onClick={handleApprove}>
+                        Approve & Release Payment
+                      </Button>
+                      <Button className={styles.rejectBtn} icon={<XCircle size={16} />} onClick={handleReject}>
+                        Reject Invoice
+                      </Button>
+                      <Button className={styles.sendBackBtn} icon={<Send size={16} />}>
+                        Send Back to Vendor Portal
+                      </Button>
+                    </div>
+
+                    <div className={styles.remarksSection}>
+                      <label className={styles.remarksLabel}>Audit Notes / remarks</label>
+                      <textarea
+                        className={styles.remarksInput}
+                        placeholder="Enter remarks required for rejection or return..."
+                        value={remarks}
+                        onChange={(e) => setRemarks(e.target.value)}
+                      ></textarea>
+                    </div>
+                  </>
+                )}
               </>
             ) : (
+<<<<<<< HEAD
+              <div style={{ padding: '48px', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
+                Select an invoice from the queue to review.
+              </div>
+=======
               <>
                 <h3 className={styles.actionTitle}>Review Action (Maker/Reviewer)</h3>
                 <div className={styles.actionButtons}>
@@ -192,6 +374,7 @@ export const InvoiceApprovals: React.FC = () => {
                   ></textarea>
                 </div>
               </>
+>>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
             )}
 
             {/* Workflow Trail */}

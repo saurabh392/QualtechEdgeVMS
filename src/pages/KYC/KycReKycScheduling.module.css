@@ -11,7 +11,7 @@
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-primary);
 }
@@ -68,7 +68,7 @@
 }
 
 .kpiValue {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-primary);
 }
@@ -156,7 +156,7 @@
   padding: 10px 12px;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: var(--color-text-primary);
   background-color: var(--color-surface);
   outline: none;
@@ -416,7 +416,7 @@
 .overviewRow {
   display: flex;
   justify-content: space-between;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   border-bottom: 1px solid #f8fafc;
   padding-bottom: 6px;
 }
@@ -468,7 +468,7 @@
 
 .incidentName {
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: var(--color-text-primary);
 }
 
@@ -525,7 +525,7 @@
   padding: 10px 12px;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   outline: none;
   background: white;
 }
@@ -534,7 +534,7 @@
   padding: 10px 12px;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   outline: none;
   background: white;
   color: var(--color-text-primary);
@@ -544,7 +544,7 @@
   padding: 10px 12px;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   min-height: 70px;
   outline: none;
   resize: vertical;
@@ -629,7 +629,7 @@
 }
 
 .stageName {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--color-text-primary);
 }

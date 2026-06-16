@@ -12,14 +12,14 @@
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-primary);
 }
 
 .subtitle {
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   margin-top: 4px;
 }
 
@@ -34,21 +34,21 @@
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
   background-color: white;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--color-text-primary);
 }
 
 .kpiGrid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 16px;
 }
 
-.kpiCard {
-  padding: 20px;
+.kpiCard {  padding: 10px 14px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   gap: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -88,7 +88,7 @@
 }
 
 .kpiValue {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-primary);
 }
@@ -252,7 +252,7 @@
   background: none;
   border: none;
   color: var(--color-primary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
   padding: 0;
@@ -341,7 +341,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--color-text-primary);
 }
@@ -353,7 +353,7 @@
 }
 
 .queueNum {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-primary);
 }
@@ -456,7 +456,7 @@
 
 .tab {
   padding: 16px 20px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--color-text-secondary);
   cursor: pointer;
@@ -502,7 +502,7 @@
   padding: 8px 12px;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
   background-color: white;
   outline: none;
@@ -557,7 +557,7 @@
 }
 
 .pageInfo {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
 }
 
@@ -574,7 +574,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   cursor: pointer;
   border: 1px solid transparent;
 }
@@ -601,4 +601,57 @@
 
 .pageBtnNext:hover {
   background-color: #f1f5f9;
+}
+
+/* Pill tabs */
+.pillTabs {
+  display: flex;
+  gap: 4px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface-2, #f8fafc);
+  flex-wrap: wrap;
+}
+
+.pillTab {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.pillTab:hover {
+  background: var(--color-surface);
+  color: var(--color-primary);
+  border-color: var(--color-border);
+}
+
+.pillTabActive {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.pillCount {
+  background: rgba(255,255,255,0.25);
+  border-radius: 10px;
+  padding: 0 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 18px;
+  text-align: center;
+}
+
+.pillTabActive .pillCount {
+  background: rgba(255,255,255,0.3);
 }

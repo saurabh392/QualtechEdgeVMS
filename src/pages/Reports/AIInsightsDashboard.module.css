@@ -17,7 +17,7 @@
   background: none;
   border: none;
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
   padding: 0;
@@ -29,14 +29,14 @@
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-primary);
 }
 
 .subtitle {
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   margin-top: 4px;
 }
 
@@ -73,7 +73,7 @@
 }
 
 .predictValue {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-primary);
   margin-bottom: 8px;
@@ -201,7 +201,7 @@
 
 .recItem h5 {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-text-primary);
   margin-bottom: 4px;

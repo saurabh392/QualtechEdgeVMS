@@ -1,0 +1,80 @@
+[
+  {
+    "reconId": "RECON-2026-001",
+    "paymentId": "PAY-2026-0087",
+    "bankRef": "HDFCR520260515001",
+    "vendorName": "Global Security Solutions",
+    "amount": 1015000,
+    "bankDate": "2026-05-15",
+    "ledgerDate": "2026-05-15",
+    "difference": 0,
+    "status": "Reconciled",
+    "approvedBy": "Finance Manager",
+    "notes": "Auto-matched via UTR reference"
+  },
+  {
+    "reconId": "RECON-2026-002",
+    "paymentId": "PAY-2026-0086",
+    "bankRef": "HDFCR520260425001",
+    "vendorName": "Global Security Solutions",
+    "amount": 540000,
+    "bankDate": "2026-04-25",
+    "ledgerDate": "2026-04-25",
+    "difference": 0,
+    "status": "Reconciled",
+    "approvedBy": "Finance Manager",
+    "notes": "Rent payment — reconciled"
+  },
+  {
+    "reconId": "RECON-2026-003",
+    "paymentId": "PAY-2026-0084",
+    "bankRef": "HDFCR520260420001",
+    "vendorName": "ABC Infotech Private Limited",
+    "amount": 734400,
+    "bankDate": "2026-04-20",
+    "ledgerDate": "2026-04-21",
+    "difference": 0,
+    "status": "Reconciled",
+    "approvedBy": "Finance Manager",
+    "notes": "1-day ledger lag reconciled manually"
+  },
+  {
+    "reconId": "RECON-2026-004",
+    "paymentId": "PAY-2026-0089",
+    "bankRef": "NEFT-PENDING-004",
+    "vendorName": "Secure Facilities Ltd",
+    "amount": 522000,
+    "bankDate": "",
+    "ledgerDate": "2026-06-10",
+    "difference": 522000,
+    "status": "Reconciled",
+    "approvedBy": "Finance Manager",
+    "notes": "Bank credit awaited — NEFT in transit"
+  },
+  {
+    "reconId": "RECON-2026-005",
+    "paymentId": "PAY-2026-0090",
+    "bankRef": "REJECT-B2-09",
+    "vendorName": "Tech Solutions Pvt Ltd",
+    "amount": 367200,
+    "bankDate": "2026-05-18",
+    "ledgerDate": "2026-05-18",
+    "difference": 367200,
+    "status": "Reconciled",
+    "approvedBy": "Finance Manager",
+    "notes": "Payment failed — reversal pending"
+  },
+  {
+    "reconId": "RECON-2026-006",
+    "paymentId": "PAY-2026-0085",
+    "bankRef": "CANCELLED-001",
+    "vendorName": "Secure Facilities Ltd",
+    "amount": 139200,
+    "bankDate": "",
+    "ledgerDate": "2026-05-28",
+    "difference": 139200,
+    "status": "Unreconciled",
+    "approvedBy": null,
+    "notes": "Invoice rejected — payment cancelled awaiting reversal"
+  }
+]

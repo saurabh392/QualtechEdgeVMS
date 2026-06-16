@@ -957,9 +957,9 @@ export const ServiceMaster: React.FC = () => {
             </div>
 
             {/* Attachments List Table */}
-            <div style={{ overflowY: 'auto', flexGrow: 1, padding: '16px 24px' }}>
+            <div style={{ overflowX: 'auto', overflowY: 'auto', flexGrow: 1, padding: '16px 24px' }}>
               {filteredAttachments.length > 0 ? (
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
+                <table style={{ width: 'max-content', minWidth: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
                   <thead>
                     <tr style={{ borderBottom: '2px solid var(--color-border)', color: '#0b1f5f', fontWeight: 600 }}>
                       <th style={{ padding: '8px 12px' }}>File Name</th>

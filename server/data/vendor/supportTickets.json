@@ -15,7 +15,15 @@
     "subject": "API endpoint integration credentials",
     "description": "We need the API credentials to start the automated invoice data sync test.",
     "status": "Open",
-    "createdDate": "2026-05-21"
+    "createdDate": "2026-05-21",
+    "replies": [
+      {
+        "replyId": "RPL-8706",
+        "message": "HI",
+        "author": "Vendor User",
+        "createdDate": "2026-06-15T05:10:33.745Z"
+      }
+    ]
   },
   {
     "ticketId": "TKT-7526",
@@ -43,5 +51,23 @@
     "description": "fewe",
     "status": "Open",
     "createdDate": "2026-06-04"
+  },
+  {
+    "ticketId": "TKT-3592",
+    "vendorId": "VND-001",
+    "category": "Invoice Query",
+    "subject": "Laptop",
+    "description": "Laptop",
+    "status": "Open",
+    "createdDate": "2026-06-15"
+  },
+  {
+    "ticketId": "TKT-7084",
+    "vendorId": "VND-001",
+    "category": "Payment Issue",
+    "subject": "Laptop payment issue",
+    "description": "Laptop payment issue",
+    "status": "Open",
+    "createdDate": "2026-06-15"
   }
 ]

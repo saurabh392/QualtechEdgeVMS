@@ -27,6 +27,10 @@
   --color-info-bg: #eff6ff;
   --color-info-text: #1d4ed8;
 
+  --color-primary-bg: #eff6ff;
+  --color-primary-light: #dbeafe;
+  --color-border-light: #f1f5f9;
+
   --color-text-primary: #0f172a;
   --color-text-secondary: #475569;
   --color-text-tertiary: #94a3b8;
@@ -68,6 +72,9 @@
   --color-danger-text: #f87171;
   --color-info-bg: #1e3a5f;
   --color-info-text: #60a5fa;
+  --color-primary-bg: #1e3a5f;
+  --color-primary-light: #1e40af;
+  --color-border-light: #1e293b;
 }
 
 * {
@@ -92,6 +99,7 @@ a {
 
 button {
   font-family: inherit;
+  font-size: 12px;
 }
 
 input, textarea, select {

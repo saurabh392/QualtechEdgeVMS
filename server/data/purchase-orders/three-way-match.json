@@ -1,5 +1,20 @@
 [
   {
+    "matchId": "3WM-2026-004",
+    "poId": "PO-2026-000797",
+    "invoiceId": "INV-2026",
+    "grnId": "GRN-PO-1009",
+    "poAmount": 1250000,
+    "invoiceAmount": 1250000,
+    "grnQuantity": 5,
+    "invoiceQuantity": 5,
+    "amountMatched": true,
+    "quantityMatched": true,
+    "matchStatus": "Matched",
+    "processedDate": "2026-06-15",
+    "remarks": "Full 3-way match confirmed. Cleared for payment."
+  },
+  {
     "matchId": "3WM-2026-003",
     "poId": "PO-2026-000796",
     "invoiceId": "INV-2026-TEST01",

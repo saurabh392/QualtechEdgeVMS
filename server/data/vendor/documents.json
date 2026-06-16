@@ -1,53 +1,89 @@
 [
   {
-    "documentId": "DOC-101",
+    "documentId": "VDOC-001",
     "vendorId": "VND-001",
-    "documentName": "GST Certificate.pdf",
-    "documentType": "Tax Registration",
-    "uploadDate": "2026-01-12",
-    "expiryDate": "2028-12-31",
-    "status": "Verified",
-    "fileId": "FILE-001"
-  },
-  {
-    "documentId": "DOC-102",
-    "vendorId": "VND-001",
-    "documentName": "PAN Card Copy.pdf",
+    "documentName": "MSME",
     "documentType": "Identity Proof",
-    "uploadDate": "2026-01-12",
-    "expiryDate": null,
     "status": "Verified",
-    "fileId": "FILE-002"
+    "expiryDate": "2026-06-30",
+    "uploadedDate": "2025-04-10",
+    "fileName": "PAN_ABC_Infotech.pdf",
+    "filePath": "/uploads/vendor/VND_1781507759818-7543294.jpg",
+    "remarks": "PAN verified with Income Tax Department",
+    "uploadDate": "2026-06-15",
+    "fileId": "FILE-4565",
+    "versions": []
   },
   {
-    "documentId": "DOC-103",
+    "documentId": "VDOC-002",
     "vendorId": "VND-001",
-    "documentName": "MSME Registration Certificate.pdf",
-    "documentType": "MSME Proof",
-    "uploadDate": "2026-01-15",
-    "expiryDate": "2028-08-15",
+    "documentName": "GST Certificate",
+    "documentType": "Tax Registration",
     "status": "Verified",
-    "fileId": "FILE-003"
+    "expiryDate": "2027-03-31",
+    "uploadedDate": "2025-04-10",
+    "fileName": "GST_Certificate_ABC.pdf",
+    "filePath": "/uploads/vendor/GST_Certificate_ABC.pdf",
+    "remarks": "GSTIN 27AAACA1234A1Z5 verified"
   },
   {
-    "documentId": "DOC-104",
+    "documentId": "VDOC-003",
     "vendorId": "VND-001",
-    "documentName": "ISO 27001 InfoSec Certificate.pdf",
-    "documentType": "Compliance",
-    "uploadDate": "2025-05-10",
-    "expiryDate": "2026-05-10",
+    "documentName": "MSME Certificate",
+    "documentType": "Business Registration",
     "status": "Expired",
-    "fileId": "FILE-004"
+    "expiryDate": "2026-03-15",
+    "uploadedDate": "2025-05-01",
+    "fileName": "MSME_Certificate_ABC.pdf",
+    "filePath": "/uploads/vendor/MSME_Certificate_ABC.pdf",
+    "remarks": "Certificate expired - renewal required"
   },
   {
-    "documentId": "DOC-849",
+    "documentId": "VDOC-004",
     "vendorId": "VND-001",
-    "documentName": "456434534",
-    "documentType": "GST Certificate",
-    "uploadDate": "2026-06-11",
-    "expiryDate": null,
+    "documentName": "Certificate of Incorporation",
+    "documentType": "Legal Document",
     "status": "Verified",
-    "fileId": "FILE-9280",
-    "filePath": "/uploads/vendor/VND_1781175411985-341923663.png"
+    "expiryDate": null,
+    "uploadedDate": "2025-04-10",
+    "fileName": "COI_ABC_Infotech.pdf",
+    "filePath": "/uploads/vendor/COI_ABC_Infotech.pdf",
+    "remarks": "CIN U72900MH2015PTC123456 verified"
+  },
+  {
+    "documentId": "VDOC-005",
+    "vendorId": "VND-001",
+    "documentName": "ISO 27001 Certification",
+    "documentType": "Quality Compliance",
+    "status": "Rejected",
+    "expiryDate": "2026-12-31",
+    "uploadedDate": "2025-06-01",
+    "fileName": "ISO_27001_ABC.pdf",
+    "filePath": "/uploads/vendor/ISO_27001_ABC.pdf",
+    "remarks": "Document scan unreadable - please re-upload clear copy"
+  },
+  {
+    "documentId": "VDOC-006",
+    "vendorId": "VND-001",
+    "documentName": "Bank Account Proof",
+    "documentType": "Financial Document",
+    "status": "Verified",
+    "expiryDate": null,
+    "uploadedDate": "2025-04-12",
+    "fileName": "Cancelled_Cheque_ABC.pdf",
+    "filePath": "/uploads/vendor/Cancelled_Cheque_ABC.pdf",
+    "remarks": "Bank details verified — HDFC Bank A/C ****7890"
+  },
+  {
+    "documentId": "VDOC-007",
+    "vendorId": "VND-001",
+    "documentName": "Professional Indemnity Insurance",
+    "documentType": "Insurance",
+    "status": "Pending",
+    "expiryDate": "2026-09-30",
+    "uploadedDate": "2026-05-20",
+    "fileName": "PI_Insurance_ABC.pdf",
+    "filePath": "/uploads/vendor/PI_Insurance_ABC.pdf",
+    "remarks": "Awaiting compliance team review"
   }
 ]

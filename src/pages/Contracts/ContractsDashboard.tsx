@@ -209,71 +209,37 @@ export const ContractsDashboard: React.FC = () => {
 
       {/* KPI Row */}
       <div className={styles.kpiGrid}>
-        <Card 
-          className={`${styles.kpiCard} ${kpiFilter === 'Total Active Contracts' ? styles.kpiCardActive : ''}`}
-          onClick={() => setKpiFilter(kpiFilter === 'Total Active Contracts' ? null : 'Total Active Contracts')}
-        >
-          <div className={styles.kpiHeader}>
-            <span className={styles.kpiLabel}>Total Active Contracts</span>
-            <div className={styles.kpiIconWrapper} style={{ backgroundColor: '#e0f2fe', color: '#0284c7' }}>
-              <FileText size={20} />
+        {([
+          { key: 'Total Active Contracts', label: 'Total Active',      icon: <FileText size={16} />,     bg: '#e0f2fe', color: '#0284c7', value: activeCount,          sub: '+5.2% vs last quarter' },
+          { key: 'Expiring Soon (30d)',     label: 'Expiring Soon',     icon: <Clock size={16} />,        bg: '#fef3c7', color: '#d97706', value: expiringSoonCount,    sub: 'Requires renewal action' },
+          { key: 'Pending Legal Reviews',  label: 'Pending Reviews',   icon: <FileSignature size={16} />,bg: '#f3e8ff', color: '#7e22ce', value: pendingReviewCount,   sub: 'Avg TAT: 3.2 Days' },
+          { key: 'High Risk Contracts',    label: 'High Risk',         icon: <AlertCircle size={16} />,  bg: '#fee2e2', color: '#b91c1c', value: highRiskCount,        sub: 'Requires mitigation action' },
+        ] as const).map(k => (
+          <Card key={k.key} className={`${styles.kpiCard} ${kpiFilter === k.key ? styles.kpiCardActive : ''}`} onClick={() => setKpiFilter(kpiFilter === k.key ? null : k.key)}>
+            <div className={styles.kpiIcon} style={{ backgroundColor: k.bg, color: k.color, flexShrink: 0 }}>{k.icon}</div>
+            <div>
+              <div className={styles.kpiLabel}>{k.label}</div>
+              <div className={styles.kpiValue} style={{ color: k.color }}>{k.value}</div>
+              <div style={{ fontSize: '0.65rem', color: 'var(--color-text-secondary)', marginTop: 1 }}>{k.sub}</div>
             </div>
-          </div>
-          <div className={styles.kpiValue}>{activeCount}</div>
-          <div className={styles.kpiFooter}>↑ 5.2% vs last quarter</div>
-        </Card>
-
-        <Card 
-          className={`${styles.kpiCard} ${kpiFilter === 'Expiring Soon (30d)' ? styles.kpiCardActive : ''}`}
-          onClick={() => setKpiFilter(kpiFilter === 'Expiring Soon (30d)' ? null : 'Expiring Soon (30d)')}
-        >
-          <div className={styles.kpiHeader}>
-            <span className={styles.kpiLabel}>Expiring Soon (30d)</span>
-            <div className={styles.kpiIconWrapper} style={{ backgroundColor: '#fef3c7', color: '#d97706' }}>
-              <Clock size={20} />
-            </div>
-          </div>
-          <div className={styles.kpiValue} style={{ color: '#d97706' }}>{expiringSoonCount}</div>
-          <div className={styles.kpiFooter}>Requires renewal action</div>
-        </Card>
-
-        <Card 
-          className={`${styles.kpiCard} ${kpiFilter === 'Pending Legal Reviews' ? styles.kpiCardActive : ''}`}
-          onClick={() => setKpiFilter(kpiFilter === 'Pending Legal Reviews' ? null : 'Pending Legal Reviews')}
-        >
-          <div className={styles.kpiHeader}>
-            <span className={styles.kpiLabel}>Pending Legal Reviews</span>
-            <div className={styles.kpiIconWrapper} style={{ backgroundColor: '#f3e8ff', color: '#7e22ce' }}>
-              <FileSignature size={20} />
-            </div>
-          </div>
-          <div className={styles.kpiValue}>{pendingReviewCount}</div>
-          <div className={styles.kpiFooter}>Avg TAT: 3.2 Days</div>
-        </Card>
-
-        <Card 
-          className={`${styles.kpiCard} ${kpiFilter === 'High Risk Contracts' ? styles.kpiCardActive : ''}`}
-          onClick={() => setKpiFilter(kpiFilter === 'High Risk Contracts' ? null : 'High Risk Contracts')}
-        >
-          <div className={styles.kpiHeader}>
-            <span className={styles.kpiLabel}>High Risk Contracts</span>
-            <div className={styles.kpiIconWrapper} style={{ backgroundColor: '#fee2e2', color: '#b91c1c' }}>
-              <AlertCircle size={20} />
-            </div>
-          </div>
-          <div className={styles.kpiValue} style={{ color: '#b91c1c' }}>{highRiskCount}</div>
-          <div className={styles.kpiFooter}>Requires mitigation action</div>
-        </Card>
+          </Card>
+        ))}
       </div>
 
       {/* Contract Repository Embedded Section */}
       <Card className={styles.tableCard}>
-        <div className={styles.tabs}>
-          <div className={`${styles.tab} ${activeTab === 'All' ? styles.activeTab : ''}`} onClick={() => { setActiveTab('All'); setKpiFilter(null); }}>All Contracts</div>
-          <div className={`${styles.tab} ${activeTab === 'Active' ? styles.activeTab : ''}`} onClick={() => { setActiveTab('Active'); setKpiFilter(null); }}>Active</div>
-          <div className={`${styles.tab} ${activeTab === 'Under Review' ? styles.activeTab : ''}`} onClick={() => { setActiveTab('Under Review'); setKpiFilter(null); }}>In Review</div>
-          <div className={`${styles.tab} ${activeTab === 'Draft' ? styles.activeTab : ''}`} onClick={() => { setActiveTab('Draft'); setKpiFilter(null); }}>Drafts</div>
-          <div className={`${styles.tab} ${activeTab === 'Expired' ? styles.activeTab : ''}`} onClick={() => { setActiveTab('Expired'); setKpiFilter(null); }}>Expired</div>
+        <div className={styles.pillTabs}>
+          {([
+            { key: 'All',          label: 'All Contracts' },
+            { key: 'Active',       label: 'Active' },
+            { key: 'Under Review', label: 'In Review' },
+            { key: 'Draft',        label: 'Drafts' },
+            { key: 'Expired',      label: 'Expired' },
+          ] as const).map(t => (
+            <button key={t.key} className={`${styles.pillTab} ${activeTab === t.key ? styles.pillTabActive : ''}`} onClick={() => { setActiveTab(t.key); setKpiFilter(null); }}>
+              {t.label}
+            </button>
+          ))}
         </div>
 
         <div className={styles.tableToolbar}>

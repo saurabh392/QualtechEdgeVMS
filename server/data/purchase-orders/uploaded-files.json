@@ -30,5 +30,21 @@
     "size": "0.1 MB",
     "fileSize": "0.1 MB",
     "version": "v1.0"
+  },
+  {
+    "fileId": "FILE-PO-1194",
+    "linkedModule": "Purchase Orders",
+    "linkedRecordId": "",
+    "fileName": "aa.pdf",
+    "originalName": "aa.pdf",
+    "fileType": "application/pdf",
+    "documentCategory": "GRN File",
+    "storagePath": "/uploads/purchase-orders/grn/FILE_1781524265331-391228543.pdf",
+    "filePath": "/uploads/purchase-orders/grn/FILE_1781524265331-391228543.pdf",
+    "uploadedBy": "Saurabh Anand",
+    "uploadedOn": "2026-06-15",
+    "size": "0.0 MB",
+    "fileSize": "0.0 MB",
+    "version": "v1.0"
   }
 ]

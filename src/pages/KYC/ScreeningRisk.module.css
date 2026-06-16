@@ -9,7 +9,7 @@
   align-items: flex-end;
 }
 .title {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-primary);
 }
@@ -20,7 +20,7 @@
 }
 .subtitle {
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   margin-top: 4px;
 }
 
@@ -68,7 +68,7 @@
   padding: 10px 12px 10px 36px;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   outline: none;
 }
 .searchInput:focus { border-color: var(--color-primary); }
@@ -93,7 +93,7 @@
   transition: background 0.1s;
 }
 .searchItem:hover { background: #f8fafc; }
-.searchItemName { font-size: 0.875rem; font-weight: 600; color: var(--color-text-primary); }
+.searchItemName { font-size: 0.75rem; font-weight: 600; color: var(--color-text-primary); }
 .searchItemId   { font-size: 0.75rem;  color: var(--color-text-secondary); }
 
 /* Score Grid */
@@ -118,7 +118,7 @@
   margin-bottom: 8px;
 }
 .shieldIcon { color: var(--color-primary); }
-.scoreTitle { font-size: 0.875rem; font-weight: 600; color: var(--color-text-secondary); }
+.scoreTitle { font-size: 0.75rem; font-weight: 600; color: var(--color-text-secondary); }
 .scoreValue {
   font-size: 2.5rem;
   font-weight: 800;
@@ -154,7 +154,7 @@
 }
 .tab {
   padding: 16px 20px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--color-text-secondary);
   cursor: pointer;
@@ -173,8 +173,10 @@
 
 /* Table */
 .tableWrapper { overflow-x: auto; }
-.table { width: 100%; border-collapse: collapse; text-align: left; }
+.table { width: max-content;
+  min-width: 100%; border-collapse: collapse; text-align: left; }
 .table th {
+  text-align: left;
   background: #f8fafc;
   padding: 12px 20px;
   font-size: 0.75rem;
@@ -187,7 +189,7 @@
 }
 .table td {
   padding: 16px 20px;
-  font-size: 0.8125rem;
+  font-size:11px;
   color: var(--color-text-primary);
   border-bottom: 1px solid var(--color-border);
   vertical-align: middle;

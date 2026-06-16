@@ -47,6 +47,9 @@ import { PaymentDashboard } from './pages/Payments/PaymentDashboard';
 import { PaymentProcessing } from './pages/Payments/PaymentProcessing';
 import { PaymentList } from './pages/Payments/PaymentList';
 import { PaymentApprovals } from './pages/Payments/PaymentApprovals';
+import { FinanceDashboard } from './pages/Finance/FinanceDashboard';
+import { TDSApprovals } from './pages/Finance/TDSApprovals';
+import { BankReconciliation } from './pages/Finance/BankReconciliation';
 import { MISDashboard } from './pages/Reports/MISDashboard';
 import { PerformanceAnalytics } from './pages/Reports/PerformanceAnalytics';
 import { AIInsights } from './pages/Reports/AIInsights';
@@ -102,7 +105,10 @@ function App() {
                 <Route path="/administrator/dashboard" element={<Dashboard />} />
                 <Route path="/procurement/dashboard" element={<Dashboard />} />
                 <Route path="/compliance/dashboard" element={<Dashboard />} />
-                <Route path="/finance/dashboard" element={<Dashboard />} />
+                <Route path="/finance" element={<Navigate to="/finance/dashboard" replace />} />
+                <Route path="/finance/dashboard" element={<FinanceDashboard />} />
+                <Route path="/finance/tds" element={<TDSApprovals />} />
+                <Route path="/finance/reconciliation" element={<BankReconciliation />} />
                 <Route path="/vendors" element={<VendorList />} />
                 <Route path="/vendors/add" element={<AddVendor />} />
                 <Route path="/vendors/approvals" element={<VendorApprovals />} />

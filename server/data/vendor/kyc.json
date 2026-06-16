@@ -4,6 +4,8 @@
     "gstNumber": "29ABCDE1234F1Z5",
     "panNumber": "ABCDE1234F",
     "msmeNumber": "MSME123456",
-    "status": "Verified"
+    "status": "Verified",
+    "submittedAt": null,
+    "rejectionRemarks": null
   }
 ]

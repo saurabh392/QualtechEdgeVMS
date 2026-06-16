@@ -1,0 +1,450 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.backBtn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 12px;
+  padding: 0;
+}
+
+.backBtn:hover {
+  color: var(--color-primary);
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.headerActions {
+  display: flex;
+  gap: 12px;
+}
+
+.rejectBtn {
+  color: var(--color-danger-text);
+  border-color: var(--color-danger);
+}
+
+.rejectBtn:hover {
+  background-color: var(--color-danger-bg);
+  border-color: var(--color-danger);
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr;
+  gap: 24px;
+}
+
+.mainCol {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.vendorHeaderCard {
+  padding: 0;
+}
+
+.vhTop {
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.vendorName {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.vendorId {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.tabsContainer {
+  display: flex;
+  border-top: 1px solid var(--color-border);
+  padding: 0 24px;
+}
+
+.tabBtn {
+  background: transparent;
+  border: none;
+  padding: 16px 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.activeTab {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.checksCard {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.checksHeader {
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.checksList {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkRow {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.checkRow:last-child {
+  border-bottom: none;
+}
+
+.checkIcon {
+  width: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.pendingCircle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--color-text-tertiary);
+}
+
+.checkInfo {
+  flex: 1;
+}
+
+.checkInfo h4 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.checkInfo p {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.checkStatusWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  width: 120px;
+}
+
+.checkStatus {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.statusCompleted {
+  color: var(--color-success-text);
+}
+
+.statusInProgress {
+  color: #0ea5e9;
+}
+
+.statusPendingText {
+  color: var(--color-warning-text);
+}
+
+.checkDate {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+}
+
+.checksFooter {
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--color-border);
+  background-color: #f8fafc;
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+}
+
+.sideCol {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.riskCard {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.gaugeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.gaugeTitle {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: 16px;
+}
+
+/* Very simple CSS arc for the gauge */
+.gauge {
+  width: 160px;
+  height: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.gaugeArc {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 16px solid #e2e8f0;
+  border-bottom-color: var(--color-success-text);
+  border-left-color: var(--color-success-text);
+  transform: rotate(45deg);
+  box-sizing: border-box;
+}
+
+.gaugeNeedle {
+  width: 4px;
+  height: 70px;
+  background-color: var(--color-text-primary);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(-45deg);
+  border-radius: 4px;
+}
+
+.gaugeScore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -12px;
+  z-index: 2;
+}
+
+.scoreText {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-success-text);
+}
+
+.scoreNumber {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.riskFactors {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.factorsTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 8px;
+}
+
+.factorRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.factorScoreGreen {
+  font-weight: 600;
+  color: var(--color-success-text);
+}
+
+.riskComments {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputLabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  font-size: 0.75rem;
+  font-family: inherit;
+  min-height: 80px;
+  resize: vertical;
+}
+
+.fullWidthBtn {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.submitCard {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.summaryList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.summaryRow span {
+  color: var(--color-text-secondary);
+}
+
+.summaryRow strong {
+  color: var(--color-text-primary);
+  text-align: right;
+}
+
+.greenText {
+  color: var(--color-success-text) !important;
+}
+
+.declaration {
+  background-color: #f8fafc;
+  padding: 16px;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.checkbox input {
+  margin-top: 3px;
+}
+
+.submitActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.placeholderCard {
+  padding: 48px;
+  text-align: center;
+  color: var(--color-text-tertiary);
+  font-style: italic;
+}
+
+.successContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.successIcon {
+  margin-bottom: 24px;
+  animation: scaleIn 0.5s ease;
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.successTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+
+.successDesc {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  margin-bottom: 32px;
+}
+
+.successActions {
+  display: flex;
+  gap: 16px;
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Search, Eye, X } from 'lucide-react';
+import { Plus, Search, Eye, X, CheckCircle2, XCircle, AlertTriangle, FileText, Hash, DollarSign, Filter, Download } from 'lucide-react';
 import { toast } from 'sonner';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
@@ -17,6 +17,7 @@ import type {
   GRNRecord
 } from '../../services/purchaseOrderService';
 import styles from './POThreeWayMatch.module.css';
+import pStyles from '../Payments/PaymentDashboard.module.css';
 
 export const POThreeWayMatch: React.FC = () => {
   const [matches, setMatches] = useState<MatchRecord[]>([]);
@@ -24,7 +25,15 @@ export const POThreeWayMatch: React.FC = () => {
   const [grns, setGrns] = useState<GRNRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [viewMatch, setViewMatch] = useState<MatchRecord | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+  const [filterMatchStatus, setFilterMatchStatus] = useState('');
+  const [filterAmountMin, setFilterAmountMin] = useState('');
+  const [filterAmountMax, setFilterAmountMax] = useState('');
+
+  const activeFilterCount = [filterMatchStatus, filterAmountMin, filterAmountMax].filter(Boolean).length;
+  const clearFilters = () => { setFilterMatchStatus(''); setFilterAmountMin(''); setFilterAmountMax(''); };
 
   // Form states
   const [selectedPoId, setSelectedPoId] = useState('');
@@ -124,11 +133,11 @@ export const POThreeWayMatch: React.FC = () => {
 
   const filteredMatches = matches.filter(item => {
     const q = searchQuery.toLowerCase();
-    return (
-      item.matchId?.toLowerCase().includes(q) ||
-      item.poId.toLowerCase().includes(q) ||
-      item.invoiceId.toLowerCase().includes(q)
-    );
+    if (q && !item.matchId?.toLowerCase().includes(q) && !item.poId.toLowerCase().includes(q) && !item.invoiceId.toLowerCase().includes(q)) return false;
+    if (filterMatchStatus && item.matchStatus !== filterMatchStatus) return false;
+    if (filterAmountMin && item.invoiceAmount < Number(filterAmountMin)) return false;
+    if (filterAmountMax && item.invoiceAmount > Number(filterAmountMax)) return false;
+    return true;
   });
 
   const activePOs = pos.filter(po => po.invoiceMatchStatus !== 'Matched' && (po.status === 'Approved' || po.status === 'Sent'));
@@ -160,14 +169,14 @@ export const POThreeWayMatch: React.FC = () => {
       header: 'Remarks', 
       accessor: (row: MatchRecord) => row.remarks || row.mismatchReason || '-'
     },
-    { 
-      header: 'Actions', 
+    {
+      header: 'Actions',
       align: 'center' as const,
-      accessor: () => (
+      accessor: (row: MatchRecord) => (
         <div className={styles.actionsCell}>
-          <button className={styles.actionBtn} title="View Match Audit Trail"><Eye size={16} /></button>
+          <button className={styles.actionBtn} title="View Match Audit Trail" onClick={() => setViewMatch(row)}><Eye size={16} /></button>
         </div>
-      ) 
+      )
     },
   ];
 
@@ -182,20 +191,41 @@ export const POThreeWayMatch: React.FC = () => {
       </header>
 
       <Card className={styles.tableCard}>
-        <div className={styles.tableToolbar}>
-          <div className={styles.filters}>
-            <div className={styles.searchWrap}>
-              <Input 
-                placeholder="Search Match ID, PO, Invoice..." 
-                fullWidth={false} 
-                className={styles.searchInput}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <Search size={16} className={styles.searchIcon} />
-            </div>
+        <div className={pStyles.tableToolbar}>
+          <div className={pStyles.searchWrap}>
+            <Search size={16} className={pStyles.searchIcon} />
+            <input type="text" placeholder="Search Match ID, PO number, invoice..." className={pStyles.searchInput} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+          </div>
+          <div className={pStyles.toolbarActions}>
+            <Button variant={showFilters || activeFilterCount > 0 ? 'primary' : 'ghost'} icon={<Filter size={16} />} onClick={() => setShowFilters(f => !f)}>
+              Filters{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
+            </Button>
+            <Button variant="outline" icon={<Download size={16} />}>Export</Button>
           </div>
         </div>
+
+        {showFilters && (
+          <div className={pStyles.filterPanel}>
+            <div className={pStyles.filterGrid}>
+              <div className={pStyles.filterGroup}>
+                <label className={pStyles.filterLabel}>Match Status</label>
+                <select className={pStyles.filterSelect} value={filterMatchStatus} onChange={e => setFilterMatchStatus(e.target.value)}>
+                  <option value="">All Statuses</option>
+                  {['Matched', 'Partial Match', 'Mismatch', 'Pending'].map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
+              </div>
+              <div className={pStyles.filterGroup}>
+                <label className={pStyles.filterLabel}>Min Invoice Amount (₹)</label>
+                <input type="number" className={pStyles.filterInput} placeholder="e.g. 10000" value={filterAmountMin} onChange={e => setFilterAmountMin(e.target.value)} />
+              </div>
+              <div className={pStyles.filterGroup}>
+                <label className={pStyles.filterLabel}>Max Invoice Amount (₹)</label>
+                <input type="number" className={pStyles.filterInput} placeholder="e.g. 500000" value={filterAmountMax} onChange={e => setFilterAmountMax(e.target.value)} />
+              </div>
+            </div>
+            {activeFilterCount > 0 && <button className={pStyles.clearFiltersBtn} onClick={clearFilters}>Clear all filters</button>}
+          </div>
+        )}
 
         {loading ? (
           <div style={{ display: 'flex', justifyContent: 'center', padding: '40px', color: 'var(--color-text-secondary)' }}>
@@ -295,6 +325,61 @@ export const POThreeWayMatch: React.FC = () => {
                 <Button type="submit" disabled={submitting || !selectedPoId}>{submitting ? 'Matching...' : 'Run Match Verification'}</Button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Match Detail / Audit Trail Modal */}
+      {viewMatch && (
+        <div className={styles.modalOverlay} onClick={() => setViewMatch(null)}>
+          <div className={styles.modalContent} style={{ maxWidth: 540 }} onClick={e => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h3>Match Audit Trail — {viewMatch.matchId}</h3>
+              <button className={styles.closeBtn} onClick={() => setViewMatch(null)}><X size={20} /></button>
+            </div>
+            <div className={styles.modalBody}>
+              {/* Status banner */}
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', borderRadius: 8,
+                background: viewMatch.matchStatus === 'Matched' ? '#dcfce7' : viewMatch.matchStatus === 'Mismatch' ? '#fee2e2' : '#fef3c7',
+                color: viewMatch.matchStatus === 'Matched' ? '#15803d' : viewMatch.matchStatus === 'Mismatch' ? '#dc2626' : '#b45309',
+                fontWeight: 700, fontSize: 14, marginBottom: 8,
+              }}>
+                {viewMatch.matchStatus === 'Matched' ? <CheckCircle2 size={18} /> : viewMatch.matchStatus === 'Mismatch' ? <XCircle size={18} /> : <AlertTriangle size={18} />}
+                {viewMatch.matchStatus}
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                {[
+                  { icon: <Hash size={14} />, label: 'PO Number', value: viewMatch.poId },
+                  { icon: <FileText size={14} />, label: 'Invoice ID', value: viewMatch.invoiceId },
+                  { icon: <FileText size={14} />, label: 'GRN Number', value: viewMatch.grnId || '—' },
+                  { icon: <DollarSign size={14} />, label: 'PO Amount', value: `₹${viewMatch.poAmount.toLocaleString('en-IN')}` },
+                  { icon: <DollarSign size={14} />, label: 'Invoice Amount', value: `₹${viewMatch.invoiceAmount.toLocaleString('en-IN')}` },
+                  { icon: <CheckCircle2 size={14} />, label: 'Amount Match', value: viewMatch.amountMatched ? '✓ Matched' : '✗ Mismatch' },
+                  { icon: <Hash size={14} />, label: 'GRN Quantity', value: viewMatch.grnQuantity },
+                  { icon: <Hash size={14} />, label: 'Invoice Quantity', value: viewMatch.invoiceQuantity },
+                  { icon: <CheckCircle2 size={14} />, label: 'Qty Match', value: viewMatch.quantityMatched ? '✓ Matched' : '✗ Mismatch' },
+                ].map(({ icon, label, value }) => (
+                  <div key={label} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                    <div style={{ color: 'var(--color-primary)', marginTop: 2, flexShrink: 0 }}>{icon}</div>
+                    <div>
+                      <div style={{ fontSize: 11, color: 'var(--color-text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 2 }}>{label}</div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-primary)' }}>{value}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {(viewMatch.remarks || viewMatch.mismatchReason) && (
+                <div style={{ marginTop: 8, padding: '10px 12px', background: 'var(--color-surface-2)', borderRadius: 8, fontSize: 13, color: 'var(--color-text-secondary)' }}>
+                  <strong>Remarks:</strong> {viewMatch.remarks || viewMatch.mismatchReason}
+                </div>
+              )}
+            </div>
+            <div className={styles.modalFooter}>
+              <Button variant="ghost" type="button" onClick={() => setViewMatch(null)}>Close</Button>
+            </div>
           </div>
         </div>
       )}

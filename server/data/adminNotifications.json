@@ -1,0 +1,60 @@
+[
+  {
+    "id": "ANOTIF-1781522479423",
+    "type": "invoice_approved",
+    "title": "Invoice Approved for Payment",
+    "message": "INV-2026-9908 (ABC Infotech Private Limited) approved for payment disbursement.",
+    "link": "/payments/processing",
+    "timestamp": "2026-06-15T11:21:19.423Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1781524606347",
+    "type": "invoice_approved",
+    "title": "Invoice Approved for Payment",
+    "message": "INV-2026-9908 (ABC Infotech Private Limited) approved for payment disbursement.",
+    "link": "/payments/processing",
+    "timestamp": "2026-06-15T11:56:46.347Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1781591655203-exp-DOC-2025-0003",
+    "dupKey": "doc_expired_DOC-2025-0003",
+    "type": "document_expired",
+    "title": "Document Expired",
+    "message": "\"MSME Certificate\" for ABC Infotech Private Limited has expired.",
+    "link": "/documents",
+    "timestamp": "2026-06-16T06:34:15.203Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1781591655206-exp-DOC-2026-0003",
+    "dupKey": "doc_expired_DOC-2026-0003",
+    "type": "document_expired",
+    "title": "Document Expired",
+    "message": "\"PAN Card\" for My Money Mantra  has expired.",
+    "link": "/documents",
+    "timestamp": "2026-06-16T06:34:15.206Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1781591655209-exp-DOC-2026-0004",
+    "dupKey": "doc_expired_DOC-2026-0004",
+    "type": "document_expired",
+    "title": "Document Expired",
+    "message": "\"Others\" for My Money Mantra  has expired.",
+    "link": "/documents",
+    "timestamp": "2026-06-16T06:34:15.209Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1781591655211-exp-DOC-2026-0009",
+    "dupKey": "doc_expired_DOC-2026-0009",
+    "type": "document_expired",
+    "title": "Document Expired",
+    "message": "\"PAN Card\" for axis max life  has expired.",
+    "link": "/documents",
+    "timestamp": "2026-06-16T06:34:15.211Z",
+    "read": false
+  }
+]

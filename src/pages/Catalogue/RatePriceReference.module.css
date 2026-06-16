@@ -34,14 +34,20 @@
   }
 }
 
+.l1l2l3TableWrapper {
+  overflow-x: auto;
+}
+
 .l1l2l3Table {
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
   font-size: 13px;
   text-align: left;
 }
 
 .l1l2l3Table th {
+  text-align: left;
   padding: 10px 12px;
   font-weight: 600;
   color: #0b1f5f;

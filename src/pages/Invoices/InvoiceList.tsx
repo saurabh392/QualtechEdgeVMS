@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Download, Eye, MoreVertical, Search, Filter } from 'lucide-react';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
-import { Input } from '../../components/Input/Input';
 import { DataTable } from '../../components/DataTable/DataTable';
 import styles from './InvoiceList.module.css';
+import pStyles from '../Payments/PaymentDashboard.module.css';
 
 // Mock Data for Invoices List
 const invoiceData = [
@@ -19,6 +19,29 @@ const invoiceData = [
 
 export const InvoiceList: React.FC = () => {
   const navigate = useNavigate();
+  const [search, setSearch] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
+  const [filterRisk, setFilterRisk] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+  const [filterDateFrom, setFilterDateFrom] = useState('');
+  const [filterDateTo, setFilterDateTo] = useState('');
+  const [filterVendor, setFilterVendor] = useState('');
+
+  const activeFilterCount = [filterDateFrom, filterDateTo, filterVendor].filter(Boolean).length;
+  const clearFilters = () => { setFilterDateFrom(''); setFilterDateTo(''); setFilterVendor(''); };
+
+  const filteredData = invoiceData.filter(row => {
+    const q = search.toLowerCase();
+    if (q && !row.id.toLowerCase().includes(q) && !row.vendor.toLowerCase().includes(q) && !row.poRef.toLowerCase().includes(q)) return false;
+    if (filterStatus && row.status !== filterStatus) return false;
+    if (filterRisk === 'Low' && !row.risk.includes('Low')) return false;
+    if (filterRisk === 'Medium' && !row.risk.includes('Medium')) return false;
+    if (filterRisk === 'High' && !row.risk.includes('High')) return false;
+    if (filterVendor && !row.vendor.toLowerCase().includes(filterVendor.toLowerCase())) return false;
+    if (filterDateFrom && row.date < filterDateFrom) return false;
+    if (filterDateTo   && row.date > filterDateTo)   return false;
+    return true;
+  });
 
   const columns = [
     { header: 'Invoice Number', accessor: 'id' as keyof typeof invoiceData[0] },
@@ -79,47 +102,57 @@ export const InvoiceList: React.FC = () => {
           <div className={styles.tab}>Paid (488)</div>
         </div>
 
-        <div className={styles.tableToolbar}>
-          <div className={styles.filters}>
-            <div className={styles.searchWrap}>
-              <Input 
-                placeholder="Search Invoice number, vendor..." 
-                fullWidth={false} 
-                className={styles.searchInput}
-              />
-              <Search size={16} className={styles.searchIcon} />
-            </div>
-            
-            <select className={styles.filterSelect}>
-              <option>Status: All</option>
-              <option>Draft</option>
-              <option>Pending Match</option>
-              <option>Approved</option>
-              <option>Paid</option>
-              <option>Exception</option>
-            </select>
-
-            <select className={styles.filterSelect}>
-              <option>Risk Level: All</option>
-              <option>Low Risk</option>
-              <option>Medium Risk</option>
-              <option>High Risk</option>
-            </select>
-            
-            <Button variant="ghost" icon={<Filter size={16} />}>More Filters</Button>
+        <div className={pStyles.tableToolbar}>
+          <div className={pStyles.searchWrap}>
+            <Search size={16} className={pStyles.searchIcon} />
+            <input type="text" placeholder="Search invoice number, vendor, PO ref..." className={pStyles.searchInput} value={search} onChange={e => setSearch(e.target.value)} />
           </div>
-          
-          <Button variant="outline" icon={<Download size={16} />}>Export</Button>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <select className={styles.filterSelect} value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
+              <option value="">Status: All</option>
+              {['Draft', 'Pending Match', 'Approved', 'Paid', 'Exception', 'Rejected'].map(s => <option key={s} value={s}>{s}</option>)}
+            </select>
+            <select className={styles.filterSelect} value={filterRisk} onChange={e => setFilterRisk(e.target.value)}>
+              <option value="">Risk: All</option>
+              <option value="Low">Low Risk</option>
+              <option value="Medium">Medium Risk</option>
+              <option value="High">High Risk</option>
+            </select>
+            <Button variant={showFilters || activeFilterCount > 0 ? 'primary' : 'ghost'} icon={<Filter size={16} />} onClick={() => setShowFilters(f => !f)}>
+              More Filters{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
+            </Button>
+            <Button variant="outline" icon={<Download size={16} />}>Export</Button>
+          </div>
         </div>
 
-        <DataTable 
-          columns={columns} 
-          data={invoiceData} 
-          keyExtractor={(row) => row.id} 
+        {showFilters && (
+          <div className={pStyles.filterPanel}>
+            <div className={pStyles.filterGrid}>
+              <div className={pStyles.filterGroup}>
+                <label className={pStyles.filterLabel}>Vendor Name</label>
+                <input type="text" className={pStyles.filterInput} placeholder="Filter by vendor..." value={filterVendor} onChange={e => setFilterVendor(e.target.value)} />
+              </div>
+              <div className={pStyles.filterGroup}>
+                <label className={pStyles.filterLabel}>Created Date From</label>
+                <input type="date" className={pStyles.filterInput} value={filterDateFrom} onChange={e => setFilterDateFrom(e.target.value)} />
+              </div>
+              <div className={pStyles.filterGroup}>
+                <label className={pStyles.filterLabel}>Created Date To</label>
+                <input type="date" className={pStyles.filterInput} value={filterDateTo} onChange={e => setFilterDateTo(e.target.value)} />
+              </div>
+            </div>
+            {activeFilterCount > 0 && <button className={pStyles.clearFiltersBtn} onClick={clearFilters}>Clear all filters</button>}
+          </div>
+        )}
+
+        <DataTable
+          columns={columns}
+          data={filteredData}
+          keyExtractor={(row) => row.id}
         />
         
         <div className={styles.pagination}>
-          <span className={styles.pageInfo}>Showing 1 to 6 of 1,092 entries</span>
+          <span className={styles.pageInfo}>Showing 1 to {filteredData.length} of {invoiceData.length} entries</span>
           <div className={styles.pageControls}>
             <button className={styles.pageBtnActive}>1</button>
             <button className={styles.pageBtn}>2</button>

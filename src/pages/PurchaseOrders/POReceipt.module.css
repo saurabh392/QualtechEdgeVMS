@@ -11,14 +11,14 @@
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-primary);
 }
 
 .breadcrumbs {
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   margin-top: 4px;
 }
 
@@ -186,7 +186,7 @@
   padding: 10px 12px;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   background-color: white;
   outline: none;
   font-family: inherit;
@@ -201,7 +201,7 @@
   padding: 10px 12px;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   outline: none;
   font-family: inherit;
   resize: vertical;

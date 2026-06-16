@@ -128,7 +128,7 @@
   padding: 9px 12px;
   border: 1.5px solid #e2e8f0;
   border-radius: 8px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: #1e293b;
   background: #fafafa;
   outline: none;
@@ -147,7 +147,7 @@
   padding: 9px 12px;
   border: 1.5px solid #e2e8f0;
   border-radius: 8px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: #1e293b;
   background: #fafafa;
   outline: none;
@@ -299,7 +299,7 @@
   color: #fff;
   border: none;
   border-radius: 10px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;

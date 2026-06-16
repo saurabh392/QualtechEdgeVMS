@@ -111,6 +111,7 @@ export const RatePriceReference: React.FC = () => {
           <div className={styles.card}>
             <h3 className={styles.cardTitle}>L1/L2/L3 Approved Rate Matrix</h3>
             
+            <div className={styles.l1l2l3TableWrapper}>
             <table className={styles.l1l2l3Table}>
               <thead>
                 <tr>
@@ -157,6 +158,7 @@ export const RatePriceReference: React.FC = () => {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
 
           {/* Historical price trend chart */}

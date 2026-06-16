@@ -46,13 +46,13 @@
 }
 
 .brandHeader h1 {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.2;
 }
 
 .brandHeader p {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: #94a3b8;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -158,7 +158,7 @@
 
 .stepForm p {
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   text-align: center;
   margin-bottom: 32px;
 }
@@ -183,7 +183,7 @@
   padding: 12px;
   border-radius: var(--border-radius-md);
   margin-bottom: 24px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
 }
 
 .otpContainer {
@@ -199,7 +199,7 @@
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 600;
   color: var(--color-text-primary);
   background-color: var(--color-background);
@@ -213,7 +213,7 @@
 
 .expiryText {
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   text-align: center;
   margin-bottom: 16px;
 }
@@ -229,7 +229,7 @@
   border: none;
   color: var(--color-primary);
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -267,7 +267,7 @@
 
 .securityBanner strong {
   display: block;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: #1e3a8a;
   margin-bottom: 4px;
 }

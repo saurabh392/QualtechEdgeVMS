@@ -1,11 +1,11 @@
 .container { display: flex; flex-direction: column; gap: 24px; }
 
 .pageHeader { display: flex; justify-content: space-between; align-items: flex-end; }
-.title { font-size: 1.5rem; font-weight: 700; color: var(--color-text-primary); }
-.subtitle { color: var(--color-text-secondary); font-size: 0.875rem; margin-top: 4px; }
+.title { font-size: 1.125rem; font-weight: 700; color: var(--color-text-primary); }
+.subtitle { color: var(--color-text-secondary); font-size: 0.75rem; margin-top: 4px; }
 .backBtn {
   background: none; border: none; cursor: pointer;
-  color: var(--color-text-secondary); font-size: 0.875rem;
+  color: var(--color-text-secondary); font-size: 0.75rem;
   display: flex; align-items: center; gap: 4px;
   margin-bottom: 6px; padding: 0;
 }
@@ -25,7 +25,7 @@
 .tabCard { padding: 0; overflow: hidden; }
 .tabs { display: flex; border-bottom: 1px solid var(--color-border); padding: 0 24px; }
 .tab {
-  padding: 16px 20px; font-size: 0.875rem; font-weight: 500;
+  padding: 16px 20px; font-size: 0.75rem; font-weight: 500;
   color: var(--color-text-secondary); cursor: pointer; border: none;
   background: none; border-bottom: 2px solid transparent;
   transition: all 0.15s;
@@ -35,20 +35,22 @@
 
 /* Chart Area */
 .chartArea { padding: 24px; }
-.chartSubTitle { font-size: 0.875rem; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 12px; }
+.chartSubTitle { font-size: 0.75rem; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 12px; }
 .radarGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .savingsTrendWrap {}
 
 /* Table */
 .tableWrapper { overflow-x: auto; }
-.table { width: 100%; border-collapse: collapse; text-align: left; }
+.table { width: max-content;
+  min-width: 100%; border-collapse: collapse; text-align: left; }
 .table th {
+  text-align: left;
   background: #f8fafc; padding: 12px 20px; font-size: 0.75rem; font-weight: 600;
   color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;
   border-bottom: 1px solid var(--color-border); white-space: nowrap;
 }
 .table td {
-  padding: 13px 20px; font-size: 0.8125rem; color: var(--color-text-primary);
+  padding: 13px 20px; font-size: 11px; color: var(--color-text-primary);
   border-bottom: 1px solid var(--color-border); vertical-align: middle;
 }
 .table tr:last-child td { border-bottom: none; }

@@ -39,7 +39,7 @@ export const VendorProfile: React.FC = () => {
   }
 
   return (
-    <div className={s.page}>
+    <div className={[s.page, s.venderProfile].join(' ')}>
       <div className={s.pageHeader}>
         <div>
           <div className={s.pageTitle}>Vendor Profile</div>

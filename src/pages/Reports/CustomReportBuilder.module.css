@@ -17,7 +17,7 @@
   background: none;
   border: none;
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
   padding: 0;
@@ -29,14 +29,14 @@
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-primary);
 }
 
 .subtitle {
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   margin-top: 4px;
 }
 
@@ -82,7 +82,7 @@
   padding: 10px 12px;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   outline: none;
   background-color: white;
   width: 100%;
@@ -183,12 +183,14 @@
 }
 
 .previewTable {
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
   text-align: left;
 }
 
 .previewTable th {
+  text-align: left;
   background-color: #f8fafc;
   padding: 14px 20px;
   font-size: 0.75rem;
@@ -201,7 +203,7 @@
 
 .previewTable td {
   padding: 16px 20px;
-  font-size: 0.8125rem;
+  font-size: 11px;
   color: var(--color-text-primary);
   border-bottom: 1px solid var(--color-border);
 }

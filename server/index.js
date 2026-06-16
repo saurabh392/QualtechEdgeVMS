@@ -32,6 +32,13 @@ const REVIEWS_PATH = path.join(SRC_DATA_DIR, 'reviews.json');
 const AUDIT_LOG_PATH = path.join(SRC_DATA_DIR, 'audit-log.json');
 
 const APPROVALS_PATH = path.join(__dirname, 'data', 'approvals.json');
+const ADMIN_NOTIFICATIONS_PATH = path.join(__dirname, 'data', 'adminNotifications.json');
+const ADMIN_INVOICES_PATH = path.join(__dirname, 'data', 'invoices.json');
+const ADMIN_PAYMENTS_PATH = path.join(__dirname, 'data', 'payments.json');
+const FINANCE_DIR = path.join(__dirname, 'data', 'finance');
+const TDS_PATH = path.join(FINANCE_DIR, 'tds.json');
+const BANK_RECON_PATH = path.join(FINANCE_DIR, 'bank-reconciliation.json');
+const AGING_PATH = path.join(FINANCE_DIR, 'aging-report.json');
 const AUDIT_LOGS_PATH = path.join(__dirname, 'data', 'audit-logs.json');
 const DOC_TYPES_PATH = path.join(__dirname, 'data', 'document-types.json');
 const DOC_CATEGORIES_PATH = path.join(__dirname, 'data', 'document-categories.json');
@@ -167,6 +174,13 @@ async function ensureDirectories() {
     }
   }
 
+  // Initialize adminNotifications.json
+  try {
+    await fs.access(ADMIN_NOTIFICATIONS_PATH);
+  } catch {
+    await fs.writeFile(ADMIN_NOTIFICATIONS_PATH, '[]', 'utf8');
+  }
+
   // Initialize reviews.json
   try {
     await fs.access(REVIEWS_PATH);
@@ -184,6 +198,12 @@ async function ensureDirectories() {
   await fs.mkdir(path.join(__dirname, 'data'), { recursive: true });
   await fs.mkdir(path.join(__dirname, 'data', 'catalogue'), { recursive: true });
   await fs.mkdir(path.join(__dirname, 'data', 'kyc'), { recursive: true });
+  await fs.mkdir(FINANCE_DIR, { recursive: true });
+  try { await fs.access(ADMIN_INVOICES_PATH); } catch { await fs.writeFile(ADMIN_INVOICES_PATH, '[]', 'utf8'); }
+  try { await fs.access(ADMIN_PAYMENTS_PATH); } catch { await fs.writeFile(ADMIN_PAYMENTS_PATH, '[]', 'utf8'); }
+  try { await fs.access(TDS_PATH); } catch { await fs.writeFile(TDS_PATH, '[]', 'utf8'); }
+  try { await fs.access(BANK_RECON_PATH); } catch { await fs.writeFile(BANK_RECON_PATH, '[]', 'utf8'); }
+  try { await fs.access(AGING_PATH); } catch { await fs.writeFile(AGING_PATH, '[]', 'utf8'); }
   await fs.mkdir(AUTH_DIR, { recursive: true });
   await fs.mkdir(UPLOADS_DIR, { recursive: true });
   await fs.mkdir(KYC_UPLOADS_DIR, { recursive: true });
@@ -1408,6 +1428,20 @@ app.post('/api/vendors', async (req, res) => {
     
     await appendJsonData(VENDORS_PATH, vendorData);
     await recalculateVmsSystem();
+
+    // Push admin notification for compliance/procurement review
+    const adminNotif = {
+      id: `ANOTIF-${Date.now()}`,
+      type: 'vendor_onboarding',
+      title: 'New Vendor Pending Approval',
+      message: `${vendorData.basicDetails?.legalName || vendorData.vendorId} has submitted for onboarding and requires compliance review.`,
+      link: '/vendors/approvals',
+      vendorId: vendorData.vendorId,
+      timestamp: new Date().toISOString(),
+      read: false
+    };
+    await appendJsonData(ADMIN_NOTIFICATIONS_PATH, adminNotif);
+
     await logVmsAuditTrail('Vendor Added', `Vendor ${vendorData.vendorId} (${vendorData.vendorName || vendorData.basicDetails?.legalName}) onboarding initiated.`);
 
     // Write audit trail log
@@ -1515,6 +1549,19 @@ app.post('/api/vendors/:id/approve', async (req, res) => {
       timestamp: new Date().toISOString()
     };
     await appendJsonData(APPROVALS_PATH, approvalHistory);
+
+    // Admin notification: approval completed
+    await appendJsonData(ADMIN_NOTIFICATIONS_PATH, {
+      id: `ANOTIF-${Date.now()}`,
+      type: 'vendor_approved',
+      title: 'Vendor Approved',
+      message: `${vendor.basicDetails?.legalName || req.params.id} has been approved and is now Active.`,
+      link: `/vendors/view?id=${req.params.id}&view=true`,
+      vendorId: req.params.id,
+      timestamp: new Date().toISOString(),
+      read: false
+    });
+
     await recalculateVmsSystem();
     await logVmsAuditTrail('KYC Approved', `Vendor ${req.params.id} (${vendor.vendorName || vendor.basicDetails?.legalName}) onboarding approved by Checker.`);
 
@@ -1574,6 +1621,18 @@ app.post('/api/vendors/:id/reject', async (req, res) => {
       timestamp: new Date().toISOString()
     };
     await appendJsonData(APPROVALS_PATH, approvalHistory);
+
+    // Admin notification: rejection recorded
+    await appendJsonData(ADMIN_NOTIFICATIONS_PATH, {
+      id: `ANOTIF-${Date.now()}`,
+      type: 'vendor_rejected',
+      title: 'Vendor Rejected',
+      message: `${vendor.basicDetails?.legalName || req.params.id} onboarding has been rejected. Remarks: ${remarks || 'None'}`,
+      link: `/vendors/approvals`,
+      vendorId: req.params.id,
+      timestamp: new Date().toISOString(),
+      read: false
+    });
 
     await logAction(
       performedBy || 'Saurabh Anand',
@@ -1644,6 +1703,334 @@ app.post('/api/vendors/:id/sendback', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+// ── Admin Notifications ──────────────────────────────────────────────────────
+app.get('/api/admin-notifications', async (req, res) => {
+  try {
+    const list = await readJsonFile(ADMIN_NOTIFICATIONS_PATH);
+    res.json(list);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/admin-notifications/read-all', async (req, res) => {
+  try {
+    const list = await readJsonFile(ADMIN_NOTIFICATIONS_PATH);
+    const updated = list.map(n => ({ ...n, read: true }));
+    await writeJsonFile(ADMIN_NOTIFICATIONS_PATH, updated);
+    res.json({ ok: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.delete('/api/admin-notifications', async (req, res) => {
+  try {
+    await writeJsonFile(ADMIN_NOTIFICATIONS_PATH, []);
+    res.json({ ok: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ── Global Search ─────────────────────────────────────────────────────────────
+app.get('/api/search', async (req, res) => {
+  try {
+    const q = (req.query.q || '').toString().toLowerCase().trim();
+    if (!q || q.length < 2) return res.json([]);
+
+    const results = [];
+
+    // Search vendors
+    const vendors = await readJsonFile(VENDORS_PATH);
+    for (const v of vendors) {
+      const name = (v.basicDetails?.legalName || v.vendorName || '').toLowerCase();
+      const pan = (v.basicDetails?.panNumber || '').toLowerCase();
+      const gstin = (v.basicDetails?.gstin || '').toLowerCase();
+      if (name.includes(q) || pan.includes(q) || gstin.includes(q)) {
+        results.push({ type: 'Vendor', id: v.vendorId, label: v.basicDetails?.legalName || v.vendorName, sub: `${v.vendorId} · ${v.status || ''}`, link: `/vendors/view?id=${v.vendorId}&view=true` });
+      }
+    }
+
+    // Search documents
+    const docs = await readJsonFile(DOCUMENTS_PATH);
+    for (const d of docs) {
+      const name = (d.documentName || d.type || '').toLowerCase();
+      const vendor = (d.vendorName || '').toLowerCase();
+      if (name.includes(q) || vendor.includes(q)) {
+        results.push({ type: 'Document', id: d.documentId, label: d.documentName || d.type, sub: `${d.vendorName || ''} · ${d.status || ''}`, link: `/documents` });
+      }
+    }
+
+    // Search approvals
+    const approvals = await readJsonFile(APPROVALS_PATH);
+    for (const a of approvals) {
+      const name = (a.vendorName || '').toLowerCase();
+      if (name.includes(q) || (a.id || '').toLowerCase().includes(q)) {
+        results.push({ type: 'Approval', id: a.id, label: a.vendorName || a.id, sub: `${a.action || 'Pending'} · ${a.id}`, link: `/vendors/approvals` });
+      }
+    }
+
+    res.json(results.slice(0, 15));
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ── Admin Invoices ────────────────────────────────────────────────────────────
+app.get('/api/invoices', async (req, res) => {
+  try {
+    let list = await readJsonFile(ADMIN_INVOICES_PATH);
+    if (req.query.status) list = list.filter(i => i.status === req.query.status);
+    res.json(list);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+app.get('/api/invoices/:id', async (req, res) => {
+  try {
+    const list = await readJsonFile(ADMIN_INVOICES_PATH);
+    const inv = list.find(i => i.invoiceId === req.params.id);
+    if (!inv) return res.status(404).json({ message: 'Invoice not found' });
+    res.json(inv);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+app.put('/api/invoices/:id/approve', async (req, res) => {
+  try {
+    const { approvedBy, remarks } = req.body;
+    const list = await readJsonFile(ADMIN_INVOICES_PATH);
+    const idx = list.findIndex(i => i.invoiceId === req.params.id);
+    if (idx === -1) return res.status(404).json({ message: 'Invoice not found' });
+    list[idx] = { ...list[idx], status: 'Approved', stage: 'Payment Processing', approvedBy: approvedBy || 'Finance Manager', approvedDate: new Date().toISOString(), remarks: remarks || '' };
+    await writeJsonFile(ADMIN_INVOICES_PATH, list);
+    await appendJsonData(ADMIN_NOTIFICATIONS_PATH, {
+      id: `ANOTIF-${Date.now()}`, type: 'invoice_approved',
+      title: 'Invoice Approved for Payment',
+      message: `${list[idx].invoiceId} (${list[idx].vendorName}) approved for payment disbursement.`,
+      link: '/payments/processing', timestamp: new Date().toISOString(), read: false
+    });
+    await logAction(approvedBy || 'Finance Manager', 'Finance Manager', `Approved invoice ${req.params.id}`, 'Success', 'High');
+
+    // Write-back to vendor portal if this is an ABC Infotech invoice
+    if (list[idx].vendorId === 'VND-2025-00029' || (list[idx].vendorName && list[idx].vendorName.toLowerCase().includes('abc infotech'))) {
+      try {
+        const vendorInvoices = await readJsonFile(VENDOR_PORTAL_INVOICES_PATH);
+        const vIdx = vendorInvoices.findIndex(i => i.invoiceId === req.params.id);
+        if (vIdx !== -1) {
+          vendorInvoices[vIdx].verificationStage = 'Payment Processing';
+          vendorInvoices[vIdx].paymentStatus = 'Approved';
+          await writeJsonFile(VENDOR_PORTAL_INVOICES_PATH, vendorInvoices);
+        }
+        await appendJsonData(VENDOR_PORTAL_NOTIFICATIONS_PATH, {
+          notificationId: `NOT-${Math.floor(Math.random() * 9000 + 1000)}`,
+          vendorId: 'VND-001',
+          type: 'invoice_approved',
+          title: 'Invoice Approved',
+          message: `Your invoice ${req.params.id} has been approved and is being processed for payment.`,
+          link: '/vendor/invoices',
+          read: false,
+          createdDate: new Date().toISOString().split('T')[0]
+        });
+      } catch (_) {}
+    }
+
+    res.json(list[idx]);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+app.put('/api/invoices/:id/reject', async (req, res) => {
+  try {
+    const { rejectedBy, remarks } = req.body;
+    const list = await readJsonFile(ADMIN_INVOICES_PATH);
+    const idx = list.findIndex(i => i.invoiceId === req.params.id);
+    if (idx === -1) return res.status(404).json({ message: 'Invoice not found' });
+    list[idx] = { ...list[idx], status: 'Rejected', stage: 'Rejected', remarks: remarks || '' };
+    await writeJsonFile(ADMIN_INVOICES_PATH, list);
+
+    // Write-back to vendor portal
+    if (list[idx].vendorId === 'VND-2025-00029' || (list[idx].vendorName && list[idx].vendorName.toLowerCase().includes('abc infotech'))) {
+      try {
+        const vendorInvoices = await readJsonFile(VENDOR_PORTAL_INVOICES_PATH);
+        const vIdx = vendorInvoices.findIndex(i => i.invoiceId === req.params.id);
+        if (vIdx !== -1) {
+          vendorInvoices[vIdx].verificationStage = 'Rejected';
+          vendorInvoices[vIdx].paymentStatus = 'Rejected';
+          vendorInvoices[vIdx].remarks = remarks || '';
+          await writeJsonFile(VENDOR_PORTAL_INVOICES_PATH, vendorInvoices);
+        }
+        await appendJsonData(VENDOR_PORTAL_NOTIFICATIONS_PATH, {
+          notificationId: `NOT-${Math.floor(Math.random() * 9000 + 1000)}`,
+          vendorId: 'VND-001',
+          type: 'invoice_rejected',
+          title: 'Invoice Rejected',
+          message: `Your invoice ${req.params.id} was rejected. Reason: ${remarks || 'Please contact finance team.'}`,
+          link: '/vendor/invoices',
+          read: false,
+          createdDate: new Date().toISOString().split('T')[0]
+        });
+      } catch (_) {}
+    }
+
+    res.json(list[idx]);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// ── Admin Payments ────────────────────────────────────────────────────────────
+app.get('/api/payments', async (req, res) => {
+  try {
+    let list = await readJsonFile(ADMIN_PAYMENTS_PATH);
+    if (req.query.status) list = list.filter(p => p.status === req.query.status);
+    res.json(list);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+app.get('/api/payments/batches', async (req, res) => {
+  try {
+    const invoices = await readJsonFile(ADMIN_INVOICES_PATH);
+    const readyInvoices = invoices.filter(i => i.status === 'Approved' && i.stage === 'Payment Processing');
+    const grouped = {};
+    for (const inv of readyInvoices) {
+      if (!grouped[inv.vendorId]) {
+        grouped[inv.vendorId] = {
+          batchId: `BATCH-${inv.vendorId}-${Date.now()}`,
+          vendorId: inv.vendorId,
+          vendorName: inv.vendorName,
+          mode: 'RTGS',
+          risk: inv.riskLevel || 'Low',
+          scheduledDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          invoices: [],
+          totalAmount: 0
+        };
+      }
+      grouped[inv.vendorId].invoices.push(inv);
+      grouped[inv.vendorId].totalAmount += inv.netPayable || inv.totalAmount;
+    }
+    res.json(Object.values(grouped));
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+app.put('/api/payments/:id/process', async (req, res) => {
+  try {
+    const list = await readJsonFile(ADMIN_PAYMENTS_PATH);
+    const idx = list.findIndex(p => p.paymentId === req.params.id);
+    if (idx === -1) return res.status(404).json({ message: 'Payment not found' });
+    list[idx] = { ...list[idx], status: 'Completed', processedDate: new Date().toISOString().split('T')[0] };
+    await writeJsonFile(ADMIN_PAYMENTS_PATH, list);
+
+    const payment = list[idx];
+    // Write-back to vendor portal payments if ABC Infotech
+    if (payment.vendorId === 'VND-2025-00029' || (payment.vendorName && payment.vendorName.toLowerCase().includes('abc infotech'))) {
+      try {
+        const vendorPayments = await readJsonFile(VENDOR_PORTAL_PAYMENTS_PATH);
+        const exists = vendorPayments.some(p => p.paymentId === payment.paymentId);
+        if (!exists) {
+          vendorPayments.unshift({
+            paymentId: payment.paymentId,
+            invoiceId: payment.invoiceId,
+            amount: payment.amount,
+            mode: payment.mode,
+            utrRef: payment.utrRef,
+            bankAccount: payment.bankAccount,
+            scheduledDate: payment.scheduledDate,
+            paymentDate: payment.processedDate,
+            status: 'Completed',
+            tdsDeducted: payment.tdsDeducted || 0,
+            remarks: payment.remarks || ''
+          });
+          await writeJsonFile(VENDOR_PORTAL_PAYMENTS_PATH, vendorPayments);
+        }
+        // Update linked vendor invoice to Paid
+        const vendorInvoices = await readJsonFile(VENDOR_PORTAL_INVOICES_PATH);
+        const vIdx = vendorInvoices.findIndex(i => i.invoiceId === payment.invoiceId);
+        if (vIdx !== -1) {
+          vendorInvoices[vIdx].verificationStage = 'Paid';
+          vendorInvoices[vIdx].paymentStatus = 'Paid';
+          await writeJsonFile(VENDOR_PORTAL_INVOICES_PATH, vendorInvoices);
+        }
+        await appendJsonData(VENDOR_PORTAL_NOTIFICATIONS_PATH, {
+          notificationId: `NOT-${Math.floor(Math.random() * 9000 + 1000)}`,
+          vendorId: 'VND-001',
+          type: 'payment_processed',
+          title: 'Payment Released',
+          message: `Payment of ₹${payment.amount?.toLocaleString('en-IN')} for invoice ${payment.invoiceId} has been processed. UTR: ${payment.utrRef || 'Pending'}`,
+          link: '/vendor/payments',
+          read: false,
+          createdDate: new Date().toISOString().split('T')[0]
+        });
+      } catch (_) {}
+    }
+
+    res.json(list[idx]);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// ── Finance: TDS ──────────────────────────────────────────────────────────────
+app.get('/api/tds', async (req, res) => {
+  try {
+    let list = await readJsonFile(TDS_PATH);
+    if (req.query.status) list = list.filter(t => t.status === req.query.status);
+    res.json(list);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+app.put('/api/tds/:id/approve', async (req, res) => {
+  try {
+    const { approvedBy } = req.body;
+    const list = await readJsonFile(TDS_PATH);
+    const idx = list.findIndex(t => t.tdsId === req.params.id);
+    if (idx === -1) return res.status(404).json({ message: 'TDS record not found' });
+    list[idx] = { ...list[idx], status: 'Approved', approvedBy: approvedBy || 'Finance Manager', approvedDate: new Date().toISOString() };
+    await writeJsonFile(TDS_PATH, list);
+    res.json(list[idx]);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// ── Finance: Bank Reconciliation ──────────────────────────────────────────────
+app.get('/api/finance/bank-reconciliation', async (req, res) => {
+  try {
+    const list = await readJsonFile(BANK_RECON_PATH);
+    res.json(list);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+app.put('/api/finance/bank-reconciliation/:id/approve', async (req, res) => {
+  try {
+    const { approvedBy } = req.body;
+    const list = await readJsonFile(BANK_RECON_PATH);
+    const idx = list.findIndex(r => r.reconId === req.params.id);
+    if (idx === -1) return res.status(404).json({ message: 'Reconciliation record not found' });
+    list[idx] = { ...list[idx], status: 'Reconciled', approvedBy: approvedBy || 'Finance Manager' };
+    await writeJsonFile(BANK_RECON_PATH, list);
+    res.json(list[idx]);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// ── Finance: Aging Report & Dashboard ────────────────────────────────────────
+app.get('/api/finance/aging-report', async (req, res) => {
+  try {
+    const list = await readJsonFile(AGING_PATH);
+    res.json(list);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+app.get('/api/finance/dashboard', async (req, res) => {
+  try {
+    const invoices = await readJsonFile(ADMIN_INVOICES_PATH);
+    const tds = await readJsonFile(TDS_PATH);
+    const recon = await readJsonFile(BANK_RECON_PATH);
+    const aging = await readJsonFile(AGING_PATH);
+
+    const pendingInvoices = invoices.filter(i => i.status === 'Approved' && i.stage === 'Finance Approval').length;
+    const pendingTDS = tds.filter(t => t.status === 'Pending Approval').length;
+    const unreconciledItems = recon.filter(r => r.status !== 'Reconciled').length;
+    const msmePayables = aging.filter(a => a.vendorType === 'MSME').reduce((sum, a) => sum + (a.days1to30 + a.days31to60 + a.days61to90 + a.over90), 0);
+    const cashFlowThisMonth = invoices.filter(i => i.status === 'Paid').reduce((sum, i) => sum + (i.netPayable || i.totalAmount), 0);
+    const totalPayables = aging.reduce((sum, a) => sum + a.total, 0);
+
+    res.json({ pendingInvoices, pendingTDS, unreconciledItems, msmePayables, cashFlowThisMonth, totalPayables });
+  } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
 // 3. Security Approvals queue APIs (Checker Queue in Zero-Trust Audit page)
@@ -3775,16 +4162,74 @@ app.put('/api/vendor-portal/kyc', async (req, res) => {
     if (idx === -1) {
       return res.status(404).json({ message: 'Vendor KYC not found' });
     }
+    const now = new Date().toISOString();
     list[idx] = {
       ...list[idx],
       gstNumber: req.body.gstNumber || list[idx].gstNumber,
       panNumber: req.body.panNumber || list[idx].panNumber,
       msmeNumber: req.body.msmeNumber || list[idx].msmeNumber,
-      status: "Verified"
+      status: "Pending Review",
+      submittedAt: now,
+      rejectionRemarks: null
     };
     await writeJsonFile(VENDOR_PORTAL_KYC_PATH, list);
-    await addVendorAuditTrail("KYC Update", "VND-001", "Vendor User");
-    await addVendorNotification("KYC registration numbers updated and verified.");
+
+    // Create a KYC approval request in the admin KYC approvals queue
+    const kycApprovalData = await readJsonFile(KYC_APPROVALS_PATH);
+    const requestId = `KYC-APR-${Date.now()}`;
+    const today = now.split('T')[0];
+    const slaDue = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    const newRequest = {
+      requestId,
+      vendorId: "VND-001",
+      vendorName: "ABC Infotech Pvt. Ltd.",
+      vendorKycId: list[idx].vendorId,
+      category: "KYC Verification",
+      riskLevel: "Low",
+      submittedDate: today,
+      currentStage: "Compliance",
+      overallStatus: "Pending",
+      pendingWith: "Compliance Team",
+      slaDueDate: slaDue,
+      kycData: {
+        gstNumber: list[idx].gstNumber,
+        panNumber: list[idx].panNumber,
+        msmeNumber: list[idx].msmeNumber
+      },
+      workflow: {
+        requester: { status: "Approved", approver: "Vendor Self", actionDate: today },
+        procurement: { status: "Pending" },
+        compliance: { status: "Pending" },
+        legal: { status: "Pending" },
+        finalApproval: { status: "Pending" }
+      },
+      comments: [],
+      approvalHistory: [{ stage: "Requester", action: "Submitted", performedBy: "Vendor Self", actionDate: today, comments: "KYC details submitted by vendor." }],
+      evidenceFiles: [],
+      auditHistory: [{ action: "KYC Submitted", performedBy: "Vendor Self", actionDate: today, remarks: "GST, PAN and MSME numbers submitted for admin review." }]
+    };
+    kycApprovalData.approvalRequests = kycApprovalData.approvalRequests || [];
+    // Remove any previous pending KYC requests from the same vendor to avoid duplicates
+    kycApprovalData.approvalRequests = kycApprovalData.approvalRequests.filter(
+      r => !(r.vendorId === 'VND-001' && r.category === 'KYC Verification' && r.overallStatus === 'Pending')
+    );
+    kycApprovalData.approvalRequests.push(newRequest);
+    await writeJsonFile(KYC_APPROVALS_PATH, kycApprovalData);
+
+    // Notify admin
+    await appendJsonData(ADMIN_NOTIFICATIONS_PATH, {
+      id: `ANOTIF-KYC-${Date.now()}`,
+      type: 'kyc_review',
+      title: 'KYC Review Required',
+      message: 'Vendor ABC Infotech Pvt. Ltd. has submitted KYC details (GST/PAN/MSME) for compliance review.',
+      link: '/kyc/approvals',
+      vendorId: 'VND-001',
+      timestamp: now,
+      read: false
+    });
+
+    await addVendorAuditTrail("KYC Submitted for Review", "VND-001", "Vendor User");
+    await addVendorNotification("Your KYC details have been submitted and are pending admin review.");
     res.json(list[idx]);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -3893,9 +4338,56 @@ app.delete('/api/vendor-portal/documents/:documentId', async (req, res) => {
 });
 
 // 6. GET /api/vendor-portal/pos
+// Helper: map admin PO status → vendor portal PO status
+function mapAdminPOStatus(adminPO) {
+  if (adminPO.status === 'Closed') return 'Invoiced';
+  if (adminPO.deliveryStatus === 'Received') return 'Acknowledged';
+  if (['Approved', 'Sent'].includes(adminPO.status)) return 'Pending Acknowledgement';
+  return null; // Draft / Pending Approval — not visible to vendor yet
+}
+
+// Helper: sync admin POs for ABC Infotech into vendor portal POs file
+async function syncAdminPOsToVendorPortal() {
+  const adminPOs = await readJsonFile(PO_PURCHASE_ORDERS_PATH);
+  const vendorPOs = await readJsonFile(VENDOR_PORTAL_POS_PATH);
+  const existingIds = new Set(vendorPOs.map(p => p.poId));
+
+  const newFromAdmin = adminPOs
+    .filter(p => p.vendorName && p.vendorName.toLowerCase().includes('abc infotech'))
+    .filter(p => !existingIds.has(p.poId))
+    .map(p => {
+      const vendorStatus = mapAdminPOStatus(p);
+      if (!vendorStatus) return null;
+      return {
+        poId: p.poId,
+        vendorId: 'VND-001',
+        issueDate: p.createdDate,
+        deliveryDate: p.deliveryDate,
+        items: 1,
+        value: p.poValue,
+        status: vendorStatus,
+        category: p.category,
+        description: `${p.category} — Ref: ${p.linkedRequisitionId || p.poId}`,
+        issuedBy: 'Axis Max Life Insurance — Procurement',
+        paymentTerms: p.paymentTerms || 'Net 30',
+        adminSynced: true
+      };
+    })
+    .filter(Boolean);
+
+  if (newFromAdmin.length > 0) {
+    const updated = [...vendorPOs, ...newFromAdmin];
+    await writeJsonFile(VENDOR_PORTAL_POS_PATH, updated);
+  }
+}
+
 app.get('/api/vendor-portal/pos', async (req, res) => {
   try {
+    // Sync admin POs into vendor portal before returning
+    await syncAdminPOsToVendorPortal();
     const list = await readJsonFile(VENDOR_PORTAL_POS_PATH);
+    // Sort newest first
+    list.sort((a, b) => new Date(b.issueDate) - new Date(a.issueDate));
     res.json(list);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -3905,13 +4397,30 @@ app.get('/api/vendor-portal/pos', async (req, res) => {
 app.post('/api/vendor-portal/pos/:poId/acknowledge', async (req, res) => {
   try {
     const { poId } = req.params;
+
+    // Update vendor portal store
     const list = await readJsonFile(VENDOR_PORTAL_POS_PATH);
     const idx = list.findIndex(po => po.poId === poId);
     if (idx === -1) {
       return res.status(404).json({ message: 'PO not found' });
     }
     list[idx].status = 'Acknowledged';
+    list[idx].acknowledgedAt = new Date().toISOString();
     await writeJsonFile(VENDOR_PORTAL_POS_PATH, list);
+
+    // Write back to admin PO store if it exists there
+    try {
+      const adminPOs = await readJsonFile(PO_PURCHASE_ORDERS_PATH);
+      const adminIdx = adminPOs.findIndex(p => p.poId === poId);
+      if (adminIdx !== -1) {
+        adminPOs[adminIdx].vendorAcknowledged = true;
+        adminPOs[adminIdx].vendorAcknowledgedAt = new Date().toISOString();
+        if (adminPOs[adminIdx].deliveryStatus === 'Pending') {
+          adminPOs[adminIdx].deliveryStatus = 'Acknowledged';
+        }
+        await writeJsonFile(PO_PURCHASE_ORDERS_PATH, adminPOs);
+      }
+    } catch (_) { /* admin store update is best-effort */ }
 
     await addVendorAuditTrail("PO Acknowledgement", poId, "Vendor User");
     await addVendorNotification(`Purchase Order ${poId} acknowledged successfully.`);
@@ -3923,11 +4432,53 @@ app.post('/api/vendor-portal/pos/:poId/acknowledge', async (req, res) => {
   }
 });
 
+// Helper: map admin invoice stage → vendor portal stage
+function mapAdminInvoiceStage(adminInv) {
+  const stage = (adminInv.stage || '').toLowerCase();
+  const status = (adminInv.status || '').toLowerCase();
+  if (status === 'paid' || stage === 'paid') return { verificationStage: 'Paid', paymentStatus: 'Paid' };
+  if (status === 'rejected' || stage === 'rejected') return { verificationStage: 'Rejected', paymentStatus: 'Rejected' };
+  if (stage === 'payment processing') return { verificationStage: 'Payment Processing', paymentStatus: 'Processing' };
+  if (status === 'approved') return { verificationStage: 'Finance Approval', paymentStatus: 'Approved' };
+  if (stage === '3-way match' || status === 'pending match') return { verificationStage: '3-Way Match', paymentStatus: 'Pending' };
+  return { verificationStage: 'Under Review', paymentStatus: 'Pending' };
+}
+
 // 7. GET /api/vendor-portal/invoices
 app.get('/api/vendor-portal/invoices', async (req, res) => {
   try {
-    const list = await readJsonFile(VENDOR_PORTAL_INVOICES_PATH);
-    res.json(list);
+    const vendorInvoices = await readJsonFile(VENDOR_PORTAL_INVOICES_PATH);
+    const existingIds = new Set(vendorInvoices.map(i => i.invoiceId));
+
+    // Merge admin invoices for ABC Infotech
+    const adminInvoices = await readJsonFile(ADMIN_INVOICES_PATH);
+    const abcInvoices = adminInvoices
+      .filter(i => (i.vendorId === 'VND-2025-00029' || (i.vendorName && i.vendorName.toLowerCase().includes('abc infotech'))) && !existingIds.has(i.invoiceId))
+      .map(i => {
+        const { verificationStage, paymentStatus } = mapAdminInvoiceStage(i);
+        return {
+          invoiceId: i.invoiceId,
+          vendorId: 'VND-001',
+          poId: i.poRef,
+          amount: i.amount,
+          gstAmount: i.gstAmount,
+          totalAmount: i.totalAmount,
+          tdsSection: i.tdsSection,
+          tdsRate: i.tdsRate,
+          tdsAmount: i.tdsAmount,
+          netPayable: i.netPayable,
+          submitDate: i.invoiceDate,
+          dueDate: i.dueDate,
+          verificationStage,
+          paymentStatus,
+          remarks: i.remarks || '',
+          adminSynced: true
+        };
+      });
+
+    const merged = [...vendorInvoices, ...abcInvoices]
+      .sort((a, b) => new Date(b.submitDate) - new Date(a.submitDate));
+    res.json(merged);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -3935,8 +4486,15 @@ app.get('/api/vendor-portal/invoices', async (req, res) => {
 
 app.post('/api/vendor-portal/invoices', async (req, res) => {
   try {
-    const { invoiceNo, poId, amount } = req.body;
-    
+    const { invoiceNo, poId, amount, gstAmount, tdsSection, tdsRate } = req.body;
+    const today = new Date().toISOString().split('T')[0];
+    const parsedAmount = parseFloat(amount) || 0;
+    const parsedGst = parseFloat(gstAmount) || 0;
+    const parsedTdsRate = parseFloat(tdsRate) || 0;
+    const tdsAmount = Math.round(parsedAmount * parsedTdsRate / 100);
+    const netPayable = Math.round(parsedAmount + parsedGst - tdsAmount);
+
+    // Update PO status to Invoiced
     const pos = await readJsonFile(VENDOR_PORTAL_POS_PATH);
     const poIdx = pos.findIndex(p => p.poId === poId);
     if (poIdx !== -1) {
@@ -3944,29 +4502,74 @@ app.post('/api/vendor-portal/invoices', async (req, res) => {
       await writeJsonFile(VENDOR_PORTAL_POS_PATH, pos);
     }
 
-    const newInvoice = {
-      invoiceId: `INV-${invoiceNo}`,
-      vendorId: "VND-001",
-      poId: poId,
-      amount: parseFloat(amount),
-      submitDate: new Date().toISOString().split('T')[0],
-      verificationStage: "Paid",
-      paymentStatus: "Paid"
-    };
+    // Get PO details for description
+    const poDetails = poIdx !== -1 ? pos[poIdx] : null;
 
+    const invoiceId = `INV-${invoiceNo}`;
+    const newInvoice = {
+      invoiceId,
+      vendorId: 'VND-001',
+      poId,
+      amount: parsedAmount,
+      gstAmount: parsedGst,
+      totalAmount: parsedAmount + parsedGst,
+      tdsSection: tdsSection || '194J',
+      tdsRate: parsedTdsRate,
+      tdsAmount,
+      netPayable,
+      submitDate: today,
+      dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      verificationStage: 'Submitted',
+      paymentStatus: 'Pending',
+      remarks: ''
+    };
     await appendJsonData(VENDOR_PORTAL_INVOICES_PATH, newInvoice);
 
-    const payment = {
-      paymentId: `PAY-${Math.floor(100 + Math.random() * 900)}`,
-      invoiceId: newInvoice.invoiceId,
-      amount: newInvoice.amount,
-      paymentDate: new Date().toISOString().split('T')[0],
-      status: "Paid"
-    };
-    await appendJsonData(VENDOR_PORTAL_PAYMENTS_PATH, payment);
+    // Push to admin invoices.json so finance team can review
+    const adminInvoices = await readJsonFile(ADMIN_INVOICES_PATH);
+    adminInvoices.unshift({
+      invoiceId,
+      vendorId: 'VND-2025-00029',
+      vendorName: 'ABC Infotech Private Limited',
+      vendorGSTIN: '27AAACA1234A1Z5',
+      poRef: poId,
+      invoiceDate: today,
+      dueDate: newInvoice.dueDate,
+      amount: parsedAmount,
+      gstAmount: parsedGst,
+      totalAmount: parsedAmount + parsedGst,
+      tdsSection: tdsSection || '194J',
+      tdsRate: parsedTdsRate,
+      tdsAmount,
+      netPayable,
+      status: 'Approved',
+      stage: 'Finance Approval',
+      riskScore: 10,
+      riskLevel: 'Low',
+      vendorType: 'MSME',
+      threeWayMatch: 'Matched',
+      gstMatch: 'Matched',
+      uploadedBy: 'Vendor Portal',
+      approvedBy: null,
+      approvedDate: null,
+      remarks: `Submitted by vendor against ${poId}. ${poDetails ? `Category: ${poDetails.category}.` : ''}`
+    });
+    await writeJsonFile(ADMIN_INVOICES_PATH, adminInvoices);
 
-    await addVendorAuditTrail("Invoice Submission", newInvoice.invoiceId, "Vendor User");
-    await addVendorNotification(`Invoice ${newInvoice.invoiceId} successfully matched and Paid.`);
+    // Notify admin
+    await appendJsonData(ADMIN_NOTIFICATIONS_PATH, {
+      id: `ANOTIF-INV-${Date.now()}`,
+      type: 'vendor_onboarding',
+      title: 'New Invoice Submitted',
+      message: `ABC Infotech has submitted invoice ${invoiceId} for ₹${parsedAmount.toLocaleString('en-IN')} against ${poId}. Pending finance review.`,
+      link: '/invoices/approvals',
+      vendorId: 'VND-001',
+      timestamp: new Date().toISOString(),
+      read: false
+    });
+
+    await addVendorAuditTrail('Invoice Submission', invoiceId, 'Vendor User');
+    await addVendorNotification(`Invoice ${invoiceId} submitted successfully. Awaiting finance team review.`);
     await updateVendorDashboardMetrics();
 
     res.json({ success: true, invoice: newInvoice });
@@ -3977,8 +4580,31 @@ app.post('/api/vendor-portal/invoices', async (req, res) => {
 
 app.get('/api/vendor-portal/payments', async (req, res) => {
   try {
-    const list = await readJsonFile(VENDOR_PORTAL_PAYMENTS_PATH);
-    res.json(list);
+    const vendorPayments = await readJsonFile(VENDOR_PORTAL_PAYMENTS_PATH);
+    const existingIds = new Set(vendorPayments.map(p => p.paymentId));
+
+    // Merge admin payments for ABC Infotech
+    const adminPayments = await readJsonFile(ADMIN_PAYMENTS_PATH);
+    const abcPayments = adminPayments
+      .filter(p => (p.vendorId === 'VND-2025-00029' || (p.vendorName && p.vendorName.toLowerCase().includes('abc infotech'))) && !existingIds.has(p.paymentId))
+      .map(p => ({
+        paymentId: p.paymentId,
+        invoiceId: p.invoiceId,
+        amount: p.amount,
+        mode: p.mode,
+        utrRef: p.utrRef,
+        bankAccount: p.bankAccount,
+        scheduledDate: p.scheduledDate,
+        paymentDate: p.processedDate || p.scheduledDate,
+        status: p.status === 'Completed' ? 'Completed' : p.status,
+        tdsDeducted: p.tdsDeducted || 0,
+        remarks: p.remarks || '',
+        adminSynced: true
+      }));
+
+    const merged = [...vendorPayments, ...abcPayments]
+      .sort((a, b) => new Date(b.paymentDate || b.scheduledDate) - new Date(a.paymentDate || a.scheduledDate));
+    res.json(merged);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -4449,6 +5075,34 @@ app.post('/api/purchase-orders/generate', async (req, res) => {
     await appendJsonData(PO_AUDIT_LOG_PATH, auditLog);
 
     await updatePODashboardMetrics();
+
+    // Auto-push to vendor portal if this PO is for ABC Infotech (VND-001)
+    if (newPO.vendorName && newPO.vendorName.toLowerCase().includes('abc infotech')) {
+      try {
+        const vendorPOs = await readJsonFile(VENDOR_PORTAL_POS_PATH);
+        const alreadyExists = vendorPOs.some(p => p.poId === newPO.poId);
+        if (!alreadyExists) {
+          vendorPOs.unshift({
+            poId: newPO.poId,
+            vendorId: 'VND-001',
+            issueDate: new Date().toISOString().split('T')[0],
+            deliveryDate: newPO.deliveryDate,
+            items: 1,
+            value: newPO.poValue,
+            status: 'Pending Acknowledgement',
+            category: newPO.category,
+            description: `${newPO.category} — Ref: ${requisitionId}`,
+            issuedBy: 'Axis Max Life Insurance — Procurement',
+            paymentTerms: newPO.paymentTerms,
+            adminSynced: true
+          });
+          await writeJsonFile(VENDOR_PORTAL_POS_PATH, vendorPOs);
+          // Notify vendor
+          await addVendorNotification(`New Purchase Order ${newPO.poId} has been raised and is awaiting your acknowledgement.`);
+          await updateVendorDashboardMetrics();
+        }
+      } catch (_) { /* best-effort */ }
+    }
 
     res.status(201).json({ success: true, purchaseOrder: newPO });
   } catch (error) {
@@ -8099,10 +8753,34 @@ app.post('/api/kyc/approvals/action', async (req, res) => {
           return v;
         });
         await writeJsonFile(VENDORS_PATH, updatedVendors);
+
+        // If this was a KYC verification request, mark vendor KYC as Verified
+        if (request.category === 'KYC Verification' && request.vendorId === 'VND-001') {
+          const kycList = await readJsonFile(VENDOR_PORTAL_KYC_PATH);
+          const kIdx = kycList.findIndex(k => k.vendorId === 'VND-001');
+          if (kIdx !== -1) {
+            kycList[kIdx].status = 'Verified';
+            kycList[kIdx].verifiedBy = userRole;
+            kycList[kIdx].verifiedAt = new Date().toISOString();
+            kycList[kIdx].rejectionRemarks = null;
+            await writeJsonFile(VENDOR_PORTAL_KYC_PATH, kycList);
+          }
+          // Notify vendor
+          await appendJsonData(VENDOR_PORTAL_NOTIFICATIONS_PATH, {
+            notificationId: `NOT-${Math.floor(Math.random() * 9000 + 1000)}`,
+            vendorId: 'VND-001',
+            type: 'kyc_approved',
+            title: 'KYC Verified',
+            message: 'Your KYC details have been reviewed and verified by the compliance team.',
+            link: '/vendor/kyc',
+            read: false,
+            createdDate: new Date().toISOString().split('T')[0]
+          });
+        }
       } else {
         nextOverallStatus = "Pending";
-        nextPendingWith = nextStage === "Procurement" ? "Procurement Manager" : 
-                          nextStage === "Compliance" ? "Compliance Team" : 
+        nextPendingWith = nextStage === "Procurement" ? "Procurement Manager" :
+                          nextStage === "Compliance" ? "Compliance Team" :
                           nextStage === "Legal" ? "Legal Team" : "Final Approver";
       }
 
@@ -8156,6 +8834,30 @@ app.post('/api/kyc/approvals/action', async (req, res) => {
         actionDate: "2026-06-01",
         remarks: comments || `Rejected during ${currentStage} review.`
       });
+
+      // If this was a KYC verification request, mark vendor KYC as Rejected
+      if (request.category === 'KYC Verification' && request.vendorId === 'VND-001') {
+        const kycList = await readJsonFile(VENDOR_PORTAL_KYC_PATH);
+        const kIdx = kycList.findIndex(k => k.vendorId === 'VND-001');
+        if (kIdx !== -1) {
+          kycList[kIdx].status = 'Rejected';
+          kycList[kIdx].rejectionRemarks = comments || 'KYC rejected by compliance team.';
+          kycList[kIdx].rejectedBy = userRole;
+          kycList[kIdx].rejectedAt = new Date().toISOString();
+          await writeJsonFile(VENDOR_PORTAL_KYC_PATH, kycList);
+        }
+        // Notify vendor
+        await appendJsonData(VENDOR_PORTAL_NOTIFICATIONS_PATH, {
+          notificationId: `NOT-${Math.floor(Math.random() * 9000 + 1000)}`,
+          vendorId: 'VND-001',
+          type: 'kyc_rejected',
+          title: 'KYC Rejected',
+          message: `Your KYC submission was rejected. Reason: ${comments || 'Please re-submit with correct details.'}`,
+          link: '/vendor/kyc',
+          read: false,
+          createdDate: new Date().toISOString().split('T')[0]
+        });
+      }
 
       // Update vendor status to Rejected in vendors.json
       const vendorsData = await readJsonFile(VENDORS_PATH);
@@ -8644,6 +9346,54 @@ cron.schedule('0 8 * * *', async () => {
     console.error('[CRON] Error:', err);
   }
 });
+
+// Admin-side: scan admin documents.json for expiry and push admin notifications
+async function runAdminDocExpiryCheck() {
+  try {
+    const docs = await readJsonFile(DOCUMENTS_PATH);
+    const today = new Date();
+    for (const doc of docs) {
+      if (!doc.expiryDate) continue;
+      const days = Math.ceil((new Date(doc.expiryDate) - today) / (1000 * 60 * 60 * 24));
+      if (days > 0 && days <= 30) {
+        const existing = await readJsonFile(ADMIN_NOTIFICATIONS_PATH);
+        const dupKey = `doc_expiry_${doc.documentId}_${days}`;
+        if (existing.some(n => n.dupKey === dupKey)) continue;
+        await appendJsonData(ADMIN_NOTIFICATIONS_PATH, {
+          id: `ANOTIF-${Date.now()}-${doc.documentId}`,
+          dupKey,
+          type: 'document_expiry',
+          title: 'Document Expiring Soon',
+          message: `"${doc.documentName || doc.type}" for ${doc.vendor?.vendorName || doc.vendorName || 'a vendor'} expires in ${days} day${days !== 1 ? 's' : ''}.`,
+          link: '/documents',
+          timestamp: new Date().toISOString(),
+          read: false
+        });
+      } else if (days <= 0) {
+        const existing = await readJsonFile(ADMIN_NOTIFICATIONS_PATH);
+        const dupKey = `doc_expired_${doc.documentId}`;
+        if (existing.some(n => n.dupKey === dupKey)) continue;
+        await appendJsonData(ADMIN_NOTIFICATIONS_PATH, {
+          id: `ANOTIF-${Date.now()}-exp-${doc.documentId}`,
+          dupKey,
+          type: 'document_expired',
+          title: 'Document Expired',
+          message: `"${doc.documentName || doc.type}" for ${doc.vendor?.vendorName || doc.vendorName || 'a vendor'} has expired.`,
+          link: '/documents',
+          timestamp: new Date().toISOString(),
+          read: false
+        });
+      }
+    }
+    console.log('[CRON] Admin doc expiry check complete.');
+  } catch (err) {
+    console.error('[CRON] Admin doc expiry error:', err);
+  }
+}
+
+// Run admin doc expiry check at startup + daily at midnight
+runAdminDocExpiryCheck();
+setInterval(runAdminDocExpiryCheck, 24 * 60 * 60 * 1000);
 
 // Manually trigger alert scan (for testing without waiting for cron)
 app.post('/api/vendor-portal/run-alerts', async (req, res) => {

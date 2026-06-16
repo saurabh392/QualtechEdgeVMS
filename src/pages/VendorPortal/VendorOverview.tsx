@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Clock, CheckCircle, AlertTriangle, HelpCircle, ArrowRight, Bell,
   Package, FileText, ShieldAlert, MessageSquare, User,
-  CheckSquare, Zap,
+  CheckSquare, Zap, ShieldCheck, ChevronRight,
 } from 'lucide-react';
 import {
   useVendorDashboard, useVendorPOs, useVendorDocuments,
@@ -21,7 +21,6 @@ const statusBadge = (status: string) => {
   return <span className={s.badgeWarning}>{status}</span>;
 };
 
-/** Pick an icon for a notification message based on keywords */
 const notifIcon = (msg: string) => {
   const m = msg.toLowerCase();
   if (m.includes('purchase order') || m.includes(' po'))   return <Package  size={14} />;
@@ -32,6 +31,53 @@ const notifIcon = (msg: string) => {
   if (m.includes('profile'))                               return <User size={14} />;
   return <Bell size={14} />;
 };
+
+/* ── KPI Card ─────────────────────────────────────────────────────────────── */
+interface KpiCardProps {
+  icon: React.ReactNode;
+  iconBg: string;
+  iconColor: string;
+  label: string;
+  value: React.ReactNode;
+  sub: string;
+  onClick: () => void;
+  badge?: { count: number; color: string; label: string };
+}
+
+const KpiCard: React.FC<KpiCardProps> = ({ icon, iconBg, iconColor, label, value, sub, onClick, badge }) => (
+  <div
+    className={s.kpiCard}
+    onClick={onClick}
+    role="button"
+    tabIndex={0}
+    onKeyDown={e => e.key === 'Enter' && onClick()}
+    style={{ cursor: 'pointer', position: 'relative', transition: 'box-shadow 0.18s, transform 0.18s' }}
+    onMouseEnter={e => {
+      (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(0,0,0,0.12)';
+      (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+    }}
+    onMouseLeave={e => {
+      (e.currentTarget as HTMLElement).style.boxShadow = '';
+      (e.currentTarget as HTMLElement).style.transform = '';
+    }}
+  >
+    <div className={s.kpiIcon} style={{ background: iconBg, color: iconColor }}>{icon}</div>
+    <div className={s.kpiBody}>
+      <div className={s.kpiLabel}>{label}</div>
+      <div className={s.kpiValue} style={{ color: iconColor }}>{value}</div>
+      <div className={s.kpiSub}>{sub}</div>
+      {badge && badge.count > 0 && (
+        <span style={{
+          display: 'inline-block', marginTop: 6,
+          background: badge.color, color: '#fff',
+          fontSize: 10, fontWeight: 700, borderRadius: 99,
+          padding: '2px 8px',
+        }}>{badge.count} {badge.label}</span>
+      )}
+    </div>
+    <ChevronRight size={14} style={{ color: 'var(--color-text-tertiary)', flexShrink: 0, alignSelf: 'center' }} />
+  </div>
+);
 
 /* ── smart alert derivation ──────────────────────────────────────────────── */
 interface SmartAlert {
@@ -108,11 +154,10 @@ function buildSmartAlerts(
   return alerts;
 }
 
-/* ── Alert level colours ──────────────────────────────────────────────────── */
 const ALERT_STYLES: Record<SmartAlert['level'], { bg: string; border: string; iconColor: string; titleColor: string }> = {
-  danger:  { bg: 'var(--color-danger-bg)',  border: 'var(--color-danger)',  iconColor: 'var(--color-danger)',       titleColor: 'var(--color-danger-text)' },
-  warning: { bg: 'var(--color-warning-bg)', border: '#f59e0b',              iconColor: '#d97706',                   titleColor: 'var(--color-warning-text)' },
-  info:    { bg: 'var(--color-info-bg)',    border: 'var(--color-primary)', iconColor: 'var(--color-info)',         titleColor: 'var(--color-info-text)' },
+  danger:  { bg: 'var(--color-danger-bg)',  border: 'var(--color-danger)',  iconColor: 'var(--color-danger)',  titleColor: 'var(--color-danger-text)' },
+  warning: { bg: 'var(--color-warning-bg)', border: '#f59e0b',              iconColor: '#d97706',              titleColor: 'var(--color-warning-text)' },
+  info:    { bg: 'var(--color-info-bg)',    border: 'var(--color-primary)', iconColor: 'var(--color-info)',    titleColor: 'var(--color-info-text)' },
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -136,6 +181,20 @@ export const VendorOverview: React.FC = () => {
   const unreadNotifs  = notifs.filter(n => !n.read);
   const smartAlerts   = buildSmartAlerts(docs, pos, stats?.activeTickets ?? 0);
   const hasAlerts     = smartAlerts.length > 0 || notifs.length > 0;
+
+  // Derived doc stats
+  const verifiedDocs  = docs.filter(d => d.status === 'Verified').length;
+  const pendingDocs   = docs.filter(d => d.status === 'Pending').length;
+  const expiredDocs   = docs.filter(d => d.status === 'Expired').length;
+  const rejectedDocs  = docs.filter(d => d.status === 'Rejected').length;
+  const totalDocs     = docs.length;
+
+  // Compliance health score
+  const complianceIssues = expiredDocs + rejectedDocs;
+  const complianceHealthy = complianceIssues === 0;
+
+  // Pending POs
+  const pendingPOsList = pos.filter(p => p.status === 'Pending Acknowledgement' || p.status === 'Pending Acknowledgment');
 
   if (statsLoading || posLoading) {
     return (
@@ -163,50 +222,89 @@ export const VendorOverview: React.FC = () => {
 
         {/* ── KPI Cards ─────────────────────────────────────────────────── */}
         <div className={s.kpiGrid}>
-          <div className={s.kpiCard}>
-            <div className={s.kpiIcon} style={{ background: '#fef3c7', color: '#d97706' }}><Clock size={22} /></div>
-            <div className={s.kpiBody}>
-              <div className={s.kpiLabel}>Pending POs</div>
-              <div className={s.kpiValue} style={{ color: '#d97706' }}>{stats?.pendingPOs ?? 0}</div>
-              <div className={s.kpiSub}>Require acknowledgement</div>
-            </div>
-          </div>
 
-          <div className={s.kpiCard}>
-            <div className={s.kpiIcon} style={{ background: 'var(--color-success-bg)', color: 'var(--color-success-text)' }}><CheckCircle size={22} /></div>
-            <div className={s.kpiBody}>
-              <div className={s.kpiLabel}>Paid Invoices</div>
-              <div className={s.kpiValue} style={{ color: 'var(--color-success)' }}>{stats?.paidInvoices ?? 0}</div>
-              <div className={s.kpiSub}>Cleared this cycle</div>
-            </div>
-          </div>
+          {/* Pending POs */}
+          <KpiCard
+            icon={<Clock size={22} />}
+            iconBg="#fef3c7"
+            iconColor="#d97706"
+            label="Pending POs"
+            value={pendingPOsList.length}
+            sub={pendingPOsList.length === 0 ? 'All acknowledged' : 'Require acknowledgement'}
+            onClick={() => navigate('/vendor/purchase-orders')}
+            badge={pendingPOsList.length > 0 ? { count: pendingPOsList.length, color: '#d97706', label: 'action needed' } : undefined}
+          />
 
-          <div className={s.kpiCard}>
-            <div className={s.kpiIcon} style={{
-              background: (stats?.expiredDocuments ?? 0) > 0 ? 'var(--color-danger-bg)' : 'var(--color-success-bg)',
-              color:      (stats?.expiredDocuments ?? 0) > 0 ? 'var(--color-danger)'    : 'var(--color-success)',
-            }}><AlertTriangle size={22} /></div>
-            <div className={s.kpiBody}>
-              <div className={s.kpiLabel}>Compliance Health</div>
-              <div className={s.kpiValue} style={{ color: (stats?.expiredDocuments ?? 0) > 0 ? 'var(--color-danger)' : 'var(--color-success)' }}>
-                {stats?.expiredDocuments ?? 0} Expired
-              </div>
-              <div className={s.kpiSub}>Documents need renewal</div>
-            </div>
-          </div>
+          {/* Paid Invoices → Invoices page */}
+          <KpiCard
+            icon={<CheckCircle size={22} />}
+            iconBg="var(--color-success-bg)"
+            iconColor="var(--color-success)"
+            label="Paid Invoices"
+            value={stats?.paidInvoices ?? 0}
+            sub="Cleared this cycle"
+            onClick={() => navigate('/vendor/invoices')}
+          />
 
-          <div className={s.kpiCard}>
-            <div className={s.kpiIcon} style={{ background: 'var(--color-info-bg)', color: 'var(--color-info)' }}><HelpCircle size={22} /></div>
-            <div className={s.kpiBody}>
-              <div className={s.kpiLabel}>Open Tickets</div>
-              <div className={s.kpiValue} style={{ color: 'var(--color-info)' }}>{stats?.activeTickets ?? 0}</div>
-              <div className={s.kpiSub}>Awaiting response</div>
-            </div>
-          </div>
+          {/* Compliance Health → Documents page */}
+          <KpiCard
+            icon={<ShieldCheck size={22} />}
+            iconBg={complianceHealthy ? 'var(--color-success-bg)' : 'var(--color-danger-bg)'}
+            iconColor={complianceHealthy ? 'var(--color-success)' : 'var(--color-danger)'}
+            label="Compliance Health"
+            value={complianceHealthy ? 'All Good' : `${complianceIssues} Issue${complianceIssues > 1 ? 's' : ''}`}
+            sub={complianceHealthy ? 'All documents valid' : `${expiredDocs} expired · ${rejectedDocs} rejected`}
+            onClick={() => navigate('/vendor/documents')}
+            badge={complianceIssues > 0 ? { count: complianceIssues, color: 'var(--color-danger)', label: 'need attention' } : undefined}
+          />
+
+          {/* Compliance Documents → Documents page */}
+          <KpiCard
+            icon={<FileText size={22} />}
+            iconBg="var(--color-info-bg)"
+            iconColor="var(--color-info)"
+            label="Compliance Documents"
+            value={totalDocs}
+            sub={`${verifiedDocs} verified · ${pendingDocs} pending`}
+            onClick={() => navigate('/vendor/documents')}
+            badge={pendingDocs > 0 ? { count: pendingDocs, color: '#d97706', label: 'under review' } : undefined}
+          />
+
+        </div>
+
+        {/* ── Quick Actions strip ────────────────────────────────────────── */}
+        <div style={{
+          display: 'flex', gap: 10, flexWrap: 'wrap',
+        }}>
+          {[
+            { label: 'My Documents',      path: '/vendor/documents',       icon: <FileText size={13} />,    color: 'var(--color-primary)' },
+            { label: 'Purchase Orders',   path: '/vendor/purchase-orders', icon: <Package size={13} />,     color: '#d97706' },
+            { label: 'My Invoices',       path: '/vendor/invoices',        icon: <CheckSquare size={13} />, color: 'var(--color-success)' },
+            { label: 'KYC Status',        path: '/vendor/kyc',             icon: <ShieldCheck size={13} />, color: 'var(--color-info)' },
+            { label: 'Contracts & SLAs',  path: '/vendor/contracts',       icon: <ShieldAlert size={13} />, color: '#7c3aed' },
+            { label: 'Support Tickets',   path: '/vendor/helpdesk',        icon: <HelpCircle size={13} />,  color: '#64748b' },
+          ].map(item => (
+            <button
+              key={item.path}
+              onClick={() => navigate(item.path)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '7px 14px', border: '1px solid var(--color-border)',
+                borderRadius: 99, background: 'var(--color-surface)',
+                fontSize: 12, fontWeight: 600, color: item.color,
+                cursor: 'pointer', transition: 'all 0.15s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-surface-2)')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'var(--color-surface)')}
+            >
+              {item.icon} {item.label}
+            </button>
+          ))}
         </div>
 
         {/* ── POs + Docs ────────────────────────────────────────────────── */}
         <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 20 }}>
+
           {/* Recent POs */}
           <div className={s.card}>
             <div className={s.cardHeader}>
@@ -224,9 +322,9 @@ export const VendorOverview: React.FC = () => {
                 <table className={s.table}>
                   <thead><tr><th>PO Ref</th><th>Date</th><th>Value</th><th>Status</th><th>Action</th></tr></thead>
                   <tbody>
-                    {pos.slice(0, 4).map(po => (
+                    {pos.slice(0, 5).map(po => (
                       <tr key={po.poId}>
-                        <td>{po.poId}</td>
+                        <td style={{ fontWeight: 600, fontSize: 12 }}>{po.poId}</td>
                         <td>{po.issueDate}</td>
                         <td>₹{po.value.toLocaleString('en-IN')}</td>
                         <td>{statusBadge(po.status)}</td>
@@ -240,7 +338,12 @@ export const VendorOverview: React.FC = () => {
                             >
                               Acknowledge
                             </button>
-                          ) : <span style={{ fontSize: 11, color: 'var(--color-text-tertiary)' }}>—</span>}
+                          ) : (
+                            <button className={s.btnGhost} style={{ padding: '4px 8px', fontSize: 11 }}
+                              onClick={() => navigate('/vendor/purchase-orders')}>
+                              Details <ArrowRight size={10} />
+                            </button>
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -250,12 +353,34 @@ export const VendorOverview: React.FC = () => {
             )}
           </div>
 
-          {/* Compliance doc health */}
+          {/* Compliance Documents */}
           <div className={s.card}>
             <div className={s.cardHeader}>
               <div className={s.cardTitle}><FileText size={16} /> Compliance Documents</div>
               <button className={s.btnGhost} onClick={() => navigate('/vendor/documents')}>Manage <ArrowRight size={13} /></button>
             </div>
+
+            {/* Mini stats bar */}
+            {docs.length > 0 && (
+              <div style={{
+                display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap',
+              }}>
+                {[
+                  { label: 'Verified',  count: verifiedDocs,  color: 'var(--color-success)',  bg: 'var(--color-success-bg)' },
+                  { label: 'Pending',   count: pendingDocs,   color: '#d97706',               bg: '#fef3c7' },
+                  { label: 'Expired',   count: expiredDocs,   color: 'var(--color-danger)',   bg: 'var(--color-danger-bg)' },
+                  { label: 'Rejected',  count: rejectedDocs,  color: 'var(--color-danger)',   bg: 'var(--color-danger-bg)' },
+                ].filter(x => x.count > 0).map(x => (
+                  <span key={x.label} style={{
+                    fontSize: 11, fontWeight: 700, padding: '3px 10px',
+                    borderRadius: 99, background: x.bg, color: x.color,
+                  }}>
+                    {x.count} {x.label}
+                  </span>
+                ))}
+              </div>
+            )}
+
             {docs.length === 0 ? (
               <div className={s.emptyState}>
                 <div className={s.emptyIcon}><FileText size={24} /></div>
@@ -263,15 +388,27 @@ export const VendorOverview: React.FC = () => {
                 <div className={s.emptyText}>Upload compliance documents to get verified.</div>
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
                 {docs.map(doc => (
-                  <div key={doc.documentId} style={{
-                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                    padding: '10px 12px', border: '1px solid var(--color-border)',
-                    borderRadius: 8, background: 'var(--color-surface-2)',
-                  }}>
-                    <div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-primary)' }}>{doc.documentName}</div>
+                  <div
+                    key={doc.documentId}
+                    onClick={() => navigate('/vendor/documents')}
+                    style={{
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                      padding: '10px 12px', border: '1px solid var(--color-border)',
+                      borderRadius: 8, background: 'var(--color-surface-2)',
+                      cursor: 'pointer', transition: 'background 0.15s',
+                      borderLeft: doc.status === 'Expired' || doc.status === 'Rejected'
+                        ? '3px solid var(--color-danger)'
+                        : doc.status === 'Pending'
+                          ? '3px solid #f59e0b'
+                          : '3px solid var(--color-success)',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-surface)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = 'var(--color-surface-2)')}
+                  >
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{doc.documentName}</div>
                       <div style={{ fontSize: 11, color: 'var(--color-text-tertiary)', marginTop: 2 }}>
                         {doc.documentType} · Expiry: {doc.expiryDate || 'N/A'}
                       </div>
@@ -313,7 +450,6 @@ export const VendorOverview: React.FC = () => {
           </div>
 
           {!hasAlerts ? (
-            /* All clear state */
             <div style={{
               display: 'flex', alignItems: 'center', gap: 14,
               padding: '18px 20px', borderRadius: 10,
@@ -348,8 +484,8 @@ export const VendorOverview: React.FC = () => {
                         display: 'flex', alignItems: 'center', gap: 14,
                         padding: '12px 16px', borderRadius: 10,
                         background: st.bg,
-                        borderLeft: `4px solid ${st.border}`,
                         border: `1px solid ${st.border}`,
+                        borderLeft: `4px solid ${st.border}`,
                       }}>
                         <div style={{ color: st.iconColor, flexShrink: 0 }}>{alert.icon}</div>
                         <div style={{ flex: 1, minWidth: 0 }}>

@@ -11,7 +11,7 @@
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-primary);
 }
@@ -87,7 +87,7 @@
 }
 
 .kpiLabel {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--color-text-secondary);
 }
@@ -130,7 +130,7 @@
   padding: 10px 12px;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: var(--color-text-primary);
   background-color: var(--color-surface);
   outline: none;
@@ -186,7 +186,7 @@
 }
 
 .pageInfo {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
 }
 
@@ -203,7 +203,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   cursor: pointer;
   border: 1px solid transparent;
   background: transparent;
@@ -316,7 +316,7 @@
 }
 
 .infoRow strong {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: var(--color-text-primary);
 }
 

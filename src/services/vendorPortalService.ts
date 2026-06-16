@@ -216,9 +216,12 @@ export async function getVendorInvoices(): Promise<VendorInvoice[]> {
 export async function submitVendorInvoice(
   invoiceNo: string,
   poId: string,
-  amount: number
+  amount: number,
+  gstAmount?: number,
+  tdsSection?: string,
+  tdsRate?: number
 ): Promise<{ success: boolean; invoice: VendorInvoice }> {
-  const res = await axios.post('/api/vendor-portal/invoices', { invoiceNo, poId, amount });
+  const res = await axios.post('/api/vendor-portal/invoices', { invoiceNo, poId, amount, gstAmount, tdsSection, tdsRate });
   return res.data;
 }
 

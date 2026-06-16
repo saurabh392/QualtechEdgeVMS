@@ -1,10 +1,10 @@
 {
   "kpis": {
     "totalPOs": 9,
-    "posInProgress": 4,
+    "posInProgress": 3,
     "awaitingApproval": 5,
     "goodsReceived": 4,
-    "pendingInvoices": 6,
+    "pendingInvoices": 5,
     "poValueThisMonth": 0.74
   },
   "statusData": [

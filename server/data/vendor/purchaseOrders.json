@@ -1,34 +1,74 @@
 [
   {
+    "poId": "PO-2026-1102",
+    "vendorId": "VND-001",
+    "issueDate": "2026-06-12",
+    "deliveryDate": "2026-06-30",
+    "items": 3,
+    "value": 875000,
+    "status": "Invoiced",
+    "category": "IT Services",
+    "description": "Software development milestone — Phase 3 delivery",
+    "issuedBy": "Axis Max Life Insurance — Procurement"
+  },
+  {
+    "poId": "PO-2026-1087",
+    "vendorId": "VND-001",
+    "issueDate": "2026-06-05",
+    "deliveryDate": "2026-06-25",
+    "items": 7,
+    "value": 342000,
+    "status": "Acknowledged",
+    "category": "IT Services",
+    "description": "Infrastructure support & annual maintenance contract",
+    "issuedBy": "Axis Max Life Insurance — Procurement"
+  },
+  {
     "poId": "PO-2026-981",
     "vendorId": "VND-001",
     "issueDate": "2026-05-18",
+    "deliveryDate": "2026-06-05",
     "items": 4,
     "value": 1245000,
-    "status": "Pending Acknowledgement"
+    "status": "Invoiced",
+    "category": "IT Services",
+    "description": "Cloud hosting setup & security audit",
+    "issuedBy": "Axis Max Life Insurance — Procurement"
   },
   {
     "poId": "PO-2026-880",
     "vendorId": "VND-001",
     "issueDate": "2026-05-04",
+    "deliveryDate": "2026-05-28",
     "items": 1,
     "value": 450000,
-    "status": "Invoiced"
+    "status": "Invoiced",
+    "category": "Consulting",
+    "description": "Cybersecurity assessment & penetration testing",
+    "issuedBy": "Axis Max Life Insurance — IT"
   },
   {
     "poId": "PO-2026-712",
     "vendorId": "VND-001",
     "issueDate": "2026-04-15",
+    "deliveryDate": "2026-05-10",
     "items": 12,
     "value": 890000,
-    "status": "Delivered"
+    "status": "Delivered",
+    "category": "IT Services",
+    "description": "ERP module enhancements — HR & Payroll integration",
+    "issuedBy": "Axis Max Life Insurance — HR Technology"
   },
   {
     "poId": "PO-2026-550",
     "vendorId": "VND-001",
     "issueDate": "2026-03-01",
+    "deliveryDate": "2026-04-15",
     "items": 20,
     "value": 2210000,
-    "status": "Invoiced"
+    "status": "Invoiced",
+    "category": "IT Services",
+    "description": "Data migration and analytics platform delivery",
+    "issuedBy": "Axis Max Life Insurance — Data Engineering"
   }
 ]

@@ -26,10 +26,10 @@
     "createdDate": "08 Jun 2026",
     "deliveryDate": "2026-06-18",
     "deliveryStatus": "Partial",
-    "status": "Approved",
+    "status": "Closed",
     "paymentTerms": "Net 30",
     "goodsReceiptStatus": "Partial",
-    "invoiceMatchStatus": "Pending"
+    "invoiceMatchStatus": "Matched"
   },
   {
     "poId": "PO-2026-000796",

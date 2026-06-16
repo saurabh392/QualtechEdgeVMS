@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Search, Eye, X, Upload } from 'lucide-react';
+import { Plus, Search, Eye, X, Upload, Package, CheckCircle2, XCircle, Calendar, ClipboardList, Filter, Download } from 'lucide-react';
 import { toast } from 'sonner';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
@@ -17,13 +17,21 @@ import type {
   UploadedDocument
 } from '../../services/purchaseOrderService';
 import styles from './POReceipt.module.css';
+import pStyles from '../Payments/PaymentDashboard.module.css';
 
 export const POReceipt: React.FC = () => {
   const [grns, setGrns] = useState<GRNRecord[]>([]);
   const [pos, setPos] = useState<PurchaseOrderRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [viewGrn, setViewGrn] = useState<GRNRecord | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+  const [filterCondition, setFilterCondition] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
+
+  const activeFilterCount = [filterCondition, filterStatus].filter(Boolean).length;
+  const clearFilters = () => { setFilterCondition(''); setFilterStatus(''); };
 
   // Form states
   const [selectedPoId, setSelectedPoId] = useState('');
@@ -117,11 +125,10 @@ export const POReceipt: React.FC = () => {
 
   const filteredGRNs = grns.filter(item => {
     const q = searchQuery.toLowerCase();
-    return (
-      item.grnId?.toLowerCase().includes(q) ||
-      item.poId.toLowerCase().includes(q) ||
-      (item as any).vendorName?.toLowerCase().includes(q)
-    );
+    if (q && !item.grnId?.toLowerCase().includes(q) && !item.poId.toLowerCase().includes(q) && !(item as any).vendorName?.toLowerCase().includes(q)) return false;
+    if (filterCondition && item.deliveryCondition !== filterCondition) return false;
+    if (filterStatus && item.grnStatus !== filterStatus) return false;
+    return true;
   });
 
   const activeApprovedPOs = pos.filter(po => po.deliveryStatus !== 'Received' && (po.status === 'Approved' || po.status === 'Sent'));
@@ -156,14 +163,14 @@ export const POReceipt: React.FC = () => {
         return <span className={className}>{row.grnStatus || 'Accepted'}</span>;
       } 
     },
-    { 
-      header: 'Actions', 
+    {
+      header: 'Actions',
       align: 'center' as const,
-      accessor: () => (
+      accessor: (row: GRNRecord) => (
         <div className={styles.actionsCell}>
-          <button className={styles.actionBtn} title="View inspection details"><Eye size={16} /></button>
+          <button className={styles.actionBtn} title="View inspection details" onClick={() => setViewGrn(row)}><Eye size={16} /></button>
         </div>
-      ) 
+      )
     },
   ];
 
@@ -178,20 +185,40 @@ export const POReceipt: React.FC = () => {
       </header>
 
       <Card className={styles.tableCard}>
-        <div className={styles.tableToolbar}>
-          <div className={styles.filters}>
-            <div className={styles.searchWrap}>
-              <Input 
-                placeholder="Search GRN, PO number, vendor..." 
-                fullWidth={false} 
-                className={styles.searchInput}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <Search size={16} className={styles.searchIcon} />
-            </div>
+        <div className={pStyles.tableToolbar}>
+          <div className={pStyles.searchWrap}>
+            <Search size={16} className={pStyles.searchIcon} />
+            <input type="text" placeholder="Search GRN, PO number, vendor..." className={pStyles.searchInput} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+          </div>
+          <div className={pStyles.toolbarActions}>
+            <Button variant={showFilters || activeFilterCount > 0 ? 'primary' : 'ghost'} icon={<Filter size={16} />} onClick={() => setShowFilters(f => !f)}>
+              Filters{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
+            </Button>
+            <Button variant="outline" icon={<Download size={16} />}>Export</Button>
           </div>
         </div>
+
+        {showFilters && (
+          <div className={pStyles.filterPanel}>
+            <div className={pStyles.filterGrid}>
+              <div className={pStyles.filterGroup}>
+                <label className={pStyles.filterLabel}>Delivery Condition</label>
+                <select className={pStyles.filterSelect} value={filterCondition} onChange={e => setFilterCondition(e.target.value)}>
+                  <option value="">All Conditions</option>
+                  {['Excellent', 'Good', 'Needs Work', 'Damaged'].map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+              </div>
+              <div className={pStyles.filterGroup}>
+                <label className={pStyles.filterLabel}>Receipt Status</label>
+                <select className={pStyles.filterSelect} value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
+                  <option value="">All Statuses</option>
+                  {['Fully Accepted', 'Partially Accepted', 'Pending', 'Rejected'].map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
+              </div>
+            </div>
+            {activeFilterCount > 0 && <button className={pStyles.clearFiltersBtn} onClick={clearFilters}>Clear all filters</button>}
+          </div>
+        )}
 
         {loading ? (
           <div style={{ display: 'flex', justifyContent: 'center', padding: '40px', color: 'var(--color-text-secondary)' }}>
@@ -322,6 +349,48 @@ export const POReceipt: React.FC = () => {
                 <Button type="submit" disabled={submitting || !selectedPoId}>{submitting ? 'Creating...' : 'Create Receipt'}</Button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* GRN Detail View Modal */}
+      {viewGrn && (
+        <div className={styles.modalOverlay} onClick={() => setViewGrn(null)}>
+          <div className={styles.modalContent} style={{ maxWidth: 520 }} onClick={e => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h3>GRN Details — {viewGrn.grnId}</h3>
+              <button className={styles.closeBtn} onClick={() => setViewGrn(null)}><X size={20} /></button>
+            </div>
+            <div className={styles.modalBody}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                {[
+                  { icon: <Package size={14} />, label: 'PO Reference', value: viewGrn.poId },
+                  { icon: <Calendar size={14} />, label: 'Receipt Date', value: viewGrn.receivedDate || viewGrn.createdDate || '—' },
+                  { icon: <CheckCircle2 size={14} />, label: 'Received Qty', value: viewGrn.receivedQuantity },
+                  { icon: <CheckCircle2 size={14} />, label: 'Accepted Qty', value: viewGrn.acceptedQuantity },
+                  { icon: <XCircle size={14} />, label: 'Rejected Qty', value: viewGrn.rejectedQuantity },
+                  { icon: <ClipboardList size={14} />, label: 'Delivery Condition', value: viewGrn.deliveryCondition },
+                  { icon: <ClipboardList size={14} />, label: 'GRN Status', value: viewGrn.grnStatus || 'Accepted' },
+                  { icon: <ClipboardList size={14} />, label: 'Inspected By', value: viewGrn.inspectedBy || '—' },
+                ].map(({ icon, label, value }) => (
+                  <div key={label} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                    <div style={{ color: 'var(--color-primary)', marginTop: 2, flexShrink: 0 }}>{icon}</div>
+                    <div>
+                      <div style={{ fontSize: 11, color: 'var(--color-text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 2 }}>{label}</div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-primary)' }}>{value}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {viewGrn.inspectionRemarks && (
+                <div style={{ marginTop: 8, padding: '10px 12px', background: 'var(--color-surface-2)', borderRadius: 8, fontSize: 13, color: 'var(--color-text-secondary)' }}>
+                  <strong>Inspection Remarks:</strong> {viewGrn.inspectionRemarks}
+                </div>
+              )}
+            </div>
+            <div className={styles.modalFooter}>
+              <Button variant="ghost" type="button" onClick={() => setViewGrn(null)}>Close</Button>
+            </div>
           </div>
         </div>
       )}

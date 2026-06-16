@@ -1,5 +1,18 @@
 [
   {
+    "grnId": "GRN-PO-1009",
+    "poId": "PO-2026-000797",
+    "receivedDate": "2026-06-15",
+    "receivedQuantity": 10,
+    "acceptedQuantity": 5,
+    "rejectedQuantity": 5,
+    "deliveryCondition": "Good",
+    "inspectionRemarks": "5 laptop dameged",
+    "grnStatus": "Partially Accepted",
+    "inspectedBy": "Saurabh Anand",
+    "createdDate": "2026-06-15"
+  },
+  {
     "grnId": "GRN-PO-1008",
     "poId": "PO-2026-000797",
     "receivedDate": "2026-06-09",

@@ -12,5 +12,19 @@
     "amount": 600000,
     "paymentDate": "2026-06-11",
     "status": "Paid"
+  },
+  {
+    "paymentId": "PAY-164",
+    "invoiceId": "INV-INV-299282",
+    "amount": 50000,
+    "paymentDate": "2026-06-15",
+    "status": "Paid"
+  },
+  {
+    "paymentId": "PAY-920",
+    "invoiceId": "INV-INV-02884",
+    "amount": 4000000,
+    "paymentDate": "2026-06-15",
+    "status": "Paid"
   }
 ]

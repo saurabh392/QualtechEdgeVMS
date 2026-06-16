@@ -33,6 +33,7 @@ import {
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import styles from './ReportsDashboard.module.css';
+import reportData from '../../../server/data/reports/reports-mis.json';
 
 const steps = [
   'Data Collection',
@@ -47,32 +48,13 @@ const steps = [
   'Decision Dashboard'
 ];
 
-const mockSpendData = [
-  { name: 'Dec', budget: 4.5, actual: 4.2 },
-  { name: 'Jan', budget: 5.0, actual: 5.1 },
-  { name: 'Feb', budget: 5.0, actual: 4.8 },
-  { name: 'Mar', budget: 6.5, actual: 6.2 },
-  { name: 'Apr', budget: 7.0, actual: 6.9 },
-  { name: 'May', budget: 8.0, actual: 7.5 },
-];
-
-const categorySpend = [
-  { name: 'IT Services', value: 3.8, color: '#0b1f5f' },
-  { name: 'Facility Mgmt', value: 2.1, color: '#1d4ed8' },
-  { name: 'Security', value: 1.5, color: '#3b82f6' },
-  { name: 'Consulting', value: 1.2, color: '#7c3aed' },
-  { name: 'Logistics', value: 0.9, color: '#f59e0b' },
-  { name: 'Infrastructure', value: 1.8, color: '#16a34a' },
-];
-
-const riskDistribution = [
-  { name: 'Low Risk', value: 480, color: '#16a34a' },
-  { name: 'Medium Risk', value: 95, color: '#f59e0b' },
-  { name: 'High Risk', value: 12, color: '#dc2626' },
-];
+const mockSpendData = reportData.spendTrend;
+const categorySpend = reportData.spendByCategory;
+const riskDistribution = reportData.riskDistribution;
 
 export const ReportsDashboard: React.FC = () => {
   const navigate = useNavigate();
+  const kpis = reportData.kpis;
 
   return (
     <div className={styles.container}>
@@ -85,7 +67,7 @@ export const ReportsDashboard: React.FC = () => {
           <div className={styles.dateFilter}>
             <span>FY 2026 - Q1</span>
           </div>
-          <Button variant="outline" icon={<Download size={16} />}>Export PDF</Button>
+          <Button variant="outline" icon={<Download size={16} />} onClick={() => window.print()}>Export PDF</Button>
           <Button icon={<BarIcon size={16} />} onClick={() => navigate('/reports/builder')}>Custom Builder</Button>
         </div>
       </header>
@@ -119,8 +101,8 @@ export const ReportsDashboard: React.FC = () => {
             <span className={styles.kpiLabel}>Total Vendors</span>
             <Users size={16} className={styles.kpiIcon} style={{ color: '#1d4ed8' }} />
           </div>
-          <div className={styles.kpiValue}>587</div>
-          <div className={styles.trendGreen}>↑ 8% vs last Qtr</div>
+          <div className={styles.kpiValue}>{kpis.totalVendors}</div>
+          <div className={styles.trendGreen}>{kpis.totalVendorsTrend}</div>
         </Card>
 
         <Card className={styles.kpiCard}>
@@ -128,8 +110,8 @@ export const ReportsDashboard: React.FC = () => {
             <span className={styles.kpiLabel}>Active Contracts</span>
             <FileText size={16} className={styles.kpiIcon} style={{ color: '#7c3aed' }} />
           </div>
-          <div className={styles.kpiValue}>142</div>
-          <div className={styles.trendGreen}>↑ 12 new contracts</div>
+          <div className={styles.kpiValue}>{kpis.activeContracts}</div>
+          <div className={styles.trendGreen}>{kpis.activeContractsTrend}</div>
         </Card>
 
         <Card className={styles.kpiCard}>
@@ -137,8 +119,8 @@ export const ReportsDashboard: React.FC = () => {
             <span className={styles.kpiLabel}>Total Spend</span>
             <DollarSign size={16} className={styles.kpiIcon} style={{ color: '#0b1f5f' }} />
           </div>
-          <div className={styles.kpiValue}>₹11.3 Cr</div>
-          <div className={styles.trendRed}>↓ 4.2% budget variance</div>
+          <div className={styles.kpiValue}>{kpis.totalSpend}</div>
+          <div className={styles.trendRed}>{kpis.totalSpendTrend}</div>
         </Card>
 
         <Card className={styles.kpiCard}>
@@ -146,8 +128,8 @@ export const ReportsDashboard: React.FC = () => {
             <span className={styles.kpiLabel}>Compliance Score</span>
             <ShieldCheck size={16} className={styles.kpiIcon} style={{ color: '#16a34a' }} />
           </div>
-          <div className={styles.kpiValue}>97.4%</div>
-          <div className={styles.trendGreen}>Excellent Adherence</div>
+          <div className={styles.kpiValue}>{kpis.complianceScore}</div>
+          <div className={styles.trendGreen}>{kpis.complianceTrend}</div>
         </Card>
 
         <Card className={styles.kpiCard}>
@@ -155,8 +137,8 @@ export const ReportsDashboard: React.FC = () => {
             <span className={styles.kpiLabel}>Savings Achieved</span>
             <Percent size={16} className={styles.kpiIcon} style={{ color: '#f59e0b' }} />
           </div>
-          <div className={styles.kpiValue}>₹84.6 L</div>
-          <div className={styles.trendGreen}>↑ 1.8% negotiation yield</div>
+          <div className={styles.kpiValue}>{kpis.savingsAchieved}</div>
+          <div className={styles.trendGreen}>{kpis.savingsTrend}</div>
         </Card>
 
         <Card className={styles.kpiCard}>
@@ -164,8 +146,8 @@ export const ReportsDashboard: React.FC = () => {
             <span className={styles.kpiLabel}>Payment Efficiency</span>
             <Clock size={16} className={styles.kpiIcon} style={{ color: '#0284c7' }} />
           </div>
-          <div className={styles.kpiValue}>8.4 Days</div>
-          <div className={styles.trendGreen}>SLA Turnaround</div>
+          <div className={styles.kpiValue}>{kpis.paymentEfficiency}</div>
+          <div className={styles.trendGreen}>{kpis.efficiencyTrend}</div>
         </Card>
       </div>
 
@@ -209,7 +191,7 @@ export const ReportsDashboard: React.FC = () => {
               </PieChart>
             </ResponsiveContainer>
             <div className={styles.pieCenter}>
-              <span>11.3 Cr</span>
+              <span>{kpis.totalSpend}</span>
               <p>Spend</p>
             </div>
           </div>
@@ -245,7 +227,7 @@ export const ReportsDashboard: React.FC = () => {
               </PieChart>
             </ResponsiveContainer>
             <div className={styles.pieCenter}>
-              <span>587</span>
+              <span>{kpis.totalVendors}</span>
               <p>Vendors</p>
             </div>
           </div>

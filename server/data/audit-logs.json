@@ -132,6 +132,28 @@
     "severity": "High"
   },
   {
+    "id": "AUD-62478",
+    "timestamp": "15/6/2026, 4:51:19 pm",
+    "actor": "Finance Manager",
+    "role": "Finance Manager",
+    "tenant": "Qualtech Corporate",
+    "action": "Approved invoice INV-2026-9908",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
+  },
+  {
+    "id": "AUD-28223",
+    "timestamp": "15/6/2026, 5:26:46 pm",
+    "actor": "Finance Manager",
+    "role": "Finance Manager",
+    "tenant": "Qualtech Corporate",
+    "action": "Approved invoice INV-2026-9908",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
+  },
+  {
     "id": "AUD-82091",
     "timestamp": "12/6/2026, 5:39:34 pm",
     "actor": "Saurabh Anand",

@@ -11,14 +11,14 @@
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-primary);
 }
 
 .breadcrumbs {
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   margin-top: 4px;
 }
 
@@ -46,7 +46,7 @@
 }
 
 .alertContent p {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: #b45309;
   margin: 0;
 }
