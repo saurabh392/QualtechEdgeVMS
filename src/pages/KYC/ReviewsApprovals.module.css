@@ -19,17 +19,14 @@
   margin-top: 4px;
 }
 .subtitle {
-<<<<<<< HEAD
   color: var(--color-text-secondary);
   font-size: 0.75rem;
-=======
+
   color: var(--color-text-secondary, #64748b);
   font-size: 0.875rem;
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
   margin-top: 4px;
 }
 
-<<<<<<< HEAD
 /* KPI Row */
 .kpiRow {
   display: grid;
@@ -54,14 +51,13 @@
   box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.15), var(--shadow-md) !important;
   transform: translateY(-2px);
 }
-.kpiHeader {
-=======
+.kpiHeader { font-size: 0.75rem; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 4px; }
+
 /* Table Card */
 .tableCard { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
 
 /* Toolbar & Filters */
 .tableToolbar {
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -71,7 +67,6 @@
   gap: 16px;
   flex-wrap: wrap;
 }
-<<<<<<< HEAD
 .kpiLabel { font-size: 0.75rem; font-weight: 600; color: var(--color-text-secondary); }
 .kpiIcon {
   width: 32px;
@@ -103,9 +98,9 @@
   background: none;
   border-bottom: 2px solid transparent;
   transition: all 0.15s;
-=======
+}
+
 .searchWrap {
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
   display: flex;
   align-items: center;
   background: #f8fafc;

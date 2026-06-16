@@ -8,7 +8,6 @@ import { Button } from '../../components/Button/Button';
 import { Badge } from '../../components/Badge/Badge';
 import { useAuth } from '../../context/AuthContext';
 import styles from './InvoiceApprovals.module.css';
-import { toast } from 'sonner';
 
 interface Invoice {
   invoiceId: string;
@@ -148,114 +147,10 @@ export const InvoiceApprovals: React.FC = () => {
         {/* Right Pane - Detail */}
         <div className={styles.detailPane}>
           <Card className={styles.detailCard}>
-<<<<<<< HEAD
             {selectedInvoice ? (
               <>
                 <div className={styles.detailHeader}>
                   <h3 className={styles.detailTitle}>Invoice Audit Summary</h3>
-=======
-            <div className={styles.detailHeader}>
-              <h3 className={styles.detailTitle}>Invoice Audit Summary</h3>
-            </div>
-            
-            <div className={styles.infoGrid}>
-              <div className={styles.infoRow}>
-                <span className={styles.infoLabel}>Invoice ID</span>
-                <span className={styles.infoValue}>INV-2026-9908</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.infoLabel}>Vendor</span>
-                <span className={styles.infoValue}>ABC Infotech Pvt Ltd (GSTIN: 27AAAAA1111A1Z1)</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.infoLabel}>PO Reference</span>
-                <span className={styles.infoValue}>PO-2026-000789 (Approved)</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.infoLabel}>TDS Component</span>
-                <span className={styles.infoValue}>Section 194J (withheld: ₹1,25,000 / 10%)</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.infoLabel}>Invoice Total</span>
-                <span className={styles.infoValue}>₹14,75,000 (inclusive of 18% GST)</span>
-              </div>
-            </div>
-
-            {/* 3-Way Match Check panel */}
-            <div className={styles.matchingPanel}>
-              <h4 className={styles.sectionHeading}><Scale size={16} /> 3-Way Matching Verification</h4>
-              <div className={styles.matchGrid}>
-                <div className={styles.matchHeaderRow}>
-                  <span>Item / Category</span>
-                  <span>Invoice</span>
-                  <span>PO Reference</span>
-                  <span>GRN (Receipt)</span>
-                  <span>Status</span>
-                </div>
-                
-                <div className={styles.matchRow}>
-                  <span>IT Consulting</span>
-                  <span>₹12,50,000</span>
-                  <span>₹12,50,000</span>
-                  <span>₹12,50,000</span>
-                  <span className={styles.matchBadgeSuccess}>Matched</span>
-                </div>
-
-                <div className={styles.matchRow}>
-                  <span>Quantity</span>
-                  <span>1 Unit</span>
-                  <span>1 Unit</span>
-                  <span>1 Unit</span>
-                  <span className={styles.matchBadgeSuccess}>Matched</span>
-                </div>
-              </div>
-            </div>
-
-            {/* AI Fraud & Risk Panel */}
-            <div className={styles.aiRiskPanel}>
-              <Bot size={18} className={styles.aiIcon} />
-              <div>
-                <h4>AI AP Auditor Checks</h4>
-                <ul className={styles.aiRiskList}>
-                  <li><span className={styles.checkSuccess}>✔</span> No duplicates detected in the active ledger pool.</li>
-                  <li><span className={styles.checkSuccess}>✔</span> GSTIN matches active registration details.</li>
-                  <li><span className={styles.checkSuccess}>✔</span> Invoice date is within PO validity limits.</li>
-                  <li><span className={styles.checkInfo}>i</span> Early settlement eligibility: 2% cash rebate opportunity.</li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Final Approver Badge */}
-            <div style={{
-              marginBottom: '16px',
-              padding: '12px 16px',
-              backgroundColor: '#eff6ff',
-              border: '1px solid #bfdbfe',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              width: '100%',
-              marginTop: '20px'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '11px', fontWeight: 600, color: '#1e3a8a', textTransform: 'uppercase' }}>Final Approver:</span>
-                <span style={{ fontSize: '12px', fontWeight: 700, color: '#0369a1', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e' }}></span>
-                  Saurabh Anand
-                </span>
-              </div>
-              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>Tenant Admin</span>
-            </div>
-
-            {hasActionPermission('APPROVE_INVOICE') ? (
-              <>
-                <h3 className={styles.actionTitle}>Authorized AP Action (Final Approver)</h3>
-                <div className={styles.actionButtons}>
-                  <Button className={styles.approveBtn} icon={<CheckCircle2 size={16} />} onClick={() => { toast.success("Invoice approved & payment scheduled."); setRemarks(''); }}>Approve & Release Payment</Button>
-                  <Button className={styles.rejectBtn} icon={<XCircle size={16} />} onClick={() => { toast.success("Invoice rejected."); setRemarks(''); }}>Reject Invoice</Button>
-                  <Button className={styles.sendBackBtn} icon={<Send size={16} />} onClick={() => { toast.success("Invoice sent back."); setRemarks(''); }}>Send Back to Vendor Portal</Button>
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
                 </div>
 
                 <div className={styles.infoGrid}>
@@ -352,29 +247,9 @@ export const InvoiceApprovals: React.FC = () => {
                 )}
               </>
             ) : (
-<<<<<<< HEAD
               <div style={{ padding: '48px', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
                 Select an invoice from the queue to review.
               </div>
-=======
-              <>
-                <h3 className={styles.actionTitle}>Review Action (Maker/Reviewer)</h3>
-                <div className={styles.actionButtons}>
-                  <Button className={styles.approveBtn} icon={<CheckCircle2 size={16} />} onClick={() => { toast.success("Invoice matching verified & recommended to Tenant Admin successfully."); setRemarks(''); }}>Verify & Recommend</Button>
-                  <Button className={styles.sendBackBtn} icon={<Send size={16} />} onClick={() => { toast.success("Invoice returned for revisions."); setRemarks(''); }}>Send Back to Vendor</Button>
-                </div>
-
-                <div className={styles.remarksSection}>
-                  <label className={styles.remarksLabel}>Audit Notes / remarks</label>
-                  <textarea 
-                    className={styles.remarksInput} 
-                    placeholder="Enter remarks or match review comments..."
-                    value={remarks}
-                    onChange={(e) => setRemarks(e.target.value)}
-                  ></textarea>
-                </div>
-              </>
->>>>>>> dc1643ef147d94ed445cab2a657fdf4ea2a3bd84
             )}
 
             {/* Workflow Trail */}
