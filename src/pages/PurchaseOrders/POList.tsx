@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Download, MoreVertical, Eye, Search, Filter } from 'lucide-react';
+import { Plus, Download, MoreVertical, Eye, Search, Filter, ShoppingCart, Hourglass, CheckCircle2, Truck, FileText } from 'lucide-react';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
@@ -127,25 +127,31 @@ export const POList: React.FC = () => {
         )}
       </header>
 
-      <Card className={styles.tableCard}>
-        <div className={styles.tabs}>
-          <div className={`${styles.tab} ${activeTab === 'All' ? styles.activeTab : ''}`} onClick={() => setActiveTab('All')}>
-            All POs ({tabCounts.All})
-          </div>
-          <div className={`${styles.tab} ${activeTab === 'Pending Approval' ? styles.activeTab : ''}`} onClick={() => setActiveTab('Pending Approval')}>
-            Pending Approval ({tabCounts['Pending Approval']})
-          </div>
-          <div className={`${styles.tab} ${activeTab === 'Sent to Vendor' ? styles.activeTab : ''}`} onClick={() => setActiveTab('Sent to Vendor')}>
-            Sent to Vendor ({tabCounts['Sent to Vendor']})
-          </div>
-          <div className={`${styles.tab} ${activeTab === 'Partially Received' ? styles.activeTab : ''}`} onClick={() => setActiveTab('Partially Received')}>
-            Partially Received ({tabCounts['Partially Received']})
-          </div>
-          <div className={`${styles.tab} ${activeTab === 'Closed' ? styles.activeTab : ''}`} onClick={() => setActiveTab('Closed')}>
-            Closed ({tabCounts.Closed})
-          </div>
-        </div>
+      {/* KPI Cards */}
+      <div className={styles.kpiGrid}>
+        {([
+          { tab: 'All',                label: 'Total POs',          icon: <ShoppingCart size={16} />, bg: '#eff6ff', color: '#3b82f6', sub: 'All purchase orders' },
+          { tab: 'Pending Approval',   label: 'Pending Approval',   icon: <Hourglass size={16} />,    bg: '#fffbeb', color: '#f59e0b', sub: 'Requires action' },
+          { tab: 'Sent to Vendor',     label: 'Sent to Vendor',     icon: <CheckCircle2 size={16} />, bg: '#f3e8ff', color: '#8b5cf6', sub: 'POs sent to suppliers' },
+          { tab: 'Partially Received', label: 'Partially Received', icon: <Truck size={16} />,        bg: '#dcfce7', color: '#10b981', sub: 'Partial delivery status' },
+          { tab: 'Closed',             label: 'Closed POs',         icon: <FileText size={16} />,     bg: '#ffedd5', color: '#f97316', sub: 'Fully completed & closed' },
+        ] as const).map(k => (
+          <Card
+            key={k.tab}
+            className={`${styles.kpiCard} ${activeTab === k.tab ? styles.kpiCardActive : ''}`}
+            onClick={() => setActiveTab(k.tab)}
+          >
+            <div className={styles.kpiIcon} style={{ backgroundColor: k.bg, color: k.color }}>{k.icon}</div>
+            <div>
+              <div className={styles.kpiLabel}>{k.label}</div>
+              <div className={styles.kpiValue}>{tabCounts[k.tab].toLocaleString()}</div>
+              <div className={styles.kpiSub}>{k.sub}</div>
+            </div>
+          </Card>
+        ))}
+      </div>
 
+      <Card className={styles.tableCard}>
         <div className={styles.tableToolbar}>
           <div className={styles.filters}>
             <div className={styles.searchWrap}>
