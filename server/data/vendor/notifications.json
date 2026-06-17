@@ -152,5 +152,15 @@
     "message": "Support ticket TKT-7084 raised successfully.",
     "read": false,
     "createdDate": "2026-06-15"
+  },
+  {
+    "notificationId": "NOT-4151",
+    "vendorId": "VND-001",
+    "type": "invoice_approved",
+    "title": "Invoice Approved",
+    "message": "Your invoice INV-2026-9908 has been approved and is being processed for payment.",
+    "link": "/vendor/invoices",
+    "read": false,
+    "createdDate": "2026-06-16"
   }
 ]

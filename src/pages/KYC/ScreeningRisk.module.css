@@ -35,7 +35,7 @@
   padding: 10px 40px 10px 14px;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
-  font-size: 0.9375rem;
+  font-size: 12px;
   font-weight: 600;
   color: var(--color-text-primary);
   background: white;
@@ -232,7 +232,7 @@
   margin-bottom: 16px;
 }
 .checksTitle {
-  font-size: 1rem;
+  font-size: 14px;
   font-weight: 700;
   color: var(--color-text-primary);
 }
@@ -243,18 +243,21 @@
   flex-direction: column;
   gap: 12px;
 }
+.cardTitle{
+  font-size: 14px;
+}
 .checkItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
+  padding: 8px 10px;
   background: #f8fafc;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
   transition: all 0.2s;
 }
 .checkItemName {
-  font-size: 0.875rem;
+  font-size: 12px;
   font-weight: 600;
   color: var(--color-text-primary);
   display: flex;
@@ -266,7 +269,9 @@
   align-items: center;
   gap: 8px;
 }
-
+.card h3{
+  font-size: 12px;
+}
 
 /* Risk Score and Meters Section */
 .riskSection {
@@ -360,7 +365,7 @@
   gap: 4px;
 }
 .compositeTitle {
-  font-size: 1.125rem;
+  font-size: 14px;
   font-weight: 700;
   color: var(--color-text-primary);
 }

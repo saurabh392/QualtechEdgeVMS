@@ -196,5 +196,16 @@
     "ipAddress": "127.0.0.1",
     "status": "Success",
     "severity": "Low"
+  },
+  {
+    "id": "AUD-61386",
+    "timestamp": "16/6/2026, 6:16:21 pm",
+    "actor": "Finance Manager",
+    "role": "Finance Manager",
+    "tenant": "Qualtech Corporate",
+    "action": "Approved invoice INV-2026-9908",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
   }
 ]
