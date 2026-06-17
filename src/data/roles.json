@@ -53,7 +53,7 @@
       "id": "VENDOR",
       "name": "Vendor Portal User",
       "role": "Vendor Portal User",
-      "defaultRoute": "/vendor/dashboard",
+      "defaultRoute": "/vendor/overview",
       "modules": [
         "myDocuments",
         "myKyc",

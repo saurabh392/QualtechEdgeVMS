@@ -46,9 +46,14 @@ export interface VendorPO {
   poId: string;
   vendorId: string;
   issueDate: string;
+  deliveryDate: string;
   items: number;
   value: number;
   status: 'Pending Acknowledgement' | 'Pending Acknowledgment' | 'Acknowledged' | 'Delivered' | 'Invoiced';
+  category?: string;
+  description?: string;
+  issuedBy?: string;
+  paymentTerms?: string;
 }
 
 export interface VendorInvoice {

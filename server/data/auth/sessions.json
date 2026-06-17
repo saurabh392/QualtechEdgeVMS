@@ -1736,5 +1736,93 @@
     "status": "ACTIVE",
     "token": "JWT-DEMO-351100",
     "lastActivity": 1781677641988
+  },
+  {
+    "sessionId": "SESSION-9516",
+    "userId": "USR-1002",
+    "username": "vendor",
+    "role": "VENDOR",
+    "loginTime": "17/6/2026, 12:51:44 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-215114",
+    "lastActivity": 1781680905016
+  },
+  {
+    "sessionId": "SESSION-9035",
+    "userId": "USR-1005",
+    "username": "finance",
+    "role": "FINANCE",
+    "loginTime": "17/6/2026, 12:51:59 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-942397",
+    "lastActivity": 1781680919157
+  },
+  {
+    "sessionId": "SESSION-3997",
+    "userId": "USR-1002",
+    "username": "vendor",
+    "role": "VENDOR",
+    "loginTime": "17/6/2026, 12:53:42 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-959626",
+    "lastActivity": 1781681022791
+  },
+  {
+    "sessionId": "SESSION-7394",
+    "userId": "USR-1002",
+    "username": "vendor",
+    "role": "VENDOR",
+    "loginTime": "17/6/2026, 1:32:33 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-727614",
+    "lastActivity": 1781683353883
+  },
+  {
+    "sessionId": "SESSION-8334",
+    "userId": "USR-1002",
+    "username": "vendor",
+    "role": "VENDOR",
+    "loginTime": "17/6/2026, 1:37:27 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-618646",
+    "lastActivity": 1781684017398
+  },
+  {
+    "sessionId": "SESSION-2443",
+    "userId": "USR-1002",
+    "username": "vendor",
+    "role": "VENDOR",
+    "loginTime": "17/6/2026, 1:44:37 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-459321",
+    "lastActivity": 1781684077082
+  },
+  {
+    "sessionId": "SESSION-2339",
+    "userId": "USR-1002",
+    "username": "vendor",
+    "role": "VENDOR",
+    "loginTime": "17/6/2026, 2:24:17 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-497439",
+    "lastActivity": 1781687998955
+  },
+  {
+    "sessionId": "SESSION-2300",
+    "userId": "USR-1002",
+    "username": "vendor",
+    "role": "VENDOR",
+    "loginTime": "17/6/2026, 2:50:25 pm",
+    "twoFactorVerified": true,
+    "status": "ACTIVE",
+    "token": "JWT-DEMO-770494",
+    "lastActivity": 1781688025353
   }
 ]

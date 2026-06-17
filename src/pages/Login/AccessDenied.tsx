@@ -16,7 +16,7 @@ export const AccessDenied: React.FC = () => {
 
   const handleGoHome = () => {
     if (user?.role === 'VENDOR') {
-      navigate('/vendor/dashboard');
+      navigate('/vendor/overview');
     } else {
       navigate('/dashboard');
     }

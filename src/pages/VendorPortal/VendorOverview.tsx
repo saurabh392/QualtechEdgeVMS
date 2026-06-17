@@ -40,7 +40,7 @@ interface KpiCardProps {
   label: string;
   value: React.ReactNode;
   sub: string;
-  onClick: () => void;
+  onClick?: () => void;
   badge?: { count: number; color: string; label: string };
 }
 
@@ -48,18 +48,18 @@ const KpiCard: React.FC<KpiCardProps> = ({ icon, iconBg, iconColor, label, value
   <div
     className={s.kpiCard}
     onClick={onClick}
-    role="button"
-    tabIndex={0}
-    onKeyDown={e => e.key === 'Enter' && onClick()}
-    style={{ cursor: 'pointer', position: 'relative', transition: 'box-shadow 0.18s, transform 0.18s' }}
-    onMouseEnter={e => {
+    role={onClick ? 'button' : undefined}
+    tabIndex={onClick ? 0 : undefined}
+    onKeyDown={onClick ? (e => e.key === 'Enter' && onClick()) : undefined}
+    style={{ cursor: onClick ? 'pointer' : 'default', position: 'relative', transition: 'box-shadow 0.18s, transform 0.18s' }}
+    onMouseEnter={onClick ? (e => {
       (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(0,0,0,0.12)';
       (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-    }}
-    onMouseLeave={e => {
+    }) : undefined}
+    onMouseLeave={onClick ? (e => {
       (e.currentTarget as HTMLElement).style.boxShadow = '';
       (e.currentTarget as HTMLElement).style.transform = '';
-    }}
+    }) : undefined}
   >
     <div className={s.kpiIcon} style={{ background: iconBg, color: iconColor }}>{icon}</div>
     <div className={s.kpiBody}>
@@ -246,7 +246,7 @@ export const VendorOverview: React.FC = () => {
             onClick={() => navigate('/vendor/invoices')}
           />
 
-          {/* Compliance Health → Documents page */}
+          {/* Compliance Health */}
           <KpiCard
             icon={<ShieldCheck size={22} />}
             iconBg={complianceHealthy ? 'var(--color-success-bg)' : 'var(--color-danger-bg)'}
@@ -254,11 +254,10 @@ export const VendorOverview: React.FC = () => {
             label="Compliance Health"
             value={complianceHealthy ? 'All Good' : `${complianceIssues} Issue${complianceIssues > 1 ? 's' : ''}`}
             sub={complianceHealthy ? 'All documents valid' : `${expiredDocs} expired · ${rejectedDocs} rejected`}
-            onClick={() => navigate('/vendor/documents')}
             badge={complianceIssues > 0 ? { count: complianceIssues, color: 'var(--color-danger)', label: 'need attention' } : undefined}
           />
 
-          {/* Compliance Documents → Documents page */}
+          {/* Compliance Documents */}
           <KpiCard
             icon={<FileText size={22} />}
             iconBg="var(--color-info-bg)"
@@ -266,7 +265,6 @@ export const VendorOverview: React.FC = () => {
             label="Compliance Documents"
             value={totalDocs}
             sub={`${verifiedDocs} verified · ${pendingDocs} pending`}
-            onClick={() => navigate('/vendor/documents')}
             badge={pendingDocs > 0 ? { count: pendingDocs, color: '#d97706', label: 'under review' } : undefined}
           />
 
