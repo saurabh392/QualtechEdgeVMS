@@ -70,5 +70,47 @@
     "category": "IT Services",
     "description": "Data migration and analytics platform delivery",
     "issuedBy": "Axis Max Life Insurance — Data Engineering"
+  },
+  {
+    "poId": "PO-2026-000797",
+    "vendorId": "VND-001",
+    "issueDate": "08 Jun 2026",
+    "deliveryDate": "2026-06-18",
+    "items": 1,
+    "value": 1250000,
+    "status": "Invoiced",
+    "category": "IT Services",
+    "description": "IT Services — Ref: REQ-2026-00082",
+    "issuedBy": "Axis Max Life Insurance — Procurement",
+    "paymentTerms": "Net 30",
+    "adminSynced": true
+  },
+  {
+    "poId": "PO-2026-000796",
+    "vendorId": "VND-001",
+    "issueDate": "25 May 2026",
+    "deliveryDate": "2026-06-04",
+    "items": 1,
+    "value": 450000,
+    "status": "Invoiced",
+    "category": "IT Hardware & Infrastructure",
+    "description": "IT Hardware & Infrastructure — Ref: REQ-2026-00086",
+    "issuedBy": "Axis Max Life Insurance — Procurement",
+    "paymentTerms": "Net 30",
+    "adminSynced": true
+  },
+  {
+    "poId": "PO-2026-000789",
+    "vendorId": "VND-001",
+    "issueDate": "12 May 2026",
+    "deliveryDate": "2026-05-20",
+    "items": 1,
+    "value": 1250000,
+    "status": "Acknowledged",
+    "category": "IT Services",
+    "description": "IT Services — Ref: REQ-2026-00082",
+    "issuedBy": "Axis Max Life Insurance — Procurement",
+    "paymentTerms": "Net 30",
+    "adminSynced": true
   }
 ]

@@ -51,7 +51,8 @@
   align-items: center;
   gap: 14px;
   box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s, transform 0.15s;
+  cursor: pointer;
 }
 
 .kpiCard:hover {
@@ -62,6 +63,13 @@
 .kpiCard:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+}
+
+.kpiCardActive {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+  background-color: #f0f5ff;
+  cursor: pointer;
 }
 
 .kpiIcon {

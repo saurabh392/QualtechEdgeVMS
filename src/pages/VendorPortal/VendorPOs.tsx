@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
   Package, Search, CheckCircle, ChevronRight, X,
-  Calendar, Tag, Building2, CreditCard, Clock, FileCheck
+  Calendar, Tag, Building2, CreditCard, Clock, FileCheck,
+  ShoppingCart, Hourglass, Truck, FileText
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useVendorPOs, useAcknowledgePO } from '../../hooks/useVendorPortal';
@@ -24,11 +25,18 @@ export const VendorPOs: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'All' | 'Pending' | 'Acknowledged' | 'Invoiced'>('All');
   const [selectedPO, setSelectedPO] = useState<(typeof pos)[0] | null>(null);
 
-  const tabs: { key: typeof activeTab; label: string }[] = [
-    { key: 'All', label: `All (${pos.length})` },
-    { key: 'Pending', label: `Pending (${pos.filter(p => p.status.startsWith('Pending')).length})` },
-    { key: 'Acknowledged', label: `Acknowledged (${pos.filter(p => p.status === 'Acknowledged' || p.status === 'Delivered').length})` },
-    { key: 'Invoiced', label: `Invoiced (${pos.filter(p => p.status === 'Invoiced').length})` },
+  const counts = {
+    All:          pos.length,
+    Pending:      pos.filter(p => p.status.startsWith('Pending')).length,
+    Acknowledged: pos.filter(p => p.status === 'Acknowledged' || p.status === 'Delivered').length,
+    Invoiced:     pos.filter(p => p.status === 'Invoiced').length,
+  };
+
+  const kpiCards: { key: typeof activeTab; label: string; icon: React.ReactNode; bg: string; color: string; sub: string }[] = [
+    { key: 'All',          label: 'Total POs',          icon: <ShoppingCart size={16} />, bg: '#eff6ff', color: '#3b82f6', sub: 'All purchase orders' },
+    { key: 'Pending',      label: 'Pending',            icon: <Hourglass size={16} />,    bg: '#fffbeb', color: '#f59e0b', sub: 'Awaiting acknowledgement' },
+    { key: 'Acknowledged', label: 'Acknowledged',       icon: <Truck size={16} />,        bg: '#dcfce7', color: '#10b981', sub: 'Confirmed & in delivery' },
+    { key: 'Invoiced',     label: 'Invoiced',           icon: <FileText size={16} />,     bg: '#f3e8ff', color: '#8b5cf6', sub: 'Invoice submitted' },
   ];
 
   const filtered = pos.filter(p => {
@@ -94,16 +102,24 @@ export const VendorPOs: React.FC = () => {
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className={s.tabsRow}>
-        {tabs.map(t => (
-          <button
-            key={t.key}
-            className={`${s.tabBtn} ${activeTab === t.key ? s.tabBtnActive : ''}`}
-            onClick={() => setActiveTab(t.key)}
+      {/* KPI Cards */}
+      <div className={s.kpiGrid}>
+        {kpiCards.map(k => (
+          <div
+            key={k.key}
+            className={`${s.kpiCard} ${activeTab === k.key ? s.kpiCardActive : ''}`}
+            onClick={() => setActiveTab(k.key)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => e.key === 'Enter' && setActiveTab(k.key)}
           >
-            {t.label}
-          </button>
+            <div className={s.kpiIcon} style={{ background: k.bg, color: k.color }}>{k.icon}</div>
+            <div className={s.kpiBody}>
+              <div className={s.kpiLabel}>{k.label}</div>
+              <div className={s.kpiValue}>{counts[k.key]}</div>
+              <div className={s.kpiSub}>{k.sub}</div>
+            </div>
+          </div>
         ))}
       </div>
 
