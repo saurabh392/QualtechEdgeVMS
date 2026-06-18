@@ -25,5 +25,41 @@
     "action": "Approved",
     "remarks": "",
     "timestamp": "2026-06-08T04:13:08.345Z"
+  },
+  {
+    "id": "APP-73049",
+    "vendorId": "VND-2025-00029",
+    "vendorName": "ABC Infotech Private Limited",
+    "performedBy": "Procurement Manager",
+    "action": "Approved",
+    "remarks": "Vendor KYC verified and cleared. Approved and empanelled.",
+    "timestamp": "2026-06-17T07:45:28.071Z"
+  },
+  {
+    "id": "APP-94823",
+    "vendorId": "VND-2026-88001",
+    "vendorName": "HDFC Bank Limited",
+    "performedBy": "Procurement Manager",
+    "action": "Approved",
+    "remarks": "Vendor KYC verified and cleared. Approved and empanelled.",
+    "timestamp": "2026-06-17T07:45:31.164Z"
+  },
+  {
+    "id": "APP-26108",
+    "vendorId": "VND-2026-88164",
+    "vendorName": "axis max life ",
+    "performedBy": "Procurement Manager",
+    "action": "Rejected",
+    "remarks": "Vendor KYC checks failed. Debarred from onboarding.",
+    "timestamp": "2026-06-17T07:56:22.172Z"
+  },
+  {
+    "id": "APP-22813",
+    "vendorId": "VND-2026-45682",
+    "vendorName": "New Age Software Solutions",
+    "performedBy": "Procurement Manager",
+    "action": "Approved",
+    "remarks": "Vendor KYC verified and cleared. Approved and empanelled.",
+    "timestamp": "2026-06-17T10:56:01.808Z"
   }
 ]

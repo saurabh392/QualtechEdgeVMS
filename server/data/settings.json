@@ -21,7 +21,7 @@
       "Mumbai Finance Shared Services",
       "Bangalore IT Operations"
     ],
-    "lastUpdated": "2026-06-09T08:00:00.000Z",
+    "lastUpdated": "2026-06-18T05:37:31.832Z",
     "updatedBy": "Saurabh Anand"
   },
   "users": [
@@ -124,15 +124,78 @@
     }
   ],
   "permissionsMatrix": [
-    { "module": "Vendors Master", "superAdmin": true, "procurement": true, "finance": false, "compliance": true, "vendor": false },
-    { "module": "Documents & KYC", "superAdmin": true, "procurement": true, "finance": false, "compliance": true, "vendor": true },
-    { "module": "Contracts & SLAs", "superAdmin": true, "procurement": true, "finance": false, "compliance": false, "vendor": false },
-    { "module": "Purchase Orders", "superAdmin": true, "procurement": true, "finance": false, "compliance": false, "vendor": false },
-    { "module": "Invoice Management", "superAdmin": true, "procurement": false, "finance": true, "compliance": false, "vendor": true },
-    { "module": "Payments & Treasury", "superAdmin": true, "procurement": false, "finance": true, "compliance": false, "vendor": false },
-    { "module": "Reports & MIS", "superAdmin": true, "procurement": true, "finance": true, "compliance": true, "vendor": false },
-    { "module": "Catalogue", "superAdmin": true, "procurement": true, "finance": false, "compliance": false, "vendor": false },
-    { "module": "Settings & Config", "superAdmin": true, "procurement": false, "finance": false, "compliance": false, "vendor": false }
+    {
+      "module": "Vendors Master",
+      "superAdmin": true,
+      "procurement": true,
+      "finance": false,
+      "compliance": true,
+      "vendor": false
+    },
+    {
+      "module": "Documents & KYC",
+      "superAdmin": true,
+      "procurement": true,
+      "finance": false,
+      "compliance": true,
+      "vendor": true
+    },
+    {
+      "module": "Contracts & SLAs",
+      "superAdmin": true,
+      "procurement": true,
+      "finance": false,
+      "compliance": false,
+      "vendor": false
+    },
+    {
+      "module": "Purchase Orders",
+      "superAdmin": true,
+      "procurement": true,
+      "finance": false,
+      "compliance": false,
+      "vendor": false
+    },
+    {
+      "module": "Invoice Management",
+      "superAdmin": true,
+      "procurement": false,
+      "finance": true,
+      "compliance": false,
+      "vendor": true
+    },
+    {
+      "module": "Payments & Treasury",
+      "superAdmin": true,
+      "procurement": false,
+      "finance": true,
+      "compliance": false,
+      "vendor": false
+    },
+    {
+      "module": "Reports & MIS",
+      "superAdmin": true,
+      "procurement": true,
+      "finance": true,
+      "compliance": true,
+      "vendor": false
+    },
+    {
+      "module": "Catalogue",
+      "superAdmin": true,
+      "procurement": true,
+      "finance": false,
+      "compliance": false,
+      "vendor": false
+    },
+    {
+      "module": "Settings & Config",
+      "superAdmin": true,
+      "procurement": false,
+      "finance": false,
+      "compliance": false,
+      "vendor": false
+    }
   ],
   "notifications": {
     "emailAlerts": true,
@@ -147,15 +210,60 @@
     "poApproval": false,
     "systemHealth": true,
     "digestFrequency": "Daily",
-    "escalationEmails": ["neha.sharma@qualtech.in", "amit.singh@qualtech.in"]
+    "escalationEmails": [
+      "neha.sharma@qualtech.in",
+      "amit.singh@qualtech.in"
+    ]
   },
   "integrations": [
-    { "id": "INT-001", "name": "SAP ERP S/4HANA", "category": "ERP", "status": "Connected", "lastSync": "2026-06-09T08:00:00.000Z", "uptime": "99.98%" },
-    { "id": "INT-002", "name": "GSTN Portal", "category": "Tax & Compliance", "status": "Connected", "lastSync": "2026-06-09T09:00:00.000Z", "uptime": "99.95%" },
-    { "id": "INT-003", "name": "HDFC Bank API", "category": "Payment Gateway", "status": "Connected", "lastSync": "2026-06-09T07:30:00.000Z", "uptime": "99.99%" },
-    { "id": "INT-004", "name": "Oracle Financials", "category": "ERP", "status": "Disconnected", "lastSync": "2026-05-01T00:00:00.000Z", "uptime": "0%" },
-    { "id": "INT-005", "name": "TDS Portal (TRACES)", "category": "Tax & Compliance", "status": "Connected", "lastSync": "2026-06-08T18:00:00.000Z", "uptime": "99.90%" },
-    { "id": "INT-006", "name": "DocuSign eSign", "category": "Document Signing", "status": "Connected", "lastSync": "2026-06-09T06:00:00.000Z", "uptime": "99.85%" }
+    {
+      "id": "INT-001",
+      "name": "SAP ERP S/4HANA",
+      "category": "ERP",
+      "status": "Connected",
+      "lastSync": "2026-06-09T08:00:00.000Z",
+      "uptime": "99.98%"
+    },
+    {
+      "id": "INT-002",
+      "name": "GSTN Portal",
+      "category": "Tax & Compliance",
+      "status": "Connected",
+      "lastSync": "2026-06-09T09:00:00.000Z",
+      "uptime": "99.95%"
+    },
+    {
+      "id": "INT-003",
+      "name": "HDFC Bank API",
+      "category": "Payment Gateway",
+      "status": "Connected",
+      "lastSync": "2026-06-09T07:30:00.000Z",
+      "uptime": "99.99%"
+    },
+    {
+      "id": "INT-004",
+      "name": "Oracle Financials",
+      "category": "ERP",
+      "status": "Disconnected",
+      "lastSync": "2026-05-01T00:00:00.000Z",
+      "uptime": "0%"
+    },
+    {
+      "id": "INT-005",
+      "name": "TDS Portal (TRACES)",
+      "category": "Tax & Compliance",
+      "status": "Connected",
+      "lastSync": "2026-06-08T18:00:00.000Z",
+      "uptime": "99.90%"
+    },
+    {
+      "id": "INT-006",
+      "name": "DocuSign eSign",
+      "category": "Document Signing",
+      "status": "Connected",
+      "lastSync": "2026-06-09T06:00:00.000Z",
+      "uptime": "99.85%"
+    }
   ],
   "security": {
     "mfaEnabled": true,
@@ -170,10 +278,69 @@
     "dataRetentionDays": 365
   },
   "auditLogs": [
-    { "id": "AUD-SET-001", "action": "Organization profile updated", "performedBy": "Neha Sharma", "role": "Super Admin", "timestamp": "2026-06-09T08:10:00.000Z", "severity": "Medium", "status": "Success" },
-    { "id": "AUD-SET-002", "action": "New user USR-005 created", "performedBy": "Neha Sharma", "role": "Super Admin", "timestamp": "2026-06-08T14:30:00.000Z", "severity": "High", "status": "Success" },
-    { "id": "AUD-SET-003", "action": "GSTN integration re-authorized", "performedBy": "Rajesh Patel", "role": "Compliance Officer", "timestamp": "2026-06-07T11:45:00.000Z", "severity": "Medium", "status": "Success" },
-    { "id": "AUD-SET-004", "action": "MFA policy enforced for all roles", "performedBy": "Neha Sharma", "role": "Super Admin", "timestamp": "2026-06-05T09:00:00.000Z", "severity": "High", "status": "Success" },
-    { "id": "AUD-SET-005", "action": "Password policy updated — expiry 90 days", "performedBy": "Neha Sharma", "role": "Super Admin", "timestamp": "2026-06-01T10:00:00.000Z", "severity": "Medium", "status": "Success" }
-  ]
+    {
+      "id": "AUD-SET-1781761051833",
+      "action": "Settings updated — section: organization, updatedBy",
+      "performedBy": "Saurabh Anand",
+      "role": "Super Admin",
+      "timestamp": "2026-06-18T05:37:31.833Z",
+      "severity": "Medium",
+      "status": "Success"
+    },
+    {
+      "id": "AUD-SET-1781761049948",
+      "action": "Settings updated — section: organization, updatedBy",
+      "performedBy": "Saurabh Anand",
+      "role": "Super Admin",
+      "timestamp": "2026-06-18T05:37:29.948Z",
+      "severity": "Medium",
+      "status": "Success"
+    },
+    {
+      "id": "AUD-SET-001",
+      "action": "Organization profile updated",
+      "performedBy": "Neha Sharma",
+      "role": "Super Admin",
+      "timestamp": "2026-06-09T08:10:00.000Z",
+      "severity": "Medium",
+      "status": "Success"
+    },
+    {
+      "id": "AUD-SET-002",
+      "action": "New user USR-005 created",
+      "performedBy": "Neha Sharma",
+      "role": "Super Admin",
+      "timestamp": "2026-06-08T14:30:00.000Z",
+      "severity": "High",
+      "status": "Success"
+    },
+    {
+      "id": "AUD-SET-003",
+      "action": "GSTN integration re-authorized",
+      "performedBy": "Rajesh Patel",
+      "role": "Compliance Officer",
+      "timestamp": "2026-06-07T11:45:00.000Z",
+      "severity": "Medium",
+      "status": "Success"
+    },
+    {
+      "id": "AUD-SET-004",
+      "action": "MFA policy enforced for all roles",
+      "performedBy": "Neha Sharma",
+      "role": "Super Admin",
+      "timestamp": "2026-06-05T09:00:00.000Z",
+      "severity": "High",
+      "status": "Success"
+    },
+    {
+      "id": "AUD-SET-005",
+      "action": "Password policy updated — expiry 90 days",
+      "performedBy": "Neha Sharma",
+      "role": "Super Admin",
+      "timestamp": "2026-06-01T10:00:00.000Z",
+      "severity": "Medium",
+      "status": "Success"
+    }
+  ],
+  "updatedBy": "Saurabh Anand"
 }

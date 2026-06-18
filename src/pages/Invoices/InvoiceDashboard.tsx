@@ -62,7 +62,7 @@ export const InvoiceDashboard: React.FC = () => {
   useEffect(() => {
     axios.get('/api/invoices')
       .then(r => setInvoices(r.data))
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
 
@@ -152,9 +152,7 @@ export const InvoiceDashboard: React.FC = () => {
           <p className={styles.subtitle}>Automate Accounts Payable processing and compliance</p>
         </div>
         <div className={styles.headerActions}>
-          <div className={styles.dateFilter}>
-            <span>12 May 2026 - 18 May 2026</span>
-          </div>
+
           <Button icon={<Upload size={16} />} onClick={() => navigate('/invoices/upload')}>Upload Invoice</Button>
         </div>
       </header>
@@ -162,11 +160,11 @@ export const InvoiceDashboard: React.FC = () => {
       {/* KPI Cards */}
       <div className={styles.kpiGrid}>
         {([
-          { tab: 'All',           label: 'Total Invoices',    icon: <FileText size={16} />,     bg: '#eff6ff', color: '#1d4ed8', sub: '+8.2% vs last month',      onClick: () => handleKpiClick('All', 'All', 'All') },
-          { tab: 'Pending Match', label: 'Pending Match',     icon: <Clock size={16} />,        bg: '#fffbeb', color: '#f59e0b', sub: 'Requires 3-Way Match',      onClick: () => handleKpiClick('Pending Match', 'Pending Match') },
-          { tab: 'Exceptions',    label: 'Exceptions',        icon: <AlertTriangle size={16} />,bg: '#f3e8ff', color: '#7c3aed', sub: 'Tax & compliance mismatches',onClick: () => handleKpiClick('Exceptions', 'Exception') },
-          { tab: 'Approved',      label: 'Approved Invoices', icon: <CheckCircle2 size={16} />, bg: '#dcfce7', color: '#16a34a', sub: 'Ready for disbursement',    onClick: () => handleKpiClick('Approved', 'Approved') },
-          { tab: 'Paid',          label: 'Paid Invoices',     icon: <CreditCard size={16} />,   bg: '#ffedd5', color: '#f97316', sub: 'Settled & reconciled',      onClick: () => handleKpiClick('Paid', 'Paid') },
+          { tab: 'All', label: 'Total Invoices', icon: <FileText size={16} />, bg: '#eff6ff', color: '#1d4ed8', sub: '+8.2% vs last month', onClick: () => handleKpiClick('All', 'All', 'All') },
+          { tab: 'Pending Match', label: 'Pending Match', icon: <Clock size={16} />, bg: '#fffbeb', color: '#f59e0b', sub: 'Requires 3-Way Match', onClick: () => handleKpiClick('Pending Match', 'Pending Match') },
+          { tab: 'Exceptions', label: 'Exceptions', icon: <AlertTriangle size={16} />, bg: '#f3e8ff', color: '#7c3aed', sub: 'Tax & compliance mismatches', onClick: () => handleKpiClick('Exceptions', 'Exception') },
+          { tab: 'Approved', label: 'Approved Invoices', icon: <CheckCircle2 size={16} />, bg: '#dcfce7', color: '#16a34a', sub: 'Ready for disbursement', onClick: () => handleKpiClick('Approved', 'Approved') },
+          { tab: 'Paid', label: 'Paid Invoices', icon: <CreditCard size={16} />, bg: '#ffedd5', color: '#f97316', sub: 'Settled & reconciled', onClick: () => handleKpiClick('Paid', 'Paid') },
         ] as const).map(k => (
           <Card key={k.tab} className={`${styles.kpiCard} ${activeTab === k.tab ? styles.kpiCardActive : ''}`} onClick={k.onClick}>
             <div className={styles.kpiIcon} style={{ backgroundColor: k.bg, color: k.color, flexShrink: 0 }}>{k.icon}</div>
@@ -210,7 +208,7 @@ export const InvoiceDashboard: React.FC = () => {
               <option value="Medium Risk">Medium Risk</option>
               <option value="High Risk">High Risk</option>
             </select>
-          {/* <Button variant="ghost" icon={<Filter size={16} />}>More Filters</Button> */}
+            {/* <Button variant="ghost" icon={<Filter size={16} />}>More Filters</Button> */}
           </div>
 
           <Button variant="outline" icon={<Download size={16} />}>Export</Button>

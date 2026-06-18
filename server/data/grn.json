@@ -1,0 +1,20 @@
+[
+  {
+    "grnNumber": "GRN-2026-09001",
+    "poNumber": "PO-2026-00003",
+    "vendorId": "VND-2025-00029",
+    "vendorName": "ABC Infotech Private Limited",
+    "receiptDate": "2026-06-17",
+    "receivedQuantity": 1,
+    "status": "Completed"
+  },
+  {
+    "grnNumber": "GRN-2026-00001",
+    "poNumber": "PO-2026-00001",
+    "vendorId": "VND-2025-00029",
+    "vendorName": "ABC Infotech Private Limited",
+    "receiptDate": "2026-06-15",
+    "receivedQuantity": 1,
+    "status": "Completed"
+  }
+]

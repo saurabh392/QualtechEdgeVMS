@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { 
-  Users, 
-  UserCheck, 
-  ShieldAlert, 
-  TrendingUp,
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import {
+  Users,
+  ShoppingCart,
   Receipt,
+  CreditCard,
   FileText,
-  Calendar,
   FileSignature,
   DollarSign,
   ArrowRight,
-  UserPlus
+  UserPlus,
+  UserCheck,
+  ShieldAlert,
+  BookOpen,
+  Wallet,
 } from 'lucide-react';
 
 import { Card } from '../../components/Card/Card';
+import { useVendors } from '../../context/VendorContext';
 import styles from './Dashboard.module.css';
 
-// Mock Data
+// ── Static mock data ──────────────────────────────────────────────────────────
 
 const recentActivity = [
   { id: 1, title: 'New vendor "XYZ Infra Pvt Ltd" onboarded', time: '12 May 2026, 11:30 AM', status: 'Onboarded', icon: 'UserPlus' },
@@ -25,17 +30,100 @@ const recentActivity = [
   { id: 4, title: 'Payment of ₹ 12.45 Lakh released to ABC Services', time: '12 May 2026, 09:15 AM', status: 'Payment Released', icon: 'DollarSign' },
 ];
 
-const approvalQueue = [
-  { id: 1, name: 'Vendor Approval', count: 12, icon: 'UserCheck', color: '#1D4ED8' },
-  { id: 2, name: 'KYC Approval', count: 8, icon: 'ShieldAlert', color: '#16A34A' },
-  { id: 3, name: 'PO Approval', count: 24, icon: 'FileText', color: '#F59E0B' },
-  { id: 4, name: 'Invoice Approval', count: 19, icon: 'Receipt', color: '#9333EA' },
-  { id: 5, name: 'Contract Approval', count: 6, icon: 'FileSignature', color: '#DC2626' },
+// ── Approval Queue static config (counts fetched dynamically) ─────────────────
+
+interface ApprovalQueueItem {
+  id: number;
+  name: string;
+  icon: string;
+  color: string;
+  route: string;
+  count: number;
+}
+
+const APPROVAL_QUEUE_CONFIG: Omit<ApprovalQueueItem, 'count'>[] = [
+  { id: 1, name: 'Vendor Approval',                     icon: 'UserCheck',     color: '#1D4ED8', route: '/kyc/reviews'                },
+  { id: 2, name: 'ITEM & SERVICE CATALOGUE Approvals',  icon: 'BookOpen',      color: '#16A34A', route: '/catalogue/approvals'        },
+  { id: 3, name: 'PO Approval',                         icon: 'FileText',      color: '#F59E0B', route: '/purchase-orders/approvals'  },
+  { id: 4, name: 'Invoice Approval',                    icon: 'Receipt',       color: '#9333EA', route: '/invoices/approvals'         },
+  { id: 5, name: 'Payment Approvals',                   icon: 'Wallet',        color: '#DC2626', route: '/payments/approvals'         },
 ];
 
+// ── Component ─────────────────────────────────────────────────────────────────
+
 export const Dashboard: React.FC = () => {
-  const [loading, setLoading] = useState(true);
-  useEffect(() => { const t = setTimeout(() => setLoading(false), 600); return () => clearTimeout(t); }, []);
+  const navigate = useNavigate();
+  const { vendors, loading: vendorsLoading } = useVendors();
+
+  const [kpiCounts, setKpiCounts] = useState({
+    totalPOs: 0,
+    totalInvoices: 0,
+    totalPayments: 0,
+  });
+  const [kpiLoading, setKpiLoading] = useState(true);
+
+  // Approval queue — live counts
+  const [approvalCounts, setApprovalCounts] = useState<Record<string, number>>({
+    vendorApprovals: 0,
+    catalogueApprovals: 0,
+    poApprovals: 0,
+    invoiceApprovals: 0,
+    paymentApprovals: 0,
+  });
+  const [approvalLoading, setApprovalLoading] = useState(true);
+
+  useEffect(() => {
+    setKpiLoading(true);
+    Promise.all([
+      axios.get('/api/purchase-orders').catch(() => ({ data: [] })),
+      axios.get('/api/invoices').catch(() => ({ data: [] })),
+      axios.get('/api/payments').catch(() => ({ data: [] })),
+    ]).then(([posRes, invoicesRes, paymentsRes]) => {
+      setKpiCounts({
+        totalPOs: Array.isArray(posRes.data) ? posRes.data.length : 0,
+        totalInvoices: Array.isArray(invoicesRes.data) ? invoicesRes.data.length : 0,
+        totalPayments: Array.isArray(paymentsRes.data) ? paymentsRes.data.length : 0,
+      });
+    }).catch((err) => {
+      console.error('Dashboard KPI fetch error:', err);
+    }).finally(() => {
+      setKpiLoading(false);
+    });
+  }, []);
+
+  // Fetch live approval queue counts from the dedicated aggregation endpoint
+  useEffect(() => {
+    setApprovalLoading(true);
+    axios.get('/api/dashboard/approval-counts')
+      .then(res => {
+        if (res.data && typeof res.data === 'object') {
+          setApprovalCounts({
+            vendorApprovals:    res.data.vendorApprovals    ?? 0,
+            catalogueApprovals: res.data.catalogueApprovals ?? 0,
+            poApprovals:        res.data.poApprovals        ?? 0,
+            invoiceApprovals:   res.data.invoiceApprovals   ?? 0,
+            paymentApprovals:   res.data.paymentApprovals   ?? 0,
+          });
+        }
+      })
+      .catch(err => {
+        console.error('Dashboard approval counts fetch error:', err);
+      })
+      .finally(() => {
+        setApprovalLoading(false);
+      });
+  }, []);
+
+  // Map config entries to live counts
+  const approvalQueueItems: ApprovalQueueItem[] = [
+    { ...APPROVAL_QUEUE_CONFIG[0], count: approvalCounts.vendorApprovals    },
+    { ...APPROVAL_QUEUE_CONFIG[1], count: approvalCounts.catalogueApprovals },
+    { ...APPROVAL_QUEUE_CONFIG[2], count: approvalCounts.poApprovals        },
+    { ...APPROVAL_QUEUE_CONFIG[3], count: approvalCounts.invoiceApprovals   },
+    { ...APPROVAL_QUEUE_CONFIG[4], count: approvalCounts.paymentApprovals   },
+  ];
+
+  const loading = vendorsLoading || kpiLoading;
 
   if (loading) {
     return (
@@ -51,10 +139,59 @@ export const Dashboard: React.FC = () => {
             </div>
           ))}
         </div>
-
       </div>
     );
   }
+
+  const activeVendorCount = vendors.filter(v => v.status === 'Active').length;
+
+  const kpiCards = [
+    {
+      label: 'Total Vendors',
+      value: vendors.length,
+      icon: <Users size={20} />,
+      bg: '#eff6ff',
+      color: '#1d4ed8',
+      footer: `${activeVendorCount} Active`,
+      onClick: () => navigate('/vendors'),
+    },
+    {
+      label: 'Active Vendors',
+      value: activeVendorCount,
+      icon: <UserCheck size={20} />,
+      bg: '#dcfce7',
+      color: '#16a34a',
+      footer: 'Active & Approved Vendors',
+      onClick: () => navigate('/vendors'),
+    },
+    {
+      label: 'Total POs',
+      value: kpiCounts.totalPOs,
+      icon: <ShoppingCart size={20} />,
+      bg: '#e0f2fe',
+      color: '#0ea5e9',
+      footer: 'Purchase Orders',
+      onClick: () => navigate('/purchase-orders/dashboard'),
+    },
+    {
+      label: 'Total Invoices',
+      value: kpiCounts.totalInvoices,
+      icon: <Receipt size={20} />,
+      bg: '#f3e8ff',
+      color: '#9333ea',
+      footer: 'Across all stages',
+      onClick: () => navigate('/invoices/dashboard'),
+    },
+    {
+      label: 'Total Payments',
+      value: kpiCounts.totalPayments,
+      icon: <CreditCard size={20} />,
+      bg: '#fef3c7',
+      color: '#f59e0b',
+      footer: 'Payment records',
+      onClick: () => navigate('/payments/dashboard'),
+    },
+  ];
 
   return (
     <div className={styles.dashboard}>
@@ -63,124 +200,98 @@ export const Dashboard: React.FC = () => {
           <h1 className={styles.title}>Welcome back, Saurabh Anand! 👋</h1>
           <p className={styles.subtitle}>Here's what's happening with your vendor ecosystem.</p>
         </div>
-        <div className={styles.headerActions}>
-          <div className={styles.dateSelector}>
-            <Calendar size={16} />
-            <span>12 May 2026 - 18 May 2026</span>
-          </div>
-        </div>
+
       </header>
 
-      {/* KPI Cards Row (6 Cards) */}
+      {/* KPI Cards Row (5 Live-Data Cards) */}
       <div className={styles.kpiGrid}>
-        <Card className={styles.kpiCard}>
-          <div className={styles.kpiHeader}>
-            <span className={styles.kpiLabel}>Total Vendors</span>
-            <div className={styles.kpiIconWrapper} style={{ backgroundColor: '#eff6ff', color: '#1d4ed8' }}>
-              <Users size={20} />
+        {kpiCards.map(k => (
+          <Card
+            key={k.label}
+            className={styles.kpiCard}
+            onClick={k.onClick}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className={styles.kpiHeader}>
+              <span className={styles.kpiLabel}>{k.label}</span>
+              <div className={styles.kpiIconWrapper} style={{ backgroundColor: k.bg, color: k.color }}>
+                {k.icon}
+              </div>
             </div>
-          </div>
-          <div className={styles.kpiValue}>1,248</div>
-          <div className={styles.kpiFooter}>
-            <span className={styles.trendUp}><TrendingUp size={14} /> 12.5%</span> vs last month
-          </div>
-        </Card>
-
-        <Card className={styles.kpiCard}>
-          <div className={styles.kpiHeader}>
-            <span className={styles.kpiLabel}>Active Vendors</span>
-            <div className={styles.kpiIconWrapper} style={{ backgroundColor: '#dcfce7', color: '#16a34a' }}>
-              <UserCheck size={20} />
+            <div className={styles.kpiValue} style={{ color: k.color }}>{k.value.toLocaleString('en-IN')}</div>
+            <div className={styles.kpiFooter}>
+              <span className={styles.neutralText}>{k.footer}</span>
             </div>
-          </div>
-          <div className={styles.kpiValue}>1,035</div>
-          <div className={styles.kpiFooter}>
-            <span className={styles.trendUp}><TrendingUp size={14} /> 8.4%</span> vs last month
-          </div>
-        </Card>
-
-        <Card className={styles.kpiCard}>
-          <div className={styles.kpiHeader}>
-            <span className={styles.kpiLabel}>Pending KYC</span>
-            <div className={styles.kpiIconWrapper} style={{ backgroundColor: '#fef3c7', color: '#f59e0b' }}>
-              <ShieldAlert size={20} />
-            </div>
-          </div>
-          <div className={styles.kpiValue}>76</div>
-          <div className={styles.kpiFooter}>
-            <span className={styles.neutralText}>Requires Action</span>
-          </div>
-        </Card>
-
-        <Card className={styles.kpiCard}>
-          <div className={styles.kpiHeader}>
-            <span className={styles.kpiLabel}>Contracts Expiring</span>
-            <div className={styles.kpiIconWrapper} style={{ backgroundColor: '#f3e8ff', color: '#9333ea' }}>
-              <FileSignature size={20} />
-            </div>
-          </div>
-          <div className={styles.kpiValue}>18</div>
-          <div className={styles.kpiFooter}>
-            <span className={styles.neutralText}>In next 30 days</span>
-          </div>
-        </Card>
-
-        <Card className={styles.kpiCard}>
-          <div className={styles.kpiHeader}>
-            <span className={styles.kpiLabel}>Invoices Pending</span>
-            <div className={styles.kpiIconWrapper} style={{ backgroundColor: '#e0f2fe', color: '#0ea5e9' }}>
-              <Receipt size={20} />
-            </div>
-          </div>
-          <div className={styles.kpiValue}>₹ 2.45 Cr</div>
-          <div className={styles.kpiFooter}>
-            <span className={styles.neutralText}>Due in next 7 days</span>
-          </div>
-        </Card>
+          </Card>
+        ))}
       </div>
 
+      {/* Quick Actions Card */}
+      <Card className={styles.quickActionsCard}>
+        <div className={styles.quickActionsHeader}>
+          <span className={styles.quickActionsTitle}>⚡ Quick Actions</span>
+          <span className={styles.quickActionsSubtitle}>Frequently used workflows</span>
+        </div>
+        <div className={styles.quickActionsGrid}>
+          {[
+            {
+              label: 'Register Vendor',
+              description: 'Create a new vendor profile',
+              icon: <UserPlus size={22} />,
+              bg: '#eff6ff',
+              color: '#1d4ed8',
+              path: '/vendors/add',
+            },
+            {
+              label: 'Run KYC Screening',
+              description: 'AI Screening & Risk assessment',
+              icon: <ShieldAlert size={22} />,
+              bg: '#fef3c7',
+              color: '#d97706',
+              path: '/kyc/screening',
+            },
+            {
+              label: 'Raise PO',
+              description: 'Create a new Purchase Requisition',
+              icon: <ShoppingCart size={22} />,
+              bg: '#dcfce7',
+              color: '#16a34a',
+              path: '/purchase-orders/create',
+            },
+            {
+              label: 'Upload Invoice',
+              description: 'Upload and process vendor invoice',
+              icon: <Receipt size={22} />,
+              bg: '#f3e8ff',
+              color: '#9333ea',
+              path: '/invoices/upload',
+            },
+          ].map(action => (
+            <button
+              key={action.label}
+              className={styles.quickActionBtn}
+              onClick={() => navigate(action.path)}
+            >
+              <div className={styles.quickActionIcon} style={{ backgroundColor: action.bg, color: action.color }}>
+                {action.icon}
+              </div>
+              <div className={styles.quickActionText}>
+                <span className={styles.quickActionLabel}>{action.label}</span>
+                <span className={styles.quickActionDesc}>{action.description}</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </Card>
 
       {/* Bottom Widgets Row */}
       <div className={styles.widgetsGrid}>
-        
-        {/* Invoice Aging */}
-        <Card className={styles.widgetCard}>
-          <div className={styles.chartHeader}>
-            <h3>Invoice Aging</h3>
-          </div>
-          <div className={styles.agingGrid}>
-            <div className={styles.agingItem}>
-              <span className={styles.agingLabel} style={{color: '#16a34a'}}>0 - 30 Days</span>
-              <span className={styles.agingValue}>₹ 1.15 Cr</span>
-              <span className={styles.agingPercent}>42%</span>
-              <div className={styles.progressBar}><div className={styles.progressFill} style={{width: '42%', backgroundColor: '#16a34a'}}></div></div>
-            </div>
-            <div className={styles.agingItem}>
-              <span className={styles.agingLabel} style={{color: '#f59e0b'}}>31 - 60 Days</span>
-              <span className={styles.agingValue}>₹ 0.85 Cr</span>
-              <span className={styles.agingPercent}>31%</span>
-              <div className={styles.progressBar}><div className={styles.progressFill} style={{width: '31%', backgroundColor: '#f59e0b'}}></div></div>
-            </div>
-            <div className={styles.agingItem}>
-              <span className={styles.agingLabel} style={{color: '#ea580c'}}>61 - 90 Days</span>
-              <span className={styles.agingValue}>₹ 0.28 Cr</span>
-              <span className={styles.agingPercent}>10%</span>
-              <div className={styles.progressBar}><div className={styles.progressFill} style={{width: '10%', backgroundColor: '#ea580c'}}></div></div>
-            </div>
-            <div className={styles.agingItem}>
-              <span className={styles.agingLabel} style={{color: '#dc2626'}}>90+ Days</span>
-              <span className={styles.agingValue}>₹ 0.17 Cr</span>
-              <span className={styles.agingPercent}>6%</span>
-              <div className={styles.progressBar}><div className={styles.progressFill} style={{width: '6%', backgroundColor: '#dc2626'}}></div></div>
-            </div>
-          </div>
-        </Card>
 
         {/* Recent Activity */}
         <Card className={styles.widgetCard}>
           <div className={styles.chartHeader}>
             <h3>Recent Activity</h3>
-            <a href="#" className={styles.viewAll}>View All</a>
+
           </div>
           <div className={styles.activityList}>
             {recentActivity.map(item => (
@@ -203,27 +314,38 @@ export const Dashboard: React.FC = () => {
           </div>
         </Card>
 
-        {/* Approval Queue */}
+        {/* Approval Queue — dynamic counts + click routing */}
         <Card className={styles.widgetCard}>
           <div className={styles.chartHeader}>
             <h3>Approval Queue</h3>
-            <a href="#" className={styles.viewAll}>View All</a>
+
           </div>
           <div className={styles.queueList}>
-            {approvalQueue.map(item => (
-              <div key={item.id} className={styles.queueItem}>
+            {approvalQueueItems.map(item => (
+              <div
+                key={item.id}
+                className={styles.queueItem}
+                onClick={() => navigate(item.route)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => e.key === 'Enter' && navigate(item.route)}
+              >
                 <div className={styles.queueLeft}>
-                  <div className={styles.queueIcon} style={{color: item.color, backgroundColor: `${item.color}15`}}>
-                    {item.icon === 'UserCheck' && <UserCheck size={18} />}
-                    {item.icon === 'ShieldAlert' && <ShieldAlert size={18} />}
-                    {item.icon === 'FileText' && <FileText size={18} />}
-                    {item.icon === 'Receipt' && <Receipt size={18} />}
-                    {item.icon === 'FileSignature' && <FileSignature size={18} />}
+                  <div className={styles.queueIcon} style={{ color: item.color, backgroundColor: `${item.color}15` }}>
+                    {item.icon === 'UserCheck'   && <UserCheck  size={18} />}
+                    {item.icon === 'BookOpen'     && <BookOpen   size={18} />}
+                    {item.icon === 'FileText'     && <FileText   size={18} />}
+                    {item.icon === 'Receipt'      && <Receipt    size={18} />}
+                    {item.icon === 'Wallet'       && <Wallet     size={18} />}
                   </div>
                   <span className={styles.queueName}>{item.name}</span>
                 </div>
                 <div className={styles.queueRight}>
-                  <span className={styles.queueCount} style={{color: item.color}}>{item.count}</span>
+                  {approvalLoading ? (
+                    <span className={styles.queueCount} style={{ color: item.color }}>—</span>
+                  ) : (
+                    <span className={styles.queueCount} style={{ color: item.color }}>{item.count}</span>
+                  )}
                   <ArrowRight size={16} color="#cbd5e1" />
                 </div>
               </div>

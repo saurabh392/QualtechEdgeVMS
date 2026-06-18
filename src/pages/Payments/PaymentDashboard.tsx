@@ -31,11 +31,12 @@ interface Payment {
   tdsDeducted: number;
 }
 
-type TabKey = 'All' | 'Completed' | 'Processing' | 'Failed' | 'MSME';
+type TabKey = 'All' | 'Completed' | 'Processing' | 'Failed';
 
 export const PaymentDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [payments, setPayments] = useState<Payment[]>([]);
+  const [paymentApprovalsCount, setPaymentApprovalsCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<TabKey>('All');
   const [search, setSearch] = useState('');
@@ -56,25 +57,34 @@ export const PaymentDashboard: React.FC = () => {
   };
 
   useEffect(() => {
-    axios.get('/api/payments')
-      .then(r => setPayments(r.data))
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    setLoading(true);
+    Promise.all([
+      axios.get('/api/payments').catch(() => ({ data: [] })),
+      axios.get('/api/payments/approvals').catch(() => ({ data: [] }))
+    ]).then(([paymentsRes, approvalsRes]) => {
+      setPayments(paymentsRes.data);
+      if (Array.isArray(approvalsRes.data)) {
+        const pendingCount = approvalsRes.data.filter((item: any) => item.status === 'Pending Approval').length;
+        setPaymentApprovalsCount(pendingCount);
+      }
+    }).catch(err => {
+      console.error('Failed to fetch payments or approvals:', err);
+    }).finally(() => {
+      setLoading(false);
+    });
   }, []);
 
   const tabCounts: Record<TabKey, number> = {
-    All:        payments.length,
-    Completed:  payments.filter(p => p.status === 'Completed').length,
+    All: payments.length,
+    Completed: payments.filter(p => p.status === 'Completed').length,
     Processing: payments.filter(p => p.status === 'Processing').length,
-    Failed:     payments.filter(p => p.status === 'Failed').length,
-    MSME:       payments.filter(p => p.vendorType === 'MSME').length,
+    Failed: payments.filter(p => p.status === 'Failed').length,
   };
 
   const filteredPayments = payments.filter(p => {
-    if (activeTab === 'Completed'  && p.status !== 'Completed')  return false;
+    if (activeTab === 'Completed' && p.status !== 'Completed') return false;
     if (activeTab === 'Processing' && p.status !== 'Processing') return false;
-    if (activeTab === 'Failed'     && p.status !== 'Failed')     return false;
-    if (activeTab === 'MSME'       && p.vendorType !== 'MSME')   return false;
+    if (activeTab === 'Failed' && p.status !== 'Failed') return false;
     const q = search.toLowerCase();
     if (q && !p.vendorName.toLowerCase().includes(q) && !p.paymentId.toLowerCase().includes(q) && !p.invoiceId.toLowerCase().includes(q)) return false;
     if (filterMode && p.mode !== filterMode) return false;
@@ -82,7 +92,7 @@ export const PaymentDashboard: React.FC = () => {
     if (filterAmountMin && p.amount < Number(filterAmountMin)) return false;
     if (filterAmountMax && p.amount > Number(filterAmountMax)) return false;
     if (filterDateFrom && p.scheduledDate < filterDateFrom) return false;
-    if (filterDateTo   && p.scheduledDate > filterDateTo)   return false;
+    if (filterDateTo && p.scheduledDate > filterDateTo) return false;
     return true;
   });
 
@@ -94,9 +104,7 @@ export const PaymentDashboard: React.FC = () => {
           <p className={styles.subtitle}>Automate payment execution, treasury scheduling, and bank reconciliation</p>
         </div>
         <div className={styles.headerActions}>
-          <div className={styles.dateFilter}>
-            <span>12 May 2026 - 18 May 2026</span>
-          </div>
+
           <Button icon={<CreditCard size={16} />} onClick={() => navigate('/payments/processing')}>Release Payouts</Button>
         </div>
       </header>
@@ -104,17 +112,27 @@ export const PaymentDashboard: React.FC = () => {
       {/* KPI Cards */}
       <div className={styles.kpiGrid}>
         {([
-          { tab: 'All',        label: 'Total Payments',  icon: <CreditCard size={16} />,    bg: '#eff6ff', color: '#1d4ed8', sub: '+12.4% vs last month' },
-          { tab: 'Completed',  label: 'Completed',       icon: <CheckCircle2 size={16} />,  bg: '#dcfce7', color: '#16a34a', sub: 'Successfully settled' },
-          { tab: 'Processing', label: 'Processing',      icon: <AlertTriangle size={16} />, bg: '#fffbeb', color: '#f59e0b', sub: 'Awaiting bank confirmation' },
-          { tab: 'Failed',     label: 'Failed',          icon: <XCircle size={16} />,       bg: '#fee2e2', color: '#dc2626', sub: 'Beneficiary account issues' },
-          { tab: 'MSME',       label: 'MSME Payments',   icon: <Users size={16} />,         bg: '#f3e8ff', color: '#7c3aed', sub: 'Statutory 45-day tracking' },
+          { key: 'All', label: 'Total Payments', icon: <CreditCard size={16} />, bg: '#eff6ff', color: '#1d4ed8', sub: '+12.4% vs last month', isLink: false, count: tabCounts.All },
+          { key: 'Completed', label: 'Completed', icon: <CheckCircle2 size={16} />, bg: '#dcfce7', color: '#16a34a', sub: 'Successfully settled', isLink: false, count: tabCounts.Completed },
+          { key: 'Processing', label: 'Processing', icon: <AlertTriangle size={16} />, bg: '#fffbeb', color: '#f59e0b', sub: 'Awaiting bank confirmation', isLink: false, count: tabCounts.Processing },
+          { key: 'Failed', label: 'Failed', icon: <XCircle size={16} />, bg: '#fee2e2', color: '#dc2626', sub: 'Beneficiary account issues', isLink: false, count: tabCounts.Failed },
+          { key: 'Approvals', label: 'Payment Approvals', icon: <CheckCircle2 size={16} />, bg: '#f3e8ff', color: '#7c3aed', sub: paymentApprovalsCount > 0 ? 'Pending Finance Approval' : 'No Pending Approvals', isLink: true, count: paymentApprovalsCount },
         ] as const).map(k => (
-          <Card key={k.tab} className={`${styles.kpiCard} ${activeTab === k.tab ? styles.kpiCardActive : ''}`} onClick={() => setActiveTab(k.tab)}>
+          <Card
+            key={k.key}
+            className={`${styles.kpiCard} ${!k.isLink && activeTab === k.key ? styles.kpiCardActive : ''}`}
+            onClick={() => {
+              if (k.isLink) {
+                navigate('/payments/approvals');
+              } else {
+                setActiveTab(k.key as TabKey);
+              }
+            }}
+          >
             <div className={styles.kpiIcon} style={{ backgroundColor: k.bg, color: k.color, flexShrink: 0 }}>{k.icon}</div>
             <div>
               <div className={styles.kpiLabel}>{k.label}</div>
-              <div className={styles.kpiValue}>{tabCounts[k.tab].toLocaleString()}</div>
+              <div className={styles.kpiValue}>{k.count.toLocaleString()}</div>
               <div style={{ fontSize: '0.65rem', color: 'var(--color-text-secondary)', marginTop: 1 }}>{k.sub}</div>
             </div>
           </Card>
@@ -228,7 +246,7 @@ export const PaymentDashboard: React.FC = () => {
                       <Badge
                         variant={
                           p.status === 'Completed' ? 'success' :
-                          p.status === 'Processing' ? 'warning' : 'danger'
+                            p.status === 'Processing' ? 'warning' : 'danger'
                         }
                       >
                         {p.status}
@@ -236,8 +254,8 @@ export const PaymentDashboard: React.FC = () => {
                     </td>
                     <td>
                       <div className={styles.actionsCell}>
-                        {p.status === 'Completed'  && <button className={styles.actionBtn}><Download size={14} /> Advice</button>}
-                        {p.status === 'Failed'     && <button className={styles.actionBtn} style={{ color: '#dc2626' }}>Retry Payout</button>}
+                        {p.status === 'Completed' && <button className={styles.actionBtn}><Download size={14} /> Advice</button>}
+                        {p.status === 'Failed' && <button className={styles.actionBtn} style={{ color: '#dc2626' }}>Retry Payout</button>}
                         {p.status === 'Processing' && <button className={styles.actionBtn}>Track Node</button>}
                       </div>
                     </td>

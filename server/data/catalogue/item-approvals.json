@@ -1,35 +1,14 @@
 [
   {
-    "approvalId": "APP-ITM-001",
-    "itemId": "ITM-2026-0002",
-    "itemName": "Dell Latitude 5530 Business Laptop",
-    "category": "IT Hardware",
+    "approvalId": "APP-SRV-151",
+    "itemId": "SVC-2026-0001",
+    "itemName": "IT annual maintenance contract  ",
+    "category": "Professional Services",
     "preferredVendor": "ABC Infotech Private Limited",
-    "submittedBy": "Saurabh Anand",
-    "submittedDate": "2026-05-22",
+    "submittedBy": "Admin",
+    "submittedDate": "2026-06-17",
     "status": "Pending",
-    "currentApprover": "Procurement Checker"
-  },
-  {
-    "approvalId": "APP-ITM-929",
-    "itemId": "ITM-2026-4298",
-    "itemName": "Dell Latitude 5530 Business Laptop",
-    "category": "IT Hardware",
-    "preferredVendor": "ABC Infotech Private Limited",
-    "submittedBy": "Saurabh Anand",
-    "submittedDate": "2026-05-26",
-    "status": "Pending",
-    "currentApprover": "Procurement Checker"
-  },
-  {
-    "approvalId": "APP-ITM-454",
-    "itemId": "ITM-2026-4452",
-    "itemName": "Dell Latitude 5530 Business Laptop",
-    "category": "IT Hardware",
-    "preferredVendor": "ABC Infotech Private Limited",
-    "submittedBy": "Saurabh Anand",
-    "submittedDate": "2026-06-02",
-    "status": "Pending",
-    "currentApprover": "Procurement Checker"
+    "currentApprover": "Procurement Checker",
+    "isService": true
   }
 ]

@@ -622,5 +622,37 @@
     "details": "Vendor VND-2026-55028 (Global Logistics Partners ) onboarding initiated.",
     "performedBy": "Saurabh Anand",
     "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0079",
+    "timestamp": "2026-06-17T07:45:28.145Z",
+    "action": "KYC Approved",
+    "details": "Vendor VND-2025-00029 (ABC Infotech Private Limited) onboarding approved by Checker.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0080",
+    "timestamp": "2026-06-17T07:45:32.348Z",
+    "action": "KYC Approved",
+    "details": "Vendor VND-2026-88001 (HDFC Bank Limited) onboarding approved by Checker.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0081",
+    "timestamp": "2026-06-17T07:55:30.810Z",
+    "action": "Vendor Deleted",
+    "details": "Vendor VND-2026-55028 (Global Logistics Partners ) profile deleted.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0082",
+    "timestamp": "2026-06-17T10:56:02.203Z",
+    "action": "KYC Approved",
+    "details": "Vendor VND-2026-45682 (New Age Software Solutions) onboarding approved by Checker.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
   }
 ]

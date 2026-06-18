@@ -85,5 +85,92 @@
     "link": "/payments/processing",
     "timestamp": "2026-06-16T12:46:21.068Z",
     "read": false
+  },
+  {
+    "id": "ANOTIF-1781679745096-DOC-2026-0002",
+    "dupKey": "doc_expiry_DOC-2026-0002_13",
+    "type": "document_expiry",
+    "title": "Document Expiring Soon",
+    "message": "\"PAN Card\" for HDFC Bank Limited expires in 13 days.",
+    "link": "/documents",
+    "timestamp": "2026-06-17T07:02:25.096Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1781682328092",
+    "type": "vendor_approved",
+    "title": "Vendor Approved",
+    "message": "ABC Infotech Private Limited has been approved and is now Active.",
+    "link": "/vendors/view?id=VND-2025-00029&view=true",
+    "vendorId": "VND-2025-00029",
+    "timestamp": "2026-06-17T07:45:28.092Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1781682332250",
+    "type": "vendor_approved",
+    "title": "Vendor Approved",
+    "message": "HDFC Bank Limited has been approved and is now Active.",
+    "link": "/vendors/view?id=VND-2026-88001&view=true",
+    "vendorId": "VND-2026-88001",
+    "timestamp": "2026-06-17T07:45:32.250Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1781682982178",
+    "type": "vendor_rejected",
+    "title": "Vendor Rejected",
+    "message": "axis max life  onboarding has been rejected. Remarks: Vendor KYC checks failed. Debarred from onboarding.",
+    "link": "/vendors/approvals",
+    "vendorId": "VND-2026-88164",
+    "timestamp": "2026-06-17T07:56:22.178Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1781693761823",
+    "type": "vendor_approved",
+    "title": "Vendor Approved",
+    "message": "New Age Software Solutions has been approved and is now Active.",
+    "link": "/vendors/view?id=VND-2026-45682&view=true",
+    "vendorId": "VND-2026-45682",
+    "timestamp": "2026-06-17T10:56:01.823Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1781757636867-DOC-2026-0002",
+    "dupKey": "doc_expiry_DOC-2026-0002_12",
+    "type": "document_expiry",
+    "title": "Document Expiring Soon",
+    "message": "\"PAN Card\" for HDFC Bank Limited expires in 12 days.",
+    "link": "/documents",
+    "timestamp": "2026-06-18T04:40:36.867Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1781766037675",
+    "type": "invoice_approved",
+    "title": "Invoice Approved for Payment",
+    "message": "INV-2026-9907 (Secure Facilities Ltd) approved for payment disbursement.",
+    "link": "/payments/processing",
+    "timestamp": "2026-06-18T07:00:37.675Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1781766047751",
+    "type": "invoice_approved",
+    "title": "Invoice Approved for Payment",
+    "message": "INV-2026-9907 (Secure Facilities Ltd) approved for payment disbursement.",
+    "link": "/payments/processing",
+    "timestamp": "2026-06-18T07:00:47.751Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1781766120425",
+    "type": "invoice_approved",
+    "title": "Invoice Approved for Payment",
+    "message": "INV-2026-9908 (ABC Infotech Private Limited) approved for payment disbursement.",
+    "link": "/payments/processing",
+    "timestamp": "2026-06-18T07:02:00.425Z",
+    "read": false
   }
 ]

@@ -1,26 +1,26 @@
 {
   "kpis": {
-    "totalPOs": 9,
-    "posInProgress": 3,
-    "awaitingApproval": 5,
-    "goodsReceived": 4,
-    "pendingInvoices": 5,
-    "poValueThisMonth": 0.74
+    "totalPOs": 1,
+    "posInProgress": 0,
+    "awaitingApproval": 1,
+    "goodsReceived": 0,
+    "pendingInvoices": 0,
+    "poValueThisMonth": 0.12
   },
   "statusData": [
     {
       "name": "Draft",
-      "value": 1,
+      "value": 0,
       "color": "#3B82F6"
     },
     {
       "name": "Pending Approval",
-      "value": 1,
+      "value": 0,
       "color": "#F59E0B"
     },
     {
       "name": "Approved",
-      "value": 1,
+      "value": 0,
       "color": "#10B981"
     },
     {
@@ -30,35 +30,19 @@
     },
     {
       "name": "Fully Received",
-      "value": 4,
+      "value": 0,
       "color": "#6366F1"
     },
     {
       "name": "Canceled",
-      "value": 1,
+      "value": 0,
       "color": "#EF4444"
     }
   ],
   "categoryData": [
     {
       "category": "IT Services",
-      "value": 0.3
-    },
-    {
-      "category": "Consulting",
-      "value": 0.22
-    },
-    {
-      "category": "Facilities",
-      "value": 0.09
-    },
-    {
-      "category": "Security",
-      "value": 0.09
-    },
-    {
-      "category": "IT Hardware & Infrastructure",
-      "value": 0.04
+      "value": 0.12
     }
   ],
   "trendData": [
@@ -89,41 +73,21 @@
     },
     {
       "month": "May",
-      "thisYear": 9,
+      "thisYear": 1,
       "lastYear": 850
     }
   ],
   "topVendors": [
     {
-      "name": "ABC Infotech Pvt Ltd",
-      "value": 0.29,
+      "name": "ABC Infotech Private Limited",
+      "value": 0.12,
       "width": "100%"
-    },
-    {
-      "name": "Fincons Consulting",
-      "value": 0.22,
-      "width": "75%"
-    },
-    {
-      "name": "Secure Facilities Ltd",
-      "value": 0.09,
-      "width": "31%"
-    },
-    {
-      "name": "Global Security Inc",
-      "value": 0.09,
-      "width": "30%"
-    },
-    {
-      "name": "Tech Solutions",
-      "value": 0.03,
-      "width": "12%"
     }
   ],
   "approvalQueue": [
     {
       "type": "PO Approval",
-      "count": 5,
+      "count": 1,
       "color": "#3b82f6"
     },
     {
@@ -138,42 +102,9 @@
     },
     {
       "type": "Payment Approval",
-      "count": 1,
+      "count": 15,
       "color": "#8b5cf6"
     }
   ],
-  "aiInsights": [
-    {
-      "insightId": "AI-PO-001",
-      "type": "delivery_risk",
-      "severity": "medium",
-      "message": "PO-2026-000787 at risk of delivery delay due to import clearance hold",
-      "poId": "PO-2026-000787",
-      "createdDate": "2026-05-13"
-    },
-    {
-      "insightId": "AI-PO-002",
-      "type": "budget_alert",
-      "severity": "high",
-      "message": "CC-IT-OPS budget utilization at 70% — threshold approaching",
-      "poId": null,
-      "createdDate": "2026-05-13"
-    },
-    {
-      "insightId": "AI-PO-003",
-      "type": "savings",
-      "severity": "low",
-      "message": "Rate renegotiation with ABC Infotech can save ₹1.35 Cr this quarter",
-      "poId": "PO-2026-000789",
-      "createdDate": "2026-05-13"
-    },
-    {
-      "insightId": "AI-PO-004",
-      "type": "duplicate",
-      "severity": "high",
-      "message": "REQ-2026-00082 appears similar to REQ-2025-00198. Review for duplication.",
-      "poId": null,
-      "createdDate": "2026-05-12"
-    }
-  ]
+  "aiInsights": []
 }

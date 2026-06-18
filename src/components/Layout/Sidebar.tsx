@@ -60,8 +60,7 @@ const NAV_ITEMS = [
       { name: 'Catalogue Dashboard', path: '/catalogue/dashboard' },
       { name: 'Item Master', path: '/catalogue/items' },
       { name: 'Service Master', path: '/catalogue/services' },
-      { name: 'Vendor Mapping', path: '/catalogue/vendor-mapping' },
-      { name: 'Approval Workflow', path: '/catalogue/approvals' },
+      { name: 'Approvals', path: '/catalogue/approvals' },
     ],
   },
   {
@@ -95,7 +94,7 @@ const NAV_ITEMS = [
       { name: 'Goods Receipt (GRN)', path: '/invoices/grn' },
       { name: '3-Way Match Engine', path: '/invoices/match' },
       { name: 'Invoice Approvals', path: '/invoices/approvals' },
-      { name: 'Finance Dashboard', path: '/finance/dashboard' },
+      // Finance Dashboard is intentionally excluded here — visible only to FINANCE role via FINANCE_NAV_ITEMS
     ],
   },
   {
@@ -154,6 +153,7 @@ const FINANCE_NAV_ITEMS = [
       { name: 'Goods Receipt (GRN)', path: '/invoices/grn' },
       { name: '3-Way Match Engine', path: '/invoices/match' },
       { name: 'Invoice Approvals', path: '/invoices/approvals' },
+      { name: 'Finance Dashboard', path: '/finance/dashboard' },
     ],
   },
   {
@@ -341,6 +341,10 @@ export const Sidebar: React.FC<Props> = ({ collapsed, onToggleCollapse, mobileOp
                       .filter(sub => {
                         if (item.name === 'Vendor Onboarding & KYC' && user?.role === 'PROCUREMENT') {
                           return sub.path === '/vendors';
+                        }
+                        // Finance Dashboard sub-item: only visible to FINANCE role
+                        if (sub.path === '/finance/dashboard' && user?.role !== 'FINANCE') {
+                          return false;
                         }
                         return true;
                       })

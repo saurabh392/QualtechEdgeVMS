@@ -66,7 +66,7 @@
       "riskLevel": "Low",
       "kycStatus": "In Progress",
       "screeningStatus": "Cleared",
-      "approvalStatus": "Pending Review",
+      "approvalStatus": "Rejected",
       "assignedTo": "Compliance Team",
       "dueDate": "2026-07-11",
       "comments": []
@@ -80,7 +80,7 @@
       "riskLevel": "Low",
       "kycStatus": "Pending",
       "screeningStatus": "Cleared",
-      "approvalStatus": "Pending Review",
+      "approvalStatus": "Approved",
       "assignedTo": "Compliance Team",
       "dueDate": "2026-07-15",
       "comments": []

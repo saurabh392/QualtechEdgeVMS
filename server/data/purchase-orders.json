@@ -1,0 +1,22 @@
+[
+  {
+    "poNumber": "PO-2026-00003",
+    "requisitionId": "REQ-2026-00085",
+    "vendorId": "VND-2026-45682",
+    "vendorName": "New Age Software Solutions",
+    "poValue": 1330000,
+    "status": "Approved",
+    "deliveryStatus": "Pending",
+    "createdDate": "2026-06-17"
+  },
+  {
+    "poNumber": "PO-2026-00001",
+    "requisitionId": "REQ-2026-00083",
+    "vendorId": "VND-2025-00029",
+    "vendorName": "ABC Infotech Private Limited",
+    "poValue": 1187500,
+    "status": "Approved",
+    "deliveryStatus": "Pending",
+    "createdDate": "2026-06-17"
+  }
+]

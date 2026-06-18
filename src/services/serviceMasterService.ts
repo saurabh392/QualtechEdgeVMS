@@ -71,3 +71,15 @@ export async function getServiceAttachments(): Promise<any[]> {
   const res = await axios.get('/api/catalogue/service-attachments');
   return res.data;
 }
+
+// 5. Update an existing service
+export async function updateService(id: string, serviceData: Partial<ServiceMasterData>): Promise<ServiceMasterData> {
+  const res = await axios.put(`/api/catalogue/services/${id}`, serviceData);
+  return res.data;
+}
+
+// 6. Delete a service
+export async function deleteService(id: string): Promise<{ success: boolean; message: string }> {
+  const res = await axios.delete(`/api/catalogue/services/${id}`);
+  return res.data;
+}

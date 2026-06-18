@@ -6,14 +6,14 @@ import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
 import { Badge } from '../../components/Badge/Badge';
-import { 
-  createRequisition, 
-  uploadPOFile, 
+import {
+  createRequisition,
+  uploadPOFile,
   getRFQVendors
 } from '../../services/purchaseOrderService';
-import type { 
-  RFQVendor, 
-  UploadedDocument 
+import type {
+  RFQVendor,
+  UploadedDocument
 } from '../../services/purchaseOrderService';
 import styles from './CreatePO.module.css';
 
@@ -75,7 +75,7 @@ export const CreatePO: React.FC = () => {
   }, [selectedVendor]);
 
   useEffect(() => {
-    getRFQVendors()
+    getRFQVendors(estimatedCost)
       .then(res => {
         setVendors(res);
         if (res.length > 0) {
@@ -84,7 +84,7 @@ export const CreatePO: React.FC = () => {
         }
       })
       .catch(err => console.error('Failed to load RFQ vendors:', err));
-  }, []);
+  }, [estimatedCost]);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
@@ -240,7 +240,7 @@ export const CreatePO: React.FC = () => {
             <div className={styles.formGrid}>
               <Input label="Requestor Name" value="Saurabh Anand" disabled />
               <Input label="Department" value={costCenterCode === 'CC-FAC-OPS' ? 'Facilities Operations' : 'IT Services'} disabled />
-              
+
               <div className={styles.formGroup}>
                 <label>Cost Center <span className={styles.required}>*</span></label>
                 <select className={styles.select} value={costCenterCode} onChange={(e) => setCostCenterCode(e.target.value)}>
@@ -250,9 +250,9 @@ export const CreatePO: React.FC = () => {
                   <option value="CC-MGT-CON">CC-MGT-CON - Management Consulting</option>
                 </select>
               </div>
-              
+
               <Input label="Project Code" value={projectCode} onChange={(e) => setProjectCode(e.target.value)} />
-              
+
               <div className={styles.formGroup}>
                 <label>Category <span className={styles.required}>*</span></label>
                 <select className={styles.select} value={category} onChange={(e) => setCategory(e.target.value)}>
@@ -265,7 +265,7 @@ export const CreatePO: React.FC = () => {
 
               <Input label="Item Description" value={itemDescription} onChange={(e) => setItemDescription(e.target.value)} placeholder="Enter details of items/services required..." required />
               <Input label="Quantity" type="number" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} required />
-              
+
               <div className={styles.formGroup}>
                 <label>Unit of Measure (UOM) <span className={styles.required}>*</span></label>
                 <select className={styles.select} value={unitOfMeasure} onChange={(e) => setUnitOfMeasure(e.target.value)}>
@@ -274,10 +274,10 @@ export const CreatePO: React.FC = () => {
                   <option value="Hours">Hours</option>
                 </select>
               </div>
-              
+
               <Input label="Estimated Cost (₹)" type="number" value={estimatedCost} onChange={(e) => setEstimatedCost(Number(e.target.value))} required />
               <Input label="Required Delivery Date" type="date" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} required />
-              
+
               <div className={styles.formGroup} style={{ gridColumn: 'span 2' }}>
                 <label>Technical Specifications / Attachments</label>
                 <div style={{ display: 'flex', gap: '12px', alignItems: 'center', border: '1px dashed var(--color-border)', padding: '16px', borderRadius: '8px' }}>
@@ -312,7 +312,7 @@ export const CreatePO: React.FC = () => {
         {currentStep === 2 && (
           <Card className={styles.formCard}>
             <h3 className={styles.formTitle}>Budget Validation</h3>
-            
+
             <div className={styles.budgetChecklist}>
               <div className={styles.budgetHeader}>
                 <span className={styles.budgetLabel}>Budget Allocated ({costCenterCode})</span>
@@ -323,9 +323,9 @@ export const CreatePO: React.FC = () => {
                 <div className={styles.budgetPendingFill} style={{ width: `${currentReqPct}%`, left: `${consumedPct}%` }}></div>
               </div>
               <div className={styles.budgetLegend}>
-                <span className={styles.legendDotConsumed}>Consumed (₹{(activeBudget.consumed/100000).toFixed(1)} L)</span>
-                <span className={styles.legendDotCurrent}>Current Requisition (₹{(estimatedCost/100000).toFixed(1)} L)</span>
-                <span className={styles.legendDotAvailable}>Available (₹{(availableVal/100000).toFixed(1)} L)</span>
+                <span className={styles.legendDotConsumed}>Consumed (₹{(activeBudget.consumed / 100000).toFixed(1)} L)</span>
+                <span className={styles.legendDotCurrent}>Current Requisition (₹{(estimatedCost / 100000).toFixed(1)} L)</span>
+                <span className={styles.legendDotAvailable}>Available (₹{(availableVal / 100000).toFixed(1)} L)</span>
               </div>
             </div>
 
@@ -334,36 +334,15 @@ export const CreatePO: React.FC = () => {
               <div>
                 <h4>Budget Insights</h4>
                 <p>
-                  {availableVal >= 0 
-                    ? `Allocated budget is sufficient. This transaction utilizes ${Math.round((estimatedCost / activeBudget.allocated) * 100)}% of the total cost center pool. No threshold alerts triggered.` 
+                  {availableVal >= 0
+                    ? `Allocated budget is sufficient. This transaction utilizes ${Math.round((estimatedCost / activeBudget.allocated) * 100)}% of the total cost center pool. No threshold alerts triggered.`
                     : `WARNING: Budget threshold exceeded! This transaction requires an additional ₹${Math.abs(availableVal).toLocaleString('en-IN')} funding pool.`
                   }
                 </p>
               </div>
             </div>
 
-            <div className={styles.escalationBox}>
-              <h4>Approval Escalation Matrix</h4>
-              <div className={styles.approvalChain}>
-                <div className={styles.chainNode}>
-                  <span className={styles.nodeStatus}>✔</span>
-                  <span className={styles.nodeRole}>Requestor</span>
-                  <span className={styles.nodeUser}>Saurabh Anand</span>
-                </div>
-                <ArrowRight size={16} className={styles.chainArrow} />
-                <div className={styles.chainNodeActive}>
-                  <span className={styles.nodeStatusCircle}>2</span>
-                  <span className={styles.nodeRole}>Dept Head</span>
-                  <span className={styles.nodeUser}>Priya Sharma</span>
-                </div>
-                <ArrowRight size={16} className={styles.chainArrow} />
-                <div className={styles.chainNode}>
-                  <span className={styles.nodeStatusCircle}>3</span>
-                  <span className={styles.nodeRole}>Finance</span>
-                  <span className={styles.nodeUser}>Vikram Singh</span>
-                </div>
-              </div>
-            </div>
+
 
             <div className={styles.formActions}>
               <Button variant="outline" onClick={() => setCurrentStep(1)}>Back</Button>
@@ -401,8 +380,8 @@ export const CreatePO: React.FC = () => {
 
             <div className={styles.compareGrid}>
               {vendors.map(v => (
-                <div 
-                  key={v.vendorId} 
+                <div
+                  key={v.vendorId}
                   className={`${styles.compareCard} ${selectedVendor?.vendorId === v.vendorId ? styles.compareCardSelected : ''}`}
                   onClick={() => setSelectedVendor(v)}
                 >

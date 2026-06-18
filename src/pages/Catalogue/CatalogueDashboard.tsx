@@ -214,51 +214,65 @@ export const CatalogueDashboard: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredItems.map(item => {
-                    const isService = (item as any).isService || item.category === 'Professional Services' || item.category === 'Logistics';
-                    return (
-                      <tr key={item.itemId} style={{ borderBottom: '1px solid var(--color-border)' }}>
-                        <td style={{ padding: '12px 16px', fontWeight: '500', color: 'var(--color-primary)' }}>{item.itemId || item.itemCode}</td>
-                        <td style={{ padding: '12px 16px', fontWeight: '500' }}>{item.itemName}</td>
-                        <td style={{ padding: '12px 16px' }}>{isService ? 'Service' : 'Item'}</td>
-                        <td style={{ padding: '12px 16px' }}>{item.category}</td>
-                        <td style={{ padding: '12px 16px' }}>{item.preferredVendor?.vendorName || 'N/A'}</td>
-                        <td style={{ padding: '12px 16px', fontWeight: '600' }}>{(item as any).rate || '₹' + (item.minimumOrderQuantity * 1500).toLocaleString('en-IN')}</td>
-                        <td style={{ padding: '12px 16px' }}>
-                          <span className={item.status === 'Published' ? styles.badgeSuccess : item.status === 'Draft' ? styles.badgeWarning : styles.badgeDanger}>
-                            {item.status || 'Draft'}
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {filteredItems.length === 0 ? (
+                    <tr>
+                      <td colSpan={7} style={{ padding: '40px 16px', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
+                        No items or services found in the catalogue. Click "Add Item" to add new entries.
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredItems.map(item => {
+                      const isService = (item as any).isService || item.category === 'Professional Services' || item.category === 'Logistics';
+                      return (
+                        <tr key={item.itemId} style={{ borderBottom: '1px solid var(--color-border)' }}>
+                          <td style={{ padding: '12px 16px', fontWeight: '500', color: 'var(--color-primary)' }}>{item.itemId || item.itemCode}</td>
+                          <td style={{ padding: '12px 16px', fontWeight: '500' }}>{item.itemName}</td>
+                          <td style={{ padding: '12px 16px' }}>{isService ? 'Service' : 'Item'}</td>
+                          <td style={{ padding: '12px 16px' }}>{item.category}</td>
+                          <td style={{ padding: '12px 16px' }}>{item.preferredVendor?.vendorName || 'N/A'}</td>
+                          <td style={{ padding: '12px 16px', fontWeight: '600' }}>{(item as any).rate || '₹' + (item.minimumOrderQuantity * 1500).toLocaleString('en-IN')}</td>
+                          <td style={{ padding: '12px 16px' }}>
+                            <span className={item.status === 'Published' ? styles.badgeSuccess : item.status === 'Draft' ? styles.badgeWarning : styles.badgeDanger}>
+                              {item.status || 'Draft'}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
                 </tbody>
               </table>
             </div>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
-              {filteredItems.map(item => {
-                const isService = (item as any).isService || item.category === 'Professional Services' || item.category === 'Logistics';
-                return (
-                  <div key={item.itemId} style={{ border: '1px solid var(--color-border)', borderRadius: '8px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', backgroundColor: 'var(--color-surface)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: '11px', color: 'var(--color-text-secondary)' }}>{item.itemId || item.itemCode}</span>
-                      <span className={item.status === 'Published' ? styles.badgeSuccess : item.status === 'Draft' ? styles.badgeWarning : styles.badgeDanger}>
-                        {item.status || 'Draft'}
-                      </span>
-                    </div>
-                    <h4 style={{ fontWeight: '600', color: '#0b1f5f' }}>{item.itemName}</h4>
-                    <p style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>{isService ? 'Service' : 'Item'} • {item.category}</p>
-                    <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '8px', marginTop: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div style={{ fontSize: '12px' }}>
-                        <div style={{ color: 'var(--color-text-secondary)' }}>Vendor</div>
-                        <div style={{ fontWeight: '500' }}>{item.preferredVendor?.vendorName || 'N/A'}</div>
+              {filteredItems.length === 0 ? (
+                <div style={{ gridColumn: '1 / -1', padding: '40px', textAlign: 'center', color: 'var(--color-text-secondary)', backgroundColor: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '8px' }}>
+                  No items or services found in the catalogue. Click "Add Item" to add new entries.
+                </div>
+              ) : (
+                filteredItems.map(item => {
+                  const isService = (item as any).isService || item.category === 'Professional Services' || item.category === 'Logistics';
+                  return (
+                    <div key={item.itemId} style={{ border: '1px solid var(--color-border)', borderRadius: '8px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', backgroundColor: 'var(--color-surface)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontSize: '11px', color: 'var(--color-text-secondary)' }}>{item.itemId || item.itemCode}</span>
+                        <span className={item.status === 'Published' ? styles.badgeSuccess : item.status === 'Draft' ? styles.badgeWarning : styles.badgeDanger}>
+                          {item.status || 'Draft'}
+                        </span>
                       </div>
-                      <div style={{ fontSize: '14px', fontWeight: '700', color: '#0b1f5f' }}>{(item as any).rate || '₹' + (item.minimumOrderQuantity * 1500).toLocaleString('en-IN')}</div>
+                      <h4 style={{ fontWeight: '600', color: '#0b1f5f' }}>{item.itemName}</h4>
+                      <p style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>{isService ? 'Service' : 'Item'} • {item.category}</p>
+                      <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '8px', marginTop: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div style={{ fontSize: '12px' }}>
+                          <div style={{ color: 'var(--color-text-secondary)' }}>Vendor</div>
+                          <div style={{ fontWeight: '500' }}>{item.preferredVendor?.vendorName || 'N/A'}</div>
+                        </div>
+                        <div style={{ fontSize: '14px', fontWeight: '700', color: '#0b1f5f' }}>{(item as any).rate || '₹' + (item.minimumOrderQuantity * 1500).toLocaleString('en-IN')}</div>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
             </div>
           )
         )}

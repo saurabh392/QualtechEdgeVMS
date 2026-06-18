@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  ShoppingCart, 
-  Hourglass, 
-  CheckCircle2, 
-  Truck, 
-  FileText, 
+import {
+  ShoppingCart,
+  Hourglass,
+  CheckCircle2,
+  Truck,
+  FileText,
   Plus,
   Download,
   Eye,
@@ -33,7 +33,7 @@ export const PODashboard: React.FC = () => {
 
   useEffect(() => {
     let active = true;
-    
+
     // Fetch POs
     getAllPOs()
       .then(res => {
@@ -89,13 +89,13 @@ export const PODashboard: React.FC = () => {
     { header: 'PO Number', accessor: 'poId' as keyof PurchaseOrderRecord },
     { header: 'Vendor Name', accessor: 'vendorName' as keyof PurchaseOrderRecord },
     { header: 'Category', accessor: 'category' as keyof PurchaseOrderRecord },
-    { 
-      header: 'PO Value', 
-      accessor: (row: PurchaseOrderRecord) => `₹${row.poValue.toLocaleString('en-IN')}` 
+    {
+      header: 'PO Value',
+      accessor: (row: PurchaseOrderRecord) => `₹${row.poValue.toLocaleString('en-IN')}`
     },
     { header: 'Created Date', accessor: 'createdDate' as keyof PurchaseOrderRecord },
-    { 
-      header: 'Status', 
+    {
+      header: 'Status',
       accessor: (row: PurchaseOrderRecord) => {
         let className = styles.statusBadge;
         if (row.status === 'Approved' || row.status === 'Sent' || row.status === 'Closed') className = styles.statusSuccess;
@@ -104,10 +104,10 @@ export const PODashboard: React.FC = () => {
         if (row.status === 'Canceled' || row.status === 'Rejected') className = styles.statusDanger;
         if (row.status === 'Sent Back') className = styles.statusWarning;
         return <span className={className}>{row.status}</span>;
-      } 
+      }
     },
-    { 
-      header: 'Delivery', 
+    {
+      header: 'Delivery',
       accessor: (row: PurchaseOrderRecord) => {
         let className = styles.statusBadge;
         if (row.deliveryStatus === 'Received') className = styles.statusSuccess;
@@ -115,17 +115,17 @@ export const PODashboard: React.FC = () => {
         if (row.deliveryStatus === 'Pending') className = styles.statusWarning;
         if (row.deliveryStatus === '-') return '-';
         return <span className={className}>{row.deliveryStatus}</span>;
-      } 
+      }
     },
-    { 
-      header: 'Actions', 
+    {
+      header: 'Actions',
       align: 'center' as const,
       accessor: () => (
         <div className={styles.actionsCell}>
           <button className={styles.actionBtn} onClick={() => navigate('/purchase-orders/list')} title="View details"><Eye size={16} /></button>
           <button className={styles.actionBtn} title="More Options"><MoreVertical size={16} /></button>
         </div>
-      ) 
+      )
     },
   ];
 
@@ -145,9 +145,7 @@ export const PODashboard: React.FC = () => {
           <p className={styles.subtitle}>Manage requisitions, purchase orders and deliveries</p>
         </div>
         <div className={styles.headerActions}>
-          <div className={styles.dateFilter}>
-            <span>Live Data Stream (INR)</span>
-          </div>
+
           <Button icon={<Plus size={16} />} onClick={() => navigate('/purchase-orders/create')}>Create Requisition</Button>
         </div>
       </header>
@@ -155,11 +153,11 @@ export const PODashboard: React.FC = () => {
       {/* KPI Row */}
       <div className={styles.kpiGrid}>
         {([
-          { tab: 'All',                label: 'Total POs',           icon: <ShoppingCart size={16} />, bg: '#eff6ff', color: '#3b82f6', sub: '+12.5% vs last month',   onClick: () => setActiveTab('All') },
-          { tab: 'Pending Approval',   label: 'Pending Approval',    icon: <Hourglass size={16} />,    bg: '#fffbeb', color: '#f59e0b', sub: 'Requires action',        onClick: () => setActiveTab('Pending Approval') },
-          { tab: 'Sent to Vendor',     label: 'Sent to Vendor',      icon: <CheckCircle2 size={16} />, bg: '#f3e8ff', color: '#8b5cf6', sub: 'POs sent to suppliers',  onClick: () => setActiveTab('Sent to Vendor') },
-          { tab: 'Partially Received', label: 'Partially Received',  icon: <Truck size={16} />,        bg: '#dcfce7', color: '#10b981', sub: 'Partial delivery status', onClick: () => setActiveTab('Partially Received') },
-          { tab: 'Closed',             label: 'Closed POs',          icon: <FileText size={16} />,     bg: '#ffedd5', color: '#f97316', sub: 'Fully completed & closed',onClick: () => setActiveTab('Closed') },
+          { tab: 'All', label: 'Total POs', icon: <ShoppingCart size={16} />, bg: '#eff6ff', color: '#3b82f6', sub: '+12.5% vs last month', onClick: () => setActiveTab('All') },
+          { tab: 'Pending Approval', label: 'Pending Approval', icon: <Hourglass size={16} />, bg: '#fffbeb', color: '#f59e0b', sub: 'Requires action', onClick: () => setActiveTab('Pending Approval') },
+          { tab: 'Sent to Vendor', label: 'Sent to Vendor', icon: <CheckCircle2 size={16} />, bg: '#f3e8ff', color: '#8b5cf6', sub: 'POs sent to suppliers', onClick: () => setActiveTab('Sent to Vendor') },
+          { tab: 'Partially Received', label: 'Partially Received', icon: <Truck size={16} />, bg: '#dcfce7', color: '#10b981', sub: 'Partial delivery status', onClick: () => setActiveTab('Partially Received') },
+          { tab: 'Closed', label: 'Closed POs', icon: <FileText size={16} />, bg: '#ffedd5', color: '#f97316', sub: 'Fully completed & closed', onClick: () => setActiveTab('Closed') },
         ] as const).map(k => (
           <Card key={k.tab} className={`${styles.kpiCard} ${activeTab === k.tab ? styles.kpiCardActive : ''}`} onClick={k.onClick}>
             <div className={styles.kpiIcon} style={{ backgroundColor: k.bg, color: k.color, flexShrink: 0 }}>{k.icon}</div>
@@ -176,19 +174,33 @@ export const PODashboard: React.FC = () => {
 
       {/* PO List Embedded Section */}
       <Card className={styles.tableCard} style={{ marginTop: '24px', marginBottom: '24px' }}>
+        <div className={styles.pillTabs}>
+          {([
+            { key: 'All', label: 'All POs', count: tabCounts.All },
+            { key: 'Pending Approval', label: 'Pending Approval', count: tabCounts['Pending Approval'] },
+            { key: 'Sent to Vendor', label: 'Sent to Vendor', count: tabCounts['Sent to Vendor'] },
+            { key: 'Partially Received', label: 'Partially Received', count: tabCounts['Partially Received'] },
+            { key: 'Closed', label: 'Closed', count: tabCounts.Closed },
+          ] as const).map(t => (
+            <button key={t.key} className={`${styles.pillTab} ${activeTab === t.key ? styles.pillTabActive : ''}`} onClick={() => setActiveTab(t.key)}>
+              {t.label} <span className={styles.pillCount}>{t.count}</span>
+            </button>
+          ))}
+        </div>
+
         <div className={styles.tableToolbar}>
           <div className={styles.filters}>
             <div className={styles.searchWrap}>
-              <Input 
-                placeholder="Search PO number, vendor..." 
-                fullWidth={false} 
+              <Input
+                placeholder="Search PO number, vendor..."
+                fullWidth={false}
                 className={styles.searchInput}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
               <Search size={16} className={styles.searchIcon} />
             </div>
-            
+
             <select className={styles.filterSelect} value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
               <option value="All">Status: All</option>
               <option value="Draft">Draft</option>
@@ -205,10 +217,10 @@ export const PODashboard: React.FC = () => {
               <option value="Partial">Partial</option>
               <option value="Received">Received</option>
             </select>
-            
+
             <Button variant="ghost" icon={<Filter size={16} />}>More Filters</Button>
           </div>
-          
+
           <Button variant="outline" icon={<Download size={16} />}>Export</Button>
         </div>
 
@@ -217,13 +229,13 @@ export const PODashboard: React.FC = () => {
             Loading Purchase Orders Repository...
           </div>
         ) : (
-          <DataTable 
-            columns={columns} 
-            data={filteredPOs} 
-            keyExtractor={(row) => row.poId} 
+          <DataTable
+            columns={columns}
+            data={filteredPOs}
+            keyExtractor={(row) => row.poId}
           />
         )}
-        
+
         <div className={styles.pagination}>
           <span className={styles.pageInfo}>Showing 1 to {filteredPOs.length} of {filteredPOs.length} entries</span>
           <div className={styles.pageControls}>

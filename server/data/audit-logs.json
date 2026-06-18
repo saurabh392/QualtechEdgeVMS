@@ -207,5 +207,93 @@
     "ipAddress": "127.0.0.1",
     "status": "Success",
     "severity": "High"
+  },
+  {
+    "id": "AUD-14977",
+    "timestamp": "17/6/2026, 1:15:28 pm",
+    "actor": "Procurement Manager",
+    "role": "Procurement Checker",
+    "tenant": "Qualtech Corporate",
+    "action": "Approved Vendor onboarding for VND-2025-00029 (ABC Infotech Private Limited)",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
+  },
+  {
+    "id": "AUD-32464",
+    "timestamp": "17/6/2026, 1:15:32 pm",
+    "actor": "Procurement Manager",
+    "role": "Procurement Checker",
+    "tenant": "Qualtech Corporate",
+    "action": "Approved Vendor onboarding for VND-2026-88001 (HDFC Bank Limited)",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
+  },
+  {
+    "id": "AUD-93436",
+    "timestamp": "17/6/2026, 1:25:30 pm",
+    "actor": "Saurabh Anand",
+    "role": "Procurement Maker",
+    "tenant": "Qualtech Corporate",
+    "action": "Deleted Vendor registration VND-2026-55028 (Global Logistics Partners )",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "Medium"
+  },
+  {
+    "id": "AUD-12571",
+    "timestamp": "17/6/2026, 1:26:22 pm",
+    "actor": "Procurement Manager",
+    "role": "Procurement Checker",
+    "tenant": "Qualtech Corporate",
+    "action": "Rejected Vendor onboarding for VND-2026-88164 (axis max life )",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
+  },
+  {
+    "id": "AUD-11827",
+    "timestamp": "17/6/2026, 4:26:02 pm",
+    "actor": "Procurement Manager",
+    "role": "Procurement Checker",
+    "tenant": "Qualtech Corporate",
+    "action": "Approved Vendor onboarding for VND-2026-45682 (New Age Software Solutions)",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
+  },
+  {
+    "id": "AUD-96567",
+    "timestamp": "18/6/2026, 12:30:37 pm",
+    "actor": "Finance Manager",
+    "role": "Finance Manager",
+    "tenant": "Qualtech Corporate",
+    "action": "Approved invoice INV-2026-9907",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
+  },
+  {
+    "id": "AUD-31544",
+    "timestamp": "18/6/2026, 12:30:47 pm",
+    "actor": "Finance Manager",
+    "role": "Finance Manager",
+    "tenant": "Qualtech Corporate",
+    "action": "Approved invoice INV-2026-9907",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
+  },
+  {
+    "id": "AUD-19004",
+    "timestamp": "18/6/2026, 12:32:00 pm",
+    "actor": "Finance Manager",
+    "role": "Finance Manager",
+    "tenant": "Qualtech Corporate",
+    "action": "Approved invoice INV-2026-9908",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
   }
 ]

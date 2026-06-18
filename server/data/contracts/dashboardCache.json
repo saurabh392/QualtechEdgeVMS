@@ -1,95 +1,68 @@
 {
-  "totalActiveContracts": 846,
-  "expiringSoon": 40,
-  "pendingLegalReviews": 63,
-  "slaBreaches": 14,
+  "totalActiveContracts": 2,
+  "expiringSoon": 0,
+  "pendingLegalReviews": 1,
+  "slaBreaches": 0,
   "lifecycleDistribution": [
     {
       "name": "Active",
-      "value": 846,
+      "value": 2,
       "color": "#16A34A"
     },
     {
       "name": "Draft",
-      "value": 120,
+      "value": 0,
       "color": "#94A3B8"
     },
     {
       "name": "Under Review",
-      "value": 73,
+      "value": 1,
       "color": "#F59E0B"
     },
     {
-      "name": "Pending Signature",
-      "value": 41,
-      "color": "#3B82F6"
-    },
-    {
       "name": "Expired",
-      "value": 28,
+      "value": 0,
       "color": "#EF4444"
     }
   ],
   "contractValueByCategory": [
     {
       "category": "IT Services",
-      "spend": 54.75
+      "spend": 2.4
     },
     {
       "category": "Facilities",
-      "spend": 28
+      "spend": 0
     },
     {
       "category": "Legal",
-      "spend": 18
+      "spend": 0
     },
     {
       "category": "Cloud",
-      "spend": 32
+      "spend": 0
     },
     {
       "category": "Consulting",
-      "spend": 22
+      "spend": 0
     }
   ],
-  "portfolioRisk": "High",
-  "legalExposure": 58,
+  "portfolioRisk": "Medium",
+  "legalExposure": 52,
   "complianceRisk": 22,
-  "financialRisk": 74,
-  "slaBreachTrends": [
-    {
-      "month": "Jan",
-      "breaches": 4
-    },
-    {
-      "month": "Feb",
-      "breaches": 3
-    },
-    {
-      "month": "Mar",
-      "breaches": 6
-    },
-    {
-      "month": "Apr",
-      "breaches": 2
-    },
-    {
-      "month": "May",
-      "breaches": 5
-    }
-  ],
+  "financialRisk": 67,
   "vendorRiskAnalysis": [
     {
       "name": "High Risk",
-      "value": 5
+      "value": 1
     },
     {
       "name": "Medium Risk",
-      "value": 19
+      "value": 1
     },
     {
       "name": "Low Risk",
-      "value": 79
+      "value": 0
     }
   ]
 }

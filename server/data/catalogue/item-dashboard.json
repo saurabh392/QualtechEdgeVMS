@@ -1,13 +1,13 @@
 {
-  "totalItems": 8425,
-  "totalServices": 1251,
-  "activeVendors": 103,
-  "pendingApprovals": 16,
-  "pendingVendorMapping": 11,
-  "publishedServices": 1241,
-  "compliancePending": 6,
-  "rateConfigurationPending": 14,
-  "criticalCategories": 4,
-  "rateRevisionsDue": 8,
-  "catalogueUtilization": 87.5
+  "totalItems": 1,
+  "totalServices": 1,
+  "activeVendors": 1,
+  "pendingApprovals": 1,
+  "pendingVendorMapping": 0,
+  "publishedServices": 0,
+  "compliancePending": 1,
+  "rateConfigurationPending": 1,
+  "criticalCategories": 1,
+  "rateRevisionsDue": 0,
+  "catalogueUtilization": 50
 }

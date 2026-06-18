@@ -1,0 +1,16 @@
+[
+  {
+    "renewalId": "REN-394",
+    "contractId": "CTR-2026-76623",
+    "expiryDate": "2028-05-31",
+    "renewalStatus": "Auto-Renew",
+    "notificationSent": false
+  },
+  {
+    "renewalId": "REN-809",
+    "contractId": "CTR-2026-45731",
+    "expiryDate": "2026-06-10",
+    "renewalStatus": "Expired",
+    "notificationSent": false
+  }
+]

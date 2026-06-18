@@ -1,0 +1,22 @@
+[
+  {
+    "approvalId": "PA-2026-0001",
+    "paymentId": "PAY-2026-0089",
+    "vendorName": "Secure Facilities Ltd",
+    "invoiceRef": "INV-2026-9907",
+    "amount": 522000,
+    "status": "Pending Approval",
+    "submittedBy": "Accounts Payable",
+    "submittedDate": "2026-06-15",
+    "remarks": "",
+    "timestamp": "2026-06-15T10:00:00.000Z",
+    "statusHistory": [
+      {
+        "status": "Pending Approval",
+        "timestamp": "2026-06-15T10:00:00.000Z",
+        "changedBy": "Accounts Payable"
+      }
+    ],
+    "attachmentIds": ["ATT-001", "ATT-002"]
+  }
+]

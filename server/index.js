@@ -35,6 +35,7 @@ const APPROVALS_PATH = path.join(__dirname, 'data', 'approvals.json');
 const ADMIN_NOTIFICATIONS_PATH = path.join(__dirname, 'data', 'adminNotifications.json');
 const ADMIN_INVOICES_PATH = path.join(__dirname, 'data', 'invoices.json');
 const ADMIN_PAYMENTS_PATH = path.join(__dirname, 'data', 'payments.json');
+const PAYMENT_APPROVALS_PATH = path.join(__dirname, 'data', 'payment-approvals.json');
 const FINANCE_DIR = path.join(__dirname, 'data', 'finance');
 const TDS_PATH = path.join(FINANCE_DIR, 'tds.json');
 const BANK_RECON_PATH = path.join(FINANCE_DIR, 'bank-reconciliation.json');
@@ -71,20 +72,22 @@ const RE_KYC_UPLOADS_DIR = path.join(KYC_UPLOADS_DIR, 're-kyc');
 const APPROVALS_UPLOADS_DIR = path.join(KYC_UPLOADS_DIR, 'approvals');
 
 // Catalogue database paths
-const CAT_ITEMS_PATH = path.join(__dirname, 'data', 'catalogue', 'items.json');
-const CAT_SERVICES_PATH = path.join(__dirname, 'data', 'catalogue', 'services.json');
+const CAT_ITEMS_PATH = path.join(__dirname, 'data', 'catalogue-items.json');
+const CAT_SERVICES_PATH = path.join(__dirname, 'data', 'catalogue-services.json');
 const CAT_SERVICE_ATTACHMENTS_PATH = path.join(__dirname, 'data', 'catalogue', 'service-attachments.json');
 const CAT_SERVICE_AUDIT_LOG_PATH = path.join(__dirname, 'data', 'catalogue', 'service-audit-log.json');
 const CAT_CATEGORIES_PATH = path.join(__dirname, 'data', 'catalogue', 'categories.json');
 const CAT_VENDORS_PATH = path.join(__dirname, 'data', 'catalogue', 'vendors.json');
 const CAT_HSN_CODES_PATH = path.join(__dirname, 'data', 'catalogue', 'hsn-sac-codes.json');
 const CAT_UOMS_PATH = path.join(__dirname, 'data', 'catalogue', 'uom.json');
-const CAT_APPROVALS_PATH = path.join(__dirname, 'data', 'catalogue', 'item-approvals.json');
+const CAT_APPROVALS_PATH = path.join(__dirname, 'data', 'catalogue-approvals.json');
 const CAT_ACTIVITY_PATH = path.join(__dirname, 'data', 'catalogue', 'item-activity.json');
 const CAT_DASHBOARD_PATH = path.join(__dirname, 'data', 'catalogue', 'item-dashboard.json');
 const CAT_UPLOADED_FILES_PATH = path.join(__dirname, 'data', 'catalogue', 'uploaded-files.json');
 const CAT_ATTACHMENTS_PATH = path.join(__dirname, 'data', 'catalogue', 'item-attachments.json');
 const CAT_AUDIT_LOG_PATH = path.join(__dirname, 'data', 'catalogue', 'item-audit-log.json');
+const CAT_DOCUMENTS_PATH = path.join(__dirname, 'data', 'catalogue-documents.json');
+const CAT_VENDOR_MAPPINGS_PATH = path.join(__dirname, 'data', 'vendor-mappings.json');
 
 // Auth database paths
 const AUTH_DIR = path.join(__dirname, 'data', 'auth');
@@ -201,6 +204,33 @@ async function ensureDirectories() {
   await fs.mkdir(FINANCE_DIR, { recursive: true });
   try { await fs.access(ADMIN_INVOICES_PATH); } catch { await fs.writeFile(ADMIN_INVOICES_PATH, '[]', 'utf8'); }
   try { await fs.access(ADMIN_PAYMENTS_PATH); } catch { await fs.writeFile(ADMIN_PAYMENTS_PATH, '[]', 'utf8'); }
+  try {
+    await fs.access(PAYMENT_APPROVALS_PATH);
+  } catch {
+    const initialApprovals = [
+      {
+        approvalId: "PA-2026-0001",
+        paymentId: "PAY-2026-0089",
+        vendorName: "Secure Facilities Ltd",
+        invoiceRef: "INV-2026-9907",
+        amount: 522000,
+        status: "Pending Approval",
+        submittedBy: "Accounts Payable",
+        submittedDate: "2026-06-15",
+        remarks: "",
+        timestamp: "2026-06-15T10:00:00.000Z",
+        statusHistory: [
+          {
+            status: "Pending Approval",
+            timestamp: "2026-06-15T10:00:00.000Z",
+            changedBy: "Accounts Payable"
+          }
+        ],
+        attachmentIds: ["ATT-001", "ATT-002"]
+      }
+    ];
+    await fs.writeFile(PAYMENT_APPROVALS_PATH, JSON.stringify(initialApprovals, null, 2), 'utf8');
+  }
   try { await fs.access(TDS_PATH); } catch { await fs.writeFile(TDS_PATH, '[]', 'utf8'); }
   try { await fs.access(BANK_RECON_PATH); } catch { await fs.writeFile(BANK_RECON_PATH, '[]', 'utf8'); }
   try { await fs.access(AGING_PATH); } catch { await fs.writeFile(AGING_PATH, '[]', 'utf8'); }
@@ -229,12 +259,41 @@ async function ensureDirectories() {
     await fs.writeFile(CAT_AUDIT_LOG_PATH, '[]', 'utf8');
   }
 
-  // Initialize services database files
+  // Helper to copy file if exists
+  const copyFileIfExists = async (src, dest) => {
+    try {
+      await fs.access(dest);
+    } catch {
+      try {
+        await fs.access(src);
+        const data = await fs.readFile(src, 'utf8');
+        await fs.writeFile(dest, data, 'utf8');
+      } catch {
+        await fs.writeFile(dest, '[]', 'utf8');
+      }
+    }
+  };
+
+  // Sync/Copy catalogue files
+  const oldItemsPath = path.join(__dirname, 'data', 'catalogue', 'items.json');
+  const oldServicesPath = path.join(__dirname, 'data', 'catalogue', 'services.json');
+  const oldApprovalsPath = path.join(__dirname, 'data', 'catalogue', 'item-approvals.json');
+  const oldVendorMappingPath = path.join(__dirname, 'data', 'catalogue', 'vendor-mapping.json');
+
+  await copyFileIfExists(oldItemsPath, CAT_ITEMS_PATH);
+  await copyFileIfExists(oldServicesPath, CAT_SERVICES_PATH);
+  await copyFileIfExists(oldApprovalsPath, CAT_APPROVALS_PATH);
+  await copyFileIfExists(oldVendorMappingPath, CAT_VENDOR_MAPPINGS_PATH);
+
   try {
-    await fs.access(CAT_SERVICES_PATH);
+    await fs.access(CAT_DOCUMENTS_PATH);
   } catch {
-    await fs.writeFile(CAT_SERVICES_PATH, '[]', 'utf8');
+    await fs.writeFile(CAT_DOCUMENTS_PATH, '[]', 'utf8');
   }
+
+  // Create uploads catalogue directory
+  await fs.mkdir(path.join(__dirname, 'uploads', 'catalogue'), { recursive: true });
+
   try {
     await fs.access(CAT_SERVICE_ATTACHMENTS_PATH);
   } catch {
@@ -1803,8 +1862,64 @@ app.put('/api/invoices/:id/approve', async (req, res) => {
     const list = await readJsonFile(ADMIN_INVOICES_PATH);
     const idx = list.findIndex(i => i.invoiceId === req.params.id);
     if (idx === -1) return res.status(404).json({ message: 'Invoice not found' });
+
+    const prevStage = list[idx].stage;
+
     list[idx] = { ...list[idx], status: 'Approved', stage: 'Payment Processing', approvedBy: approvedBy || 'Finance Manager', approvedDate: new Date().toISOString(), remarks: remarks || '' };
     await writeJsonFile(ADMIN_INVOICES_PATH, list);
+
+    // ── payment-approvals.json State Synchronization ─────────────────────────
+    try {
+      const approvals = await readJsonFile(PAYMENT_APPROVALS_PATH).catch(() => []);
+      const invoice = list[idx];
+      
+      if (prevStage === 'Payment Processing') {
+        // This is Checker View (second stage) approving the payment/invoice payout
+        const appIdx = approvals.findIndex(a => a.invoiceRef === req.params.id && a.status === 'Pending Approval');
+        if (appIdx !== -1) {
+          approvals[appIdx].status = 'Approved';
+          approvals[appIdx].remarks = remarks || '';
+          approvals[appIdx].timestamp = new Date().toISOString();
+          approvals[appIdx].statusHistory.push({
+            status: 'Approved',
+            timestamp: new Date().toISOString(),
+            changedBy: approvedBy || 'Finance Manager'
+          });
+          await writeJsonFile(PAYMENT_APPROVALS_PATH, approvals);
+        }
+      } else {
+        // This is Maker View (first stage) approving invoice -> moves to Payment Processing
+        // We create a new pending payment approval
+        const exists = approvals.some(a => a.invoiceRef === req.params.id && a.status === 'Pending Approval');
+        if (!exists) {
+          const newApproval = {
+            approvalId: `PA-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+            paymentId: `PAY-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+            vendorName: invoice.vendorName,
+            invoiceRef: invoice.invoiceId,
+            amount: invoice.netPayable || invoice.totalAmount,
+            status: "Pending Approval",
+            submittedBy: invoice.uploadedBy || "Accounts Payable",
+            submittedDate: new Date().toISOString().split('T')[0],
+            remarks: "",
+            timestamp: new Date().toISOString(),
+            statusHistory: [
+              {
+                status: "Pending Approval",
+                timestamp: new Date().toISOString(),
+                changedBy: invoice.uploadedBy || "Accounts Payable"
+              }
+            ],
+            attachmentIds: []
+          };
+          approvals.push(newApproval);
+          await writeJsonFile(PAYMENT_APPROVALS_PATH, approvals);
+        }
+      }
+    } catch (e) {
+      console.error('Error synchronizing payment-approvals.json:', e);
+    }
+
     await appendJsonData(ADMIN_NOTIFICATIONS_PATH, {
       id: `ANOTIF-${Date.now()}`, type: 'invoice_approved',
       title: 'Invoice Approved for Payment',
@@ -1849,6 +1964,25 @@ app.put('/api/invoices/:id/reject', async (req, res) => {
     list[idx] = { ...list[idx], status: 'Rejected', stage: 'Rejected', remarks: remarks || '' };
     await writeJsonFile(ADMIN_INVOICES_PATH, list);
 
+    // Reject any pending payment approval in payment-approvals.json
+    try {
+      const approvals = await readJsonFile(PAYMENT_APPROVALS_PATH).catch(() => []);
+      const appIdx = approvals.findIndex(a => a.invoiceRef === req.params.id && a.status === 'Pending Approval');
+      if (appIdx !== -1) {
+        approvals[appIdx].status = 'Rejected';
+        approvals[appIdx].remarks = remarks || '';
+        approvals[appIdx].timestamp = new Date().toISOString();
+        approvals[appIdx].statusHistory.push({
+          status: 'Rejected',
+          timestamp: new Date().toISOString(),
+          changedBy: rejectedBy || 'Finance Manager'
+        });
+        await writeJsonFile(PAYMENT_APPROVALS_PATH, approvals);
+      }
+    } catch (e) {
+      console.error('Error rejecting payment approval:', e);
+    }
+
     // Write-back to vendor portal
     if (list[idx].vendorId === 'VND-2025-00029' || (list[idx].vendorName && list[idx].vendorName.toLowerCase().includes('abc infotech'))) {
       try {
@@ -1886,27 +2020,56 @@ app.get('/api/payments', async (req, res) => {
   } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
+app.get('/api/payments/approvals', async (req, res) => {
+  try {
+    const list = await readJsonFile(PAYMENT_APPROVALS_PATH);
+    res.json(list);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
 app.get('/api/payments/batches', async (req, res) => {
   try {
-    const invoices = await readJsonFile(ADMIN_INVOICES_PATH);
-    const readyInvoices = invoices.filter(i => i.status === 'Approved' && i.stage === 'Payment Processing');
+    const [approvals, invoices] = await Promise.all([
+      readJsonFile(PAYMENT_APPROVALS_PATH).catch(() => []),
+      readJsonFile(ADMIN_INVOICES_PATH).catch(() => [])
+    ]);
+
+    const pendingApprovals = approvals.filter(a => a.status === 'Pending Approval');
+    
+    // Group by vendorName
     const grouped = {};
-    for (const inv of readyInvoices) {
-      if (!grouped[inv.vendorId]) {
-        grouped[inv.vendorId] = {
-          batchId: `BATCH-${inv.vendorId}-${Date.now()}`,
-          vendorId: inv.vendorId,
-          vendorName: inv.vendorName,
-          mode: 'RTGS',
-          risk: inv.riskLevel || 'Low',
-          scheduledDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    for (const app of pendingApprovals) {
+      // Find corresponding invoice details if exists
+      const inv = invoices.find(i => i.invoiceId === app.invoiceRef);
+      const vendorName = app.vendorName;
+      const vendorId = inv ? inv.vendorId : 'VND-UNKNOWN';
+      const vendorType = inv ? inv.vendorType : 'Non-MSME';
+      const netPayable = app.amount;
+      const totalAmount = app.amount;
+
+      if (!grouped[vendorName]) {
+        grouped[vendorName] = {
+          batchId: `BATCH-${vendorId}-${Date.now()}`,
+          vendorId: vendorId,
+          vendorName: vendorName,
+          mode: inv ? inv.mode || 'RTGS' : 'NEFT',
+          risk: inv ? inv.riskLevel || 'Low' : 'Low',
+          scheduledDate: app.submittedDate || new Date().toISOString().split('T')[0],
           invoices: [],
           totalAmount: 0
         };
       }
-      grouped[inv.vendorId].invoices.push(inv);
-      grouped[inv.vendorId].totalAmount += inv.netPayable || inv.totalAmount;
+
+      grouped[vendorName].invoices.push({
+        invoiceId: app.invoiceRef,
+        vendorName: vendorName,
+        netPayable: netPayable,
+        totalAmount: totalAmount,
+        vendorType: vendorType
+      });
+      grouped[vendorName].totalAmount += totalAmount;
     }
+
     res.json(Object.values(grouped));
   } catch (error) { res.status(500).json({ error: error.message }); }
 });
@@ -2133,36 +2296,134 @@ async function logCatActivity(itemId, action, user) {
   }
 }
 
+// Helper to queue catalogue approval in catalogue-approvals.json
+async function queueCatalogueApproval(catalogueId, type, itemData) {
+  try {
+    let approvals = [];
+    try {
+      approvals = await readJsonFile(CAT_APPROVALS_PATH);
+      if (!Array.isArray(approvals)) approvals = [];
+    } catch (e) {
+      approvals = [];
+    }
+    
+    // Check if pending approval already exists for this ID
+    const exists = approvals.some(a => a.catalogueId === catalogueId && a.status === 'Pending Approval');
+    if (!exists) {
+      const nextId = `APR-${String(approvals.length + 1).padStart(4, '0')}`;
+      const newApp = {
+        approvalId: nextId,
+        catalogueId,
+        type,
+        status: 'Pending Approval',
+        submittedBy: itemData.submittedBy || itemData.createdBy || 'Procurement Manager',
+        checker: 'Saurabh Anand',
+        remarks: '',
+        approvalDate: null,
+        itemName: itemData.itemName || itemData.serviceName || 'N/A',
+        category: itemData.category || itemData.serviceCategory || 'N/A',
+        submittedDate: new Date().toISOString().split('T')[0]
+      };
+      approvals.push(newApp);
+      await writeJsonFile(CAT_APPROVALS_PATH, approvals);
+      console.log(`Queued catalogue approval: ${nextId} for ${catalogueId}`);
+    }
+  } catch (err) {
+    console.error('Error queueing catalogue approval:', err);
+  }
+}
+
 // Helper to update dashboard calculations
 async function updateCatDashboardMetrics() {
   try {
     const items = await readJsonFile(CAT_ITEMS_PATH);
     const services = await readJsonFile(CAT_SERVICES_PATH);
     const approvals = await readJsonFile(CAT_APPROVALS_PATH);
+    const allVendors = await readJsonFile(VENDORS_PATH);
     
-    // Seed standard mock baseline count
-    const totalItems = items.length + 8418;
-    const totalServices = services.length + 1247;
-    const pendingApprovalsCount = approvals.length + 13;
+    const totalItems = items.length;
+    const totalServices = services.length;
+    const pendingApprovalsCount = approvals.length;
+
+    // Calculate dynamic count of unique vendors mapped to items/services
+    const mappedVendors = new Set();
+    items.forEach(item => {
+      if (item.preferredVendor && item.preferredVendor.vendorId && item.preferredVendor.vendorId !== 'N/A') {
+        mappedVendors.add(item.preferredVendor.vendorId);
+      }
+      if (Array.isArray(item.alternateVendors)) {
+        item.alternateVendors.forEach(alt => {
+          if (alt && alt.vendorId && alt.vendorId !== 'N/A') {
+            mappedVendors.add(alt.vendorId);
+          }
+        });
+      }
+    });
+    services.forEach(service => {
+      if (service.preferredVendor && service.preferredVendor !== 'N/A') {
+        const matchingVendor = allVendors.find(v => 
+          (v.basicDetails?.legalName || '').toLowerCase() === service.preferredVendor.toLowerCase() ||
+          (v.basicDetails?.tradeName || '').toLowerCase() === service.preferredVendor.toLowerCase() ||
+          v.vendorId === service.preferredVendor
+        );
+        if (matchingVendor) {
+          mappedVendors.add(matchingVendor.vendorId);
+        } else {
+          mappedVendors.add(service.preferredVendor);
+        }
+      }
+      if (Array.isArray(service.alternateVendors)) {
+        service.alternateVendors.forEach(alt => {
+          if (alt && alt !== 'N/A') {
+            const matchingVendor = allVendors.find(v => 
+              (v.basicDetails?.legalName || '').toLowerCase() === alt.toLowerCase() ||
+              (v.basicDetails?.tradeName || '').toLowerCase() === alt.toLowerCase() ||
+              v.vendorId === alt
+            );
+            if (matchingVendor) {
+              mappedVendors.add(matchingVendor.vendorId);
+            } else {
+              mappedVendors.add(alt);
+            }
+          }
+        });
+      }
+    });
+
+    const activeVendors = mappedVendors.size;
 
     // Derived services metrics
-    const pendingVendorMapping = services.filter(s => s.workflowStage === 'Vendor Mapping').length + 8;
-    const publishedServices = services.filter(s => s.status === 'Published').length + 1239;
-    const compliancePending = services.filter(s => s.status === 'Pending Approval').length + 5;
-    const rateConfigurationPending = services.filter(s => s.status !== 'Published').length + 12;
+    const pendingVendorMapping = services.filter(s => s.workflowStage === 'Vendor Mapping').length;
+    const publishedServices = services.filter(s => s.status === 'Published').length;
+    const compliancePending = services.filter(s => s.status === 'Pending Approval').length;
+    const rateConfigurationPending = services.filter(s => s.status !== 'Published').length;
+
+    // Calculate critical categories from items and services
+    const uniqueCategories = new Set();
+    items.forEach(i => i.category && uniqueCategories.add(i.category));
+    services.forEach(s => s.category && uniqueCategories.add(s.category));
+    const criticalCategories = uniqueCategories.size;
+
+    // Rate revisions due is 0 when data is empty
+    const rateRevisionsDue = 0; 
+
+    // Catalogue utilization is (published items + published services) / (total items + services) * 100
+    const totalCount = totalItems + totalServices;
+    const publishedCount = items.filter(i => i.status === 'Published').length + publishedServices;
+    const catalogueUtilization = totalCount > 0 ? parseFloat(((publishedCount / totalCount) * 100).toFixed(1)) : 0.0;
 
     const stats = {
       totalItems,
       totalServices,
-      activeVendors: 103,
+      activeVendors,
       pendingApprovals: pendingApprovalsCount,
       pendingVendorMapping,
       publishedServices,
       compliancePending,
       rateConfigurationPending,
-      criticalCategories: 4,
-      rateRevisionsDue: 8,
-      catalogueUtilization: 87.5
+      criticalCategories,
+      rateRevisionsDue,
+      catalogueUtilization
     };
     await writeJsonFile(CAT_DASHBOARD_PATH, stats);
   } catch (err) {
@@ -2237,7 +2498,7 @@ app.get('/api/catalogue/items', async (req, res) => {
 app.get('/api/catalogue/items/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    if (id && id.startsWith('SRV-')) {
+    if (id && (id.startsWith('SRV-') || id.startsWith('SVC-'))) {
       const services = await readJsonFile(CAT_SERVICES_PATH);
       const service = services.find(s => s.serviceId === id);
       if (!service) {
@@ -2336,7 +2597,7 @@ app.post('/api/catalogue/services', async (req, res) => {
     const year = 2026;
     let maxNum = 0;
     for (const s of services) {
-      if (s.serviceId && s.serviceId.startsWith(`SRV-${year}-`)) {
+      if (s.serviceId && (s.serviceId.startsWith(`SRV-${year}-`) || s.serviceId.startsWith(`SVC-${year}-`))) {
         const parts = s.serviceId.split('-');
         if (parts.length === 3) {
           const num = parseInt(parts[2], 10);
@@ -2347,11 +2608,12 @@ app.post('/api/catalogue/services', async (req, res) => {
       }
     }
     const nextNum = maxNum + 1;
-    const padded = String(nextNum).padStart(5, '0');
-    serviceData.serviceId = `SRV-${year}-${padded}`;
+    const padded = String(nextNum).padStart(4, '0');
+    serviceData.serviceId = `SVC-${year}-${padded}`;
 
-    serviceData.status = 'Pending Approval';
-    serviceData.workflowStage = 'Vendor Mapping';
+    const clientStatus = serviceData.status || 'Pending Approval';
+    serviceData.status = clientStatus;
+    serviceData.workflowStage = 'None';
     serviceData.createdDate = new Date().toISOString().split('T')[0];
     serviceData.createdBy = serviceData.createdBy || 'Admin';
 
@@ -2434,22 +2696,13 @@ app.post('/api/catalogue/services', async (req, res) => {
     services.push(serviceData);
     await writeJsonFile(CAT_SERVICES_PATH, services);
 
-    // Add to approvals queue
-    const approvalRequest = {
-      approvalId: `APP-SRV-${Math.floor(100 + Math.random() * 900)}`,
-      itemId: serviceData.serviceId,
-      itemName: serviceData.serviceName,
-      category: serviceData.serviceCategory,
-      preferredVendor: serviceData.preferredVendor || 'N/A',
-      submittedBy: serviceData.createdBy,
-      submittedDate: serviceData.createdDate,
-      status: 'Pending',
-      currentApprover: 'Procurement Checker',
-      isService: true
-    };
-    await appendJsonData(CAT_APPROVALS_PATH, approvalRequest);
-
-    await logCatActivity(serviceData.serviceId, 'Service Created & Submitted for Approval', serviceData.createdBy);
+    // Add to approvals queue if not Draft
+    if (serviceData.status === 'Pending Approval') {
+      await queueCatalogueApproval(serviceData.serviceId, 'Service', serviceData);
+      await logCatActivity(serviceData.serviceId, 'Service Created & Submitted for Approval', serviceData.createdBy);
+    } else {
+      await logCatActivity(serviceData.serviceId, 'Service Created as Draft', serviceData.createdBy);
+    }
     await updateCatDashboardMetrics();
 
     res.json({ success: true, service: serviceData });
@@ -2479,15 +2732,16 @@ app.post('/api/catalogue/items', async (req, res) => {
       }
     }
     const nextNum = maxNum + 1;
-    const padded = String(nextNum).padStart(5, '0');
+    const padded = String(nextNum).padStart(4, '0');
     itemData.itemId = `ITM-${year}-${padded}`;
 
-    itemData.status = 'Pending Approval';
+    const clientStatus = itemData.status || 'Pending Approval';
+    itemData.status = clientStatus;
     itemData.approvalWorkflow = {
       submittedBy: itemData.submittedBy || 'Admin',
       submittedDate: new Date().toISOString().split('T')[0],
-      approvalStatus: 'Pending',
-      currentApprover: 'Procurement Checker'
+      approvalStatus: clientStatus === 'Draft' ? 'Draft' : 'Pending',
+      currentApprover: clientStatus === 'Draft' ? '' : 'Procurement Checker'
     };
 
     // Save attachment metadata
@@ -2558,21 +2812,13 @@ app.post('/api/catalogue/items', async (req, res) => {
     // Save to items database
     await appendJsonData(CAT_ITEMS_PATH, itemData);
     
-    // Add to approvals queue
-    const approvalRequest = {
-      approvalId: `APP-ITM-${Math.floor(100 + Math.random() * 900)}`,
-      itemId: itemData.itemId,
-      itemName: itemData.itemName,
-      category: itemData.category,
-      preferredVendor: itemData.preferredVendor?.vendorName || 'N/A',
-      submittedBy: itemData.submittedBy || 'Admin',
-      submittedDate: new Date().toISOString().split('T')[0],
-      status: 'Pending',
-      currentApprover: 'Procurement Checker'
-    };
-    await appendJsonData(CAT_APPROVALS_PATH, approvalRequest);
-
-    await logCatActivity(itemData.itemId, 'Item Created & Submitted for Approval', itemData.submittedBy);
+    // Add to approvals queue if not Draft
+    if (itemData.status === 'Pending Approval') {
+      await queueCatalogueApproval(itemData.itemId, 'Item', itemData);
+      await logCatActivity(itemData.itemId, 'Item Created & Submitted for Approval', itemData.submittedBy);
+    } else {
+      await logCatActivity(itemData.itemId, 'Item Created as Draft', itemData.submittedBy);
+    }
     await updateCatDashboardMetrics();
 
     res.json({ success: true, item: itemData });
@@ -2586,6 +2832,9 @@ app.put('/api/catalogue/items/:id', async (req, res) => {
   try {
     const updated = await updateJsonData(CAT_ITEMS_PATH, 'itemId', req.params.id, req.body);
     await logCatActivity(req.params.id, 'Item Updated', req.body.submittedBy);
+    if (req.body.status === 'Pending Approval') {
+      await queueCatalogueApproval(req.params.id, 'Item', req.body);
+    }
     res.json(updated);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -2605,18 +2854,46 @@ app.delete('/api/catalogue/items/:id', async (req, res) => {
   }
 });
 
+// 5b. PUT /api/catalogue/services/:id
+app.put('/api/catalogue/services/:id', async (req, res) => {
+  try {
+    const updated = await updateJsonData(CAT_SERVICES_PATH, 'serviceId', req.params.id, req.body);
+    await logCatActivity(req.params.id, 'Service Updated', req.body.createdBy);
+    if (req.body.status === 'Pending Approval') {
+      await queueCatalogueApproval(req.params.id, 'Service', req.body);
+    }
+    await updateCatDashboardMetrics();
+    res.json(updated);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 5c. DELETE /api/catalogue/services/:id
+app.delete('/api/catalogue/services/:id', async (req, res) => {
+  try {
+    await deleteJsonData(CAT_SERVICES_PATH, 'serviceId', req.params.id);
+    await deleteJsonData(CAT_APPROVALS_PATH, 'itemId', req.params.id);
+    await logCatActivity(req.params.id, 'Service Deleted', 'Admin');
+    await updateCatDashboardMetrics();
+    res.json({ success: true, message: 'Service deleted' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // 6. GET /api/catalogue/vendors
 app.get('/api/catalogue/vendors', async (req, res) => {
   try {
     const allVendors = await readJsonFile(VENDORS_PATH);
-    const approved = allVendors
-      .filter(v => v.approvalWorkflow?.approvalStatus === 'Approved')
+    const activeVendors = allVendors
+      .filter(v => v.status === 'Active')
       .map(v => ({
         vendorId: v.vendorId,
         vendorName: v.basicDetails?.legalName || v.basicDetails?.tradeName || 'Unnamed Vendor',
         status: v.status || 'Active'
       }));
-    res.json(approved);
+    res.json(activeVendors);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -2656,7 +2933,8 @@ app.get('/api/catalogue/dashboard', async (req, res) => {
 app.get('/api/catalogue/pending-approvals', async (req, res) => {
   try {
     const approvals = await readJsonFile(CAT_APPROVALS_PATH);
-    res.json(approvals);
+    const pending = approvals.filter(a => a.status === 'Pending Approval');
+    res.json(pending);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -2667,17 +2945,58 @@ app.post('/api/catalogue/approvals/:id/resolve', async (req, res) => {
   try {
     const { action, remarks, performedBy } = req.body;
     const approvals = await readJsonFile(CAT_APPROVALS_PATH);
-    const appEntry = approvals.find(a => a.approvalId === req.params.id || a.itemId === req.params.id);
+    const appEntry = approvals.find(a => a.approvalId === req.params.id || a.catalogueId === req.params.id || a.itemId === req.params.id);
     if (!appEntry) {
       return res.status(404).json({ message: 'Approval request not found' });
     }
 
-    const finalStatus = action === 'Approve' ? 'Published' : action === 'Reject' ? 'Rejected' : 'Draft';
-    const userName = performedBy || 'Neha Sharma';
+    const userName = performedBy || 'Saurabh Anand';
+    const catId = appEntry.catalogueId || appEntry.itemId;
+
+    if (action === 'Recommend') {
+      appEntry.checker = 'Saurabh Anand';
+      appEntry.remarks = remarks;
+      await writeJsonFile(CAT_APPROVALS_PATH, approvals);
+
+      let resolvedData;
+      if (catId && (catId.startsWith('SRV-') || catId.startsWith('SVC-'))) {
+        resolvedData = await updateJsonData(CAT_SERVICES_PATH, 'serviceId', catId, {
+          approvalWorkflow: {
+            submittedBy: appEntry.submittedBy,
+            submittedDate: appEntry.submittedDate,
+            approvalStatus: 'Pending',
+            currentApprover: 'Tenant Admin',
+            checkerRemarks: remarks
+          }
+        });
+      } else {
+        resolvedData = await updateJsonData(CAT_ITEMS_PATH, 'itemId', catId, {
+          approvalWorkflow: {
+            submittedBy: appEntry.submittedBy,
+            submittedDate: appEntry.submittedDate,
+            approvalStatus: 'Pending',
+            currentApprover: 'Tenant Admin',
+            checkerRemarks: remarks
+          },
+          auditTrail: [
+            {
+              action: `Item recommended for approval by Procurement Checker`,
+              user: userName,
+              dateTime: new Date().toISOString().replace('T', ' ').substring(0, 19)
+            }
+          ]
+        });
+      }
+      await logCatActivity(catId, `Catalogue unit recommended by Procurement Checker`, userName);
+      await updateCatDashboardMetrics();
+      return res.json({ success: true, message: `Catalogue entry recommended successfully.`, item: resolvedData });
+    }
+
+    const finalStatus = action === 'Approve' ? 'Published' : action === 'Reject' ? 'Rejected' : 'Sent Back for Clarification';
 
     let resolvedData;
-    if (appEntry.itemId && appEntry.itemId.startsWith('SRV-')) {
-      resolvedData = await updateJsonData(CAT_SERVICES_PATH, 'serviceId', appEntry.itemId, {
+    if (catId && (catId.startsWith('SRV-') || catId.startsWith('SVC-'))) {
+      resolvedData = await updateJsonData(CAT_SERVICES_PATH, 'serviceId', catId, {
         status: finalStatus,
         approvalWorkflow: {
           submittedBy: appEntry.submittedBy,
@@ -2690,7 +3009,7 @@ app.post('/api/catalogue/approvals/:id/resolve', async (req, res) => {
         }
       });
     } else {
-      resolvedData = await updateJsonData(CAT_ITEMS_PATH, 'itemId', appEntry.itemId, {
+      resolvedData = await updateJsonData(CAT_ITEMS_PATH, 'itemId', catId, {
         status: finalStatus,
         approvalWorkflow: {
           submittedBy: appEntry.submittedBy,
@@ -2711,9 +3030,13 @@ app.post('/api/catalogue/approvals/:id/resolve', async (req, res) => {
       });
     }
 
-    await deleteJsonData(CAT_APPROVALS_PATH, 'itemId', appEntry.itemId);
+    // Update approval status inside catalogue-approvals.json instead of deleting
+    appEntry.status = action === 'Approve' ? 'Approved' : action === 'Reject' ? 'Rejected' : 'Sent Back for Clarification';
+    appEntry.remarks = remarks;
+    appEntry.approvalDate = new Date().toISOString().split('T')[0];
+    await writeJsonFile(CAT_APPROVALS_PATH, approvals);
 
-    await logCatActivity(appEntry.itemId, `Catalogue unit ${action}d by Checker`, userName);
+    await logCatActivity(catId, `Catalogue unit ${action}d by Checker`, userName);
     await updateCatDashboardMetrics();
 
     res.json({ success: true, message: `Catalogue entry ${action}d successfully.`, item: resolvedData });
@@ -2755,6 +3078,37 @@ app.post('/api/catalogue/upload', catUpload.single('file'), async (req, res) => 
 
     await appendJsonData(CAT_UPLOADED_FILES_PATH, fileMeta);
 
+    // Copy to /uploads/catalogue/ and persist to catalogue-documents.json
+    try {
+      const catalogueDir = path.join(__dirname, 'uploads', 'catalogue');
+      const destPath = path.join(catalogueDir, req.file.filename);
+      await fs.mkdir(catalogueDir, { recursive: true });
+      await fs.copyFile(req.file.path, destPath);
+
+      // Read documents and determine next sequence ID
+      let docs = [];
+      try {
+        docs = await readJsonFile(CAT_DOCUMENTS_PATH);
+        if (!Array.isArray(docs)) docs = [];
+      } catch (e) {
+        docs = [];
+      }
+      
+      const docId = `DOC-${String(docs.length + 1).padStart(3, '0')}`;
+      const docMeta = {
+        documentId: docId,
+        catalogueId: linkedRecordId || 'ITM-2026-0001',
+        fileName: req.file.originalname,
+        filePath: `/uploads/catalogue/${req.file.filename}`,
+        uploadedBy: uploadedBy || 'Saurabh Anand',
+        uploadedDate: new Date().toISOString().split('T')[0]
+      };
+      docs.push(docMeta);
+      await writeJsonFile(CAT_DOCUMENTS_PATH, docs);
+    } catch (err) {
+      console.error('Failed to copy to catalogue uploads or save to metadata:', err);
+    }
+
     res.json({ success: true, file: fileMeta });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -2772,21 +3126,32 @@ app.get('/api/catalogue/files/:itemId', async (req, res) => {
   }
 });
 
+// 13b. GET /api/catalogue/documents/:itemId
+app.get('/api/catalogue/documents/:itemId', async (req, res) => {
+  try {
+    const docs = await readJsonFile(CAT_DOCUMENTS_PATH);
+    const filtered = docs.filter(d => d.catalogueId === req.params.itemId);
+    res.json(filtered);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // ==========================================
 // CONTRACTS & SLAs MODULE APIs
 // ==========================================
 
 const CONTRACTS_DIR = path.join(__dirname, 'data', 'contracts');
-const CONTRACTS_PATH = path.join(CONTRACTS_DIR, 'contracts.json');
+const CONTRACTS_PATH = path.join(__dirname, 'data', 'contracts.json');
 const CONTRACT_DRAFTS_PATH = path.join(CONTRACTS_DIR, 'contractDrafts.json');
 const CONTRACT_DASHBOARD_PATH = path.join(CONTRACTS_DIR, 'dashboardCache.json');
-const CONTRACT_APPROVALS_PATH = path.join(CONTRACTS_DIR, 'approvals.json');
-const CONTRACT_RENEWALS_PATH = path.join(CONTRACTS_DIR, 'renewals.json');
+const CONTRACT_APPROVALS_PATH = path.join(__dirname, 'data', 'contract-approvals.json');
+const CONTRACT_RENEWALS_PATH = path.join(__dirname, 'data', 'contract-renewals.json');
 const CLAUSE_LIBRARY_PATH = path.join(CONTRACTS_DIR, 'clauseLibrary.json');
 const CONTRACT_ACTIVITY_PATH = path.join(CONTRACTS_DIR, 'contract-activity.json');
 const CONTRACT_RISK_INSIGHTS_PATH = path.join(CONTRACTS_DIR, 'contract-risk-insights.json');
 const SLA_TRACKER_PATH = path.join(CONTRACTS_DIR, 'slaBreaches.json');
-const CONTRACT_UPLOADED_FILES_PATH = path.join(CONTRACTS_DIR, 'files.json');
+const CONTRACT_UPLOADED_FILES_PATH = path.join(__dirname, 'data', 'contract-documents.json');
 const CONTRACT_TEMPLATES_PATH = path.join(CONTRACTS_DIR, 'contract-templates.json');
 const CONTRACT_AUDIT_LOG_PATH = path.join(CONTRACTS_DIR, 'auditTrail.json');
 const CONTRACTS_VENDORS_PATH = path.join(CONTRACTS_DIR, 'vendors.json');
@@ -2830,53 +3195,18 @@ async function ensureContractDirs() {
   await fs.mkdir(CTR_SIGNED_DIR, { recursive: true });
   await fs.mkdir(CTR_TEMP_DIR, { recursive: true });
 
-  // Migration logic from old hyphenated/capitalized files to final unified files
-  const migrationMap = [
-    { oldName: 'contract-approvals.json', newName: 'approvals.json' },
-    { oldName: 'contractApprovals.json', newName: 'approvals.json' },
-    { oldName: 'contract-renewals.json', newName: 'renewals.json' },
-    { oldName: 'contractRenewals.json', newName: 'renewals.json' },
-    { oldName: 'uploaded-files.json', newName: 'files.json' },
-    { oldName: 'uploadedFiles.json', newName: 'files.json' },
-    { oldName: 'clause-library.json', newName: 'clauseLibrary.json' },
-    { oldName: 'clause-library.json', newName: 'clauseLibrary.json' },
-    { oldName: 'contract-audit-log.json', newName: 'auditTrail.json' },
-    { oldName: 'contractAuditTrail.json', newName: 'auditTrail.json' },
-    { oldName: 'contract-dashboard.json', newName: 'dashboardCache.json' },
-    { oldName: 'sla-tracker.json', newName: 'slaBreaches.json' }
-  ];
-
-  for (const item of migrationMap) {
-    const oldPath = path.join(CONTRACTS_DIR, item.oldName);
-    const newPath = path.join(CONTRACTS_DIR, item.newName);
+  const initEmptyJson = async (filePath) => {
     try {
-      await fs.access(oldPath);
-      try {
-        await fs.access(newPath);
-      } catch {
-        // If old exists and new does not, rename/migrate it
-        await fs.rename(oldPath, newPath);
-      }
-    } catch {}
-  }
-
-  // Initialize empty database files if they don't exist
-  const initList = [
-    { path: CONTRACTS_PATH, defaultVal: '[]' },
-    { path: CONTRACT_DRAFTS_PATH, defaultVal: '[]' },
-    { path: CONTRACT_APPROVALS_PATH, defaultVal: '[]' },
-    { path: CONTRACT_RENEWALS_PATH, defaultVal: '[]' },
-    { path: CONTRACT_UPLOADED_FILES_PATH, defaultVal: '[]' },
-    { path: CONTRACT_AUDIT_LOG_PATH, defaultVal: '[]' }
-  ];
-
-  for (const item of initList) {
-    try {
-      await fs.access(item.path);
+      await fs.access(filePath);
     } catch {
-      await fs.writeFile(item.path, item.defaultVal, 'utf8');
+      await fs.writeFile(filePath, '[]', 'utf8');
     }
-  }
+  };
+
+  await initEmptyJson(CONTRACTS_PATH);
+  await initEmptyJson(CONTRACT_APPROVALS_PATH);
+  await initEmptyJson(CONTRACT_RENEWALS_PATH);
+  await initEmptyJson(CONTRACT_UPLOADED_FILES_PATH);
 
   // Seed clauseLibrary.json if it is missing or empty
   try {
@@ -2936,39 +3266,7 @@ async function ensureContractDirs() {
   try {
     await fs.access(SLA_TRACKER_PATH);
   } catch {
-    const defaultSla = [
-      {
-        contractId: "CTR-2026-00045",
-        vendorName: "Global Secure Tech",
-        uptime: "99.95%",
-        responseTime: "2 Hours",
-        resolutionTime: "8 Hours",
-        breachCount: 0,
-        penaltyTriggered: false,
-        complianceScore: 92
-      },
-      {
-        contractId: "CTR-2025-104",
-        vendorName: "Global Secure Tech",
-        uptime: "99.9%",
-        responseTime: "4 Hours",
-        resolutionTime: "12 Hours",
-        breachCount: 2,
-        penaltyTriggered: true,
-        complianceScore: 88
-      },
-      {
-        contractId: "CTR-2025-045",
-        vendorName: "CloudNet Systems",
-        uptime: "99.99%",
-        responseTime: "1 Hour",
-        resolutionTime: "4 Hours",
-        breachCount: 1,
-        penaltyTriggered: false,
-        complianceScore: 95
-      }
-    ];
-    await fs.writeFile(SLA_TRACKER_PATH, JSON.stringify(defaultSla, null, 2), 'utf8');
+    await fs.writeFile(SLA_TRACKER_PATH, '[]', 'utf8');
   }
 }
 ensureContractDirs().catch(console.error);
@@ -3308,36 +3606,49 @@ const contractUpload = multer({ storage: contractStorage });
 async function updateContractRenewals() {
   try {
     const contracts = await readJsonFile(CONTRACTS_PATH);
-    const renewals = [];
+    let renewals = [];
+    try {
+      renewals = await readJsonFile(CONTRACT_RENEWALS_PATH);
+      if (!Array.isArray(renewals)) renewals = [];
+    } catch {
+      renewals = [];
+    }
+
     const today = new Date();
     today.setHours(0,0,0,0);
 
     for (const c of contracts) {
+      if (c.status !== 'Active') continue;
       if (!c.expiryDate) continue;
       const exp = new Date(c.expiryDate);
       exp.setHours(0,0,0,0);
       const diffTime = exp - today;
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-      let renewalStatus = "Active";
+      let renewalStatus = "Auto-Renew";
       if (diffDays < 0) {
         renewalStatus = "Expired";
       } else if (diffDays <= 30) {
-        renewalStatus = "Expiring Soon";
+        renewalStatus = "Pending";
       } else if (diffDays <= 90) {
-        renewalStatus = "Renewal Due";
+        renewalStatus = "In Review";
       }
 
-      renewals.push({
-        contractId: c.contractId,
-        vendorName: c.vendorName || c.vendor?.vendorName || "Unknown Vendor",
-        contractType: c.contractType,
-        expiryDate: c.expiryDate,
-        daysRemaining: diffDays,
-        renewalStatus: renewalStatus,
-        status: diffDays < 0 ? "Expired" : diffDays <= 30 ? "Pending" : diffDays <= 90 ? "In Review" : "Auto-Renew",
-        owner: c.approvalWorkflow?.submittedBy || c.submittedBy || "Procurement Team"
-      });
+      const idx = renewals.findIndex(r => r.contractId === c.contractId);
+      if (idx === -1) {
+        renewals.push({
+          renewalId: `REN-${Math.floor(100 + Math.random() * 900)}`,
+          contractId: c.contractId,
+          expiryDate: c.expiryDate,
+          renewalStatus: renewalStatus,
+          notificationSent: false
+        });
+      } else {
+        renewals[idx].expiryDate = c.expiryDate;
+        if (renewals[idx].renewalStatus !== 'Renewed') {
+          renewals[idx].renewalStatus = renewalStatus;
+        }
+      }
     }
     await writeJsonFile(CONTRACT_RENEWALS_PATH, renewals);
   } catch (error) {
@@ -3349,84 +3660,83 @@ async function updateContractDashboardMetrics() {
   try {
     const contracts = await readJsonFile(CONTRACTS_PATH);
     const approvals = await readJsonFile(CONTRACT_APPROVALS_PATH);
-    const sla = await readJsonFile(SLA_TRACKER_PATH);
 
-    const totalActive = contracts.filter(c => c.status === 'Active').length + 843;
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    const totalActive = contracts.filter(c => c.status === 'Active').length;
     const expiringSoonCount = contracts.filter(c => {
       if (c.status !== 'Active') return false;
+      if (!c.expiryDate) return false;
       const exp = new Date(c.expiryDate);
-      const diffTime = exp - new Date();
+      exp.setHours(0,0,0,0);
+      const diffTime = exp - today;
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return diffDays > 0 && diffDays <= 30;
-    }).length + 40;
+      return diffDays > 0 && diffDays <= 90;
+    }).length;
 
-    const pendingLegalReviewsCount = approvals.filter(a => a.currentStage === 'Legal Review' || a.currentStage === 'Legal').length + 62;
-    const breaches = sla.reduce((sum, item) => sum + (item.breachCount || 0), 0) + 11;
+    const pendingLegalReviewsCount = approvals.filter(a => a.status === 'Pending Approval').length;
+    const breaches = 0;
 
     // Calculate lifecycle counts
-    const active = contracts.filter(c => c.status === 'Active').length + 843;
-    const draft = contracts.filter(c => c.status === 'Draft' || c.status === 'Revision Required').length + 119;
-    const review = contracts.filter(c => c.status === 'In Review' || c.status === 'Pending Approval').length + 62;
-    const sig = contracts.filter(c => c.status === 'Pending Signature').length + 41;
-    const expired = contracts.filter(c => c.status === 'Expired').length + 27;
+    const active = contracts.filter(c => c.status === 'Active').length;
+    const draft = contracts.filter(c => c.status === 'Draft' || c.status === 'Clarification Required').length;
+    const review = contracts.filter(c => c.status === 'Pending Approval' || c.status === 'In Review').length;
+    const expired = contracts.filter(c => c.status === 'Expired').length;
 
     const lifecycleDistribution = [
       { name: 'Active', value: active, color: '#16A34A' },
       { name: 'Draft', value: draft, color: '#94A3B8' },
       { name: 'Under Review', value: review, color: '#F59E0B' },
-      { name: 'Pending Signature', value: sig, color: '#3B82F6' },
       { name: 'Expired', value: expired, color: '#EF4444' }
     ];
 
-    // Baseline offsets
     const categorySpends = {
-      'IT Services': 45,
-      'Facilities': 28,
-      'Legal': 18,
-      'Cloud': 32,
-      'Consulting': 22
+      'IT Services': 0,
+      'Facilities': 0,
+      'Legal': 0,
+      'Cloud': 0,
+      'Consulting': 0
     };
 
-    // Baseline risk averages
     let totalRiskCount = 0;
     let sumLegal = 0;
     let sumCompliance = 0;
     let sumFinancial = 0;
-    let highRiskCount = 4;
-    let medRiskCount = 18;
-    let lowRiskCount = 78;
+    let highRiskCount = 0;
+    let medRiskCount = 0;
+    let lowRiskCount = 0;
 
     contracts.forEach(c => {
-      const val = c.contractValue || c.commercialTerms?.contractValue || 0;
+      const val = parseFloat(c.contractValue) || 0;
       const valInCr = val / 10000000;
       const dept = (c.department || '').toLowerCase();
       
       if (c.status === 'Active') {
         if (dept.includes('it') || dept.includes('service') || dept.includes('tech')) {
-          categorySpends['IT Services'] += valInCr;
+          categorySpends['IT Services'] = (categorySpends['IT Services'] || 0) + valInCr;
         } else if (dept.includes('facility') || dept.includes('ops') || dept.includes('operation') || dept.includes('office')) {
-          categorySpends['Facilities'] += valInCr;
+          categorySpends['Facilities'] = (categorySpends['Facilities'] || 0) + valInCr;
         } else if (dept.includes('legal') || dept.includes('compliance')) {
-          categorySpends['Legal'] += valInCr;
+          categorySpends['Legal'] = (categorySpends['Legal'] || 0) + valInCr;
         } else if (dept.includes('cloud') || dept.includes('saas') || dept.includes('hosting')) {
-          categorySpends['Cloud'] += valInCr;
+          categorySpends['Cloud'] = (categorySpends['Cloud'] || 0) + valInCr;
         } else if (dept.includes('consult') || dept.includes('strategy') || dept.includes('advisory')) {
-          categorySpends['Consulting'] += valInCr;
+          categorySpends['Consulting'] = (categorySpends['Consulting'] || 0) + valInCr;
         } else {
-          categorySpends['IT Services'] += valInCr;
+          categorySpends['IT Services'] = (categorySpends['IT Services'] || 0) + valInCr;
         }
 
-        const ri = c.riskInsights || {};
-        const legal = ri.legalExposure || 50;
-        const comp = ri.complianceRisk || 20;
-        const fin = ri.financialRisk || 50;
+        const legal = parseInt(c.legalExposure) || 30;
+        const comp = parseInt(c.complianceRisk) || 20;
+        const fin = parseInt(c.financialRisk) || 30;
         
         sumLegal += legal;
         sumCompliance += comp;
         sumFinancial += fin;
         totalRiskCount++;
 
-        const rLevel = (c.riskLevel || ri.portfolioRisk || 'Medium').toLowerCase();
+        const rLevel = (c.riskLevel || 'Low').toLowerCase();
         if (rLevel === 'high') highRiskCount++;
         else if (rLevel === 'low') lowRiskCount++;
         else medRiskCount++;
@@ -3438,14 +3748,13 @@ async function updateContractDashboardMetrics() {
       spend: parseFloat(categorySpends[cat].toFixed(2))
     }));
 
-    const baselineCount = 843;
-    const avgLegal = Math.round((sumLegal + baselineCount * 58) / (totalRiskCount + baselineCount));
-    const avgCompliance = Math.round((sumCompliance + baselineCount * 22) / (totalRiskCount + baselineCount));
-    const avgFinancial = Math.round((sumFinancial + baselineCount * 74) / (totalRiskCount + baselineCount));
+    const avgLegal = totalRiskCount > 0 ? Math.round(sumLegal / totalRiskCount) : 30;
+    const avgCompliance = totalRiskCount > 0 ? Math.round(sumCompliance / totalRiskCount) : 20;
+    const avgFinancial = totalRiskCount > 0 ? Math.round(sumFinancial / totalRiskCount) : 30;
     
-    let avgPortfolioRisk = "Medium";
+    let avgPortfolioRisk = "Low";
     if (avgFinancial > 70) avgPortfolioRisk = "High";
-    else if (avgFinancial < 40) avgPortfolioRisk = "Low";
+    else if (avgFinancial > 40) avgPortfolioRisk = "Medium";
 
     const vendorRiskAnalysis = [
       { name: "High Risk", value: highRiskCount },
@@ -3453,9 +3762,7 @@ async function updateContractDashboardMetrics() {
       { name: "Low Risk", value: lowRiskCount }
     ];
 
-    const currentDashboard = await readJsonFile(CONTRACT_DASHBOARD_PATH);
     const updated = {
-      ...currentDashboard,
       totalActiveContracts: totalActive,
       expiringSoon: expiringSoonCount,
       pendingLegalReviews: pendingLegalReviewsCount,
@@ -3478,18 +3785,110 @@ async function updateContractDashboardMetrics() {
 // 0. GET /api/contracts/vendors
 app.get('/api/contracts/vendors', async (req, res) => {
   try {
-    const vendors = await readJsonFile(CONTRACTS_VENDORS_PATH);
-    res.json(vendors);
+    const vendors = await readJsonFile(VENDORS_PATH);
+    const activeVendors = vendors
+      .filter(v => v.status === 'Active')
+      .map(v => ({
+        vendorId: v.vendorId,
+        vendorName: v.basicDetails?.legalName || v.vendorName || 'Unnamed Vendor',
+        vendorRiskLevel: v.riskLevel || v.risk?.level || 'Low',
+        vendorComplianceScore: v.vendorComplianceScore || 85
+      }));
+    res.json(activeVendors);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
+// Helpers for Contracts flat <-> nested mapping
+function mapFlatToNested(flat) {
+  if (!flat) return null;
+  return {
+    contractId: flat.contractId,
+    contractName: flat.contractName,
+    contractType: flat.contractType,
+    department: flat.department,
+    effectiveDate: flat.effectiveDate,
+    expiryDate: flat.expiryDate,
+    status: flat.status,
+    riskLevel: flat.riskLevel,
+    approvalStatus: flat.approvalStatus,
+    renewalStatus: flat.renewalStatus,
+    createdBy: flat.createdBy,
+    createdDate: flat.createdDate,
+    vendorName: flat.vendorName,
+    contractValue: flat.contractValue,
+    currency: flat.currency || 'INR',
+    paymentTerms: flat.paymentTerms || 'Net 30',
+    billingFrequency: flat.billingFrequency || 'Monthly',
+    vendor: {
+      vendorId: flat.vendorId,
+      vendorName: flat.vendorName,
+      vendorRiskLevel: flat.riskLevel || 'Low',
+      vendorComplianceScore: flat.vendorComplianceScore || 90
+    },
+    commercialTerms: {
+      contractValue: flat.contractValue,
+      currency: flat.currency || 'INR',
+      paymentTerms: flat.paymentTerms || 'Net 30',
+      billingFrequency: flat.billingFrequency || 'Monthly'
+    },
+    slaAndLegal: {
+      selectedClauses: flat.selectedClauses || [],
+      slaMetrics: flat.slaMetrics || { uptime: '99.9%', responseTime: '4 Hours', resolutionTime: '12 Hours' },
+      penaltyTerms: flat.penaltyTerms || { slaBreachPenalty: '5%', maxPenaltyCap: '10%' }
+    },
+    riskInsights: {
+      portfolioRisk: flat.riskLevel || 'Low',
+      legalExposure: flat.legalExposure || 30,
+      complianceRisk: flat.complianceRisk || 20,
+      financialRisk: flat.financialRisk || 30,
+      aiAlerts: flat.aiAlerts || []
+    },
+    uploadedDocuments: flat.uploadedDocuments || []
+  };
+}
+
+function mapNestedToFlat(nested) {
+  if (!nested) return null;
+  return {
+    contractId: nested.contractId,
+    contractName: nested.contractName,
+    vendorId: nested.vendor?.vendorId || nested.vendorId || '',
+    vendorName: nested.vendor?.vendorName || nested.vendorName || '',
+    contractType: nested.contractType,
+    department: nested.department,
+    effectiveDate: nested.effectiveDate,
+    expiryDate: nested.expiryDate,
+    contractValue: nested.commercialTerms?.contractValue || nested.contractValue || 0,
+    currency: nested.commercialTerms?.currency || nested.currency || 'INR',
+    status: nested.status || 'Pending Approval',
+    riskLevel: nested.riskLevel || nested.riskInsights?.portfolioRisk || 'Low',
+    approvalStatus: nested.approvalStatus || 'Pending',
+    renewalStatus: nested.renewalStatus || 'Auto-Renew',
+    createdBy: nested.createdBy || 'Saurabh Anand',
+    createdDate: nested.createdDate || new Date().toISOString().split('T')[0],
+    
+    // Auxiliary fields
+    paymentTerms: nested.commercialTerms?.paymentTerms || nested.paymentTerms || 'Net 30',
+    billingFrequency: nested.commercialTerms?.billingFrequency || nested.billingFrequency || 'Monthly',
+    vendorComplianceScore: nested.vendor?.vendorComplianceScore || 90,
+    selectedClauses: nested.slaAndLegal?.selectedClauses || [],
+    slaMetrics: nested.slaAndLegal?.slaMetrics || null,
+    penaltyTerms: nested.slaAndLegal?.penaltyTerms || null,
+    legalExposure: nested.riskInsights?.legalExposure || 30,
+    complianceRisk: nested.riskInsights?.complianceRisk || 20,
+    financialRisk: nested.riskInsights?.financialRisk || 30,
+    aiAlerts: nested.riskInsights?.aiAlerts || [],
+    uploadedDocuments: nested.uploadedDocuments || []
+  };
+}
+
 // 1. GET /api/contracts
 app.get('/api/contracts', async (req, res) => {
-
   try {
-    const contracts = await readJsonFile(CONTRACTS_PATH);
+    const rawContracts = await readJsonFile(CONTRACTS_PATH);
+    const contracts = rawContracts.map(mapFlatToNested);
     const { status, risk, contractType, search } = req.query;
     let filtered = [...contracts];
 
@@ -3534,7 +3933,33 @@ app.get('/api/contracts/dashboard', async (req, res) => {
 app.get('/api/contracts/approvals', async (req, res) => {
   try {
     const approvals = await readJsonFile(CONTRACT_APPROVALS_PATH);
-    res.json(approvals);
+    const contracts = await readJsonFile(CONTRACTS_PATH);
+    
+    const pendingApprovals = approvals
+      .filter(a => a.status === 'Pending Approval')
+      .map(a => {
+        const c = contracts.find(contract => contract.contractId === a.contractId) || {};
+        return {
+          approvalId: a.approvalId,
+          contractId: a.contractId,
+          vendorName: c.vendorName || 'Unknown Vendor',
+          contractType: c.contractType || 'N/A',
+          contractValue: c.contractValue || 0,
+          risk: c.riskLevel || 'Low',
+          currentStage: c.status === 'Pending Approval' ? 'Procurement Review' : c.status || 'Review',
+          assignedTo: a.checker || 'Saurabh Anand',
+          status: a.status,
+          remarks: a.remarks || '',
+          history: [
+            {
+              action: "Submitted",
+              by: a.submittedBy || "Procurement Manager",
+              dateTime: c.createdDate || new Date().toISOString().split('T')[0]
+            }
+          ]
+        };
+      });
+    res.json(pendingApprovals);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -3544,7 +3969,28 @@ app.get('/api/contracts/approvals', async (req, res) => {
 app.get('/api/contracts/renewals', async (req, res) => {
   try {
     const renewals = await readJsonFile(CONTRACT_RENEWALS_PATH);
-    res.json(renewals);
+    const contracts = await readJsonFile(CONTRACTS_PATH);
+
+    const mappedRenewals = renewals.map(r => {
+      const c = contracts.find(contract => contract.contractId === r.contractId) || {};
+      
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const expDate = r.expiryDate ? new Date(r.expiryDate) : today;
+      const diffTime = expDate - today;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      return {
+        contractId: r.contractId,
+        vendorName: c.vendorName || 'Unknown Vendor',
+        contractType: c.contractType || 'N/A',
+        expiryDate: r.expiryDate,
+        owner: c.createdBy || 'Saurabh Anand',
+        status: r.renewalStatus || 'Auto-Renew',
+        daysRemaining: diffDays
+      };
+    });
+    res.json(mappedRenewals);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -3568,7 +4014,7 @@ app.get('/api/contracts/:id', async (req, res) => {
     if (!contract) {
       return res.status(404).json({ message: 'Contract not found' });
     }
-    res.json(contract);
+    res.json(mapFlatToNested(contract));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -3576,45 +4022,26 @@ app.get('/api/contracts/:id', async (req, res) => {
 
 const handleCreateContract = async (req, res) => {
   try {
-    const contractData = req.body;
-    const contracts = await readJsonFile(CONTRACTS_PATH);
+    const nestedData = req.body;
 
-    if (!contractData.contractId) {
+    if (!nestedData.contractId) {
       const year = new Date().getFullYear();
       const rand = Math.floor(10000 + Math.random() * 90000);
-      contractData.contractId = `CTR-${year}-${String(rand).padStart(5, '0')}`;
+      nestedData.contractId = `CTR-${year}-${String(rand).padStart(4, '0')}`;
     }
 
-    // Calculate Mock AI Risk Insights
     const legalRisk = Math.floor(40 + Math.random() * 30);
     const complianceRisk = Math.floor(15 + Math.random() * 20);
     const financialRisk = Math.floor(50 + Math.random() * 30);
     const riskLevel = financialRisk > 70 ? "High" : financialRisk > 40 ? "Medium" : "Low";
 
-    // Flatten keys to root level as per requirements
-    contractData.vendorName = contractData.vendor?.vendorName || "Unknown Vendor";
-    contractData.contractValue = contractData.commercialTerms?.contractValue || 0;
-    contractData.currency = contractData.commercialTerms?.currency || "INR";
-    contractData.paymentTerms = contractData.commercialTerms?.paymentTerms || "Net 30";
-    contractData.billingFrequency = contractData.commercialTerms?.billingFrequency || "Monthly";
-    contractData.riskLevel = riskLevel;
-    contractData.uploadedFiles = (contractData.uploadedDocuments || []).map(d => d.fileId || d.id);
-    contractData.status = "Pending Approval";
-    contractData.approvalStage = "Procurement";
+    nestedData.status = "Pending Approval";
+    nestedData.approvalStatus = "Pending";
+    nestedData.renewalStatus = "Auto-Renew";
+    nestedData.createdBy = nestedData.submittedBy || "Saurabh Anand";
+    nestedData.createdDate = new Date().toISOString().split('T')[0];
 
-    contractData.createdDate = new Date().toISOString().split('T')[0];
-    contractData.lastModified = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-
-    contractData.approvalWorkflow = {
-      currentStage: "Procurement",
-      workflowStep: 1,
-      approvalStatus: "Pending",
-      currentApprover: "Procurement Team",
-      submittedBy: contractData.submittedBy || "Saurabh Anand",
-      submittedOn: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
-    };
-
-    contractData.riskInsights = {
+    nestedData.riskInsights = {
       portfolioRisk: riskLevel,
       legalExposure: legalRisk,
       complianceRisk: complianceRisk,
@@ -3625,79 +4052,31 @@ const handleCreateContract = async (req, res) => {
       ]
     };
 
-    contractData.auditTrail = [
-      {
-        action: "Contract Created",
-        user: contractData.submittedBy || "Saurabh Anand",
-        dateTime: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
-      }
-    ];
+    const flatContract = mapNestedToFlat(nestedData);
+    const contracts = await readJsonFile(CONTRACTS_PATH);
+    contracts.push(flatContract);
+    await writeJsonFile(CONTRACTS_PATH, contracts);
 
-    await appendJsonData(CONTRACTS_PATH, contractData);
-
-    // Save approvals in contractApprovals.json
+    // Save approvals in contract-approvals.json
     const approvalItem = {
-      approvalId: `APP-CTR-${Math.floor(1000 + Math.random() * 9000)}`,
-      contractId: contractData.contractId,
-      vendorName: contractData.vendorName,
-      contractType: contractData.contractType,
-      contractValue: contractData.contractValue,
-      risk: contractData.riskLevel,
-      currentStage: "Procurement",
-      assignedTo: "Procurement Team",
-      status: "Pending",
+      approvalId: `CAP-${Math.floor(1000 + Math.random() * 9000)}`,
+      contractId: flatContract.contractId,
+      status: "Pending Approval",
+      submittedBy: "Procurement Manager",
+      checker: "Saurabh Anand",
       remarks: "",
-      uploadedFiles: contractData.uploadedFiles,
-      history: [
-        {
-          action: "Submitted",
-          by: contractData.submittedBy || "Saurabh Anand",
-          dateTime: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
-        }
-      ]
+      approvalDate: null
     };
-    await appendJsonData(CONTRACT_APPROVALS_PATH, approvalItem);
 
-    // Log Activity
-    const activity = {
-      id: `ACT-${Math.floor(1000 + Math.random() * 9000)}`,
-      contractId: contractData.contractId,
-      action: "Contract Created",
-      user: contractData.submittedBy || "Saurabh Anand",
-      dateTime: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
-    };
-    await appendJsonData(CONTRACT_ACTIVITY_PATH, activity);
+    const approvals = await readJsonFile(CONTRACT_APPROVALS_PATH);
+    approvals.push(approvalItem);
+    await writeJsonFile(CONTRACT_APPROVALS_PATH, approvals);
 
-    // Audit Log to contractAuditTrail.json
-    const auditLog = {
-      id: `AUD-CTR-${Math.floor(10000 + Math.random() * 90000)}`,
-      timestamp: new Date().toISOString(),
-      contractId: contractData.contractId,
-      action: "Contract Created & Submitted for Approval",
-      performedBy: contractData.submittedBy || "Saurabh Anand",
-      details: `Contract with ${contractData.vendorName} created and routed to Procurement.`
-    };
-    await appendJsonData(CONTRACT_AUDIT_LOG_PATH, auditLog);
-
-    // Risk Insights Cache
-    const riskInsightsItem = {
-      contractId: contractData.contractId,
-      portfolioRisk: riskLevel,
-      legalExposure: legalRisk,
-      complianceRisk: complianceRisk,
-      financialRisk: financialRisk,
-      alerts: [
-        { severity: "High", message: "Missing explicit data residency clause" },
-        { severity: "Medium", message: "Penalty cap set below enterprise standard" }
-      ]
-    };
-    await appendJsonData(CONTRACT_RISK_INSIGHTS_PATH, riskInsightsItem);
-
-    // Dynamic Updates
+    // Recalculate and updates
     await updateContractRenewals();
     await updateContractDashboardMetrics();
 
-    res.status(201).json({ success: true, contract: contractData });
+    res.status(201).json({ success: true, contract: mapFlatToNested(flatContract) });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -3708,20 +4087,18 @@ app.post('/api/contracts/create', handleCreateContract);
 // 8. PUT /api/contracts/:id
 app.put('/api/contracts/:id', async (req, res) => {
   try {
-    const updated = await updateJsonData(CONTRACTS_PATH, 'contractId', req.params.id, req.body);
+    const contracts = await readJsonFile(CONTRACTS_PATH);
+    const idx = contracts.findIndex(c => c.contractId === req.params.id);
+    if (idx === -1) {
+      return res.status(404).json({ message: 'Contract not found' });
+    }
 
-    const auditLog = {
-      id: `AUD-CTR-${Math.floor(10000 + Math.random() * 90000)}`,
-      timestamp: new Date().toISOString(),
-      contractId: req.params.id,
-      action: "Contract Updated",
-      performedBy: req.body.submittedBy || "Saurabh Anand",
-      details: "Contract details updated in repository."
-    };
-    await appendJsonData(CONTRACT_AUDIT_LOG_PATH, auditLog);
+    const flatData = mapNestedToFlat(req.body);
+    contracts[idx] = { ...contracts[idx], ...flatData };
+    await writeJsonFile(CONTRACTS_PATH, contracts);
 
     await updateContractDashboardMetrics();
-    res.json(updated);
+    res.json(mapFlatToNested(contracts[idx]));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -3730,19 +4107,17 @@ app.put('/api/contracts/:id', async (req, res) => {
 // 9. DELETE /api/contracts/:id
 app.delete('/api/contracts/:id', async (req, res) => {
   try {
-    await deleteJsonData(CONTRACTS_PATH, 'contractId', req.params.id);
-    await deleteJsonData(CONTRACT_APPROVALS_PATH, 'contractId', req.params.id);
-    await deleteJsonData(CONTRACT_RENEWALS_PATH, 'contractId', req.params.id);
+    const contracts = await readJsonFile(CONTRACTS_PATH);
+    const filtered = contracts.filter(c => c.contractId !== req.params.id);
+    await writeJsonFile(CONTRACTS_PATH, filtered);
 
-    const auditLog = {
-      id: `AUD-CTR-${Math.floor(10000 + Math.random() * 90000)}`,
-      timestamp: new Date().toISOString(),
-      contractId: req.params.id,
-      action: "Contract Deleted",
-      performedBy: "Saurabh Anand",
-      details: `Contract ${req.params.id} permanently deleted.`
-    };
-    await appendJsonData(CONTRACT_AUDIT_LOG_PATH, auditLog);
+    const approvals = await readJsonFile(CONTRACT_APPROVALS_PATH);
+    const filteredApprovals = approvals.filter(a => a.contractId !== req.params.id);
+    await writeJsonFile(CONTRACT_APPROVALS_PATH, filteredApprovals);
+
+    const renewals = await readJsonFile(CONTRACT_RENEWALS_PATH);
+    const filteredRenewals = renewals.filter(r => r.contractId !== req.params.id);
+    await writeJsonFile(CONTRACT_RENEWALS_PATH, filteredRenewals);
 
     await updateContractDashboardMetrics();
     res.json({ success: true, message: 'Contract deleted' });
@@ -3758,34 +4133,31 @@ app.post('/api/contracts/upload', contractUpload.single('file'), async (req, res
       return res.status(400).json({ success: false, message: 'No file uploaded' });
     }
     const { linkedRecordId, documentCategory, uploadedBy } = req.body;
-    const cleanPath = '/uploads/contracts/' + 
-      (documentCategory === 'Legal Agreement' || documentCategory === 'Contract Document' ? 'legal/' :
-       documentCategory === 'SLA Document' || documentCategory === 'SLA' ? 'sla/' :
-       documentCategory === 'Compliance' ? 'compliance/' :
-       documentCategory === 'Template' ? 'templates/' :
-       documentCategory === 'Signed Contract' ? 'signed/' : 'supporting-documents/') +
-      req.file.filename;
+    const cleanPath = `/uploads/contracts/${req.file.filename}`;
 
     const fileMeta = {
-      fileId: `FILE-CTR-${Math.floor(1000 + Math.random() * 9000)}`,
-      linkedModule: "Contracts",
-      linkedRecordId: linkedRecordId || "",
+      documentId: `DOC-${Math.floor(1000 + Math.random() * 9000)}`,
+      contractId: linkedRecordId || "",
       fileName: req.file.originalname,
-      originalName: req.file.originalname,
-      fileType: req.file.mimetype,
-      documentCategory: documentCategory || "supporting-documents",
-      storagePath: cleanPath,
       filePath: cleanPath,
       uploadedBy: uploadedBy || "Saurabh Anand",
-      uploadedOn: new Date().toISOString().split('T')[0],
-      fileSize: `${(req.file.size / (1024 * 1024)).toFixed(1)} MB`,
-      size: `${(req.file.size / (1024 * 1024)).toFixed(1)} MB`,
-      version: "v1.0",
-      isSigned: false
+      uploadedDate: new Date().toISOString().split('T')[0],
+      fileSize: `${(req.file.size / (1024 * 1024)).toFixed(1)} MB`
     };
 
-    await appendJsonData(CONTRACT_UPLOADED_FILES_PATH, fileMeta);
-    res.json({ success: true, file: fileMeta });
+    const docs = await readJsonFile(CONTRACT_UPLOADED_FILES_PATH);
+    docs.push(fileMeta);
+    await writeJsonFile(CONTRACT_UPLOADED_FILES_PATH, docs);
+
+    res.json({ success: true, file: {
+      fileId: fileMeta.documentId,
+      fileName: fileMeta.fileName,
+      filePath: fileMeta.filePath,
+      uploadedBy: fileMeta.uploadedBy,
+      uploadedOn: fileMeta.uploadedDate,
+      fileSize: fileMeta.fileSize,
+      fileType: req.file.mimetype
+    }});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -3794,9 +4166,57 @@ app.post('/api/contracts/upload', contractUpload.single('file'), async (req, res
 // 11. GET /api/contracts/files/:contractId
 app.get('/api/contracts/files/:contractId', async (req, res) => {
   try {
-    const files = await readJsonFile(CONTRACT_UPLOADED_FILES_PATH);
-    const filtered = files.filter(f => f.linkedRecordId === req.params.contractId);
+    const docs = await readJsonFile(CONTRACT_UPLOADED_FILES_PATH);
+    const filtered = docs
+      .filter(d => d.contractId === req.params.contractId)
+      .map(d => ({
+        fileId: d.documentId,
+        fileName: d.fileName,
+        filePath: d.filePath,
+        uploadedBy: d.uploadedBy,
+        uploadedOn: d.uploadedDate,
+        fileSize: d.fileSize || '2.0 MB',
+        fileType: 'application/pdf'
+      }));
     res.json(filtered);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 11b. POST /api/contracts/:id/renew
+app.post('/api/contracts/:id/renew', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { expiryDate } = req.body;
+
+    if (!expiryDate) {
+      return res.status(400).json({ success: false, message: 'Expiry date is required' });
+    }
+
+    const contracts = await readJsonFile(CONTRACTS_PATH);
+    const cIndex = contracts.findIndex(c => c.contractId === id);
+    if (cIndex === -1) {
+      return res.status(404).json({ message: 'Contract not found' });
+    }
+
+    contracts[cIndex].expiryDate = expiryDate;
+    contracts[cIndex].status = "Active";
+    await writeJsonFile(CONTRACTS_PATH, contracts);
+
+    // Update renewals list
+    const renewals = await readJsonFile(CONTRACT_RENEWALS_PATH);
+    const rIndex = renewals.findIndex(r => r.contractId === id);
+    if (rIndex !== -1) {
+      renewals[rIndex].expiryDate = expiryDate;
+      renewals[rIndex].renewalStatus = "Renewed";
+      await writeJsonFile(CONTRACT_RENEWALS_PATH, renewals);
+    }
+
+    await updateContractRenewals();
+    await updateContractDashboardMetrics();
+
+    res.json({ success: true, message: "Contract renewed successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -3814,65 +4234,26 @@ app.post('/api/contracts/approve', async (req, res) => {
       return res.status(404).json({ message: 'Contract not found' });
     }
 
-    const contract = contracts[cIndex];
-    const previousStage = contract.approvalWorkflow?.currentStage || "Procurement Review";
-
-    // Set contract status to Active immediately on approval as per specs
-    contract.status = "Active";
-    contract.approvalStage = "Completed";
-    contract.approvalWorkflow = {
-      ...(contract.approvalWorkflow || {}),
-      currentStage: "Completed",
-      workflowStep: 5,
-      approvalStatus: "Approved",
-      currentApprover: "",
-      lastRemarks: remarks
-    };
-
-    if (!contract.auditTrail) contract.auditTrail = [];
-    contract.auditTrail.push({
-      action: `Approved at Stage ${previousStage}`,
-      user: userName,
-      dateTime: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
-      remarks
-    });
-
-    contracts[cIndex] = contract;
+    // Set contract status to Active
+    contracts[cIndex].status = "Active";
+    contracts[cIndex].approvalStatus = "Approved";
     await writeJsonFile(CONTRACTS_PATH, contracts);
 
-    // Update approvals queue - remove from active pending reviews
+    // Update approval queue item to Approved
     const approvals = await readJsonFile(CONTRACT_APPROVALS_PATH);
-    const appIndex = approvals.findIndex(a => a.contractId === contractId);
+    const appIndex = approvals.findIndex(a => a.contractId === contractId && a.status === 'Pending Approval');
     if (appIndex !== -1) {
-      approvals.splice(appIndex, 1);
+      approvals[appIndex].status = "Approved";
+      approvals[appIndex].remarks = remarks || "";
+      approvals[appIndex].approvalDate = new Date().toISOString().split('T')[0];
       await writeJsonFile(CONTRACT_APPROVALS_PATH, approvals);
     }
 
-    // Log activity
-    const activity = {
-      id: `ACT-${Math.floor(1000 + Math.random() * 9000)}`,
-      contractId,
-      action: `Approved (${previousStage})`,
-      user: userName,
-      dateTime: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
-    };
-    await appendJsonData(CONTRACT_ACTIVITY_PATH, activity);
-
-    // Audit Log
-    const auditLog = {
-      id: `AUD-CTR-${Math.floor(10000 + Math.random() * 90000)}`,
-      timestamp: new Date().toISOString(),
-      contractId,
-      action: `Contract Approved`,
-      performedBy: userName,
-      details: `Approved by ${userName} at ${previousStage}. Status set to Active. Remarks: ${remarks || 'None'}`
-    };
-    await appendJsonData(CONTRACT_AUDIT_LOG_PATH, auditLog);
-
+    // Sync renewals and metrics
     await updateContractRenewals();
     await updateContractDashboardMetrics();
 
-    res.json({ success: true, contract });
+    res.json({ success: true, contract: mapFlatToNested(contracts[cIndex]) });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -3891,75 +4272,31 @@ app.post('/api/contracts/reject', async (req, res) => {
       return res.status(404).json({ message: 'Contract not found' });
     }
 
-    const contract = contracts[cIndex];
-    const previousStage = contract.approvalWorkflow?.currentStage || "Review";
-
-    // Set contract status based on action type
+    let targetStatus = "Rejected";
     if (mode === 'Send Back') {
-      contract.status = "Revision Required";
-      contract.approvalStage = "Revision Required";
-      contract.approvalWorkflow = {
-        ...(contract.approvalWorkflow || {}),
-        approvalStatus: "Revision Required",
-        currentStage: "Revision Required",
-        workflowStep: 0,
-        currentApprover: "",
-        lastRemarks: remarks
-      };
-    } else {
-      contract.status = "Rejected";
-      contract.approvalStage = "Rejected";
-      contract.approvalWorkflow = {
-        ...(contract.approvalWorkflow || {}),
-        approvalStatus: "Rejected",
-        currentStage: "Rejected",
-        workflowStep: 0,
-        currentApprover: "",
-        lastRemarks: remarks
-      };
+      targetStatus = "Clarification Required";
     }
 
-    if (!contract.auditTrail) contract.auditTrail = [];
-    contract.auditTrail.push({
-      action: `${mode}ed at Stage ${previousStage}`,
-      user: userName,
-      dateTime: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
-      remarks
-    });
-
-    contracts[cIndex] = contract;
+    // Update contract status
+    contracts[cIndex].status = targetStatus;
+    contracts[cIndex].approvalStatus = targetStatus;
     await writeJsonFile(CONTRACTS_PATH, contracts);
 
+    // Update approval queue item
     const approvals = await readJsonFile(CONTRACT_APPROVALS_PATH);
-    const appIndex = approvals.findIndex(a => a.contractId === contractId);
+    const appIndex = approvals.findIndex(a => a.contractId === contractId && a.status === 'Pending Approval');
     if (appIndex !== -1) {
-      approvals.splice(appIndex, 1);
+      approvals[appIndex].status = targetStatus;
+      approvals[appIndex].remarks = remarks || "";
+      approvals[appIndex].approvalDate = new Date().toISOString().split('T')[0];
       await writeJsonFile(CONTRACT_APPROVALS_PATH, approvals);
     }
 
-    const activity = {
-      id: `ACT-${Math.floor(1000 + Math.random() * 9000)}`,
-      contractId,
-      action: `${mode}ed (${previousStage})`,
-      user: userName,
-      dateTime: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
-    };
-    await appendJsonData(CONTRACT_ACTIVITY_PATH, activity);
-
-    const auditLog = {
-      id: `AUD-CTR-${Math.floor(10000 + Math.random() * 90000)}`,
-      timestamp: new Date().toISOString(),
-      contractId,
-      action: `Contract ${mode}ed`,
-      performedBy: userName,
-      details: `${mode}ed at ${previousStage} by ${userName}. Status set to ${contract.status}. Remarks: ${remarks || 'None'}`
-    };
-    await appendJsonData(CONTRACT_AUDIT_LOG_PATH, auditLog);
-
+    // Sync renewals and metrics
     await updateContractRenewals();
     await updateContractDashboardMetrics();
 
-    res.json({ success: true, contract });
+    res.json({ success: true, contract: mapFlatToNested(contracts[cIndex]) });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -5381,8 +5718,54 @@ app.get('/api/purchase-orders/files/:id', async (req, res) => {
 // 12. GET /api/rfq-vendors
 app.get('/api/rfq-vendors', async (req, res) => {
   try {
-    const vendors = await readJsonFile(PO_RFQ_VENDORS_PATH);
-    res.json(vendors);
+    const estimatedCost = parseFloat(req.query.estimatedCost) || 1250000;
+    const vendors = await readJsonFile(VENDORS_PATH);
+    const activeVendors = vendors.filter(v => v.status === 'Active');
+    
+    // Construct mock quotes for each active vendor
+    const rfqVendors = activeVendors.map((v, index) => {
+      // Vary quotes around estimatedCost: L1 gets less, L2 gets slightly more, etc.
+      let price = estimatedCost;
+      let tag = "";
+      let leadTime = "5 Days";
+      let sla = "95%";
+      
+      if (index === 0) {
+        price = Math.round(estimatedCost * 0.95);
+        tag = "Best Value";
+        leadTime = "5 Days";
+        sla = "98%";
+      } else if (index === 1) {
+        price = Math.round(estimatedCost * 1.05);
+        tag = "L2 Provider";
+        leadTime = "7 Days";
+        sla = "94%";
+      } else if (index === 2) {
+        price = Math.round(estimatedCost * 1.12);
+        tag = "L3 Provider";
+        leadTime = "8 Days";
+        sla = "90%";
+      } else {
+        price = Math.round(estimatedCost * (1.15 + (index - 3) * 0.05));
+        tag = `L${index + 1} Provider`;
+        leadTime = `${8 + index} Days`;
+        sla = `${90 - index}%`;
+      }
+      
+      return {
+        vendorId: v.vendorId,
+        vendorName: v.basicDetails?.legalName || v.vendorName || 'Unnamed Vendor',
+        quotedPrice: price,
+        leadTime: leadTime,
+        kycCompliance: (v.riskLevel || v.risk?.level || 'Low').toLowerCase() === 'high' ? 'Review Needed' : 'Clean',
+        slaScore: sla,
+        vendorRiskLevel: v.riskLevel || v.risk?.level || 'Low',
+        recommendationTag: tag,
+        rating: index === 0 ? 4.8 : index === 1 ? 4.4 : index === 2 ? 4.1 : 3.8
+      };
+    });
+    
+    res.json(rfqVendors);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -9414,6 +9797,57 @@ app.post('/api/vendor-portal/run-alerts', async (req, res) => {
       }
     }
   })().catch(console.error);
+});
+
+// ── Dashboard Approval Queue Aggregation ──────────────────────────────────────
+
+// GET /api/invoices/approvals  — invoices pending approval
+app.get('/api/invoices/approvals', async (req, res) => {
+  try {
+    const list = await readJsonFile(ADMIN_INVOICES_PATH);
+    const pending = list.filter(i => i.status === 'Pending Approval');
+    res.json(pending);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// GET /api/payments/approvals  — payments pending approval
+app.get('/api/payments/approvals', async (req, res) => {
+  try {
+    const list = await readJsonFile(ADMIN_PAYMENTS_PATH);
+    const pending = list.filter(p => p.status === 'Pending Approval');
+    res.json(pending);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// GET /api/dashboard/approval-counts  — single-shot aggregation for Dashboard Approval Queue
+app.get('/api/dashboard/approval-counts', async (req, res) => {
+  try {
+    const [vendors, catalogueApprovals, poApprovals, invoiceApprovals, paymentApprovals] = await Promise.all([
+      readJsonFile(VENDORS_PATH).catch(() => []),
+      readJsonFile(CAT_APPROVALS_PATH).catch(() => []),
+      readJsonFile(PO_APPROVALS_PATH).catch(() => []),
+      readJsonFile(path.join(__dirname, 'data', 'invoice-approvals.json')).catch(() => []),
+      readJsonFile(PAYMENT_APPROVALS_PATH).catch(() => []),
+    ]);
+
+    res.json({
+      vendorApprovals: Array.isArray(vendors)
+        ? vendors.filter(v => v.status === 'Pending Approval').length
+        : 0,
+      catalogueApprovals: Array.isArray(catalogueApprovals)
+        ? catalogueApprovals.filter(a => a.status === 'Pending Approval').length
+        : 0,
+      poApprovals: Array.isArray(poApprovals)
+        ? poApprovals.filter(a => a.status === 'Pending' || a.status === 'Pending Approval').length
+        : 0,
+      invoiceApprovals: Array.isArray(invoiceApprovals)
+        ? invoiceApprovals.filter(a => a.status === 'Pending Approval').length
+        : 0,
+      paymentApprovals: Array.isArray(paymentApprovals)
+        ? paymentApprovals.filter(p => p.status === 'Pending Approval').length
+        : 0,
+    });
+  } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
 app.listen(PORT, () => {

@@ -3,57 +3,6 @@
     "requester": {
       "employeeId": "EMP-1001",
       "requesterName": "Saurabh Anand",
-      "department": "Facilities",
-      "designation": "Procurement Manager"
-    },
-    "costCenter": {
-      "costCenterCode": "CC-FAC-OPS",
-      "costCenterName": "Facilities Operations"
-    },
-    "projectCode": "PROJ-MIGRATION-2026",
-    "category": "Consulting",
-    "itemDetails": {
-      "itemDescription": "Cloud infrastructure support services",
-      "quantity": 1,
-      "unitOfMeasure": "Service / Month"
-    },
-    "budgetDetails": {
-      "allocatedBudget": 2000000,
-      "consumedBudget": 800000,
-      "currentRequisitionValue": 1250000,
-      "availableBudget": -50000
-    },
-    "vendorSelection": {
-      "selectedVendorId": "VND-2025-00029",
-      "selectedVendorName": "ABC Infotech Pvt Ltd",
-      "quotedPrice": 1250000,
-      "leadTime": "5 Days",
-      "kycCompliance": "Clean",
-      "slaScore": "98%",
-      "vendorRiskLevel": "Low"
-    },
-    "linkedContract": {
-      "contractId": "CTR-2026-00045",
-      "contractType": "Master Service Agreement",
-      "contractExpiry": "2026-12-31"
-    },
-    "uploadedDocuments": [],
-    "status": "Pending Approval",
-    "requisitionId": "REQ-2026-00090",
-    "createdDate": "2026-06-03",
-    "lastModified": "3/6/2026, 12:35:57 pm",
-    "approvalWorkflow": {
-      "currentStage": "Department Head Approval",
-      "workflowStep": 1,
-      "approvalStatus": "Pending",
-      "submittedBy": "Saurabh Anand",
-      "submittedOn": "3/6/2026, 12:35:57 pm"
-    }
-  },
-  {
-    "requester": {
-      "employeeId": "EMP-1001",
-      "requesterName": "Saurabh Anand",
       "department": "IT Services",
       "designation": "Procurement Manager"
     },
@@ -61,12 +10,12 @@
       "costCenterCode": "CC-IT-OPS",
       "costCenterName": "IT Operations"
     },
-    "projectCode": "PROJ-MIGRATION-2026",
+    "projectCode": "PROJ-IT-Serices-2026",
     "category": "IT Services",
     "itemDetails": {
-      "itemDescription": "Cloud infrastructure support services",
+      "itemDescription": "IT wensite support services",
       "quantity": 1,
-      "unitOfMeasure": "Service / Month"
+      "unitOfMeasure": "Hours"
     },
     "budgetDetails": {
       "allocatedBudget": 5000000,
@@ -75,64 +24,13 @@
       "availableBudget": 1500000
     },
     "vendorSelection": {
-      "selectedVendorId": "VND-2025-00029",
-      "selectedVendorName": "ABC Infotech Pvt Ltd",
-      "quotedPrice": 1250000,
-      "leadTime": "5 Days",
-      "kycCompliance": "Clean",
-      "slaScore": "98%",
-      "vendorRiskLevel": "Low"
-    },
-    "linkedContract": {
-      "contractId": "CTR-2026-00045",
-      "contractType": "Master Service Agreement",
-      "contractExpiry": "2026-12-31"
-    },
-    "uploadedDocuments": [],
-    "status": "Pending Approval",
-    "requisitionId": "REQ-2026-00089",
-    "createdDate": "2026-06-03",
-    "lastModified": "3/6/2026, 12:35:41 pm",
-    "approvalWorkflow": {
-      "currentStage": "Department Head Approval",
-      "workflowStep": 1,
-      "approvalStatus": "Pending",
-      "submittedBy": "Saurabh Anand",
-      "submittedOn": "3/6/2026, 12:35:41 pm"
-    }
-  },
-  {
-    "requester": {
-      "employeeId": "EMP-1001",
-      "requesterName": "Saurabh Anand",
-      "department": "Facilities",
-      "designation": "Procurement Manager"
-    },
-    "costCenter": {
-      "costCenterCode": "CC-FAC-OPS",
-      "costCenterName": "Facilities Operations"
-    },
-    "projectCode": "PROJ-MIGRATION-2026",
-    "category": "IT Services",
-    "itemDetails": {
-      "itemDescription": "Cloud infrastructure support services",
-      "quantity": 12,
-      "unitOfMeasure": "Service / Month"
-    },
-    "budgetDetails": {
-      "allocatedBudget": 2000000,
-      "consumedBudget": 800000,
-      "currentRequisitionValue": 1250000,
-      "availableBudget": -50000
-    },
-    "vendorSelection": {
-      "selectedVendorId": "VND-2024-00781",
-      "selectedVendorName": "Secure Facilities Ltd",
-      "quotedPrice": 1420000,
+      "selectedVendorId": "VND-2026-45682",
+      "selectedVendorName": "New Age Software Solutions",
+      "quotedPrice": 1400000,
       "leadTime": "8 Days",
       "kycCompliance": "Clean",
       "slaScore": "90%",
-      "vendorRiskLevel": "Medium"
+      "vendorRiskLevel": "Low"
     },
     "linkedContract": {
       "contractId": "CTR-2026-00045",
@@ -141,134 +39,18 @@
     },
     "uploadedDocuments": [],
     "status": "Pending Approval",
-    "requisitionId": "REQ-2026-00088",
-    "createdDate": "2026-05-25",
-    "lastModified": "25/5/2026, 4:46:20 pm",
-    "approvalWorkflow": {
-      "currentStage": "Procurement Head Approval",
-      "workflowStep": 3,
-      "approvalStatus": "Pending",
-      "submittedBy": "Saurabh Anand",
-      "submittedOn": "25/5/2026, 4:46:20 pm"
-    }
-  },
-  {
-    "requester": {
-      "employeeId": "EMP-1001",
-      "requesterName": "Saurabh Anand",
-      "department": "IT Services",
-      "designation": "Procurement Manager"
-    },
-    "costCenter": {
-      "costCenterCode": "CC-IT-OPS",
-      "costCenterName": "IT Operations"
-    },
-    "projectCode": "PROJ-MIGRATION-2026",
-    "category": "IT Services",
-    "itemDetails": {
-      "itemDescription": "Cloud infrastructure support services",
-      "quantity": 1,
-      "unitOfMeasure": "Service / Month"
-    },
-    "budgetDetails": {
-      "allocatedBudget": 5000000,
-      "consumedBudget": 2250000,
-      "currentRequisitionValue": 1250000,
-      "availableBudget": 1500000
-    },
-    "vendorSelection": {
-      "selectedVendorId": "VND-2024-00650",
-      "selectedVendorName": "Tech Solutions Pvt Ltd",
-      "quotedPrice": 1190000,
-      "leadTime": "10 Days",
-      "kycCompliance": "Review Needed",
-      "slaScore": "88%",
-      "vendorRiskLevel": "Medium"
-    },
-    "linkedContract": {
-      "contractId": "CTR-2026-00045",
-      "contractType": "Master Service Agreement",
-      "contractExpiry": "2026-12-31"
-    },
-    "uploadedDocuments": [
-      {
-        "fileId": "FILE-PO-8353",
-        "linkedModule": "Purchase Orders",
-        "linkedRecordId": "REQ-2026-00087",
-        "fileName": "ecsPreFilled_document.pdf",
-        "originalName": "ecsPreFilled_document.pdf",
-        "fileType": "application/pdf",
-        "documentCategory": "Technical Specification",
-        "storagePath": "/uploads/purchase-orders/specifications/FILE_1779707721156-889027979.pdf",
-        "filePath": "/uploads/purchase-orders/specifications/FILE_1779707721156-889027979.pdf",
-        "uploadedBy": "Saurabh Anand",
-        "uploadedOn": "2026-05-25",
-        "size": "0.1 MB",
-        "fileSize": "0.1 MB",
-        "version": "v1.0"
-      }
-    ],
-    "status": "Pending Approval",
-    "requisitionId": "REQ-2026-00087",
-    "createdDate": "2026-05-25",
-    "lastModified": "25/5/2026, 4:45:30 pm",
+    "requisitionId": "REQ-2026-00084",
+    "createdDate": "2026-06-18",
+    "lastModified": "18/6/2026, 10:21:04 am",
     "approvalWorkflow": {
       "currentStage": "Department Head Approval",
       "workflowStep": 1,
       "approvalStatus": "Pending",
       "submittedBy": "Saurabh Anand",
-      "submittedOn": "25/5/2026, 4:45:30 pm"
+      "submittedOn": "18/6/2026, 10:21:04 am"
     }
   },
   {
-    "budgetDetails": {
-      "costCenter": "CC-IT-2026",
-      "availableBudget": 3750000,
-      "allocatedBudget": 5000000,
-      "currentRequisitionValue": 450000
-    },
-    "lineItems": [
-      {
-        "unitPrice": 200000,
-        "totalPrice": 400000,
-        "description": "High Performance Server Nodes",
-        "quantity": 2
-      },
-      {
-        "unitPrice": 50000,
-        "totalPrice": 50000,
-        "description": "10G Network Switch",
-        "quantity": 1
-      }
-    ],
-    "uploadedDocuments": [],
-    "vendorSelection": {
-      "leadTimeDays": 12,
-      "quotedPrice": 450000,
-      "selectedVendorId": "VND-2025-00029",
-      "selectedVendorName": "ABC Infotech Pvt Ltd"
-    },
-    "requester": {
-      "email": "saurabh.a@qualtech.com",
-      "employeeId": "EMP-9201",
-      "requesterName": "Saurabh Anand",
-      "department": "IT Services"
-    },
-    "category": "IT Hardware & Infrastructure",
-    "requisitionId": "REQ-2026-00086",
-    "status": "Approved",
-    "createdDate": "2026-05-25",
-    "lastModified": "25/5/2026, 4:42:50 pm",
-    "approvalWorkflow": {
-      "currentStage": "Approved",
-      "workflowStep": 3,
-      "approvalStatus": "Approved",
-      "submittedBy": "Saurabh Anand",
-      "submittedOn": "25/5/2026, 4:42:50 pm"
-    }
-  },
-  {
-    "requisitionId": "REQ-2026-00082",
     "requester": {
       "employeeId": "EMP-1001",
       "requesterName": "Saurabh Anand",
@@ -294,8 +76,8 @@
     },
     "vendorSelection": {
       "selectedVendorId": "VND-2025-00029",
-      "selectedVendorName": "ABC Infotech Pvt Ltd",
-      "quotedPrice": 1250000,
+      "selectedVendorName": "ABC Infotech Private Limited",
+      "quotedPrice": 1187500,
       "leadTime": "5 Days",
       "kycCompliance": "Clean",
       "slaScore": "98%",
@@ -306,146 +88,17 @@
       "contractType": "Master Service Agreement",
       "contractExpiry": "2026-12-31"
     },
-    "uploadedDocuments": [
-      {
-        "fileId": "FILE-PO-1001",
-        "fileName": "Technical_Specification.pdf",
-        "fileType": "application/pdf",
-        "filePath": "/uploads/purchase-orders/specifications/Technical_Specification.pdf",
-        "uploadedBy": "Saurabh Anand",
-        "uploadedOn": "2026-05-12",
-        "fileSize": "2.4 MB"
-      }
-    ],
+    "uploadedDocuments": [],
+    "status": "Approved",
+    "requisitionId": "REQ-2026-00083",
+    "createdDate": "2026-06-17",
+    "lastModified": "17/6/2026, 5:38:53 pm",
     "approvalWorkflow": {
       "currentStage": "Approved",
       "workflowStep": 3,
       "approvalStatus": "Approved",
       "submittedBy": "Saurabh Anand",
-      "submittedOn": "2026-05-12 10:45 AM"
-    },
-    "aiInsights": {
-      "budgetStatus": "Approved",
-      "vendorRisk": "Low",
-      "deliveryRisk": "Low",
-      "recommendation": "Vendor recommended based on historical SLA and pricing"
-    },
-    "status": "Approved",
-    "createdDate": "2026-05-12",
-    "lastModified": "2026-05-12 10:45 AM"
-  },
-  {
-    "requisitionId": "REQ-2026-00081",
-    "requester": {
-      "employeeId": "EMP-1002",
-      "requesterName": "Priya Sharma",
-      "department": "Facilities",
-      "designation": "Facilities Director"
-    },
-    "costCenter": {
-      "costCenterCode": "CC-FAC-OPS",
-      "costCenterName": "Facilities Operations"
-    },
-    "projectCode": "PROJ-FAC-RENOV-2026",
-    "category": "Facilities",
-    "itemDetails": {
-      "itemDescription": "HQ Office Renovation - Phase 2",
-      "quantity": 1,
-      "unitOfMeasure": "Items"
-    },
-    "budgetDetails": {
-      "allocatedBudget": 2000000,
-      "consumedBudget": 800000,
-      "currentRequisitionValue": 450000,
-      "availableBudget": 750000
-    },
-    "vendorSelection": {
-      "selectedVendorId": "VND-2024-00781",
-      "selectedVendorName": "Secure Facilities Ltd",
-      "quotedPrice": 450000,
-      "leadTime": "8 Days",
-      "kycCompliance": "Clean",
-      "slaScore": "90%",
-      "vendorRiskLevel": "Medium"
-    },
-    "linkedContract": {
-      "contractId": "CTR-2026-00012",
-      "contractType": "SOW Work Order",
-      "contractExpiry": "2026-09-30"
-    },
-    "uploadedDocuments": [],
-    "approvalWorkflow": {
-      "currentStage": "Approved",
-      "workflowStep": 1,
-      "approvalStatus": "Approved",
-      "submittedBy": "Priya Sharma",
-      "submittedOn": "2026-05-11 02:30 PM"
-    },
-    "aiInsights": {
-      "budgetStatus": "Approved",
-      "vendorRisk": "Medium",
-      "deliveryRisk": "Low",
-      "recommendation": "Vendor has moderate SLA deviation but matches historical budget profiles."
-    },
-    "status": "Approved",
-    "createdDate": "2026-05-11",
-    "lastModified": "2026-05-11 02:30 PM"
-  },
-  {
-    "requisitionId": "REQ-2026-00080",
-    "requester": {
-      "employeeId": "EMP-1004",
-      "requesterName": "Rahul Desai",
-      "department": "Security",
-      "designation": "Security Chief"
-    },
-    "costCenter": {
-      "costCenterCode": "CC-SEC-OPS",
-      "costCenterName": "Security Operations"
-    },
-    "projectCode": "PROJ-SEC-UPGRADE",
-    "category": "Security",
-    "itemDetails": {
-      "itemDescription": "Surveillance system upgrade & maintenance",
-      "quantity": 1,
-      "unitOfMeasure": "Service / Month"
-    },
-    "budgetDetails": {
-      "allocatedBudget": 3000000,
-      "consumedBudget": 1200000,
-      "currentRequisitionValue": 875000,
-      "availableBudget": 925000
-    },
-    "vendorSelection": {
-      "selectedVendorId": "VND-2025-00045",
-      "selectedVendorName": "Global Security Inc",
-      "quotedPrice": 875000,
-      "leadTime": "7 Days",
-      "kycCompliance": "Clean",
-      "slaScore": "94%",
-      "vendorRiskLevel": "Low"
-    },
-    "linkedContract": {
-      "contractId": "CTR-2026-00088",
-      "contractType": "Annual Maintenance Contract",
-      "contractExpiry": "2027-03-31"
-    },
-    "uploadedDocuments": [],
-    "approvalWorkflow": {
-      "currentStage": "Procurement Head",
-      "workflowStep": 3,
-      "approvalStatus": "Pending",
-      "submittedBy": "Rahul Desai",
-      "submittedOn": "2026-05-10 11:00 AM"
-    },
-    "aiInsights": {
-      "budgetStatus": "Approved",
-      "vendorRisk": "Low",
-      "deliveryRisk": "Low",
-      "recommendation": "Vendor selected matches exact compliance SLA requirements."
-    },
-    "status": "Pending Approval",
-    "createdDate": "2026-05-10",
-    "lastModified": "2026-05-10 11:00 AM"
+      "submittedOn": "17/6/2026, 5:38:53 pm"
+    }
   }
 ]

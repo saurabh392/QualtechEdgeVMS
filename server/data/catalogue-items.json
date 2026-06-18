@@ -1,0 +1,46 @@
+[
+  {
+    "itemCode": " IT-LAP-001",
+    "itemName": "Dell laptop 3620 IT-LAP-001",
+    "category": "IT Hardware",
+    "subCategory": "laptop",
+    "description": "laptop",
+    "brand": "dell",
+    "countryOfOrigin": "india",
+    "minimumOrderQuantity": 5,
+    "maximumOrderLimit": 20,
+    "expectedLeadTime": "7 days",
+    "warrantySupport": "12 months",
+    "preferredVendor": {
+      "vendorId": "VND-2025-00029",
+      "vendorName": "ABC Infotech Private Limited"
+    },
+    "alternateVendors": [],
+    "hsnCode": "84713010",
+    "unitOfMeasurement": "Nos",
+    "taxCode": "GST 18%",
+    "qualityComplianceStandards": "ISO 9001",
+    "qualityTestingCriteria": "",
+    "riskClassification": "Low Risk",
+    "status": "Pending Approval",
+    "submittedBy": "Saurabh Anand",
+    "uploadedFiles": [
+      {
+        "fileId": "FILE-9255",
+        "fileName": "MSA_GlobalSecureTech.pdf",
+        "fileType": "application/pdf",
+        "filePath": "/uploads/catalogue/items/MSA_GlobalSecureTech.pdf",
+        "uploadedOn": "2026-06-17",
+        "fileSize": "1.0 MB",
+        "attachmentId": "ATT-001"
+      }
+    ],
+    "itemId": "ITM-2026-00001",
+    "approvalWorkflow": {
+      "submittedBy": "Saurabh Anand",
+      "submittedDate": "2026-06-17",
+      "approvalStatus": "Pending",
+      "currentApprover": "Procurement Checker"
+    }
+  }
+]

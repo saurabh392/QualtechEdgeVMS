@@ -212,38 +212,45 @@ export const ServiceMaster: React.FC = () => {
     }
   };
 
-  const handleSave = async () => {
-    // Step 1 Validation
-    if (!serviceName || !serviceCode || !serviceCategory || !serviceSubCategory || !description || !department || !businessFunction || !serviceOwner || !serviceType) {
-      alert("Please fill in all required Step 1 details (marked with *).");
-      setSubStep(1);
-      return;
-    }
+  const handleSave = async (statusType: 'Draft' | 'Pending Approval') => {
+    if (statusType === 'Pending Approval') {
+      // Step 1 Validation
+      if (!serviceName || !serviceCode || !serviceCategory || !serviceSubCategory || !description || !department || !businessFunction || !serviceOwner || !serviceType) {
+        alert("Please fill in all required Step 1 details (marked with *).");
+        setSubStep(1);
+        return;
+      }
 
-    // Step 2 Validation
-    if (!preferredVendor || !deliveryModel || !serviceFrequency || !serviceDuration || !serviceLocation || !slaCommitment || !responseTime || !resolutionTime) {
-      alert("Please fill in all required Step 2 configuration fields (marked with *).");
-      setSubStep(2);
-      return;
-    }
+      // Step 2 Validation
+      if (!preferredVendor || !deliveryModel || !serviceFrequency || !serviceDuration || !serviceLocation || !slaCommitment || !responseTime || !resolutionTime) {
+        alert("Please fill in all required Step 2 configuration fields (marked with *).");
+        setSubStep(2);
+        return;
+      }
 
-    // Step 3 Validation
-    if (!riskClassification || !complianceRequirements || !applicableCertifications || !qualityStandards || !kpiMeasurement) {
-      alert("Please fill in all required Step 3 compliance settings (marked with *).");
-      setSubStep(3);
-      return;
-    }
+      // Step 3 Validation
+      if (!riskClassification || !complianceRequirements || !applicableCertifications || !qualityStandards || !kpiMeasurement) {
+        alert("Please fill in all required Step 3 compliance settings (marked with *).");
+        setSubStep(3);
+        return;
+      }
 
-    // SLA & SOW Docs Validation
-    if (!uploadedSlaMeta) {
-      alert("Please upload or select an SLA Document (Step 3).");
-      setSubStep(3);
-      return;
-    }
-    if (!uploadedSowMeta) {
-      alert("Please upload or select a Scope of Work Document (Step 3).");
-      setSubStep(3);
-      return;
+      // SLA & SOW Docs Validation
+      if (!uploadedSlaMeta) {
+        alert("Please upload or select an SLA Document (Step 3).");
+        setSubStep(3);
+        return;
+      }
+      if (!uploadedSowMeta) {
+        alert("Please upload or select a Scope of Work Document (Step 3).");
+        setSubStep(3);
+        return;
+      }
+    } else {
+      if (!serviceName || !serviceCode) {
+        alert("Please enter Service Name and Service Code to save a draft.");
+        return;
+      }
     }
 
     try {
@@ -273,14 +280,14 @@ export const ServiceMaster: React.FC = () => {
       const payload = {
         serviceCode,
         serviceName,
-        serviceCategory,
-        serviceSubCategory,
-        description,
-        department,
-        businessFunction,
+        serviceCategory: serviceCategory || 'IT Services',
+        serviceSubCategory: serviceSubCategory || 'General',
+        description: description || 'Draft service',
+        department: department || 'IT',
+        businessFunction: businessFunction || 'General',
         serviceOwner,
         serviceType,
-        preferredVendor: chosenVendor ? chosenVendor.vendorName : preferredVendor,
+        preferredVendor: chosenVendor ? chosenVendor.vendorName : (preferredVendor || 'N/A'),
         alternateVendors: alternateVendors ? alternateVendors.split(',').map(v => v.trim()) : [],
         deliveryModel,
         serviceFrequency,
@@ -295,6 +302,7 @@ export const ServiceMaster: React.FC = () => {
         certifications: applicableCertifications ? applicableCertifications.split(',').map(c => c.trim()) : [],
         qualityStandards,
         kpiMeasurement,
+        status: statusType,
         createdBy: 'Admin',
         uploadedFiles: uploadedFilesList
       };
@@ -306,7 +314,7 @@ export const ServiceMaster: React.FC = () => {
           serviceName: res.service.serviceName
         });
       } else {
-        alert("Failed to submit service master.");
+        alert(`Failed to ${statusType === 'Draft' ? 'save draft' : 'submit'} service master.`);
       }
     } catch (err: any) {
       console.error("Error creating service master:", err);
@@ -380,28 +388,23 @@ export const ServiceMaster: React.FC = () => {
               <span className={styles.successDetailVal}>{successService.serviceId}</span>
             </div>
             <div className={styles.successDetailRow}>
-              <span className={styles.successDetailLabel}>Sourcing Status</span>
-              <span className={styles.successDetailVal}>Awaiting Vendor Mapping</span>
-            </div>
-            <div className={styles.successDetailRow}>
               <span className={styles.successDetailLabel}>Workflow Status</span>
-              <span className={styles.successDetailVal}>Pending Approval</span>
+              <span className={styles.successDetailVal}>{successService.status || 'Pending Approval'}</span>
             </div>
           </div>
           
           <p className={styles.successRoutingMsg}>
-            The service has been routed to Vendor Mapping, Quality Review and Approval Workflow.
+            {successService.status === 'Draft' 
+              ? 'The service has been successfully saved as a draft.' 
+              : 'The service has been successfully submitted for maker-checker approval.'}
           </p>
           
           <div className={styles.successActions}>
-            <Button variant="primary" onClick={() => navigate('/catalogue/vendor-mapping')}>
-              Go To Vendor Mapping
+            <Button variant="primary" onClick={() => navigate('/catalogue/dashboard')}>
+              Go to Catalogue Dashboard
             </Button>
             <Button variant="outline" onClick={handleResetForm}>
               Create Another Service
-            </Button>
-            <Button variant="ghost" onClick={() => navigate('/catalogue/dashboard')}>
-              Back To Catalogue Dashboard
             </Button>
           </div>
         </div>
@@ -899,14 +902,24 @@ export const ServiceMaster: React.FC = () => {
                 Next Step
               </Button>
             ) : (
-              <Button 
-                variant="primary" 
-                icon={<Save size={16} />} 
-                onClick={handleSave}
-                disabled={isSubmitting || loadingInitial}
-              >
-                {isSubmitting ? "Submitting..." : "Submit Service"}
-              </Button>
+              <>
+                <Button 
+                  variant="outline" 
+                  icon={<Save size={16} />} 
+                  onClick={() => handleSave('Draft')}
+                  disabled={isSubmitting || loadingInitial}
+                >
+                  Save Draft
+                </Button>
+                <Button 
+                  variant="primary" 
+                  icon={<Save size={16} />} 
+                  onClick={() => handleSave('Pending Approval')}
+                  disabled={isSubmitting || loadingInitial}
+                >
+                  {isSubmitting ? "Submitting..." : "Submit for Approval"}
+                </Button>
+              </>
             )}
           </div>
         </div>

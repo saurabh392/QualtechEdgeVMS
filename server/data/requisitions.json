@@ -1,0 +1,40 @@
+[
+  {
+    "requisitionId": "REQ-2026-00085",
+    "requestor": "Saurabh Anand",
+    "department": "IT Services",
+    "costCenter": "CC-IT-OPS",
+    "projectCode": "PROJ-MIGRATION-2026",
+    "category": "IT Services",
+    "itemDescription": "Cloud infrastructure support services",
+    "quantity": 1,
+    "uom": "Service / Month",
+    "estimatedCost": 1330000,
+    "requiredDeliveryDate": "2026-06-17",
+    "vendorId": "VND-2026-45682",
+    "vendorName": "New Age Software Solutions",
+    "status": "Approved",
+    "approvalStatus": "Approved",
+    "createdBy": "Saurabh Anand",
+    "createdDate": "2026-06-17"
+  },
+  {
+    "requisitionId": "REQ-2026-00083",
+    "requestor": "Saurabh Anand",
+    "department": "IT Services",
+    "costCenter": "CC-IT-OPS",
+    "projectCode": "PROJ-MIGRATION-2026",
+    "category": "IT Services",
+    "itemDescription": "Cloud infrastructure support services",
+    "quantity": 1,
+    "uom": "Service / Month",
+    "estimatedCost": 1187500,
+    "requiredDeliveryDate": "2026-06-30",
+    "vendorId": "VND-2025-00029",
+    "vendorName": "ABC Infotech Private Limited",
+    "status": "Pending Approval",
+    "approvalStatus": "Pending",
+    "createdBy": "Saurabh Anand",
+    "createdDate": "2026-06-17"
+  }
+]

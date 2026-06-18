@@ -238,3 +238,9 @@ export async function getVendorsList(): Promise<Vendor[]> {
     }
   }
 }
+
+// 15. Renew an existing contract
+export async function renewContract(contractId: string, expiryDate: string): Promise<{ success: boolean; message: string }> {
+  const res = await axios.post(`/api/contracts/${contractId}/renew`, { expiryDate });
+  return res.data;
+}

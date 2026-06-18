@@ -289,7 +289,7 @@ export async function getAllMatches(): Promise<MatchRecord[]> {
 }
 
 // 17. Fetch RFQ & Vendor Selection list
-export async function getRFQVendors(): Promise<RFQVendor[]> {
-  const res = await axios.get('/api/rfq-vendors');
+export async function getRFQVendors(estimatedCost?: number): Promise<RFQVendor[]> {
+  const res = await axios.get('/api/rfq-vendors', { params: { estimatedCost } });
   return res.data;
 }

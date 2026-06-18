@@ -125,15 +125,22 @@ export const ItemMaster: React.FC = () => {
 
   const showDuplicateWarning = itemName.toLowerCase().includes('dell latitude 5420');
 
-  const handleSave = async () => {
-    if (!itemName || !itemCode || !category || !subcategory || !description || !moq || !leadTime || !preferredVendor || !hsnCode || !uom || !taxCategory) {
-      alert("Please fill in all required fields (marked with *).");
-      return;
-    }
+  const handleSave = async (statusType: 'Draft' | 'Pending Approval') => {
+    if (statusType === 'Pending Approval') {
+      if (!itemName || !itemCode || !category || !subcategory || !description || !moq || !leadTime || !preferredVendor || !hsnCode || !uom || !taxCategory) {
+        alert("Please fill in all required fields (marked with *).");
+        return;
+      }
 
-    if (!uploadedFileMeta) {
-      alert("Please upload a Specification Sheet / Brochure.");
-      return;
+      if (!uploadedFileMeta) {
+        alert("Please upload a Specification Sheet / Brochure.");
+        return;
+      }
+    } else {
+      if (!itemName || !itemCode) {
+        alert("Please fill in at least Item Name and Item Code to save a draft.");
+        return;
+      }
     }
 
     try {
@@ -143,26 +150,27 @@ export const ItemMaster: React.FC = () => {
       const payload = {
         itemCode,
         itemName,
-        category,
-        subCategory: subcategory,
-        description,
+        category: category || 'General',
+        subCategory: subcategory || 'General',
+        description: description || 'Draft item',
         brand,
         countryOfOrigin: make,
         minimumOrderQuantity: Number(moq) || 1,
         maximumOrderLimit: maxOrder ? Number(maxOrder) : undefined,
-        expectedLeadTime: leadTime,
+        expectedLeadTime: leadTime || '7 Days',
         warrantySupport: warranty,
         preferredVendor: {
-          vendorId: preferredVendor,
-          vendorName: chosenVendor ? chosenVendor.vendorName : 'ABC Infotech Private Limited'
+          vendorId: preferredVendor || 'N/A',
+          vendorName: chosenVendor ? chosenVendor.vendorName : 'N/A'
         },
         alternateVendors: altVendors ? [{ vendorId: 'VND-ALT-01', vendorName: altVendors }] : [],
-        hsnCode,
-        unitOfMeasurement: uom,
-        taxCode: taxCategory,
+        hsnCode: hsnCode || '00000000',
+        unitOfMeasurement: uom || 'Nos',
+        taxCode: taxCategory || 'GST 18%',
         qualityComplianceStandards: qualityStandard,
         qualityTestingCriteria: testingCriteria,
         riskClassification: riskClass + ' Risk',
+        status: statusType,
         submittedBy: 'Saurabh Anand',
         uploadedFiles: uploadedFileMeta ? [uploadedFileMeta] : []
       };
@@ -174,7 +182,7 @@ export const ItemMaster: React.FC = () => {
           itemName: res.item.itemName
         });
       } else {
-        alert("Failed to submit item master.");
+        alert(`Failed to ${statusType === 'Draft' ? 'save draft' : 'submit'} item master.`);
       }
     } catch (err: any) {
       console.error("Error creating item master:", err);
@@ -232,22 +240,20 @@ export const ItemMaster: React.FC = () => {
               <span className={styles.successDetailVal}>{successItem.itemId}</span>
             </div>
             <div className={styles.successDetailRow}>
-              <span className={styles.successDetailLabel}>Sourcing Status</span>
-              <span className={styles.successDetailVal}>Awaiting Vendor Mapping</span>
-            </div>
-            <div className={styles.successDetailRow}>
               <span className={styles.successDetailLabel}>Workflow Status</span>
-              <span className={styles.successDetailVal}>Pending Approval</span>
+              <span className={styles.successDetailVal}>{successItem.status || 'Pending Approval'}</span>
             </div>
           </div>
           
           <p className={styles.successRoutingMsg}>
-            The item has been routed to Vendor Mapping and Approval Workflow.
+            {successItem.status === 'Draft' 
+              ? 'The item has been successfully saved as a draft.' 
+              : 'The item has been successfully submitted for maker-checker approval.'}
           </p>
           
           <div className={styles.successActions}>
-            <Button variant="primary" onClick={() => navigate('/catalogue/vendor-mapping')}>
-              Go To Vendor Mapping
+            <Button variant="primary" onClick={() => navigate('/catalogue/dashboard')}>
+              Go to Catalogue Dashboard
             </Button>
             <Button variant="outline" onClick={handleResetForm}>
               Create Another Item
@@ -611,14 +617,24 @@ export const ItemMaster: React.FC = () => {
                 Next Step
               </Button>
             ) : (
-              <Button 
-                variant="primary" 
-                icon={<Save size={16} />} 
-                onClick={handleSave}
-                disabled={isSubmitting || loadingInitial}
-              >
-                {isSubmitting ? "Submitting..." : "Submit Item"}
-              </Button>
+              <>
+                <Button 
+                  variant="outline" 
+                  icon={<Save size={16} />} 
+                  onClick={() => handleSave('Draft')}
+                  disabled={isSubmitting || loadingInitial}
+                >
+                  Save Draft
+                </Button>
+                <Button 
+                  variant="primary" 
+                  icon={<Save size={16} />} 
+                  onClick={() => handleSave('Pending Approval')}
+                  disabled={isSubmitting || loadingInitial}
+                >
+                  {isSubmitting ? "Submitting..." : "Submit for Approval"}
+                </Button>
+              </>
             )}
           </div>
         </div>

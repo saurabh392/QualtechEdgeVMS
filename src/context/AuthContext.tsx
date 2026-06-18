@@ -176,6 +176,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       'My Payments': 'myPayments'
     };
 
+    // Finance Dashboard is exclusively for Finance Manager (FINANCE role)
+    if (moduleName === 'Finance Dashboard') {
+      return role === 'FINANCE';
+    }
+
     // Role-based Dashboard visibility check
     if (moduleName === 'Dashboard') {
       const roleConfig = rolesConfig.roles.find(r => r.id === role);

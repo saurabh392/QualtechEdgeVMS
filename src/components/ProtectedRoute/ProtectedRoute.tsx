@@ -58,6 +58,11 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // Normalize allowedRoles to support role transition (COMPLIANCE -> ONBOARDING)
   const userRole = user.role;
 
+  // Finance Dashboard is restricted exclusively to the FINANCE role
+  if (location.pathname === '/finance/dashboard' && userRole !== 'FINANCE') {
+    return <Navigate to="/access-denied" replace />;
+  }
+
   // Procurement Manager restricted routes check
   if (userRole === 'PROCUREMENT') {
     const restrictedPaths = ['/vendors/add', '/kyc/screening', '/kyc/reviews'];
@@ -83,9 +88,13 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     if (cleanPath === '/dashboard' || 
         cleanPath === '/administrator/dashboard' || 
         cleanPath === '/procurement/dashboard' || 
-        cleanPath === '/compliance/dashboard' || 
-        cleanPath === '/finance/dashboard') {
+        cleanPath === '/compliance/dashboard') {
       return 'Dashboard';
+    }
+
+    // Finance Dashboard is a dedicated module restricted to Finance Manager only
+    if (cleanPath === '/finance/dashboard') {
+      return 'Finance Dashboard';
     }
 
     if (cleanPath.startsWith('/vendors')) return 'Vendors';

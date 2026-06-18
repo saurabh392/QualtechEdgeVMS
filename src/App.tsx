@@ -78,7 +78,6 @@ import { VendorSettings } from './pages/VendorPortal/VendorSettings';
 import { CatalogueDashboard } from './pages/Catalogue/CatalogueDashboard';
 import { ItemMaster } from './pages/Catalogue/ItemMaster';
 import { ServiceMaster } from './pages/Catalogue/ServiceMaster';
-import { VendorMapping } from './pages/Catalogue/VendorMapping';
 import { CatalogueApprovals } from './pages/Catalogue/CatalogueApprovals';
 import { PublishCatalogue } from './pages/Catalogue/PublishCatalogue';
 
@@ -107,9 +106,13 @@ function App() {
                       <Route path="/procurement/dashboard" element={<Dashboard />} />
                       <Route path="/compliance/dashboard" element={<Dashboard />} />
 
-                      {/* Finance */}
-                      <Route path="/finance" element={<Navigate to="/finance/dashboard" replace />} />
-                      <Route path="/finance/dashboard" element={<FinanceDashboard />} />
+                      {/* Finance — Dashboard restricted to FINANCE role only */}
+                      <Route element={<ProtectedRoute allowedRoles={['FINANCE']} />}>
+                        <Route path="/finance" element={<Navigate to="/finance/dashboard" replace />} />
+                        <Route path="/finance/dashboard" element={<FinanceDashboard />} />
+                      </Route>
+
+                      {/* Finance — TDS & Reconciliation accessible to all internal roles */}
                       <Route path="/finance/tds" element={<TDSApprovals />} />
                       <Route path="/finance/reconciliation" element={<BankReconciliation />} />
 
@@ -150,10 +153,6 @@ function App() {
                       <Route path="/catalogue/dashboard" element={<CatalogueDashboard />} />
                       <Route path="/catalogue/items" element={<ItemMaster />} />
                       <Route path="/catalogue/services" element={<ServiceMaster />} />
-                      <Route path="/catalogue/vendor-mapping" element={<VendorMapping />} />
-
-
-
                       <Route path="/catalogue/approvals" element={<CatalogueApprovals />} />
                       <Route path="/catalogue/approval-workflow" element={<CatalogueApprovals />} />
                       <Route path="/catalogue/published" element={<PublishCatalogue />} />

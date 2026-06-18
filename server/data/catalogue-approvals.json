@@ -1,0 +1,15 @@
+[
+  {
+    "approvalId": "APR-0001",
+    "catalogueId": "ITM-2026-00001",
+    "type": "Item",
+    "status": "Pending Approval",
+    "submittedBy": "Procurement Manager",
+    "checker": "Saurabh Anand",
+    "remarks": "",
+    "approvalDate": null,
+    "itemName": "Dell laptop 3620 IT-LAP-001",
+    "category": "IT Hardware",
+    "submittedDate": "2026-06-17"
+  }
+]

@@ -112,5 +112,19 @@
     "issuedBy": "Axis Max Life Insurance — Procurement",
     "paymentTerms": "Net 30",
     "adminSynced": true
+  },
+  {
+    "poId": "PO-2026-000790",
+    "vendorId": "VND-001",
+    "issueDate": "18 Jun 2026",
+    "deliveryDate": "2026-06-28",
+    "items": 1,
+    "value": 1187500,
+    "status": "Pending Acknowledgement",
+    "category": "IT Services",
+    "description": "IT Services — Ref: REQ-2026-00083",
+    "issuedBy": "Axis Max Life Insurance — Procurement",
+    "paymentTerms": "Net 30",
+    "adminSynced": true
   }
 ]

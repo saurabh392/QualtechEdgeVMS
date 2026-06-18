@@ -1,0 +1,20 @@
+[
+  {
+    "approvalId": "POA-003",
+    "requisitionId": "REQ-2026-00085",
+    "status": "Approved",
+    "submittedBy": "Saurabh Anand",
+    "finalApprover": "Saurabh Anand",
+    "remarks": "",
+    "approvalDate": "2026-06-17"
+  },
+  {
+    "approvalId": "POA-001",
+    "requisitionId": "REQ-2026-00083",
+    "status": "Pending",
+    "submittedBy": "Saurabh Anand",
+    "finalApprover": "Saurabh Anand",
+    "remarks": "",
+    "approvalDate": null
+  }
+]

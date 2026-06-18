@@ -1,0 +1,164 @@
+[
+  {
+    "contractId": "CTR-2026-76623",
+    "contractName": "ABC Infotech Private Limited - MSA 2026",
+    "vendorId": "VND-2025-00029",
+    "vendorName": "ABC Infotech Private Limited",
+    "contractType": "Master Service Agreement",
+    "department": "IT Services",
+    "effectiveDate": "2026-06-01",
+    "expiryDate": "2028-05-31",
+    "contractValue": 12000000,
+    "currency": "INR",
+    "status": "Active",
+    "riskLevel": "High",
+    "approvalStatus": "Approved",
+    "renewalStatus": "Auto-Renew",
+    "createdBy": "Saurabh Anand",
+    "createdDate": "2026-06-17",
+    "paymentTerms": "Net 30",
+    "billingFrequency": "Monthly",
+    "vendorComplianceScore": 85,
+    "selectedClauses": [
+      "RBI Outsourcing Guidelines Clause",
+      "Standard NDA Clause",
+      "Data Privacy & Security Clause",
+      "SLA Penalty Clause",
+      "GDPR Compliance Clause",
+      "Dispute Resolution (Arbitration)"
+    ],
+    "slaMetrics": {
+      "uptime": "99.95%",
+      "responseTime": "2 Hours",
+      "resolutionTime": "8 Hours"
+    },
+    "penaltyTerms": {
+      "slaBreachPenalty": "5%",
+      "maxPenaltyCap": "10%"
+    },
+    "legalExposure": 40,
+    "complianceRisk": 24,
+    "financialRisk": 78,
+    "aiAlerts": [
+      "Missing explicit data residency clause",
+      "Penalty cap set to 5% instead of standard 10%"
+    ],
+    "uploadedDocuments": [
+      {
+        "fileId": "DOC-9889",
+        "fileName": "MSA_GlobalSecureTech.pdf",
+        "filePath": "/uploads/contracts/CTR_1781696663772-10523509.pdf",
+        "uploadedBy": "Saurabh Anand",
+        "uploadedOn": "2026-06-17",
+        "fileSize": "0.0 MB",
+        "fileType": "application/pdf"
+      }
+    ]
+  },
+  {
+    "contractId": "CTR-2026-67247",
+    "contractName": "New Age Software Solutions - SaaS Agreement 2026",
+    "vendorId": "VND-2026-45682",
+    "vendorName": "New Age Software Solutions",
+    "contractType": "SaaS Agreement",
+    "department": "IT Services",
+    "effectiveDate": "2026-06-01",
+    "expiryDate": "2026-07-31",
+    "contractValue": 12000000,
+    "currency": "INR",
+    "status": "Pending Approval",
+    "riskLevel": "Medium",
+    "approvalStatus": "Pending",
+    "renewalStatus": "Auto-Renew",
+    "createdBy": "Saurabh Anand",
+    "createdDate": "2026-06-17",
+    "paymentTerms": "Net 30",
+    "billingFrequency": "Monthly",
+    "vendorComplianceScore": 85,
+    "selectedClauses": [
+      "RBI Outsourcing Guidelines Clause",
+      "Standard NDA Clause",
+      "Data Privacy & Security Clause"
+    ],
+    "slaMetrics": {
+      "uptime": "99.95%",
+      "responseTime": "2 Hours",
+      "resolutionTime": "8 Hours"
+    },
+    "penaltyTerms": {
+      "slaBreachPenalty": "2%",
+      "maxPenaltyCap": "5%"
+    },
+    "legalExposure": 40,
+    "complianceRisk": 19,
+    "financialRisk": 62,
+    "aiAlerts": [
+      "Missing explicit data residency clause",
+      "Penalty cap set to 5% instead of standard 10%"
+    ],
+    "uploadedDocuments": [
+      {
+        "fileId": "DOC-3195",
+        "fileName": "MSA_GlobalSecureTech.pdf",
+        "filePath": "/uploads/contracts/CTR_1781696736060-571721189.pdf",
+        "uploadedBy": "Saurabh Anand",
+        "uploadedOn": "2026-06-17",
+        "fileSize": "0.0 MB",
+        "fileType": "application/pdf"
+      }
+    ]
+  },
+  {
+    "contractId": "CTR-2026-45731",
+    "contractName": "New Age Software Solutions - Vendor Agreement 2026",
+    "vendorId": "VND-2026-45682",
+    "vendorName": "New Age Software Solutions",
+    "contractType": "Vendor Agreement",
+    "department": "IT Services",
+    "effectiveDate": "2026-03-10",
+    "expiryDate": "2026-06-10",
+    "contractValue": 12000000,
+    "currency": "INR",
+    "status": "Active",
+    "riskLevel": "Medium",
+    "approvalStatus": "Approved",
+    "renewalStatus": "Auto-Renew",
+    "createdBy": "Saurabh Anand",
+    "createdDate": "2026-06-17",
+    "paymentTerms": "Net 30",
+    "billingFrequency": "Monthly",
+    "vendorComplianceScore": 85,
+    "selectedClauses": [
+      "RBI Outsourcing Guidelines Clause",
+      "Standard NDA Clause",
+      "Data Privacy & Security Clause"
+    ],
+    "slaMetrics": {
+      "uptime": "99.95%",
+      "responseTime": "2 Hours",
+      "resolutionTime": "8 Hours"
+    },
+    "penaltyTerms": {
+      "slaBreachPenalty": "5%",
+      "maxPenaltyCap": "10%"
+    },
+    "legalExposure": 63,
+    "complianceRisk": 20,
+    "financialRisk": 56,
+    "aiAlerts": [
+      "Missing explicit data residency clause",
+      "Penalty cap set to 5% instead of standard 10%"
+    ],
+    "uploadedDocuments": [
+      {
+        "fileId": "DOC-4232",
+        "fileName": "MSA_GlobalSecureTech.pdf",
+        "filePath": "/uploads/contracts/CTR_1781696790531-175391621.pdf",
+        "uploadedBy": "Saurabh Anand",
+        "uploadedOn": "2026-06-17",
+        "fileSize": "0.0 MB",
+        "fileType": "application/pdf"
+      }
+    ]
+  }
+]

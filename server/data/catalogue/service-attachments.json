@@ -1,13 +1,35 @@
 [
   {
     "attachmentId": "ATT-SRV-001",
-    "serviceId": "SRV-2026-00001",
+    "serviceId": "SVC-2026-0001",
     "documentType": "SLA",
-    "fileName": "AMC-SLA.pdf",
+    "fileName": "MSA_GlobalSecureTech.pdf",
     "fileType": "pdf",
-    "fileSize": "2.1 MB",
-    "filePath": "/uploads/catalogue/services/AMC-SLA.pdf",
+    "fileSize": "1.0 MB",
+    "filePath": "/uploads/catalogue/services/MSA_GlobalSecureTech.pdf",
     "uploadedBy": "Admin",
-    "uploadedDate": "2026-06-02"
+    "uploadedDate": "2026-06-17"
+  },
+  {
+    "attachmentId": "ATT-SRV-002",
+    "serviceId": "SVC-2026-0001",
+    "documentType": "SOW",
+    "fileName": "MSA_GlobalSecureTech.pdf",
+    "fileType": "pdf",
+    "fileSize": "1.0 MB",
+    "filePath": "/uploads/catalogue/services/MSA_GlobalSecureTech.pdf",
+    "uploadedBy": "Admin",
+    "uploadedDate": "2026-06-17"
+  },
+  {
+    "attachmentId": "ATT-SRV-003",
+    "serviceId": "SVC-2026-0001",
+    "documentType": "SUPP",
+    "fileName": "MSA_GlobalSecureTech.pdf",
+    "fileType": "pdf",
+    "fileSize": "1.0 MB",
+    "filePath": "/uploads/catalogue/services/MSA_GlobalSecureTech.pdf",
+    "uploadedBy": "Admin",
+    "uploadedDate": "2026-06-17"
   }
 ]

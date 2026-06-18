@@ -2013,42 +2013,99 @@
     "browser": "Chrome"
   },
   {
-    "auditId": "AUDIT-1220",
-    "username": "vendor",
-    "loginTime": "17/6/2026, 12:51:44 pm",
+    "auditId": "AUDIT-6002",
+    "username": "procurement",
+    "loginTime": "17/6/2026, 12:18:27 pm",
     "twoFactorCompleted": true,
     "loginStatus": "SUCCESS",
     "ipAddress": "::1",
     "browser": "Chrome"
   },
   {
-    "auditId": "AUDIT-5390",
+    "auditId": "AUDIT-1474",
+    "username": "onboarding",
+    "loginTime": "17/6/2026, 12:18:36 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-8077",
     "username": "finance",
-    "loginTime": "17/6/2026, 12:51:59 pm",
+    "loginTime": "17/6/2026, 12:18:40 pm",
     "twoFactorCompleted": true,
     "loginStatus": "SUCCESS",
     "ipAddress": "::1",
     "browser": "Chrome"
   },
   {
-    "auditId": "AUDIT-9498",
+    "auditId": "AUDIT-3690",
     "username": "vendor",
-    "loginTime": "17/6/2026, 12:53:42 pm",
+    "loginTime": "17/6/2026, 12:18:48 pm",
     "twoFactorCompleted": true,
     "loginStatus": "SUCCESS",
     "ipAddress": "::1",
     "browser": "Chrome"
   },
   {
-    "auditId": "AUDIT-7124",
+    "auditId": "AUDIT-9117",
+    "username": "admin",
+    "loginTime": "17/6/2026, 12:18:59 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-8005",
+    "username": "admin",
+    "loginTime": "17/6/2026, 1:06:54 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-5809",
     "username": "vendor",
-    "loginTime": "17/6/2026, 1:32:33 pm",
+    "loginTime": "17/6/2026, 1:29:27 pm",
     "twoFactorCompleted": true,
     "loginStatus": "SUCCESS",
     "ipAddress": "::1",
     "browser": "Chrome"
   },
   {
+    "auditId": "AUDIT-6202",
+    "username": "admin",
+    "loginTime": "17/6/2026, 1:31:06 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-9625",
+    "username": "admin",
+    "loginTime": "17/6/2026, 3:02:30 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-6595",
+    "username": "admin",
+    "loginTime": "17/6/2026, 3:33:54 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-1411",
+    "username": "vendor",
+    "loginTime": "17/6/2026, 3:45:41 pm",
     "auditId": "AUDIT-7762",
     "username": "vendor",
     "loginTime": "17/6/2026, 1:37:27 pm",
@@ -2058,6 +2115,90 @@
     "browser": "Chrome"
   },
   {
+    "auditId": "AUDIT-2292",
+    "username": "admin",
+    "loginTime": "17/6/2026, 3:46:37 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-4463",
+    "username": "admin",
+    "loginTime": "17/6/2026, 3:57:55 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-5310",
+    "username": "admin",
+    "loginTime": "17/6/2026, 3:58:03 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-9172",
+    "username": "admin",
+    "loginTime": "17/6/2026, 3:58:20 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-3233",
+    "username": "vendor",
+    "loginTime": "17/6/2026, 4:20:37 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-8601",
+    "username": "admin",
+    "loginTime": "17/6/2026, 4:23:45 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-7752",
+    "username": "vendor",
+    "loginTime": "17/6/2026, 4:33:10 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-1229",
+    "username": "admin",
+    "loginTime": "17/6/2026, 4:33:49 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-5497",
+    "username": "admin",
+    "loginTime": "17/6/2026, 5:12:09 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-6293",
+    "username": "onboarding",
+    "loginTime": "17/6/2026, 6:07:30 pm",
     "auditId": "AUDIT-5450",
     "username": "vendor",
     "loginTime": "17/6/2026, 1:44:37 pm",
@@ -2067,6 +2208,45 @@
     "browser": "Chrome"
   },
   {
+    "auditId": "AUDIT-4577",
+    "username": "procurement",
+    "loginTime": "17/6/2026, 6:07:38 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-2298",
+    "username": "finance",
+    "loginTime": "17/6/2026, 6:08:01 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-2319",
+    "username": "admin",
+    "loginTime": "17/6/2026, 6:08:11 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-8740",
+    "username": "admin",
+    "loginTime": "18/6/2026, 10:11:13 am",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-9804",
+    "username": "vendor",
+    "loginTime": "18/6/2026, 10:18:24 am",
     "auditId": "AUDIT-8743",
     "username": "vendor",
     "loginTime": "17/6/2026, 2:24:17 pm",
@@ -2076,6 +2256,63 @@
     "browser": "Chrome"
   },
   {
+    "auditId": "AUDIT-1654",
+    "username": "vendor",
+    "loginTime": "18/6/2026, 10:18:41 am",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-4457",
+    "username": "admin",
+    "loginTime": "18/6/2026, 10:19:57 am",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-5805",
+    "username": "admin",
+    "loginTime": "18/6/2026, 10:34:07 am",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-8956",
+    "username": "finance",
+    "loginTime": "18/6/2026, 10:34:34 am",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-9096",
+    "username": "admin",
+    "loginTime": "18/6/2026, 10:35:21 am",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-1527",
+    "username": "admin",
+    "loginTime": "18/6/2026, 10:36:08 am",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-1886",
+    "username": "admin",
+    "loginTime": "18/6/2026, 12:17:14 pm",
     "auditId": "AUDIT-4848",
     "username": "vendor",
     "loginTime": "17/6/2026, 2:50:25 pm",

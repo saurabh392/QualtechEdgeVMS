@@ -1,262 +1,16 @@
 [
   {
-    "itemId": "CAT-001",
-    "itemCode": "IT-LAP-0012",
-    "itemName": "Dell Latitude 5420 Laptop",
+    "itemCode": " IT-LAP-001",
+    "itemName": "Dell laptop 3620 IT-LAP-001",
     "category": "IT Hardware",
-    "subCategory": "Laptops / Desktops",
-    "description": "14-inch enterprise business laptop",
-    "brand": "Dell",
-    "countryOfOrigin": "India",
-    "minimumOrderQuantity": 5,
-    "maximumOrderLimit": 200,
-    "expectedLeadTime": "7-10 Days",
-    "warrantySupport": "36 Months On-site Support",
-    "hsnCode": "84713010",
-    "unitOfMeasurement": "Nos",
-    "qualityComplianceStandards": "ISO 9001",
-    "qualityTestingCriteria": "Power-on self test",
-    "riskClassification": "Low Risk",
-    "status": "Published",
-    "approvalWorkflow": {
-      "submittedBy": "Saurabh Anand",
-      "submittedDate": "2026-05-12",
-      "approvalStatus": "Approved",
-      "currentApprover": ""
-    },
-    "uploadedFiles": [
-      {
-        "fileId": "FILE-1001",
-        "fileName": "Dell_Specification.pdf",
-        "fileType": "Specification Sheet",
-        "filePath": "/uploads/catalogue/specifications/Dell_Specification.pdf",
-        "uploadedOn": "2026-05-12",
-        "fileSize": "2.5 MB"
-      }
-    ],
-    "auditTrail": [
-      {
-        "action": "Item Created",
-        "user": "Saurabh Anand",
-        "dateTime": "2026-05-12 11:45 AM"
-      }
-    ]
-  },
-  {
-    "itemId": "CAT-003",
-    "itemCode": "OFF-CHR-002",
-    "itemName": "Ergonomic Office Chair",
-    "category": "Office Supplies",
-    "subCategory": "Furniture / Seating",
-    "description": "High back mesh office chair with lumbar support",
-    "brand": "Featherlite",
-    "countryOfOrigin": "India",
-    "minimumOrderQuantity": 2,
-    "maximumOrderLimit": 1000,
-    "expectedLeadTime": "5 Days",
-    "warrantySupport": "12 Months",
-    "hsnCode": "48025610",
-    "unitOfMeasurement": "Nos",
-    "qualityComplianceStandards": "ISO 9001",
-    "qualityTestingCriteria": "Basic verification",
-    "riskClassification": "Low Risk",
-    "status": "Published",
-    "approvalWorkflow": {
-      "submittedBy": "Saurabh Anand",
-      "submittedDate": "2026-05-14",
-      "approvalStatus": "Approved",
-      "currentApprover": ""
-    },
-    "uploadedFiles": [],
-    "auditTrail": []
-  },
-  {
-    "itemId": "CAT-006",
-    "itemCode": "OFF-PAP-001",
-    "itemName": "Standard A4 Printer Paper (Box)",
-    "category": "Office Supplies",
-    "subCategory": "Paper Products",
-    "description": "Premium 80GSM A4 paper for printers",
-    "brand": "Century",
-    "countryOfOrigin": "India",
-    "minimumOrderQuantity": 10,
-    "maximumOrderLimit": 1000,
-    "expectedLeadTime": "2 Days",
-    "warrantySupport": "12 Months",
-    "hsnCode": "48025610",
-    "unitOfMeasurement": "Box",
-    "qualityComplianceStandards": "ISO 9001",
-    "qualityTestingCriteria": "Basic verification",
-    "riskClassification": "Low Risk",
-    "status": "Published",
-    "approvalWorkflow": {
-      "submittedBy": "Saurabh Anand",
-      "submittedDate": "2026-05-10",
-      "approvalStatus": "Approved",
-      "currentApprover": ""
-    },
-    "uploadedFiles": [],
-    "auditTrail": []
-  },
-  {
-    "itemId": "ITM-2026-4298",
-    "itemCode": "IT-LAP-5530",
-    "itemName": "Dell Latitude 5530 Business Laptop",
-    "category": "IT Hardware",
-    "subCategory": "Laptops",
-    "description": "15.6-inch business laptop, Intel i7 12th Gen, 16GB RAM, 512GB SSD.",
-    "brand": "Dell",
-    "countryOfOrigin": "India",
-    "minimumOrderQuantity": 5,
-    "maximumOrderLimit": 50,
-    "expectedLeadTime": "10 days",
-    "warrantySupport": "3 Years Premium Support",
-    "hsnCode": "84713010",
-    "unitOfMeasurement": "Nos",
-    "qualityComplianceStandards": "ISO 9001",
-    "qualityTestingCriteria": "Power-on self test, Stress verification",
-    "riskClassification": "Low Risk",
-    "status": "Pending Approval",
-    "approvalWorkflow": {
-      "submittedBy": "Saurabh Anand",
-      "submittedDate": "2026-05-26",
-      "approvalStatus": "Pending",
-      "currentApprover": "Procurement Checker"
-    },
-    "uploadedFiles": [
-      {
-        "fileId": "FILE-OCR-2026",
-        "fileName": "Dell_Latitude_5530_Specs.pdf",
-        "fileType": "Specification Sheet",
-        "filePath": "/uploads/catalogue/specifications/Dell_Latitude_5530_Specs.pdf",
-        "uploadedOn": "2026-05-26",
-        "fileSize": "1.8 MB"
-      }
-    ],
-    "auditTrail": [
-      {
-        "action": "Item Created",
-        "user": "Saurabh Anand",
-        "dateTime": "2026-05-26 06:01:16"
-      }
-    ]
-  },
-  {
-    "itemCode": "IT-LAP-5530",
-    "itemName": "Dell Latitude 5530 Business Laptop",
-    "category": "IT Hardware",
-    "subCategory": "Laptops",
-    "description": "15.6-inch business laptop, Intel i7 12th Gen, 16GB RAM, 512GB SSD.",
-    "brand": "Dell",
-    "countryOfOrigin": "India",
-    "minimumOrderQuantity": 5,
-    "maximumOrderLimit": 50,
-    "expectedLeadTime": "10 days",
-    "warrantySupport": "3 Years Premium Support",
-    "preferredVendor": {
-      "vendorId": "VND-2025-00029",
-      "vendorName": "ABC Infotech Private Limited"
-    },
-    "alternateVendors": [
-      {
-        "vendorId": "VND-ALT-01",
-        "vendorName": "Tech Solutions Pvt Ltd"
-      }
-    ],
-    "hsnCode": "84713010",
-    "unitOfMeasurement": "Nos",
-    "taxCode": "GST 18%",
-    "qualityComplianceStandards": "ISO 9001",
-    "qualityTestingCriteria": "Power-on self test, Stress verification",
-    "riskClassification": "Low Risk",
-    "submittedBy": "Saurabh Anand",
-    "uploadedFiles": [
-      {
-        "fileId": "FILE-OCR-2026",
-        "fileName": "Dell_Latitude_5530_Specs.pdf",
-        "fileType": "Specification Sheet",
-        "filePath": "/uploads/catalogue/specifications/Dell_Latitude_5530_Specs.pdf",
-        "uploadedOn": "2026-06-02",
-        "fileSize": "1.8 MB"
-      }
-    ],
-    "itemId": "ITM-2026-4452",
-    "status": "Pending Approval",
-    "approvalWorkflow": {
-      "submittedBy": "Saurabh Anand",
-      "submittedDate": "2026-06-02",
-      "approvalStatus": "Pending",
-      "currentApprover": "Procurement Checker"
-    },
-    "auditTrail": [
-      {
-        "action": "Item Created",
-        "user": "Saurabh Anand",
-        "dateTime": "2026-06-02 05:32:13"
-      }
-    ]
-  },
-  {
-    "itemCode": "IT-DESH-001",
-    "itemName": "HP desktop ",
-    "category": "IT Hardware",
-    "subCategory": "desktop ",
-    "description": "desktop for admin uses",
-    "brand": "HP",
-    "countryOfOrigin": "INDIA ",
-    "minimumOrderQuantity": 5,
-    "maximumOrderLimit": 20,
-    "expectedLeadTime": "7",
-    "warrantySupport": "24 months on site ",
-    "preferredVendor": {
-      "vendorId": "VND-2025-00032",
-      "vendorName": "Office Supplies Co"
-    },
-    "alternateVendors": [
-      {
-        "vendorId": "VND-ALT-01",
-        "vendorName": "Secure Facilities ltd"
-      }
-    ],
-    "hsnCode": "84713010",
-    "unitOfMeasurement": "Nos",
-    "taxCode": "GST 18%",
-    "qualityComplianceStandards": "ISO 9001",
-    "qualityTestingCriteria": "",
-    "riskClassification": "Low Risk",
-    "submittedBy": "Saurabh Anand",
-    "uploadedFiles": [],
-    "itemId": "ITM-2026-5859",
-    "status": "Published",
-    "approvalWorkflow": {
-      "submittedBy": "Saurabh Anand",
-      "submittedDate": "2026-06-02",
-      "approvalStatus": "Approved",
-      "currentApprover": "",
-      "checkerRemarks": "",
-      "checkedBy": "Neha Sharma",
-      "checkedDate": "2026-06-02"
-    },
-    "auditTrail": [
-      {
-        "action": "Item Approved",
-        "user": "Neha Sharma",
-        "dateTime": "2026-06-02 05:45:26"
-      }
-    ]
-  },
-  {
-    "itemCode": "IT-mob-01",
-    "itemName": "new mobile phone ",
-    "category": "IT Hardware",
-    "subCategory": "mobile",
-    "description": "mobile",
-    "brand": "mobile ",
+    "subCategory": "laptop",
+    "description": "laptop",
+    "brand": "dell",
     "countryOfOrigin": "india",
     "minimumOrderQuantity": 5,
-    "maximumOrderLimit": 100,
-    "expectedLeadTime": "7",
-    "warrantySupport": "12 months ",
+    "maximumOrderLimit": 20,
+    "expectedLeadTime": "7 days",
+    "warrantySupport": "12 months",
     "preferredVendor": {
       "vendorId": "VND-2025-00029",
       "vendorName": "ABC Infotech Private Limited"
@@ -266,36 +20,36 @@
     "unitOfMeasurement": "Nos",
     "taxCode": "GST 18%",
     "qualityComplianceStandards": "ISO 9001",
-    "qualityTestingCriteria": "new",
+    "qualityTestingCriteria": "",
     "riskClassification": "Low Risk",
+    "status": "Published",
     "submittedBy": "Saurabh Anand",
     "uploadedFiles": [
       {
-        "fileId": "FILE-3314",
-        "fileName": "ChatGPT Image May 14, 2026, 05_06_16 PM.png",
-        "fileType": "image/png",
-        "filePath": "/uploads/catalogue/items/ChatGPT Image May 14, 2026, 05_06_16 PM.png",
-        "uploadedOn": "2026-06-08",
+        "fileId": "FILE-9255",
+        "fileName": "MSA_GlobalSecureTech.pdf",
+        "fileType": "application/pdf",
+        "filePath": "/uploads/catalogue/items/MSA_GlobalSecureTech.pdf",
+        "uploadedOn": "2026-06-17",
         "fileSize": "1.0 MB",
         "attachmentId": "ATT-001"
       }
     ],
-    "itemId": "ITM-2026-05860",
-    "status": "Published",
+    "itemId": "ITM-2026-00001",
     "approvalWorkflow": {
       "submittedBy": "Saurabh Anand",
-      "submittedDate": "2026-06-08",
+      "submittedDate": "2026-06-17",
       "approvalStatus": "Approved",
       "currentApprover": "",
-      "checkerRemarks": "",
-      "checkedBy": "Neha Sharma",
-      "checkedDate": "2026-06-15"
+      "checkerRemarks": "no issue plz approved ",
+      "checkedBy": "Saurabh Anand",
+      "checkedDate": "2026-06-17"
     },
     "auditTrail": [
       {
         "action": "Item Approved",
-        "user": "Neha Sharma",
-        "dateTime": "2026-06-15 09:15:12"
+        "user": "Saurabh Anand",
+        "dateTime": "2026-06-17 10:50:05"
       }
     ]
   }

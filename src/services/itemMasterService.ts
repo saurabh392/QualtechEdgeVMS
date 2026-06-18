@@ -151,7 +151,7 @@ export async function getPendingApprovals(): Promise<any[]> {
 // 10. Checker resolves approval request
 export async function resolveApproval(
   id: string,
-  action: 'Approve' | 'Reject' | 'Send Back',
+  action: 'Approve' | 'Reject' | 'Send Back' | 'Recommend',
   remarks: string,
   performedBy?: string
 ): Promise<{ success: boolean; item: CatalogueItem }> {

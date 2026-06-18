@@ -306,6 +306,29 @@ export const ContractApprovals: React.FC = () => {
                 <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>Tenant Admin</span>
               </div>
 
+              {/* Remarks Textarea */}
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ fontSize: '11px', color: '#64748b', display: 'block', textTransform: 'uppercase', marginBottom: '8px', fontWeight: 600 }}>
+                  Reviewer Remarks <span style={{ color: '#ef4444' }}>*</span>
+                </label>
+                <textarea
+                  style={{
+                    width: '100%',
+                    padding: '10px 12px',
+                    borderRadius: '6px',
+                    border: '1px solid #cbd5e1',
+                    fontSize: '13px',
+                    fontFamily: 'inherit',
+                    outline: 'none',
+                    resize: 'vertical'
+                  }}
+                  rows={3}
+                  placeholder="Enter remarks for approval or rejection/clarification..."
+                  value={remarks}
+                  onChange={(e) => setRemarks(e.target.value)}
+                />
+              </div>
+
               <h3 className={styles.actionTitle}>
                 {user?.role === 'ADMIN' ? 'Review Action (Final Approver)' : 'Review Action (Maker/Reviewer)'}
               </h3>

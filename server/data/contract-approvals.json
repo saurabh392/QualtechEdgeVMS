@@ -1,0 +1,29 @@
+[
+  {
+    "approvalId": "CAP-6209",
+    "contractId": "CTR-2026-76623",
+    "status": "Approved",
+    "submittedBy": "Procurement Manager",
+    "checker": "Saurabh Anand",
+    "remarks": "",
+    "approvalDate": "2026-06-17"
+  },
+  {
+    "approvalId": "CAP-8041",
+    "contractId": "CTR-2026-67247",
+    "status": "Pending Approval",
+    "submittedBy": "Procurement Manager",
+    "checker": "Saurabh Anand",
+    "remarks": "",
+    "approvalDate": null
+  },
+  {
+    "approvalId": "CAP-4941",
+    "contractId": "CTR-2026-45731",
+    "status": "Approved",
+    "submittedBy": "Procurement Manager",
+    "checker": "Saurabh Anand",
+    "remarks": "",
+    "approvalDate": "2026-06-17"
+  }
+]
