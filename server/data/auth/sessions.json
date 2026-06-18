@@ -2099,7 +2099,6 @@
     "status": "ACTIVE",
     "token": "JWT-DEMO-422155",
     "lastActivity": 1781765396419
-    "lastActivity": 1781677641988
   },
   {
     "sessionId": "SESSION-9516",
@@ -2188,5 +2187,71 @@
     "status": "ACTIVE",
     "token": "JWT-DEMO-770494",
     "lastActivity": 1781688025353
+  },
+  {
+    "sessionId": "SESSION-7033",
+    "userId": "USR-1001",
+    "username": "admin",
+    "role": "ADMIN",
+    "loginTime": "18/6/2026, 1:31:02 pm",
+    "twoFactorVerified": true,
+    "status": "ACTIVE",
+    "token": "JWT-DEMO-284101",
+    "lastActivity": 1781769662454
+  },
+  {
+    "sessionId": "SESSION-2557",
+    "userId": "USR-1001",
+    "username": "admin",
+    "role": "ADMIN",
+    "loginTime": "18/6/2026, 1:31:40 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-492564",
+    "lastActivity": 1781769700143
+  },
+  {
+    "sessionId": "SESSION-8802",
+    "userId": "USR-1003",
+    "username": "procurement",
+    "role": "PROCUREMENT",
+    "loginTime": "18/6/2026, 1:32:57 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-804477",
+    "lastActivity": 1781769777823
+  },
+  {
+    "sessionId": "SESSION-3026",
+    "userId": "USR-1004",
+    "username": "onboarding",
+    "role": "ONBOARDING",
+    "loginTime": "18/6/2026, 1:33:01 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-452901",
+    "lastActivity": 1781769781878
+  },
+  {
+    "sessionId": "SESSION-7508",
+    "userId": "USR-1005",
+    "username": "finance",
+    "role": "FINANCE",
+    "loginTime": "18/6/2026, 1:33:05 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-519446",
+    "lastActivity": 1781769785232
+  },
+  {
+    "sessionId": "SESSION-5442",
+    "userId": "USR-1002",
+    "username": "vendor",
+    "role": "VENDOR",
+    "loginTime": "18/6/2026, 1:33:08 pm",
+    "twoFactorVerified": true,
+    "status": "ACTIVE",
+    "token": "JWT-DEMO-862848",
+    "lastActivity": 1781769788936
   }
 ]
