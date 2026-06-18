@@ -275,7 +275,7 @@ export const VendorOverview: React.FC = () => {
           display: 'flex', gap: 10, flexWrap: 'wrap',
         }}>
           {[
-            { label: 'My Documents',      path: '/vendor/documents',       icon: <FileText size={13} />,    color: 'var(--color-primary)' },
+            // { label: 'My Documents',      path: '/vendor/documents',       icon: <FileText size={13} />,    color: 'var(--color-primary)' },
             { label: 'Purchase Orders',   path: '/vendor/purchase-orders', icon: <Package size={13} />,     color: '#d97706' },
             { label: 'My Invoices',       path: '/vendor/invoices',        icon: <CheckSquare size={13} />, color: 'var(--color-success)' },
             { label: 'KYC Status',        path: '/vendor/kyc',             icon: <ShieldCheck size={13} />, color: 'var(--color-info)' },
