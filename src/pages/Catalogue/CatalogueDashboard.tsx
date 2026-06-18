@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Package, 
-  TrendingUp, 
-  Users, 
-  Layers, 
-  CheckSquare, 
-  Plus, 
-  TrendingDown, 
-  Search, 
-  LayoutGrid, 
-  List 
+  Package,
+  TrendingUp,
+  Users,
+  Layers,
+  CheckSquare,
+  Plus,
+  TrendingDown,
+  Search,
+  Filter,
+  X,
+  LayoutGrid,
+  List
 } from 'lucide-react';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
@@ -34,6 +36,7 @@ export const CatalogueDashboard: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState('All');
   const [kpiFilter, setKpiFilter] = useState<string | null>(null);
   const [isGrid, setIsGrid] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const fetchDashboardData = async () => {
     try {
@@ -162,36 +165,53 @@ export const CatalogueDashboard: React.FC = () => {
             </div>
           </div>
           
-          <div className={styles.filterControls}>
-            <select 
-              className={styles.selectInput}
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
-            >
-              <option value="All">All Categories</option>
-              <option value="IT Hardware">IT Hardware</option>
-              <option value="Office Supplies">Office Supplies</option>
-              <option value="Facility Management">Facility Management</option>
-              <option value="Professional Services">Professional Services</option>
-              <option value="Logistics">Logistics</option>
-            </select>
-
-            <select
-              className={styles.selectInput}
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="All">All Statuses</option>
-              <option value="Published">Published</option>
-              <option value="Pending Approval">Pending Approval</option>
-              <option value="Draft">Draft</option>
-            </select>
-
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            {(() => {
+              const activeFilterCount = [categoryFilter !== 'All', statusFilter !== 'All'].filter(Boolean).length;
+              return (
+                <button className={styles.filterBtn} onClick={() => setFiltersOpen(v => !v)}>
+                  <Filter size={14} /> Filters
+                  {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
+                </button>
+              );
+            })()}
             <Button variant="outline" size="sm" onClick={() => setIsGrid(!isGrid)} icon={isGrid ? <List size={16} /> : <LayoutGrid size={16} />}>
               {isGrid ? "List View" : "Grid View"}
             </Button>
           </div>
         </div>
+
+        {filtersOpen && (
+          <div className={styles.filterPanel}>
+            <div className={styles.filterPanelRow}>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Category</label>
+                <select className={styles.filterSelect} value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+                  <option value="All">All Categories</option>
+                  <option value="IT Hardware">IT Hardware</option>
+                  <option value="Office Supplies">Office Supplies</option>
+                  <option value="Facility Management">Facility Management</option>
+                  <option value="Professional Services">Professional Services</option>
+                  <option value="Logistics">Logistics</option>
+                </select>
+              </div>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Status</label>
+                <select className={styles.filterSelect} value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                  <option value="All">All Statuses</option>
+                  <option value="Published">Published</option>
+                  <option value="Pending Approval">Pending Approval</option>
+                  <option value="Draft">Draft</option>
+                </select>
+              </div>
+              {[categoryFilter !== 'All', statusFilter !== 'All'].some(Boolean) && (
+                <button className={styles.clearFiltersBtn} onClick={() => { setCategoryFilter('All'); setStatusFilter('All'); setKpiFilter(null); }}>
+                  <X size={12} /> Clear Filters
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Master Data Grid or Table */}
         {loading ? (

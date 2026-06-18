@@ -11,6 +11,7 @@ import {
   Download,
   Eye,
   Search,
+  Filter,
   X,
   ShieldAlert
 } from 'lucide-react';
@@ -32,6 +33,7 @@ export const ContractsDashboard: React.FC = () => {
   const [typeFilter, setTypeFilter] = useState('All');
   const [riskFilter, setRiskFilter] = useState('All');
   const [kpiFilter, setKpiFilter] = useState<string | null>(null);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   // Core Data State
   const [allContracts, setAllContracts] = useState<ContractRecord[]>([]);
@@ -253,45 +255,49 @@ export const ContractsDashboard: React.FC = () => {
               />
               <Search size={16} className={styles.searchIcon} />
             </div>
-
-            <select
-              className={styles.filterSelect}
-              value={typeFilter}
-              onChange={(e) => setTypeFilter(e.target.value)}
-            >
-              <option value="All">Contract Type: All</option>
-              <option value="Master Service Agreement">Master Service Agreement</option>
-              <option value="Vendor Agreement">Vendor Agreement</option>
-              <option value="Non-Disclosure Agreement">Non-Disclosure Agreement</option>
-              <option value="SaaS Agreement">SaaS Agreement</option>
-              <option value="Retainer">Retainer</option>
-              <option value="Facility Lease">Facility Lease</option>
-              <option value="SLA Agreement">SLA Agreement</option>
-            </select>
-
-            <select
-              className={styles.filterSelect}
-              value={riskFilter}
-              onChange={(e) => setRiskFilter(e.target.value)}
-            >
-              <option value="All">Risk Level: All</option>
-              <option value="Low">Low Risk</option>
-              <option value="Medium">Medium Risk</option>
-              <option value="High">High Risk</option>
-            </select>
-
-            {kpiFilter && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setKpiFilter(null)}
-                style={{ color: '#ef4444', display: 'flex', alignItems: 'center', gap: '4px' }}
-              >
-                Clear KPI Filter <X size={14} />
-              </Button>
-            )}
+            <button className={styles.filterBtn} onClick={() => setFiltersOpen(v => !v)}>
+              <Filter size={14} />
+              Filters
+              {(typeFilter !== 'All' || riskFilter !== 'All' || kpiFilter) && (
+                <span className={styles.filterBadge}>{[typeFilter !== 'All', riskFilter !== 'All', !!kpiFilter].filter(Boolean).length}</span>
+              )}
+            </button>
           </div>
         </div>
+
+        {filtersOpen && (
+          <div className={styles.filterPanel}>
+            <div className={styles.filterPanelRow}>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Contract Type</label>
+                <select className={styles.filterSelect} value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
+                  <option value="All">All Types</option>
+                  <option value="Master Service Agreement">Master Service Agreement</option>
+                  <option value="Vendor Agreement">Vendor Agreement</option>
+                  <option value="Non-Disclosure Agreement">Non-Disclosure Agreement</option>
+                  <option value="SaaS Agreement">SaaS Agreement</option>
+                  <option value="Retainer">Retainer</option>
+                  <option value="Facility Lease">Facility Lease</option>
+                  <option value="SLA Agreement">SLA Agreement</option>
+                </select>
+              </div>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Risk Level</label>
+                <select className={styles.filterSelect} value={riskFilter} onChange={(e) => setRiskFilter(e.target.value)}>
+                  <option value="All">All Risk Levels</option>
+                  <option value="Low">Low Risk</option>
+                  <option value="Medium">Medium Risk</option>
+                  <option value="High">High Risk</option>
+                </select>
+              </div>
+              {(typeFilter !== 'All' || riskFilter !== 'All' || kpiFilter) && (
+                <button className={styles.clearFiltersBtn} onClick={() => { setTypeFilter('All'); setRiskFilter('All'); setKpiFilter(null); }}>
+                  <X size={13} /> Clear Filters
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
         <DataTable
           columns={columns}

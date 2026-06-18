@@ -132,17 +132,24 @@
   padding: 8px 12px;
   border: 1px solid var(--color-border, #e2e8f0);
   border-radius: var(--border-radius-md, 6px);
-  background: white;
-  font-size: 0.8125rem;
+  background: var(--color-background-primary, white);
+  font-size: 0.75rem;
   outline: none;
   color: var(--color-text-primary, #1e293b);
   cursor: pointer;
-  min-width: 150px;
+  min-width: 160px;
   transition: all 0.15s;
 }
-.filterSelect:hover {
-  border-color: var(--color-primary, #185FA5);
-}
+.filterSelect:hover { border-color: var(--color-primary, #185FA5); }
+.filterBtn { display: flex; align-items: center; gap: 6px; padding: 7px 14px; border: 1px solid var(--color-border); border-radius: var(--border-radius-md); background: var(--color-background-primary); font-size: 0.75rem; font-weight: 600; color: var(--color-text-secondary); cursor: pointer; white-space: nowrap; }
+.filterBtn:hover { background: var(--color-background-secondary); border-color: var(--color-primary); color: var(--color-primary); }
+.filterBadge { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; background: var(--color-primary); color: white; border-radius: 50%; font-size: 0.65rem; font-weight: 700; }
+.filterPanel { border-top: 1px solid var(--color-border); padding: 14px 24px; background: white; }
+.filterPanelRow { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
+.filterGroup { display: flex; flex-direction: column; gap: 4px; }
+.filterLabel { font-size: 0.7rem; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+.clearFiltersBtn { display: flex; align-items: center; gap: 4px; padding: 7px 12px; border: 1px solid #fca5a5; border-radius: var(--border-radius-md); background: #fef2f2; color: #dc2626; font-size: 0.75rem; font-weight: 600; cursor: pointer; margin-top: 18px; }
+.clearFiltersBtn:hover { background: #fee2e2; }
 
 /* Table styling */
 .tableWrapper { overflow-x: auto; }

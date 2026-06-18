@@ -11,6 +11,7 @@ import {
   Eye,
   Search,
   Filter,
+  X,
   MoreVertical
 } from 'lucide-react';
 import { Card } from '../../components/Card/Card';
@@ -30,6 +31,7 @@ export const PODashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All');
   const [deliveryFilter, setDeliveryFilter] = useState('All');
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -191,6 +193,7 @@ export const PODashboard: React.FC = () => {
         <div className={styles.tableToolbar}>
           <div className={styles.filters}>
             <div className={styles.searchWrap}>
+              <Search size={14} className={styles.searchIcon} />
               <Input
                 placeholder="Search PO number, vendor..."
                 fullWidth={false}
@@ -198,31 +201,55 @@ export const PODashboard: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Search size={16} className={styles.searchIcon} />
             </div>
-
-            <select className={styles.filterSelect} value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-              <option value="All">Status: All</option>
-              <option value="Draft">Draft</option>
-              <option value="Pending Approval">Pending Approval</option>
-              <option value="Approved">Approved</option>
-              <option value="Sent">Sent</option>
-              <option value="Closed">Closed</option>
-              <option value="Canceled">Canceled</option>
-            </select>
-
-            <select className={styles.filterSelect} value={deliveryFilter} onChange={(e) => setDeliveryFilter(e.target.value)}>
-              <option value="All">Delivery: All</option>
-              <option value="Pending">Pending</option>
-              <option value="Partial">Partial</option>
-              <option value="Received">Received</option>
-            </select>
-
-            <Button variant="ghost" icon={<Filter size={16} />}>More Filters</Button>
+            {(() => {
+              const activeFilterCount = [statusFilter !== 'All', deliveryFilter !== 'All'].filter(Boolean).length;
+              return (
+                <button className={styles.filterBtn} onClick={() => setFiltersOpen(v => !v)}>
+                  <Filter size={14} /> Filters
+                  {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
+                </button>
+              );
+            })()}
           </div>
-
           <Button variant="outline" icon={<Download size={16} />}>Export</Button>
         </div>
+
+        {filtersOpen && (
+          <div className={styles.filterPanel}>
+            <div className={styles.filterPanelRow}>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Status</label>
+                <select className={styles.filterSelect} value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                  <option value="All">All Statuses</option>
+                  <option value="Draft">Draft</option>
+                  <option value="Pending Approval">Pending Approval</option>
+                  <option value="Approved">Approved</option>
+                  <option value="Sent">Sent</option>
+                  <option value="Closed">Closed</option>
+                  <option value="Canceled">Canceled</option>
+                </select>
+              </div>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Delivery</label>
+                <select className={styles.filterSelect} value={deliveryFilter} onChange={(e) => setDeliveryFilter(e.target.value)}>
+                  <option value="All">All</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Partial">Partial</option>
+                  <option value="Received">Received</option>
+                </select>
+              </div>
+              {[statusFilter !== 'All', deliveryFilter !== 'All'].some(Boolean) && (
+                <button
+                  className={styles.clearFiltersBtn}
+                  onClick={() => { setStatusFilter('All'); setDeliveryFilter('All'); }}
+                >
+                  <X size={12} /> Clear Filters
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
         {repoLoading ? (
           <div style={{ display: 'flex', justifyContent: 'center', padding: '40px', color: 'var(--color-text-secondary)' }}>

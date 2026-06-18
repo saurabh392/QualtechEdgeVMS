@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { FileText, AlertCircle, Scale, Users, TrendingUp, Loader2, CheckCircle2 } from 'lucide-react';
+import { FileText, AlertCircle, Scale, Users, TrendingUp, Loader2, CheckCircle2, Search, Filter, X } from 'lucide-react';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Badge } from '../../components/Badge/Badge';
@@ -60,6 +60,9 @@ export const FinanceDashboard: React.FC = () => {
   const [tds, setTds] = useState<TDSRecord[]>([]);
   const [recon, setRecon] = useState<ReconRecord[]>([]);
   const [loading, setLoading] = useState(true);
+  const [agingSearch, setAgingSearch] = useState('');
+  const [agingTypeFilter, setAgingTypeFilter] = useState('All');
+  const [agingFiltersOpen, setAgingFiltersOpen] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -96,6 +99,13 @@ export const FinanceDashboard: React.FC = () => {
   };
 
   const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
+
+  const agingFilterCount = [agingTypeFilter !== 'All'].filter(Boolean).length;
+  const filteredAging = aging.filter(a => {
+    const matchSearch = !agingSearch || a.vendorName.toLowerCase().includes(agingSearch.toLowerCase());
+    const matchType = agingTypeFilter === 'All' || a.vendorType === agingTypeFilter;
+    return matchSearch && matchType;
+  });
 
   if (loading) {
     return (
@@ -138,10 +148,45 @@ export const FinanceDashboard: React.FC = () => {
       <div className={styles.financeCardDashboard}>
         {/* Aging Report */}
         <Card className={styles.tableCard}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', borderBottom: '1px solid var(--color-border)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 20px', borderBottom: '1px solid var(--color-border)', flexWrap: 'wrap', gap: 10 }}>
             <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Vendor Aging Report</h3>
-            <Button variant="outline" onClick={() => navigate('/finance/reconciliation')}>View Full Report</Button>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+              <div className={styles.searchWrap} style={{ minWidth: 200 }}>
+                <Search size={13} style={{ color: 'var(--color-text-secondary)', flexShrink: 0 }} />
+                <input
+                  type="text"
+                  placeholder="Search vendor..."
+                  className={styles.searchInput}
+                  value={agingSearch}
+                  onChange={e => setAgingSearch(e.target.value)}
+                />
+              </div>
+              <button className={styles.filterBtn} onClick={() => setAgingFiltersOpen(v => !v)}>
+                <Filter size={13} /> Filters
+                {agingFilterCount > 0 && <span className={styles.filterBadge}>{agingFilterCount}</span>}
+              </button>
+              <Button variant="outline" size="sm" onClick={() => navigate('/finance/reconciliation')}>View Full</Button>
+            </div>
           </div>
+          {agingFiltersOpen && (
+            <div className={styles.filterPanel}>
+              <div className={styles.filterPanelRow}>
+                <div className={styles.filterGroup}>
+                  <label className={styles.filterLabel}>Vendor Type</label>
+                  <select className={styles.filterSelect} value={agingTypeFilter} onChange={e => setAgingTypeFilter(e.target.value)}>
+                    <option value="All">All Types</option>
+                    <option value="MSME">MSME</option>
+                    <option value="Non-MSME">Non-MSME</option>
+                  </select>
+                </div>
+                {agingFilterCount > 0 && (
+                  <button className={styles.clearFiltersBtn} onClick={() => setAgingTypeFilter('All')}>
+                    <X size={12} /> Clear
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
           <div style={{ overflowX: 'auto' }}>
             <table className={styles.table}>
               <thead>
@@ -157,7 +202,9 @@ export const FinanceDashboard: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {aging.map(a => (
+                {filteredAging.length === 0 ? (
+                  <tr><td colSpan={8} style={{ textAlign: 'center', padding: '24px', color: 'var(--color-text-secondary)' }}>No matching vendors.</td></tr>
+                ) : filteredAging.map(a => (
                   <tr key={a.vendorId}>
                     <td style={{ fontWeight: 600 }}>{a.vendorName}</td>
                     <td>

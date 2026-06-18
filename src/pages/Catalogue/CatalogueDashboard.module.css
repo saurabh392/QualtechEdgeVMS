@@ -287,6 +287,18 @@
   align-items: center;
 }
 
+.filterBtn { display: flex; align-items: center; gap: 6px; padding: 7px 14px; border: 1px solid var(--color-border); border-radius: var(--border-radius-md); background: var(--color-background-primary, white); font-size: 0.75rem; font-weight: 600; color: var(--color-text-secondary); cursor: pointer; white-space: nowrap; }
+.filterBtn:hover { background: var(--color-background-secondary); border-color: var(--color-primary); color: var(--color-primary); }
+.filterBadge { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; background: var(--color-primary); color: white; border-radius: 50%; font-size: 0.65rem; font-weight: 700; }
+.filterPanel { border-top: 1px solid var(--color-border); padding: 14px 24px; background: white; }
+.filterPanelRow { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
+.filterGroup { display: flex; flex-direction: column; gap: 4px; }
+.filterLabel { font-size: 0.7rem; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+.filterSelect { padding: 8px 12px; border: 1px solid var(--color-border); border-radius: var(--border-radius-md); background: var(--color-background-primary, white); font-size: 0.75rem; outline: none; color: var(--color-text-primary); cursor: pointer; min-width: 160px; }
+.filterSelect:hover { border-color: var(--color-primary); }
+.clearFiltersBtn { display: flex; align-items: center; gap: 4px; padding: 7px 12px; border: 1px solid #fca5a5; border-radius: var(--border-radius-md); background: #fef2f2; color: #dc2626; font-size: 0.75rem; font-weight: 600; cursor: pointer; margin-top: 18px; }
+.clearFiltersBtn:hover { background: #fee2e2; }
+
 .selectInput {
   padding: 8px 12px;
   border: 1px solid var(--color-border);

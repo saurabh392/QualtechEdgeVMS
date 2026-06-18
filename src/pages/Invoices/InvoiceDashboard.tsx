@@ -6,13 +6,13 @@ import {
   Clock,
   CheckCircle2,
   AlertTriangle,
-  ArrowRight,
   Upload,
   Download,
   Eye,
   MoreVertical,
   Search,
   Filter,
+  X,
   CreditCard,
   Loader2
 } from 'lucide-react';
@@ -58,6 +58,9 @@ export const InvoiceDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All');
   const [riskFilter, setRiskFilter] = useState('All');
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  const activeFilterCount = [statusFilter !== 'All', riskFilter !== 'All'].filter(Boolean).length;
 
   useEffect(() => {
     axios.get('/api/invoices')
@@ -191,28 +194,47 @@ export const InvoiceDashboard: React.FC = () => {
               />
               <Search size={16} className={styles.searchIcon} />
             </div>
-
-            <select className={styles.filterSelect} value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-              <option value="All">Status: All</option>
-              <option value="Draft">Draft</option>
-              <option value="Pending Match">Pending Match</option>
-              <option value="Approved">Approved</option>
-              <option value="Paid">Paid</option>
-              <option value="Rejected">Rejected</option>
-              <option value="Exception">Exception</option>
-            </select>
-
-            <select className={styles.filterSelect} value={riskFilter} onChange={(e) => setRiskFilter(e.target.value)}>
-              <option value="All">Risk Level: All</option>
-              <option value="Low Risk">Low Risk</option>
-              <option value="Medium Risk">Medium Risk</option>
-              <option value="High Risk">High Risk</option>
-            </select>
-            {/* <Button variant="ghost" icon={<Filter size={16} />}>More Filters</Button> */}
+            <button className={styles.filterBtn} onClick={() => setFiltersOpen(v => !v)}>
+              <Filter size={14} />
+              Filters
+              {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
+            </button>
           </div>
-
           <Button variant="outline" icon={<Download size={16} />}>Export</Button>
         </div>
+
+        {filtersOpen && (
+          <div className={styles.filterPanel}>
+            <div className={styles.filterPanelRow}>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Status</label>
+                <select className={styles.filterSelect} value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                  <option value="All">All Statuses</option>
+                  <option value="Draft">Draft</option>
+                  <option value="Pending Match">Pending Match</option>
+                  <option value="Approved">Approved</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Rejected">Rejected</option>
+                  <option value="Exception">Exception</option>
+                </select>
+              </div>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Risk Level</label>
+                <select className={styles.filterSelect} value={riskFilter} onChange={(e) => setRiskFilter(e.target.value)}>
+                  <option value="All">All Risk Levels</option>
+                  <option value="Low Risk">Low Risk</option>
+                  <option value="Medium Risk">Medium Risk</option>
+                  <option value="High Risk">High Risk</option>
+                </select>
+              </div>
+              {activeFilterCount > 0 && (
+                <button className={styles.clearFiltersBtn} onClick={() => { setStatusFilter('All'); setRiskFilter('All'); }}>
+                  <X size={13} /> Clear Filters
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
         {loading ? (
           <div style={{ display: 'flex', justifyContent: 'center', padding: '48px' }}>

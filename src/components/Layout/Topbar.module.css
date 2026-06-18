@@ -151,14 +151,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  cursor: pointer;
   padding: 6px 10px;
-  border-radius: var(--border-radius-md);
-  transition: background-color 0.15s;
-}
-
-.profile:hover {
-  background-color: var(--color-surface-2);
 }
 
 /* Initials avatar — no external URL */
@@ -194,9 +187,6 @@
   white-space: nowrap;
 }
 
-.chevron {
-  color: var(--color-text-tertiary);
-}
 
 /* Responsive — hide search + profile label on small screens */
 @media (max-width: 768px) {

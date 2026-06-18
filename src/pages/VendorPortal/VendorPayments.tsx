@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CreditCard, TrendingUp, Clock, XCircle, CheckCircle2, X, Calendar, Hash, Banknote, Percent } from 'lucide-react';
+import { CreditCard, TrendingUp, Clock, XCircle, CheckCircle2, X, Calendar, Hash, Banknote, Percent, Search, Filter } from 'lucide-react';
 import { useVendorPayments } from '../../hooks/useVendorPortal';
 import s from './vendor.module.css';
 
@@ -9,6 +9,9 @@ export const VendorPayments: React.FC = () => {
   const { data: payments = [], isLoading } = useVendorPayments();
   const [activeTab, setActiveTab] = useState<TabKey>('All');
   const [selected, setSelected] = useState<(typeof payments)[0] | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [modeFilter, setModeFilter] = useState('All');
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const totalPaid    = payments.filter(p => p.status === 'Completed' || p.status === 'Paid').reduce((sum, p) => sum + p.amount, 0);
   const totalTDS     = payments.filter(p => p.tdsDeducted).reduce((sum, p) => sum + (p.tdsDeducted || 0), 0);
@@ -21,10 +24,21 @@ export const VendorPayments: React.FC = () => {
     Failed:     payments.filter(p => p.status === 'Failed').length,
   };
 
+  const activeFilterCount = [modeFilter !== 'All'].filter(Boolean).length;
+
   const filtered = payments.filter(p => {
-    if (activeTab === 'Completed') return p.status === 'Completed' || p.status === 'Paid';
-    if (activeTab === 'Processing') return p.status === 'Processing';
-    if (activeTab === 'Failed') return p.status === 'Failed';
+    if (activeTab === 'Completed' && !(p.status === 'Completed' || p.status === 'Paid')) return false;
+    if (activeTab === 'Processing' && p.status !== 'Processing') return false;
+    if (activeTab === 'Failed' && p.status !== 'Failed') return false;
+    if (modeFilter !== 'All' && p.mode !== modeFilter) return false;
+    if (searchTerm) {
+      const q = searchTerm.toLowerCase();
+      return (
+        p.paymentId.toLowerCase().includes(q) ||
+        p.invoiceId.toLowerCase().includes(q) ||
+        (p.utrRef || '').toLowerCase().includes(q)
+      );
+    }
     return true;
   });
 
@@ -86,7 +100,47 @@ export const VendorPayments: React.FC = () => {
       </div>
 
       <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-        <div className={s.card} style={{ flex: 1, minWidth: 0 }}>
+        <div className={s.tableCard} style={{ flex: 1, minWidth: 0 }}>
+          {/* Search & Filter Toolbar */}
+          <div className={s.vendorToolbar}>
+            <div className={s.searchWrap}>
+              <Search size={14} className={s.searchIcon} />
+              <input
+                type="text"
+                placeholder="Search by Payment ID, Invoice, UTR..."
+                className={s.searchInput}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <button className={s.filterBtn} onClick={() => setFiltersOpen(v => !v)}>
+              <Filter size={14} /> Filters
+              {activeFilterCount > 0 && <span className={s.filterBadge}>{activeFilterCount}</span>}
+            </button>
+          </div>
+
+          {filtersOpen && (
+            <div className={s.filterPanel}>
+              <div className={s.filterPanelRow}>
+                <div className={s.filterGroup}>
+                  <label className={s.filterLabel}>Payment Mode</label>
+                  <select className={s.filterSelect} value={modeFilter} onChange={(e) => setModeFilter(e.target.value)}>
+                    <option value="All">All Modes</option>
+                    <option value="NEFT">NEFT</option>
+                    <option value="RTGS">RTGS</option>
+                    <option value="IMPS">IMPS</option>
+                    <option value="Cheque">Cheque</option>
+                  </select>
+                </div>
+                {activeFilterCount > 0 && (
+                  <button className={s.clearFiltersBtn} onClick={() => setModeFilter('All')}>
+                    <X size={12} /> Clear Filters
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
           {filtered.length === 0 ? (
             <div className={s.emptyState}>
               <div className={s.emptyIcon}><CreditCard size={28} /></div>

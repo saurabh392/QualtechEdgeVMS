@@ -72,6 +72,7 @@ export const UsersRoles: React.FC = () => {
   const totalActive = users.filter(u => u.status === 'Active').length;
   const totalInactive = users.filter(u => u.status === 'Inactive').length;
 
+
   if (loading) {
     return (
       <div className={styles.container}>

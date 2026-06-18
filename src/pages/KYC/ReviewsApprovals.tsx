@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Search, Eye, ThumbsUp
+  Search, Eye, ThumbsUp, Filter, X
 } from 'lucide-react';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
@@ -39,6 +39,7 @@ export const ReviewsApprovals: React.FC = () => {
   // Filters State
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<StatusFilterKey>('All');
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   // Expanded row ID
   const [expandedVendorId, setExpandedVendorId] = useState<string | null>(null);
@@ -180,21 +181,35 @@ export const ReviewsApprovals: React.FC = () => {
             />
           </div>
           <div className={styles.toolbarRight}>
-            {/* Status Filter */}
-            <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#475569' }}>Status:</span>
-            <select
-              className={styles.filterSelect}
-              value={statusFilter}
-              onChange={e => setStatusFilter(e.target.value as StatusFilterKey)}
-            >
-              <option value="All">All</option>
-              <option value="Pending">Pending</option>
-              <option value="Conditional">Conditional</option>
-              <option value="Approved">Approved</option>
-              <option value="Rejected">Rejected</option>
-            </select>
+            <button className={styles.filterBtn} onClick={() => setFiltersOpen(v => !v)}>
+              <Filter size={14} />
+              Filters
+              {statusFilter !== 'All' && <span className={styles.filterBadge}>1</span>}
+            </button>
           </div>
         </div>
+
+        {filtersOpen && (
+          <div className={styles.filterPanel}>
+            <div className={styles.filterPanelRow}>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Decision Status</label>
+                <select className={styles.filterSelect} value={statusFilter} onChange={e => setStatusFilter(e.target.value as StatusFilterKey)}>
+                  <option value="All">All Statuses</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Conditional">Conditional</option>
+                  <option value="Approved">Approved</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+              </div>
+              {statusFilter !== 'All' && (
+                <button className={styles.clearFiltersBtn} onClick={() => setStatusFilter('All')}>
+                  <X size={13} /> Clear Filters
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Table Workspace */}
         <div className={styles.tableWrapper}>

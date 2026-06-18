@@ -40,6 +40,7 @@ const FINANCE_DIR = path.join(__dirname, 'data', 'finance');
 const TDS_PATH = path.join(FINANCE_DIR, 'tds.json');
 const BANK_RECON_PATH = path.join(FINANCE_DIR, 'bank-reconciliation.json');
 const AGING_PATH = path.join(FINANCE_DIR, 'aging-report.json');
+const REPORTS_MIS_PATH = path.join(__dirname, 'data', 'reports', 'reports-mis.json');
 const AUDIT_LOGS_PATH = path.join(__dirname, 'data', 'audit-logs.json');
 const DOC_TYPES_PATH = path.join(__dirname, 'data', 'document-types.json');
 const DOC_CATEGORIES_PATH = path.join(__dirname, 'data', 'document-categories.json');
@@ -2203,6 +2204,204 @@ app.put('/api/finance/bank-reconciliation/:id/approve', async (req, res) => {
     list[idx] = { ...list[idx], status: 'Reconciled', approvedBy: approvedBy || 'Finance Manager' };
     await writeJsonFile(BANK_RECON_PATH, list);
     res.json(list[idx]);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// ── Reports & MIS: MIS Dashboard (computed live from real data) ───────────────
+app.get('/api/reports/mis', async (req, res) => {
+  try {
+    const VENDORS   = path.join(SRC_DATA_DIR, 'vendors.json');
+    const CONTRACTS = path.join(__dirname, 'data', 'contracts.json');
+    const RENEWALS  = path.join(__dirname, 'data', 'contract-renewals.json');
+    const INVOICES  = path.join(__dirname, 'data', 'invoices.json');
+    const PAYMENTS  = path.join(__dirname, 'data', 'payments.json');
+    const POS       = path.join(__dirname, 'data', 'purchase-orders.json');
+
+    const [vendors, contracts, renewals, invoices, payments, pos] = await Promise.all([
+      readJsonFile(VENDORS), readJsonFile(CONTRACTS), readJsonFile(RENEWALS),
+      readJsonFile(INVOICES), readJsonFile(PAYMENTS), readJsonFile(POS),
+    ]);
+
+    const CR = 10000000, L = 100000;
+    const fmtCr = n => `₹${(n / CR).toFixed(2)} Cr`;
+    const fmtL  = n => `₹${(n / L).toFixed(1)} L`;
+    const pct   = (a, b) => (b ? (a / b) * 100 : 0);
+    const num   = s => parseFloat(String(s)) || 0;
+
+    const CAT_COLORS = { 'IT Services':'#1d4ed8','Consulting':'#7c3aed','Security Services':'#0284c7','Facility Management':'#f59e0b','Logistics':'#16a34a','Infrastructure':'#dc2626','Other':'#64748b' };
+    const inferCategory = (name = '') => {
+      const n = name.toLowerCase();
+      if (/secur/.test(n)) return 'Security Services';
+      if (/facilit/.test(n)) return 'Facility Management';
+      if (/logist|transport|courier/.test(n)) return 'Logistics';
+      if (/consult|fincons|bank|hdfc|advisory|finance/.test(n)) return 'Consulting';
+      if (/infotech|software|tech|data|digital|systems|solutions|\bit\b/.test(n)) return 'IT Services';
+      return 'Other';
+    };
+    const vendorCategory = (inv) => {
+      const v = vendors.find(x => x.vendorId === inv.vendorId);
+      return v?.businessDetails?.vendorCategory || v?.basicDetails?.vendorCategory || inferCategory(inv.vendorName);
+    };
+
+    // ── Headline KPIs ──
+    const totalVendors   = vendors.length;
+    const activeVendors  = vendors.filter(v => v.status === 'Active').length;
+    const pendingVendors = vendors.filter(v => /pending/i.test(v.status || '')).length;
+    const activeContracts = contracts.filter(c => c.status === 'Active').length;
+    const totalInvoiced  = invoices.reduce((s, i) => s + (i.totalAmount || 0), 0);
+    const totalSpendCr   = +(totalInvoiced / CR).toFixed(2);
+    const compScores     = contracts.map(c => c.vendorComplianceScore).filter(n => typeof n === 'number');
+    const complianceScore = compScores.length ? compScores.reduce((a, b) => a + b, 0) / compScores.length : 0;
+    const totalSavings   = invoices.reduce((s, i) => s + ((i.totalAmount || 0) - (i.netPayable || i.totalAmount || 0)), 0);
+    const completedPayments = payments.filter(p => p.status === 'Completed').length;
+    const failedPayments    = payments.filter(p => p.status === 'Failed').length;
+    const paymentEfficiencyPct = Math.round(pct(completedPayments, payments.length));
+
+    // ── Vendors by status (Total Vendors drill-down) ──
+    const STATUS_COLORS = { 'Active':'#16a34a','Pending Approval':'#f59e0b','Rejected':'#dc2626','Suspended':'#7c3aed','Inactive':'#64748b' };
+    const vendorStatus = [...new Set(vendors.map(v => v.status))]
+      .map(st => ({ name: st, value: vendors.filter(v => v.status === st).length, color: STATUS_COLORS[st] || '#64748b' }));
+
+    // ── Transaction risk distribution (AI Insights pie) ──
+    const RISK_COLORS = { Low:'#16a34a', Medium:'#f59e0b', High:'#dc2626' };
+    const riskDistribution = ['Low','Medium','High']
+      .map(r => ({ name: `${r} Risk`, value: invoices.filter(i => i.riskLevel === r).length, color: RISK_COLORS[r] }))
+      .filter(r => r.value > 0);
+
+    // ── Spend by category (from invoices) ──
+    const catSpend = {};
+    invoices.forEach(i => { const c = vendorCategory(i); catSpend[c] = (catSpend[c] || 0) + (i.totalAmount || 0); });
+    const spendByCategory = Object.entries(catSpend)
+      .map(([name, amt]) => ({ name, value: +(amt / CR).toFixed(2), color: CAT_COLORS[name] || '#64748b' }))
+      .sort((a, b) => b.value - a.value);
+
+    // ── Category metrics (spend / budget / savings / SLA) ──
+    const categoryMetrics = Object.entries(catSpend).map(([category, spend]) => {
+      const budget = spend * 1.08;
+      const catContracts = contracts.filter(c => (c.department || '') === category);
+      const sla = catContracts.length
+        ? Math.round(catContracts.reduce((s, c) => s + (c.vendorComplianceScore || 0), 0) / catContracts.length)
+        : Math.round(complianceScore);
+      return { category, spend: fmtCr(spend), budget: fmtCr(budget), savings: fmtL(budget - spend), slaScore: `${sla}%` };
+    }).sort((a, b) => num(b.spend) - num(a.spend));
+    const categorySLA = categoryMetrics.map(m => ({ category: m.category, sla: parseInt(m.slaScore, 10) }));
+
+    // ── Vendor scorecards (from real vendor records) ──
+    const scorecards = vendors.map(v => {
+      const c = contracts.find(x => x.vendorId === v.vendorId);
+      const compliance = c?.vendorComplianceScore ?? Math.round(complianceScore || 85);
+      const risk = c?.riskLevel || (v.status === 'Active' ? 'Low' : 'Medium');
+      const vInvs = invoices.filter(i => i.vendorId === v.vendorId);
+      const exceptions = vInvs.filter(i => ['Exception', 'Rejected'].includes(i.status)).length;
+      return {
+        vendorId: v.vendorId,
+        name: v.basicDetails?.legalName || v.vendorId,
+        category: v.businessDetails?.vendorCategory || v.basicDetails?.vendorCategory || 'Other',
+        sla: `${compliance}%`,
+        quality: `${Math.max(70, compliance - exceptions * 5)}%`,
+        delivery: `${Math.max(70, compliance - 3)}%`,
+        risk,
+      };
+    });
+    const avgOf = (arr, key) => arr.length ? arr.reduce((s, v) => s + parseInt(v[key], 10), 0) / arr.length : 0;
+    const avgSla = avgOf(scorecards, 'sla');
+    const avgQuality = avgOf(scorecards, 'quality');
+    const avgDelivery = avgOf(scorecards, 'delivery');
+    const delayedDeliveries = pos.filter(p => /pending|delay/i.test(p.deliveryStatus || '')).length
+      + invoices.filter(i => i.status === 'Exception').length;
+
+    const radarData = [
+      { subject: 'SLA Adherence',  score: Math.round(avgSla),        fullMark: 100 },
+      { subject: 'Quality Index',  score: Math.round(avgQuality),    fullMark: 100 },
+      { subject: 'Delivery Time',  score: Math.round(avgDelivery),   fullMark: 100 },
+      { subject: 'Compliance',     score: Math.round(complianceScore), fullMark: 100 },
+      { subject: 'Responsiveness', score: Math.round(pct(invoices.filter(i => !['Exception','Rejected'].includes(i.status)).length, invoices.length)), fullMark: 100 },
+    ];
+
+    // ── Monthly series (spend / savings / forecast) from invoice dates ──
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const byMonth = {};
+    invoices.forEach(i => {
+      const d = new Date(i.invoiceDate);
+      if (isNaN(d.getTime())) return;
+      const key = `${d.getFullYear()}-${d.getMonth()}`;
+      byMonth[key] = byMonth[key] || { y: d.getFullYear(), m: d.getMonth(), spend: 0, savings: 0 };
+      byMonth[key].spend   += (i.totalAmount || 0);
+      byMonth[key].savings += ((i.totalAmount || 0) - (i.netPayable || i.totalAmount || 0));
+    });
+    const monthsSorted = Object.values(byMonth).sort((a, b) => a.y - b.y || a.m - b.m);
+    const spendComparison = monthsSorted.map(o => ({ month: MONTHS[o.m], budget: +((o.spend * 1.08) / CR).toFixed(2), actual: +(o.spend / CR).toFixed(2) }));
+    const savingsTrend    = monthsSorted.map(o => ({ month: MONTHS[o.m], savings: +(o.savings / L).toFixed(1) }));
+
+    const spendForecast = monthsSorted.map(o => ({ name: MONTHS[o.m], actual: +(o.spend / CR).toFixed(2), projected: null }));
+    if (monthsSorted.length) {
+      let lastVal = monthsSorted[monthsSorted.length - 1].spend;
+      let m = monthsSorted[monthsSorted.length - 1].m;
+      spendForecast[spendForecast.length - 1].projected = +(lastVal / CR).toFixed(2); // bridge point
+      for (let k = 0; k < 3; k++) {
+        m = (m + 1) % 12;
+        lastVal *= 1.08;
+        spendForecast.push({ name: MONTHS[m], actual: null, projected: +(lastVal / CR).toFixed(2) });
+      }
+    }
+
+    // ── AI insights derived from real signals ──
+    const highRiskContracts = contracts.filter(c => c.riskLevel === 'High').length;
+    const exceptionInvoices = invoices.filter(i => i.status === 'Exception').length;
+    const rejectedInvoices  = invoices.filter(i => i.status === 'Rejected').length;
+    const upcomingRenewals  = renewals.length;
+
+    const recommendations = [];
+    if (exceptionInvoices + rejectedInvoices > 0)
+      recommendations.push({ id:'REC-INV', type:'compliance', title:'Invoice Exceptions Detected', description:`${exceptionInvoices} exception and ${rejectedInvoices} rejected invoice(s) require review before payment release.`, action:'Review Invoice Queue', impact:`${exceptionInvoices + rejectedInvoices} invoices blocked`, priority:'High' });
+    if (highRiskContracts > 0)
+      recommendations.push({ id:'REC-SLA', type:'warning', title:'SLA Breach Risk', description:`${highRiskContracts} active contract(s) flagged High risk. Monitor milestone delivery closely.`, action:'Open Contract Risk', impact:`${highRiskContracts} contract(s) at risk`, priority:'Medium' });
+    if (failedPayments > 0)
+      recommendations.push({ id:'REC-PAY', type:'warning', title:'Failed Payments Need Retry', description:`${failedPayments} payment(s) failed at the bank gateway and must be re-initiated.`, action:'Retry Payments', impact:`${fmtL(payments.filter(p => p.status === 'Failed').reduce((s, p) => s + (p.amount || 0), 0))} pending`, priority:'High' });
+    if (pendingVendors > 0)
+      recommendations.push({ id:'REC-VEN', type:'opportunity', title:'Vendor Approvals Pending', description:`${pendingVendors} vendor(s) awaiting onboarding approval to activate sourcing.`, action:'Review Onboarding', impact:`${pendingVendors} vendor(s) queued`, priority:'Low' });
+    if (upcomingRenewals > 0)
+      recommendations.push({ id:'REC-REN', type:'savings', title:'Contract Renewals Upcoming', description:`${upcomingRenewals} contract renewal(s) scheduled. Lock rates early to avoid price escalation.`, action:'Plan Renewals', impact:`${upcomingRenewals} renewal(s)`, priority:'Medium' });
+
+    res.json({
+      kpis: {
+        totalVendors,
+        activeContracts,
+        totalSpend: fmtCr(totalInvoiced),
+        totalSpendCr,
+        complianceScore: `${complianceScore.toFixed(1)}%`,
+        savingsAchieved: fmtL(totalSavings),
+        paymentEfficiency: `${paymentEfficiencyPct}%`,
+        totalVendorsTrend: `${activeVendors} active • ${pendingVendors} pending`,
+        activeContractsTrend: `${contracts.length} total contract(s)`,
+        totalSpendTrend: `${invoices.length} invoices processed`,
+        complianceTrend: complianceScore >= 90 ? 'Excellent adherence' : complianceScore >= 75 ? 'Good adherence' : 'Needs attention',
+        savingsTrend: `${fmtL(totalSavings)} retained`,
+        efficiencyTrend: `${completedPayments}/${payments.length} payments cleared`,
+      },
+      vendorStatus,
+      riskDistribution,
+      spendByCategory,
+      spendComparison,
+      savingsTrend,
+      categoryMetrics,
+      vendorPerformance: {
+        avgSlaScore: `${avgSla.toFixed(1)}%`,
+        delayedDeliveries,
+        qualityIndex: `${avgQuality.toFixed(1)}%`,
+        slaScoreTrend: `${scorecards.length} vendors scored`,
+        radarData,
+        categorySLA,
+        scorecards,
+      },
+      aiInsights: {
+        spendProjection: fmtCr(totalInvoiced * 1.1),
+        slaFailureWarnings: highRiskContracts,
+        contractChurnWarnings: upcomingRenewals,
+        spendForecast,
+        recommendations,
+      },
+    });
   } catch (error) { res.status(500).json({ error: error.message }); }
 });
 

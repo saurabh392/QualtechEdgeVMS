@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, AlertTriangle, ShieldAlert, Award, ChevronLeft, Zap } from 'lucide-react';
+import axios from 'axios';
+import { Sparkles, AlertTriangle, ShieldAlert, Award, ChevronLeft, Zap, Loader2 } from 'lucide-react';
 import {
   ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip as RechartsTooltip, PieChart, Pie, Cell
@@ -8,25 +9,66 @@ import {
 import { Card } from '../../components/Card/Card';
 import { Badge } from '../../components/Badge/Badge';
 import styles from './AIInsights.module.css';
-import reportData from '../../../server/data/reports/reports-mis.json';
 
-const insights = reportData.aiInsights;
+interface Recommendation { id: string; type: string; title: string; description: string; action: string; impact: string; priority: string; }
+interface AiInsights {
+  spendProjection: string;
+  slaFailureWarnings: number;
+  contractChurnWarnings: number;
+  spendForecast: { name: string; actual: number | null; projected: number | null }[];
+  recommendations: Recommendation[];
+}
+interface MisData {
+  aiInsights: AiInsights;
+  riskDistribution: { name: string; value: number; color: string }[];
+}
 
 const priorityVariant = (p: string): 'danger' | 'warning' | 'default' =>
   p === 'High' ? 'danger' : p === 'Medium' ? 'warning' : 'default';
 
-const typeIcon = (t: string) => {
-  switch (t) {
-    case 'savings':    return <Award size={18} className={styles.iconGreen} />;
-    case 'warning':    return <AlertTriangle size={18} className={styles.iconAmber} />;
-    case 'compliance': return <ShieldAlert size={18} className={styles.iconRed} />;
-    case 'opportunity':return <Sparkles size={18} className={styles.iconBlue} />;
-    default:           return <Zap size={18} className={styles.iconBlue} />;
-  }
-};
-
 export const AIInsights: React.FC = () => {
   const navigate = useNavigate();
+  const [data, setData] = useState<MisData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    axios.get('/api/reports/mis')
+      .then(r => setData(r.data))
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const typeIcon = (t: string) => {
+    switch (t) {
+      case 'savings':    return <Award size={18} className={styles.iconGreen} />;
+      case 'warning':    return <AlertTriangle size={18} className={styles.iconAmber} />;
+      case 'compliance': return <ShieldAlert size={18} className={styles.iconRed} />;
+      case 'opportunity':return <Sparkles size={18} className={styles.iconBlue} />;
+      default:           return <Zap size={18} className={styles.iconBlue} />;
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, padding: '64px 24px', color: 'var(--color-text-secondary)' }}>
+          <Loader2 size={28} style={{ animation: 'spin 1s linear infinite' }} /> Loading AI insights…
+        </div>
+      </div>
+    );
+  }
+  if (error || !data) {
+    return (
+      <div className={styles.container}>
+        <div style={{ textAlign: 'center', padding: '64px 24px', color: 'var(--color-text-secondary)' }}>
+          Unable to load AI insights. Please try again later.
+        </div>
+      </div>
+    );
+  }
+
+  const insights = data.aiInsights;
 
   return (
     <div className={styles.container}>
@@ -90,8 +132,8 @@ export const AIInsights: React.FC = () => {
           <div className={styles.pieWrapper}>
             <ResponsiveContainer width="100%" height={180}>
               <PieChart>
-                <Pie data={reportData.riskDistribution} innerRadius={50} outerRadius={80} paddingAngle={2} dataKey="value">
-                  {reportData.riskDistribution.map((entry, idx) => (
+                <Pie data={data.riskDistribution} innerRadius={50} outerRadius={80} paddingAngle={2} dataKey="value">
+                  {data.riskDistribution.map((entry, idx) => (
                     <Cell key={idx} fill={entry.color} />
                   ))}
                 </Pie>
@@ -99,7 +141,7 @@ export const AIInsights: React.FC = () => {
               </PieChart>
             </ResponsiveContainer>
             <div className={styles.pieLegend}>
-              {reportData.riskDistribution.map(item => (
+              {data.riskDistribution.map(item => (
                 <div key={item.name} className={styles.legendItem}>
                   <span className={styles.legendDot} style={{ background: item.color }} />
                   <span className={styles.legendName}>{item.name}</span>

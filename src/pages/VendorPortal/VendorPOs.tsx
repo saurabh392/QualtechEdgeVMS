@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   Package, Search, CheckCircle, ChevronRight, X,
   Calendar, Tag, Building2, CreditCard, Clock, FileCheck,
-  ShoppingCart, Hourglass, Truck, FileText
+  ShoppingCart, Hourglass, Truck, FileText, Filter
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useVendorPOs, useAcknowledgePO } from '../../hooks/useVendorPortal';
@@ -24,6 +24,8 @@ export const VendorPOs: React.FC = () => {
   const [search, setSearch] = useState('');
   const [activeTab, setActiveTab] = useState<'All' | 'Pending' | 'Acknowledged' | 'Invoiced'>('All');
   const [selectedPO, setSelectedPO] = useState<(typeof pos)[0] | null>(null);
+  const [categoryFilter, setCategoryFilter] = useState('All');
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const counts = {
     All:          pos.length,
@@ -39,6 +41,8 @@ export const VendorPOs: React.FC = () => {
     { key: 'Invoiced',     label: 'Invoiced',           icon: <FileText size={16} />,     bg: '#f3e8ff', color: '#8b5cf6', sub: 'Invoice submitted' },
   ];
 
+  const activeFilterCount = [categoryFilter !== 'All'].filter(Boolean).length;
+
   const filtered = pos.filter(p => {
     const q = search.toLowerCase();
     const matchesSearch = !q ||
@@ -53,7 +57,9 @@ export const VendorPOs: React.FC = () => {
       activeTab === 'Acknowledged' ? (p.status === 'Acknowledged' || p.status === 'Delivered') :
       activeTab === 'Invoiced' ? p.status === 'Invoiced' : true;
 
-    return matchesSearch && matchesTab;
+    const matchesCategory = categoryFilter === 'All' || (p.category || '') === categoryFilter;
+
+    return matchesSearch && matchesTab && matchesCategory;
   });
 
   const handleAcknowledge = (poId: string) => {
@@ -90,16 +96,6 @@ export const VendorPOs: React.FC = () => {
             {pos.length} total &mdash; {pos.filter(p => p.status.startsWith('Pending')).length} pending acknowledgement
           </div>
         </div>
-        <div style={{ position: 'relative' }}>
-          <Search size={14} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-tertiary)', pointerEvents: 'none' }} />
-          <input
-            className={s.input}
-            style={{ paddingLeft: 30, width: 220 }}
-            placeholder="Search PO, category…"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
-        </div>
       </div>
 
       {/* KPI Cards */}
@@ -125,7 +121,48 @@ export const VendorPOs: React.FC = () => {
 
       <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
         {/* PO List */}
-        <div className={s.card} style={{ flex: 1, minWidth: 0 }}>
+        <div className={s.tableCard} style={{ flex: 1, minWidth: 0 }}>
+          {/* Search & Filter Toolbar */}
+          <div className={s.vendorToolbar}>
+            <div className={s.searchWrap}>
+              <Search size={14} className={s.searchIcon} />
+              <input
+                type="text"
+                placeholder="Search PO ID, category, description..."
+                className={s.searchInput}
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+              />
+            </div>
+            <button className={s.filterBtn} onClick={() => setFiltersOpen(v => !v)}>
+              <Filter size={14} /> Filters
+              {activeFilterCount > 0 && <span className={s.filterBadge}>{activeFilterCount}</span>}
+            </button>
+          </div>
+
+          {filtersOpen && (
+            <div className={s.filterPanel}>
+              <div className={s.filterPanelRow}>
+                <div className={s.filterGroup}>
+                  <label className={s.filterLabel}>Category</label>
+                  <select className={s.filterSelect} value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)}>
+                    <option value="All">All Categories</option>
+                    <option value="IT Hardware">IT Hardware</option>
+                    <option value="Office Supplies">Office Supplies</option>
+                    <option value="Facility Management">Facility Management</option>
+                    <option value="Professional Services">Professional Services</option>
+                    <option value="Logistics">Logistics</option>
+                  </select>
+                </div>
+                {activeFilterCount > 0 && (
+                  <button className={s.clearFiltersBtn} onClick={() => setCategoryFilter('All')}>
+                    <X size={12} /> Clear Filters
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
           {filtered.length === 0 ? (
             <div className={s.emptyState}>
               <div className={s.emptyIcon}><Package size={28} /></div>

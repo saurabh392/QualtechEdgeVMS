@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Send, RefreshCw, AlertTriangle } from 'lucide-react';
+import { Send, RefreshCw, AlertTriangle, Search, Filter, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
@@ -20,6 +20,10 @@ export const Renewals: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [newExpiryDate, setNewExpiryDate] = useState('2029-05-31');
   const [renewLoading, setRenewLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('All');
+  const [typeFilter, setTypeFilter] = useState('All');
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const loadRenewals = async () => {
     try {
@@ -118,6 +122,17 @@ export const Renewals: React.FC = () => {
   ];
 
   const expiringCount = renewals.filter(r => r.status === 'Pending').length;
+  const activeFilterCount = [statusFilter !== 'All', typeFilter !== 'All'].filter(Boolean).length;
+
+  const filteredRenewals = renewals.filter(r => {
+    const matchesSearch = !searchTerm ||
+      r.contractId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      r.vendorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      r.owner.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === 'All' || r.status === statusFilter;
+    const matchesType = typeFilter === 'All' || r.contractType === typeFilter;
+    return matchesSearch && matchesStatus && matchesType;
+  });
 
   return (
     <div className={styles.container}>
@@ -139,19 +154,67 @@ export const Renewals: React.FC = () => {
       )}
 
       <Card className={styles.tableCard}>
-        <div className={styles.tableHeader}>
-          <h3>Contract Renewal Pipeline</h3>
+        <div className={styles.tableToolbar}>
+          <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#0b1f5f' }}>Contract Renewal Pipeline</h3>
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <div className={styles.searchWrap}>
+              <Search size={14} className={styles.searchIcon} />
+              <input
+                type="text"
+                placeholder="Search contracts, vendors..."
+                className={styles.searchInput}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <button className={styles.filterBtn} onClick={() => setFiltersOpen(v => !v)}>
+              <Filter size={14} /> Filters
+              {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
+            </button>
+          </div>
         </div>
+
+        {filtersOpen && (
+          <div className={styles.filterPanel}>
+            <div className={styles.filterPanelRow}>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Status</label>
+                <select className={styles.filterSelect} value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                  <option value="All">All Statuses</option>
+                  <option value="Pending">Pending</option>
+                  <option value="In Review">In Review</option>
+                  <option value="Auto-Renew">Auto-Renew</option>
+                  <option value="Renewed">Renewed</option>
+                </select>
+              </div>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Contract Type</label>
+                <select className={styles.filterSelect} value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
+                  <option value="All">All Types</option>
+                  <option value="Annual">Annual</option>
+                  <option value="Multi-Year">Multi-Year</option>
+                  <option value="Service">Service</option>
+                  <option value="Supply">Supply</option>
+                </select>
+              </div>
+              {activeFilterCount > 0 && (
+                <button className={styles.clearFiltersBtn} onClick={() => { setStatusFilter('All'); setTypeFilter('All'); }}>
+                  <X size={12} /> Clear Filters
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
         {loading ? (
           <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>
             Loading expiring contracts list...
           </div>
         ) : (
-          <DataTable 
-            columns={columns} 
-            data={renewals} 
-            keyExtractor={(row) => row.contractId} 
+          <DataTable
+            columns={columns}
+            data={filteredRenewals}
+            keyExtractor={(row) => row.contractId}
           />
         )}
       </Card>

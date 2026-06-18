@@ -248,6 +248,13 @@
 }
 
 /* Avatar */
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+}
+
 .avatar {
   width: 34px;
   height: 34px;
@@ -259,7 +266,24 @@
   font-size: 12px;
   font-weight: 800;
   color: white;
-  cursor: pointer;
   flex-shrink: 0;
-  margin-left: 4px;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.userName {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.userRole {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
 }

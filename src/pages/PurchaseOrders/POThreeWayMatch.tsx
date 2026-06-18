@@ -17,7 +17,6 @@ import type {
   GRNRecord
 } from '../../services/purchaseOrderService';
 import styles from './POThreeWayMatch.module.css';
-import pStyles from '../Payments/PaymentDashboard.module.css';
 
 export const POThreeWayMatch: React.FC = () => {
   const [matches, setMatches] = useState<MatchRecord[]>([]);
@@ -191,39 +190,40 @@ export const POThreeWayMatch: React.FC = () => {
       </header>
 
       <Card className={styles.tableCard}>
-        <div className={pStyles.tableToolbar}>
-          <div className={pStyles.searchWrap}>
-            <Search size={16} className={pStyles.searchIcon} />
-            <input type="text" placeholder="Search Match ID, PO number, invoice..." className={pStyles.searchInput} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+        <div className={styles.tableToolbar}>
+          <div className={styles.searchWrap}>
+            <Search size={14} className={styles.searchIcon} />
+            <input type="text" placeholder="Search Match ID, PO number, invoice..." className={styles.searchInput} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
           </div>
-          <div className={pStyles.toolbarActions}>
-            <Button variant={showFilters || activeFilterCount > 0 ? 'primary' : 'ghost'} icon={<Filter size={16} />} onClick={() => setShowFilters(f => !f)}>
-              Filters{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
-            </Button>
-            <Button variant="outline" icon={<Download size={16} />}>Export</Button>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <button className={styles.filterBtn} onClick={() => setShowFilters(f => !f)}>
+              <Filter size={14} /> Filters
+              {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
+            </button>
+            <Button variant="outline" size="sm" icon={<Download size={14} />}>Export</Button>
           </div>
         </div>
 
         {showFilters && (
-          <div className={pStyles.filterPanel}>
-            <div className={pStyles.filterGrid}>
-              <div className={pStyles.filterGroup}>
-                <label className={pStyles.filterLabel}>Match Status</label>
-                <select className={pStyles.filterSelect} value={filterMatchStatus} onChange={e => setFilterMatchStatus(e.target.value)}>
+          <div className={styles.filterPanel}>
+            <div className={styles.filterPanelRow}>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Match Status</label>
+                <select className={styles.filterSelect} value={filterMatchStatus} onChange={e => setFilterMatchStatus(e.target.value)}>
                   <option value="">All Statuses</option>
                   {['Matched', 'Partial Match', 'Mismatch', 'Pending'].map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
-              <div className={pStyles.filterGroup}>
-                <label className={pStyles.filterLabel}>Min Invoice Amount (₹)</label>
-                <input type="number" className={pStyles.filterInput} placeholder="e.g. 10000" value={filterAmountMin} onChange={e => setFilterAmountMin(e.target.value)} />
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Min Invoice Amount (₹)</label>
+                <input type="number" className={styles.filterSelect} placeholder="e.g. 10000" value={filterAmountMin} onChange={e => setFilterAmountMin(e.target.value)} />
               </div>
-              <div className={pStyles.filterGroup}>
-                <label className={pStyles.filterLabel}>Max Invoice Amount (₹)</label>
-                <input type="number" className={pStyles.filterInput} placeholder="e.g. 500000" value={filterAmountMax} onChange={e => setFilterAmountMax(e.target.value)} />
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Max Invoice Amount (₹)</label>
+                <input type="number" className={styles.filterSelect} placeholder="e.g. 500000" value={filterAmountMax} onChange={e => setFilterAmountMax(e.target.value)} />
               </div>
+              {activeFilterCount > 0 && <button className={styles.clearFiltersBtn} onClick={clearFilters}><X size={12} /> Clear Filters</button>}
             </div>
-            {activeFilterCount > 0 && <button className={pStyles.clearFiltersBtn} onClick={clearFilters}>Clear all filters</button>}
           </div>
         )}
 

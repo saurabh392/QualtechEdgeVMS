@@ -47,6 +47,7 @@ export const PaymentApprovals: React.FC = () => {
 
   const selectedBatch = batches.find(b => b.batchId === selectedBatchId);
 
+
   const handleApprove = async () => {
     if (!selectedBatch) return;
     try {

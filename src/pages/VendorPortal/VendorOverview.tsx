@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import {
   Clock, CheckCircle, AlertTriangle, HelpCircle, ArrowRight, Bell,
   Package, FileText, ShieldAlert, MessageSquare, User,
-  CheckSquare, Zap, ShieldCheck, ChevronRight,
+  CheckSquare, Zap, ShieldCheck, ChevronRight, CreditCard,
+  Search, Filter, X,
 } from 'lucide-react';
 import {
   useVendorDashboard, useVendorPOs, useVendorDocuments,
@@ -164,6 +165,9 @@ const ALERT_STYLES: Record<SmartAlert['level'], { bg: string; border: string; ic
 export const VendorOverview: React.FC = () => {
   const navigate = useNavigate();
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [poSearch, setPoSearch] = useState('');
+  const [poStatusFilter, setPoStatusFilter] = useState('All');
+  const [poFiltersOpen, setPoFiltersOpen] = useState(false);
 
   const { data: profile }                      = useVendorProfile();
   const { data: stats,  isLoading: statsLoading } = useVendorDashboard();
@@ -246,19 +250,19 @@ export const VendorOverview: React.FC = () => {
             onClick={() => navigate('/vendor/invoices')}
           />
 
-          {/* Compliance Health */}
+          {/* Payments */}
           <KpiCard
-            icon={<ShieldCheck size={22} />}
-            iconBg={complianceHealthy ? 'var(--color-success-bg)' : 'var(--color-danger-bg)'}
-            iconColor={complianceHealthy ? 'var(--color-success)' : 'var(--color-danger)'}
-            label="Compliance Health"
-            value={complianceHealthy ? 'All Good' : `${complianceIssues} Issue${complianceIssues > 1 ? 's' : ''}`}
-            sub={complianceHealthy ? 'All documents valid' : `${expiredDocs} expired · ${rejectedDocs} rejected`}
-            badge={complianceIssues > 0 ? { count: complianceIssues, color: 'var(--color-danger)', label: 'need attention' } : undefined}
+            icon={<CreditCard size={22} />}
+            iconBg="#f3e8ff"
+            iconColor="#7c3aed"
+            label="Payments"
+            value={stats?.paidInvoices ?? 0}
+            sub="Total payments received"
+            onClick={() => navigate('/vendor/payments')}
           />
 
           {/* Compliance Documents */}
-          <KpiCard
+          {/* <KpiCard
             icon={<FileText size={22} />}
             iconBg="var(--color-info-bg)"
             iconColor="var(--color-info)"
@@ -266,7 +270,7 @@ export const VendorOverview: React.FC = () => {
             value={totalDocs}
             sub={`${verifiedDocs} verified · ${pendingDocs} pending`}
             badge={pendingDocs > 0 ? { count: pendingDocs, color: '#d97706', label: 'under review' } : undefined}
-          />
+          /> */}
 
         </div>
 
@@ -301,7 +305,7 @@ export const VendorOverview: React.FC = () => {
         </div>
 
         {/* ── POs + Docs ────────────────────────────────────────────────── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr' }}>
 
           {/* Recent POs */}
           <div className={s.card}>
@@ -309,6 +313,47 @@ export const VendorOverview: React.FC = () => {
               <div className={s.cardTitle}><Package size={16} /> Latest Purchase Orders</div>
               <button className={s.btnGhost} onClick={() => navigate('/vendor/purchase-orders')}>View All <ArrowRight size={13} /></button>
             </div>
+
+            {/* Search & Filter Toolbar */}
+            <div className={s.vendorToolbar} style={{ padding: '12px 0', borderBottom: 'none' }}>
+              <div className={s.searchWrap}>
+                <Search size={14} className={s.searchIcon} />
+                <input
+                  type="text"
+                  placeholder="Search by PO ID or status..."
+                  className={s.searchInput}
+                  value={poSearch}
+                  onChange={e => setPoSearch(e.target.value)}
+                />
+              </div>
+              <button className={s.filterBtn} onClick={() => setPoFiltersOpen(v => !v)}>
+                <Filter size={14} /> Filters
+                {poStatusFilter !== 'All' && <span className={s.filterBadge}>1</span>}
+              </button>
+            </div>
+
+            {poFiltersOpen && (
+              <div className={s.filterPanel} style={{ padding: '14px 0', borderBottom: 'none' }}>
+                <div className={s.filterPanelRow}>
+                  <div className={s.filterGroup}>
+                    <label className={s.filterLabel}>Status</label>
+                    <select className={s.filterSelect} value={poStatusFilter} onChange={e => setPoStatusFilter(e.target.value)}>
+                      <option value="All">All Statuses</option>
+                      <option value="Pending Acknowledgement">Pending Acknowledgement</option>
+                      <option value="Acknowledged">Acknowledged</option>
+                      <option value="Delivered">Delivered</option>
+                      <option value="Invoiced">Invoiced</option>
+                    </select>
+                  </div>
+                  {poStatusFilter !== 'All' && (
+                    <button className={s.clearFiltersBtn} onClick={() => setPoStatusFilter('All')}>
+                      <X size={12} /> Clear
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+
             {pos.length === 0 ? (
               <div className={s.emptyState}>
                 <div className={s.emptyIcon}><Package size={24} /></div>
@@ -320,7 +365,12 @@ export const VendorOverview: React.FC = () => {
                 <table className={s.table}>
                   <thead><tr><th>PO Ref</th><th>Date</th><th>Value</th><th>Status</th><th>Action</th></tr></thead>
                   <tbody>
-                    {pos.slice(0, 5).map(po => (
+                    {pos.filter(po => {
+                      const q = poSearch.toLowerCase();
+                      const matchSearch = !q || po.poId.toLowerCase().includes(q) || po.status.toLowerCase().includes(q);
+                      const matchStatus = poStatusFilter === 'All' || po.status === poStatusFilter;
+                      return matchSearch && matchStatus;
+                    }).slice(0, 5).map(po => (
                       <tr key={po.poId}>
                         <td style={{ fontWeight: 600, fontSize: 12 }}>{po.poId}</td>
                         <td>{po.issueDate}</td>
@@ -350,73 +400,7 @@ export const VendorOverview: React.FC = () => {
               </div>
             )}
           </div>
-
-          {/* Compliance Documents */}
-          <div className={s.card}>
-            <div className={s.cardHeader}>
-              <div className={s.cardTitle}><FileText size={16} /> Compliance Documents</div>
-              <button className={s.btnGhost} onClick={() => navigate('/vendor/documents')}>Manage <ArrowRight size={13} /></button>
-            </div>
-
-            {/* Mini stats bar */}
-            {docs.length > 0 && (
-              <div style={{
-                display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap',
-              }}>
-                {[
-                  { label: 'Verified',  count: verifiedDocs,  color: 'var(--color-success)',  bg: 'var(--color-success-bg)' },
-                  { label: 'Pending',   count: pendingDocs,   color: '#d97706',               bg: '#fef3c7' },
-                  { label: 'Expired',   count: expiredDocs,   color: 'var(--color-danger)',   bg: 'var(--color-danger-bg)' },
-                  { label: 'Rejected',  count: rejectedDocs,  color: 'var(--color-danger)',   bg: 'var(--color-danger-bg)' },
-                ].filter(x => x.count > 0).map(x => (
-                  <span key={x.label} style={{
-                    fontSize: 11, fontWeight: 700, padding: '3px 10px',
-                    borderRadius: 99, background: x.bg, color: x.color,
-                  }}>
-                    {x.count} {x.label}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {docs.length === 0 ? (
-              <div className={s.emptyState}>
-                <div className={s.emptyIcon}><FileText size={24} /></div>
-                <div className={s.emptyTitle}>No documents uploaded</div>
-                <div className={s.emptyText}>Upload compliance documents to get verified.</div>
-              </div>
-            ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-                {docs.map(doc => (
-                  <div
-                    key={doc.documentId}
-                    onClick={() => navigate('/vendor/documents')}
-                    style={{
-                      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                      padding: '10px 12px', border: '1px solid var(--color-border)',
-                      borderRadius: 8, background: 'var(--color-surface-2)',
-                      cursor: 'pointer', transition: 'background 0.15s',
-                      borderLeft: doc.status === 'Expired' || doc.status === 'Rejected'
-                        ? '3px solid var(--color-danger)'
-                        : doc.status === 'Pending'
-                          ? '3px solid #f59e0b'
-                          : '3px solid var(--color-success)',
-                    }}
-                    onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-surface)')}
-                    onMouseLeave={e => (e.currentTarget.style.background = 'var(--color-surface-2)')}
-                  >
-                    <div style={{ minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{doc.documentName}</div>
-                      <div style={{ fontSize: 11, color: 'var(--color-text-tertiary)', marginTop: 2 }}>
-                        {doc.documentType} · Expiry: {doc.expiryDate || 'N/A'}
-                      </div>
-                    </div>
-                    {statusBadge(doc.status)}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          
         </div>
 
         {/* ── Notifications & Alerts panel ──────────────────────────────── */}

@@ -56,6 +56,7 @@ export const InvoiceApprovals: React.FC = () => {
 
   const selectedInvoice = invoices.find(i => i.invoiceId === selectedId);
 
+
   const handleApprove = async () => {
     if (!selectedId) return;
     try {

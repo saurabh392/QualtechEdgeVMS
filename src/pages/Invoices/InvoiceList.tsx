@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Download, Eye, MoreVertical, Search, Filter } from 'lucide-react';
+import { Plus, Download, Eye, MoreVertical, Search, Filter, X } from 'lucide-react';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { DataTable } from '../../components/DataTable/DataTable';
 import styles from './InvoiceList.module.css';
-import pStyles from '../Payments/PaymentDashboard.module.css';
 
 // Mock Data for Invoices List
 const invoiceData = [
@@ -102,46 +101,53 @@ export const InvoiceList: React.FC = () => {
           <div className={styles.tab}>Paid (488)</div>
         </div>
 
-        <div className={pStyles.tableToolbar}>
-          <div className={pStyles.searchWrap}>
-            <Search size={16} className={pStyles.searchIcon} />
-            <input type="text" placeholder="Search invoice number, vendor, PO ref..." className={pStyles.searchInput} value={search} onChange={e => setSearch(e.target.value)} />
+        <div className={styles.tableToolbar}>
+          <div className={styles.searchWrap}>
+            <Search size={14} className={styles.searchIcon} />
+            <input type="text" placeholder="Search invoice number, vendor, PO ref..." className={styles.searchInput} value={search} onChange={e => setSearch(e.target.value)} />
           </div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            <select className={styles.filterSelect} value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
-              <option value="">Status: All</option>
-              {['Draft', 'Pending Match', 'Approved', 'Paid', 'Exception', 'Rejected'].map(s => <option key={s} value={s}>{s}</option>)}
-            </select>
-            <select className={styles.filterSelect} value={filterRisk} onChange={e => setFilterRisk(e.target.value)}>
-              <option value="">Risk: All</option>
-              <option value="Low">Low Risk</option>
-              <option value="Medium">Medium Risk</option>
-              <option value="High">High Risk</option>
-            </select>
-            <Button variant={showFilters || activeFilterCount > 0 ? 'primary' : 'ghost'} icon={<Filter size={16} />} onClick={() => setShowFilters(f => !f)}>
-              More Filters{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
-            </Button>
-            <Button variant="outline" icon={<Download size={16} />}>Export</Button>
+            <button className={styles.filterBtn} onClick={() => setShowFilters(f => !f)}>
+              <Filter size={14} /> Filters
+              {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
+            </button>
+            <Button variant="outline" size="sm" icon={<Download size={14} />}>Export</Button>
           </div>
         </div>
 
         {showFilters && (
-          <div className={pStyles.filterPanel}>
-            <div className={pStyles.filterGrid}>
-              <div className={pStyles.filterGroup}>
-                <label className={pStyles.filterLabel}>Vendor Name</label>
-                <input type="text" className={pStyles.filterInput} placeholder="Filter by vendor..." value={filterVendor} onChange={e => setFilterVendor(e.target.value)} />
+          <div className={styles.filterPanel}>
+            <div className={styles.filterPanelRow}>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Status</label>
+                <select className={styles.filterSelect} value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
+                  <option value="">All Statuses</option>
+                  {['Draft', 'Pending Match', 'Approved', 'Paid', 'Exception', 'Rejected'].map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
               </div>
-              <div className={pStyles.filterGroup}>
-                <label className={pStyles.filterLabel}>Created Date From</label>
-                <input type="date" className={pStyles.filterInput} value={filterDateFrom} onChange={e => setFilterDateFrom(e.target.value)} />
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Risk Level</label>
+                <select className={styles.filterSelect} value={filterRisk} onChange={e => setFilterRisk(e.target.value)}>
+                  <option value="">All Risks</option>
+                  <option value="Low">Low Risk</option>
+                  <option value="Medium">Medium Risk</option>
+                  <option value="High">High Risk</option>
+                </select>
               </div>
-              <div className={pStyles.filterGroup}>
-                <label className={pStyles.filterLabel}>Created Date To</label>
-                <input type="date" className={pStyles.filterInput} value={filterDateTo} onChange={e => setFilterDateTo(e.target.value)} />
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Vendor Name</label>
+                <input type="text" className={styles.filterSelect} placeholder="Filter by vendor..." value={filterVendor} onChange={e => setFilterVendor(e.target.value)} />
               </div>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Date From</label>
+                <input type="date" className={styles.filterSelect} value={filterDateFrom} onChange={e => setFilterDateFrom(e.target.value)} />
+              </div>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Date To</label>
+                <input type="date" className={styles.filterSelect} value={filterDateTo} onChange={e => setFilterDateTo(e.target.value)} />
+              </div>
+              {activeFilterCount > 0 && <button className={styles.clearFiltersBtn} onClick={clearFilters}><X size={12} /> Clear Filters</button>}
             </div>
-            {activeFilterCount > 0 && <button className={pStyles.clearFiltersBtn} onClick={clearFilters}>Clear all filters</button>}
           </div>
         )}
 

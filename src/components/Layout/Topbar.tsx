@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Search, Bell, ChevronDown, Sun, Moon, Menu, CheckCheck, X, Users, FileText, ClipboardCheck, Trash2 } from 'lucide-react';
+import { Search, Bell, Sun, Moon, Menu, CheckCheck, X, Users, FileText, ClipboardCheck, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
@@ -326,7 +326,6 @@ export const Topbar: React.FC<Props> = ({ onMobileMenuToggle }) => {
             <span className={styles.userName}>{user?.fullName || 'Admin'}</span>
             <span className={styles.userRole}>{user ? formattedRole(user.role) : 'Administrator'}</span>
           </div>
-          <ChevronDown size={16} className={styles.chevron} />
         </div>
       </div>
     </header>

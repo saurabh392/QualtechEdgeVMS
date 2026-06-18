@@ -281,10 +281,10 @@ export const DocumentApprovals: React.FC = () => {
           </div>
           <div className={styles.searchBox}>
             <Search size={16} className={styles.searchIcon} />
-            <input 
-              type="text" 
-              placeholder="Search documents..." 
-              className={styles.searchInput} 
+            <input
+              type="text"
+              placeholder="Search documents..."
+              className={styles.searchInput}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />

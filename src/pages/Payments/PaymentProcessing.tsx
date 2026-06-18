@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, CheckCircle2, Bot, Check, AlertTriangle, Calendar } from 'lucide-react';
+import { ChevronLeft, CheckCircle2, Bot, Check, AlertTriangle, Calendar, Search, Filter, X } from 'lucide-react';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
@@ -26,6 +26,9 @@ export const PaymentProcessing: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [invoiceSearch, setInvoiceSearch] = useState('');
+  const [typeFilter, setTypeFilter] = useState('All');
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   React.useEffect(() => {
     if (!hasActionPermission('RELEASE_PAYMENT')) {
@@ -109,6 +112,44 @@ export const PaymentProcessing: React.FC = () => {
         {currentStep === 1 && (
           <Card className={styles.formCard}>
             <h3 className={styles.formTitle}>Select Approved Invoices for Disbursement</h3>
+
+            {/* Search + Filter toolbar */}
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 12 }}>
+              <div className={styles.searchWrap}>
+                <Search size={14} className={styles.searchIcon} />
+                <input
+                  type="text"
+                  placeholder="Search invoice or vendor..."
+                  className={styles.searchInput}
+                  value={invoiceSearch}
+                  onChange={e => setInvoiceSearch(e.target.value)}
+                />
+              </div>
+              <button className={styles.filterBtn} onClick={() => setFiltersOpen(v => !v)}>
+                <Filter size={14} /> Filters
+                {typeFilter !== 'All' && <span className={styles.filterBadge}>1</span>}
+              </button>
+            </div>
+            {filtersOpen && (
+              <div className={styles.filterPanel} style={{ marginBottom: 12 }}>
+                <div className={styles.filterPanelRow}>
+                  <div className={styles.filterGroup}>
+                    <label className={styles.filterLabel}>Vendor Type</label>
+                    <select className={styles.filterSelect} value={typeFilter} onChange={e => setTypeFilter(e.target.value)}>
+                      <option value="All">All Types</option>
+                      <option value="MSME">MSME</option>
+                      <option value="Non-MSME">Non-MSME</option>
+                    </select>
+                  </div>
+                  {typeFilter !== 'All' && (
+                    <button className={styles.clearFiltersBtn} onClick={() => setTypeFilter('All')}>
+                      <X size={12} /> Clear
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+
             <div className={styles.payableList}>
               <div className={styles.listHeaderRow}>
                 <span>Select</span>
@@ -118,7 +159,12 @@ export const PaymentProcessing: React.FC = () => {
                 <span>Due Date</span>
                 <span>Type</span>
               </div>
-              {mockPayables.map(payable => (
+              {mockPayables.filter(p => {
+                const q = invoiceSearch.toLowerCase();
+                const matchSearch = !q || p.id.toLowerCase().includes(q) || p.vendor.toLowerCase().includes(q);
+                const matchType = typeFilter === 'All' || p.type === typeFilter;
+                return matchSearch && matchType;
+              }).map(payable => (
                 <div key={payable.id} className={styles.payableRow}>
                   <input type="checkbox" defaultChecked={payable.selected} className={styles.checkbox} />
                   <span className={styles.payableId}>{payable.id}</span>

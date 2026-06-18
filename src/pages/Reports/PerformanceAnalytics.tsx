@@ -1,22 +1,65 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Download, Award, ShieldAlert, Star, ChevronLeft } from 'lucide-react';
+import axios from 'axios';
+import { Award, ShieldAlert, Star, ChevronLeft, Loader2 } from 'lucide-react';
 import {
   ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar,
   Tooltip as RechartsTooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend,
   LineChart, Line
 } from 'recharts';
 import { Card } from '../../components/Card/Card';
-import { Button } from '../../components/Button/Button';
 import { Badge } from '../../components/Badge/Badge';
 import styles from './PerformanceAnalytics.module.css';
-import reportData from '../../../server/data/reports/reports-mis.json';
 
-const perf = reportData.vendorPerformance;
+interface VendorPerf {
+  avgSlaScore: string;
+  delayedDeliveries: number;
+  qualityIndex: string;
+  slaScoreTrend: string;
+  radarData: { subject: string; score: number; fullMark: number }[];
+  categorySLA: { category: string; sla: number }[];
+  scorecards: { vendorId: string; name: string; category: string; sla: string; quality: string; delivery: string; risk: string }[];
+}
+interface MisData {
+  vendorPerformance: VendorPerf;
+  spendComparison: { month: string; budget: number; actual: number }[];
+  savingsTrend: { month: string; savings: number }[];
+}
 
 export const PerformanceAnalytics: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'scorecard' | 'radar' | 'spend'>('scorecard');
+  const [data, setData] = useState<MisData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    axios.get('/api/reports/mis')
+      .then(r => setData(r.data))
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, padding: '64px 24px', color: 'var(--color-text-secondary)' }}>
+          <Loader2 size={28} style={{ animation: 'spin 1s linear infinite' }} /> Loading performance data…
+        </div>
+      </div>
+    );
+  }
+  if (error || !data) {
+    return (
+      <div className={styles.container}>
+        <div style={{ textAlign: 'center', padding: '64px 24px', color: 'var(--color-text-secondary)' }}>
+          Unable to load performance data. Please try again later.
+        </div>
+      </div>
+    );
+  }
+
+  const perf = data.vendorPerformance;
 
   return (
     <div className={styles.container}>
@@ -142,7 +185,7 @@ export const PerformanceAnalytics: React.FC = () => {
           <div className={styles.chartArea}>
             <h4 className={styles.chartSubTitle}>Budget vs Actual Spend (₹ Cr)</h4>
             <ResponsiveContainer width="100%" height={280}>
-              <BarChart data={reportData.spendComparison} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+              <BarChart data={data.spendComparison} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                 <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#64748b' }} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#64748b' }} />
@@ -155,7 +198,7 @@ export const PerformanceAnalytics: React.FC = () => {
             <div className={styles.savingsTrendWrap}>
               <h4 className={styles.chartSubTitle} style={{ marginTop: 24 }}>Monthly Cost Savings Trend (₹ L)</h4>
               <ResponsiveContainer width="100%" height={200}>
-                <LineChart data={reportData.savingsTrend} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <LineChart data={data.savingsTrend} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                   <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#64748b' }} />
                   <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#64748b' }} />

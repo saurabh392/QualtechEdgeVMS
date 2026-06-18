@@ -17,7 +17,6 @@ import type {
   UploadedDocument
 } from '../../services/purchaseOrderService';
 import styles from './POReceipt.module.css';
-import pStyles from '../Payments/PaymentDashboard.module.css';
 
 export const POReceipt: React.FC = () => {
   const [grns, setGrns] = useState<GRNRecord[]>([]);
@@ -185,38 +184,43 @@ export const POReceipt: React.FC = () => {
       </header>
 
       <Card className={styles.tableCard}>
-        <div className={pStyles.tableToolbar}>
-          <div className={pStyles.searchWrap}>
-            <Search size={16} className={pStyles.searchIcon} />
-            <input type="text" placeholder="Search GRN, PO number, vendor..." className={pStyles.searchInput} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+        <div className={styles.tableToolbar}>
+          <div className={styles.searchWrap}>
+            <Search size={14} className={styles.searchIcon} />
+            <input type="text" placeholder="Search GRN, PO number, vendor..." className={styles.searchInput} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
           </div>
-          <div className={pStyles.toolbarActions}>
-            <Button variant={showFilters || activeFilterCount > 0 ? 'primary' : 'ghost'} icon={<Filter size={16} />} onClick={() => setShowFilters(f => !f)}>
-              Filters{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
-            </Button>
-            <Button variant="outline" icon={<Download size={16} />}>Export</Button>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <button className={styles.filterBtn} onClick={() => setShowFilters(f => !f)}>
+              <Filter size={14} /> Filters
+              {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
+            </button>
+            <Button variant="outline" size="sm" icon={<Download size={14} />}>Export</Button>
           </div>
         </div>
 
         {showFilters && (
-          <div className={pStyles.filterPanel}>
-            <div className={pStyles.filterGrid}>
-              <div className={pStyles.filterGroup}>
-                <label className={pStyles.filterLabel}>Delivery Condition</label>
-                <select className={pStyles.filterSelect} value={filterCondition} onChange={e => setFilterCondition(e.target.value)}>
+          <div className={styles.filterPanel}>
+            <div className={styles.filterPanelRow}>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Delivery Condition</label>
+                <select className={styles.filterSelect} value={filterCondition} onChange={e => setFilterCondition(e.target.value)}>
                   <option value="">All Conditions</option>
                   {['Excellent', 'Good', 'Needs Work', 'Damaged'].map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
-              <div className={pStyles.filterGroup}>
-                <label className={pStyles.filterLabel}>Receipt Status</label>
-                <select className={pStyles.filterSelect} value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Receipt Status</label>
+                <select className={styles.filterSelect} value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
                   <option value="">All Statuses</option>
                   {['Fully Accepted', 'Partially Accepted', 'Pending', 'Rejected'].map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
+              {activeFilterCount > 0 && (
+                <button className={styles.clearFiltersBtn} onClick={clearFilters}>
+                  <X size={12} /> Clear Filters
+                </button>
+              )}
             </div>
-            {activeFilterCount > 0 && <button className={pStyles.clearFiltersBtn} onClick={clearFilters}>Clear all filters</button>}
           </div>
         )}
 

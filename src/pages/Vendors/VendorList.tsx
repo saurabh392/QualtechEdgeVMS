@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Users, UserCheck, Clock, XCircle, Eye, Edit2, Trash2, Loader2, Play, Shield } from 'lucide-react';
+import { Plus, Users, UserCheck, Clock, XCircle, Eye, Edit2, Trash2, Loader2, Play, Shield, Filter, X } from 'lucide-react';
 import clsx from 'clsx';
 import { toast } from 'sonner';
 import { useVendorFilters } from '../../context/VendorFilterContext';
@@ -23,6 +23,8 @@ export const VendorList: React.FC = () => {
   const filterCategory = filters.category;
   const filterStatus = filters.status;
   const filterDate = filters.date;
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const activeFilterCount = [filterCategory !== 'All', filterStatus !== 'All', filterDate !== ''].filter(Boolean).length;
 
   const handleCardClick = (cardType: 'all' | 'active' | 'pending' | 'rejected') => {
     if (cardType === 'all') {
@@ -313,72 +315,70 @@ export const VendorList: React.FC = () => {
 
       <Card className={styles.tableCard}>
         {/* Table Toolbar Search & Filters */}
-        <div className={styles.tableToolbar} style={{ flexDirection: 'column', alignItems: 'stretch', gap: '16px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div className={styles.searchWrap}>
-              <Input 
-                placeholder="Search vendor name, ID, PAN, GSTIN..." 
-                fullWidth={false} 
-                className={styles.searchInput}
-                value={searchQuery}
-                onChange={(e) => setFilterValue('search', e.target.value)}
-              />
-            </div>
+        <div className={styles.tableToolbar}>
+          <div className={styles.searchWrap}>
+            <Input
+              placeholder="Search vendor name, ID, PAN, GSTIN..."
+              fullWidth={false}
+              className={styles.searchInput}
+              value={searchQuery}
+              onChange={(e) => setFilterValue('search', e.target.value)}
+            />
+          </div>
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <button className={styles.filterBtn} onClick={() => setFiltersOpen(v => !v)}>
+              <Filter size={14} /> Filters
+              {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
+            </button>
             {hasActionPermission('CREATE_VENDOR') && (
               <Button onClick={() => navigate('/vendors/add')} icon={<Plus size={16} />}>
                 Register Vendor
               </Button>
             )}
           </div>
-          <div style={{ display: 'flex', gap: '16px', alignItems: 'center', borderTop: '1px solid var(--color-border)', paddingTop: '16px', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <label style={{ fontSize: '11px', fontWeight: '600', color: 'var(--color-text-secondary)', textTransform: 'uppercase' }}>Category</label>
-              <select 
-                value={filterCategory} 
-                onChange={(e) => setFilterValue('category', e.target.value)} 
-                style={{ padding: '8px 12px', border: '1px solid var(--color-border)', borderRadius: '6px', fontSize: '13px', backgroundColor: '#fff', minWidth: '160px', outline: 'none' }}
-              >
-                <option value="All">All Categories</option>
-                <option value="IT Services">IT Services</option>
-                <option value="Facilities">Facilities</option>
-                <option value="Consulting">Consulting</option>
-                <option value="Supplies">Supplies</option>
-                <option value="Legal">Legal</option>
-              </select>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <label style={{ fontSize: '11px', fontWeight: '600', color: 'var(--color-text-secondary)', textTransform: 'uppercase' }}>Status</label>
-              <select 
-                value={filterStatus} 
-                onChange={(e) => setFilterValue('status', e.target.value)}
-                style={{ padding: '8px 12px', border: '1px solid var(--color-border)', borderRadius: '6px', fontSize: '13px', backgroundColor: '#fff', minWidth: '160px', outline: 'none' }}
-              >
-                <option value="All">All Statuses</option>
-                <option value="Active">Active</option>
-                <option value="Pending Approval">Pending Approval</option>
-                <option value="Rejected">Rejected</option>
-                <option value="Pending Amendment">Pending Amendment</option>
-              </select>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <label style={{ fontSize: '11px', fontWeight: '600', color: 'var(--color-text-secondary)', textTransform: 'uppercase' }}>Registered On/After</label>
-              <input 
-                type="date"
-                value={filterDate}
-                onChange={(e) => setFilterValue('date', e.target.value)}
-                style={{ padding: '7px 12px', border: '1px solid var(--color-border)', borderRadius: '6px', fontSize: '13px', backgroundColor: '#fff', outline: 'none' }}
-              />
-            </div>
-            {(filterCategory !== 'All' || filterStatus !== 'All' || filterDate !== '' || searchQuery !== '') && (
-              <button 
-                onClick={resetFilters}
-                style={{ alignSelf: 'flex-end', padding: '8px 12px', background: 'transparent', border: 'none', color: 'var(--color-danger)', fontSize: '13px', cursor: 'pointer', fontWeight: '600' }}
-              >
-                Clear Filters
-              </button>
-            )}
-          </div>
         </div>
+
+        {filtersOpen && (
+          <div className={styles.filterPanel}>
+            <div className={styles.filterPanelRow}>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Category</label>
+                <select className={styles.filterSelect} value={filterCategory} onChange={(e) => setFilterValue('category', e.target.value)}>
+                  <option value="All">All Categories</option>
+                  <option value="IT Services">IT Services</option>
+                  <option value="Facilities">Facilities</option>
+                  <option value="Consulting">Consulting</option>
+                  <option value="Supplies">Supplies</option>
+                  <option value="Legal">Legal</option>
+                </select>
+              </div>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Status</label>
+                <select className={styles.filterSelect} value={filterStatus} onChange={(e) => setFilterValue('status', e.target.value)}>
+                  <option value="All">All Statuses</option>
+                  <option value="Active">Active</option>
+                  <option value="Pending Approval">Pending Approval</option>
+                  <option value="Rejected">Rejected</option>
+                  <option value="Pending Amendment">Pending Amendment</option>
+                </select>
+              </div>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Registered On/After</label>
+                <input
+                  type="date"
+                  value={filterDate}
+                  onChange={(e) => setFilterValue('date', e.target.value)}
+                  className={styles.filterSelect}
+                />
+              </div>
+              {activeFilterCount > 0 && (
+                <button className={styles.clearFiltersBtn} onClick={resetFilters}>
+                  <X size={12} /> Clear Filters
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
         {loading ? (
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '64px' }}>

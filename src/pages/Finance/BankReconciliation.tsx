@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2, CheckCircle2, LayoutList, CheckCheck, Clock, AlertCircle, Search, Filter, Download } from 'lucide-react';
+import { Loader2, CheckCircle2, LayoutList, CheckCheck, Clock, AlertCircle, Search, Filter, Download, X } from 'lucide-react';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { Badge } from '../../components/Badge/Badge';
 import styles from '../Invoices/InvoiceDashboard.module.css';
-import pStyles from '../Payments/PaymentDashboard.module.css';
 
 interface ReconRecord {
   reconId: string;
@@ -121,40 +120,41 @@ export const BankReconciliation: React.FC = () => {
 
       <Card className={styles.tableCard}>
         {/* Toolbar */}
-        <div className={pStyles.tableToolbar}>
-          <div className={pStyles.searchWrap}>
-            <Search size={16} className={pStyles.searchIcon} />
-            <input type="text" placeholder="Search vendor, recon ID, payment ID or bank ref..." className={pStyles.searchInput} value={search} onChange={e => setSearch(e.target.value)} />
+        <div className={styles.tableToolbar}>
+          <div className={styles.searchWrap}>
+            <Search size={14} className={styles.searchIcon} />
+            <input type="text" placeholder="Search vendor, recon ID, payment ID or bank ref..." className={styles.searchInput} value={search} onChange={e => setSearch(e.target.value)} />
           </div>
-          <div className={pStyles.toolbarActions}>
-            <Button variant={showFilters || activeFilterCount > 0 ? 'primary' : 'ghost'} icon={<Filter size={16} />} onClick={() => setShowFilters(f => !f)}>
-              Filters{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
-            </Button>
-            <Button variant="outline" icon={<Download size={16} />}>Export</Button>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <button className={styles.filterBtn} onClick={() => setShowFilters(f => !f)}>
+              <Filter size={14} /> Filters
+              {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
+            </button>
+            <Button variant="outline" size="sm" icon={<Download size={14} />}>Export</Button>
           </div>
         </div>
 
         {showFilters && (
-          <div className={pStyles.filterPanel}>
-            <div className={pStyles.filterGrid}>
-              <div className={pStyles.filterGroup}>
-                <label className={pStyles.filterLabel}>Bank Date From</label>
-                <input type="date" className={pStyles.filterInput} value={filterDateFrom} onChange={e => setFilterDateFrom(e.target.value)} />
+          <div className={styles.filterPanel}>
+            <div className={styles.filterPanelRow}>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Bank Date From</label>
+                <input type="date" className={styles.filterSelect} value={filterDateFrom} onChange={e => setFilterDateFrom(e.target.value)} />
               </div>
-              <div className={pStyles.filterGroup}>
-                <label className={pStyles.filterLabel}>Bank Date To</label>
-                <input type="date" className={pStyles.filterInput} value={filterDateTo} onChange={e => setFilterDateTo(e.target.value)} />
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Bank Date To</label>
+                <input type="date" className={styles.filterSelect} value={filterDateTo} onChange={e => setFilterDateTo(e.target.value)} />
               </div>
-              <div className={pStyles.filterGroup}>
-                <label className={pStyles.filterLabel}>Min Amount (₹)</label>
-                <input type="number" className={pStyles.filterInput} placeholder="e.g. 10000" value={filterAmountMin} onChange={e => setFilterAmountMin(e.target.value)} />
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Min Amount (₹)</label>
+                <input type="number" className={styles.filterSelect} placeholder="e.g. 10000" value={filterAmountMin} onChange={e => setFilterAmountMin(e.target.value)} />
               </div>
-              <div className={pStyles.filterGroup}>
-                <label className={pStyles.filterLabel}>Max Amount (₹)</label>
-                <input type="number" className={pStyles.filterInput} placeholder="e.g. 500000" value={filterAmountMax} onChange={e => setFilterAmountMax(e.target.value)} />
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Max Amount (₹)</label>
+                <input type="number" className={styles.filterSelect} placeholder="e.g. 500000" value={filterAmountMax} onChange={e => setFilterAmountMax(e.target.value)} />
               </div>
+              {activeFilterCount > 0 && <button className={styles.clearFiltersBtn} onClick={clearFilters}><X size={12} /> Clear Filters</button>}
             </div>
-            {activeFilterCount > 0 && <button className={pStyles.clearFiltersBtn} onClick={clearFilters}>Clear all filters</button>}
           </div>
         )}
 

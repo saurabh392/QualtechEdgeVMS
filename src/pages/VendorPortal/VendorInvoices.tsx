@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Receipt, Plus, X, Calendar, CreditCard, FileText, Percent, Clock, CheckCircle2, XCircle, LayoutList } from 'lucide-react';
+import { Receipt, Plus, X, Calendar, CreditCard, FileText, Percent, Clock, CheckCircle2, XCircle, LayoutList, Search, Filter } from 'lucide-react';
 import { useVendorInvoices, useVendorPOs } from '../../hooks/useVendorPortal';
 import { VendorInvoiceModal } from './VendorInvoiceModal';
 import s from './vendor.module.css';
@@ -47,6 +47,8 @@ export const VendorInvoices: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabKey>('All');
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<VendorInvoice | null>(null);
+  const [stageFilter, setStageFilter] = useState('All');
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const acknowledgedPOs = pos.filter(p => p.status === 'Acknowledged' || p.status === 'Delivered');
 
@@ -58,6 +60,8 @@ export const VendorInvoices: React.FC = () => {
     Rejected: invoices.filter(i => i.verificationStage === 'Rejected').length,
   };
 
+  const activeFilterCount = [stageFilter !== 'All'].filter(Boolean).length;
+
   const filtered = invoices.filter(inv => {
     const q = search.toLowerCase();
     const matchSearch = !q || inv.invoiceId.toLowerCase().includes(q) || (inv.poId || '').toLowerCase().includes(q);
@@ -67,7 +71,8 @@ export const VendorInvoices: React.FC = () => {
       activeTab === 'Approved' ? inv.paymentStatus === 'Approved' :
       activeTab === 'Paid' ? (inv.paymentStatus === 'Paid' || inv.verificationStage === 'Paid') :
       activeTab === 'Rejected' ? inv.verificationStage === 'Rejected' : true;
-    return matchSearch && matchTab;
+    const matchStage = stageFilter === 'All' || inv.verificationStage === stageFilter;
+    return matchSearch && matchTab && matchStage;
   });
 
   if (isLoading) {
@@ -134,7 +139,50 @@ export const VendorInvoices: React.FC = () => {
       
 
       <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-        <div className={s.card} style={{ flex: 1, minWidth: 0 }}>
+        <div className={s.tableCard} style={{ flex: 1, minWidth: 0 }}>
+          {/* Search & Filter Toolbar */}
+          <div className={s.vendorToolbar}>
+            <div className={s.searchWrap}>
+              <Search size={14} className={s.searchIcon} />
+              <input
+                type="text"
+                placeholder="Search by Invoice ID or PO reference..."
+                className={s.searchInput}
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+              />
+            </div>
+            <button className={s.filterBtn} onClick={() => setFiltersOpen(v => !v)}>
+              <Filter size={14} /> Filters
+              {activeFilterCount > 0 && <span className={s.filterBadge}>{activeFilterCount}</span>}
+            </button>
+          </div>
+
+          {filtersOpen && (
+            <div className={s.filterPanel}>
+              <div className={s.filterPanelRow}>
+                <div className={s.filterGroup}>
+                  <label className={s.filterLabel}>Verification Stage</label>
+                  <select className={s.filterSelect} value={stageFilter} onChange={e => setStageFilter(e.target.value)}>
+                    <option value="All">All Stages</option>
+                    <option value="Submitted">Submitted</option>
+                    <option value="Under Review">Under Review</option>
+                    <option value="3-Way Match">3-Way Match</option>
+                    <option value="Finance Approval">Finance Approval</option>
+                    <option value="Payment Processing">Payment Processing</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Rejected">Rejected</option>
+                  </select>
+                </div>
+                {activeFilterCount > 0 && (
+                  <button className={s.clearFiltersBtn} onClick={() => setStageFilter('All')}>
+                    <X size={12} /> Clear Filters
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
           {filtered.length === 0 ? (
             <div className={s.emptyState}>
               <div className={s.emptyIcon}><Receipt size={28} /></div>

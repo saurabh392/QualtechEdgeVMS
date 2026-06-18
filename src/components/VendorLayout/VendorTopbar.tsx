@@ -256,7 +256,13 @@ export const VendorTopbar: React.FC<Props> = ({ onMobileMenuToggle }) => {
           )}
         </div>
 
-        <div className={styles.avatar} title={user?.fullName}>{initials}</div>
+        <div className={styles.profile}>
+          <div className={styles.avatar}>{initials}</div>
+          <div className={styles.userInfo}>
+            <span className={styles.userName}>{user?.fullName || 'Vendor'}</span>
+            <span className={styles.userRole}>Vendor Portal</span>
+          </div>
+        </div>
       </div>
     </header>
   );
