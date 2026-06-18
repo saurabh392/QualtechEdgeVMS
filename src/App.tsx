@@ -37,9 +37,11 @@ import { Renewals } from './pages/Contracts/Renewals';
 import { PODashboard } from './pages/PurchaseOrders/PODashboard';
 import { POList } from './pages/PurchaseOrders/POList';
 import { CreatePO } from './pages/PurchaseOrders/CreatePO';
-import { POApprovals } from './pages/PurchaseOrders/POApprovals';
 import { POReceipt } from './pages/PurchaseOrders/POReceipt';
 import { POThreeWayMatch } from './pages/PurchaseOrders/POThreeWayMatch';
+import { RFQManagement } from './pages/PurchaseOrders/RFQManagement';
+import { VendorQuotations } from './pages/PurchaseOrders/VendorQuotations';
+import { RFQApprovals } from './pages/PurchaseOrders/RFQApprovals';
 
 import { InvoiceDashboard } from './pages/Invoices/InvoiceDashboard';
 import { UploadInvoice } from './pages/Invoices/UploadInvoice';
@@ -172,7 +174,11 @@ function App() {
                       <Route path="/purchase-orders/dashboard" element={<PODashboard />} />
                       <Route path="/purchase-orders/create" element={<CreatePO />} />
                       <Route path="/purchase-orders/list" element={<POList />} />
-                      <Route path="/purchase-orders/approvals" element={<POApprovals />} />
+
+                      {/* RFQ Module — NEW */}
+                      <Route path="/purchase-orders/rfq" element={<RFQManagement />} />
+                      <Route path="/purchase-orders/vendor-quotations" element={<VendorQuotations />} />
+                      <Route path="/purchase-orders/rfq-approvals" element={<RFQApprovals />} />
 
                       {/* Invoices */}
                       <Route path="/invoices" element={<Navigate to="/invoices/dashboard" replace />} />

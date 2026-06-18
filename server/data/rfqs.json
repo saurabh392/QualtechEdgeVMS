@@ -1,0 +1,197 @@
+[
+  {
+    "rfqId": "RFQ-2026-0001",
+    "rfqNumber": "RFQ-2026-0001",
+    "title": "Dell Latitude Laptops – IT Refresh 2026",
+    "department": "IT",
+    "costCenter": "CC-IT-OPS",
+    "category": "IT Hardware",
+    "itemService": "Dell Latitude 5540 Laptops",
+    "description": "Procurement of 50 units of Dell Latitude 5540 laptops with i7 processor, 16GB RAM, 512GB SSD for the annual IT refresh program across Mumbai HO and branch offices.",
+    "quantity": 50,
+    "uom": "Units",
+    "budget": 4000000,
+    "deliveryLocation": "Head Office, Mumbai",
+    "requiredDeliveryDate": "2026-07-31",
+    "vendorsInvited": 3,
+    "vendorIds": [
+      "VND-2026-11002",
+      "VND-2026-88001",
+      "VND-2026-50469"
+    ],
+    "quotesReceived": 3,
+    "closingDate": "2026-07-05",
+    "status": "Awarded",
+    "publishedOn": "2026-06-10",
+    "createdBy": "Saurabh Anand",
+    "attachments": [
+      {
+        "fileId": "FILE-RFQ-001",
+        "fileName": "Laptop_Technical_Specification.pdf",
+        "fileType": "application/pdf",
+        "uploadDate": "2026-06-10",
+        "uploadedBy": "Saurabh Anand",
+        "path": "/uploads/rfq/laptop_specification.pdf"
+      }
+    ]
+  },
+  {
+    "rfqId": "RFQ-2026-0002",
+    "rfqNumber": "RFQ-2026-0002",
+    "title": "Annual Office Facility Management Services",
+    "department": "Facilities",
+    "costCenter": "CC-FAC-OPS",
+    "category": "Facility Services",
+    "itemService": "Office Facility Management – Housekeeping & Security",
+    "description": "Comprehensive facility management services including housekeeping, pantry operations, pest control, and security guard deployment for all 8 office locations across India.",
+    "quantity": 12,
+    "uom": "Months",
+    "budget": 2400000,
+    "deliveryLocation": "All Office Locations – Pan India",
+    "requiredDeliveryDate": "2026-08-01",
+    "vendorsInvited": 4,
+    "vendorIds": [
+      "VND-2026-11002",
+      "VND-2026-88001",
+      "VND-2026-50469",
+      "VND-2026-22003"
+    ],
+    "quotesReceived": 4,
+    "closingDate": "2026-06-20",
+    "status": "Awarded",
+    "publishedOn": "2026-06-01",
+    "createdBy": "Saurabh Anand",
+    "attachments": [
+      {
+        "fileId": "FILE-RFQ-002",
+        "fileName": "Facility_Scope_of_Work.pdf",
+        "fileType": "application/pdf",
+        "uploadDate": "2026-06-01",
+        "uploadedBy": "Saurabh Anand",
+        "path": "/uploads/rfq/facility_sow.pdf"
+      }
+    ]
+  },
+  {
+    "rfqId": "RFQ-2026-0003",
+    "rfqNumber": "RFQ-2026-0003",
+    "title": "Cloud Infrastructure Security Audit & VAPT",
+    "department": "IT",
+    "costCenter": "CC-SEC-OPS",
+    "category": "IT Services",
+    "itemService": "Cloud Security Audit, VAPT & Penetration Testing",
+    "description": "Comprehensive cloud infrastructure security audit, vulnerability assessment and penetration testing (VAPT) for all AWS and Azure-hosted systems. Includes executive report, remediation roadmap, and compliance certification for IRDAI IT framework.",
+    "quantity": 1,
+    "uom": "Project",
+    "budget": 1500000,
+    "deliveryLocation": "Cloud Infrastructure (AWS / Azure)",
+    "requiredDeliveryDate": "2026-09-30",
+    "vendorsInvited": 3,
+    "vendorIds": [
+      "VND-2026-11002",
+      "VND-2026-88001",
+      "VND-2026-22003"
+    ],
+    "quotesReceived": 2,
+    "closingDate": "2026-07-20",
+    "status": "Awarded",
+    "publishedOn": "2026-06-18",
+    "createdBy": "Saurabh Anand",
+    "attachments": [
+      {
+        "fileId": "FILE-RFQ-003",
+        "fileName": "VAPT_RFQ_Scope_Document.pdf",
+        "fileType": "application/pdf",
+        "uploadDate": "2026-06-18",
+        "uploadedBy": "Saurabh Anand",
+        "path": "/uploads/rfq/vapt_scope.pdf"
+      }
+    ]
+  },
+  {
+    "rfqId": "RFQ-2026-0004",
+    "rfqNumber": "RFQ-2026-0004",
+    "title": "HR Process Transformation Consulting",
+    "department": "HR",
+    "costCenter": "CC-MGT-CON",
+    "category": "Consulting",
+    "itemService": "HR Process Transformation & Change Management Consulting",
+    "description": "Strategic HR process transformation consulting covering competency mapping, HRMS evaluation, policy redesign, and change management training for ~1,200 employees across 3 business verticals.",
+    "quantity": 6,
+    "uom": "Months",
+    "budget": 3000000,
+    "deliveryLocation": "Head Office, Mumbai",
+    "requiredDeliveryDate": "2026-12-31",
+    "vendorsInvited": 3,
+    "vendorIds": [
+      "VND-2026-11002",
+      "VND-2026-50469",
+      "VND-2026-22003"
+    ],
+    "quotesReceived": 3,
+    "closingDate": "2026-06-10",
+    "status": "Awarded",
+    "publishedOn": "2026-05-25",
+    "createdBy": "Saurabh Anand",
+    "attachments": []
+  },
+  {
+    "rfqId": "RFQ-2026-0005",
+    "rfqNumber": "RFQ-2026-0005",
+    "title": "Corporate Travel Management System SaaS",
+    "department": "Finance",
+    "costCenter": "CC-IT-OPS",
+    "category": "IT Services",
+    "itemService": "Corporate Travel & Expense Management SaaS Platform",
+    "description": "SaaS-based corporate travel booking and expense management platform with integration to existing SAP Finance module. Must support multi-city approvals, GST compliance, and MIS reporting. Minimum 3-year contract with SLA of 99.9% uptime.",
+    "quantity": 3,
+    "uom": "Years",
+    "budget": 1800000,
+    "deliveryLocation": "Cloud – PAN India Users",
+    "requiredDeliveryDate": "2026-10-01",
+    "vendorsInvited": 3,
+    "vendorIds": [
+      "VND-2026-11002",
+      "VND-2026-88001",
+      "VND-2026-50469"
+    ],
+    "quotesReceived": 2,
+    "closingDate": "2026-07-30",
+    "status": "Open",
+    "publishedOn": "2026-06-17",
+    "createdBy": "Saurabh Anand",
+    "attachments": [
+      {
+        "fileId": "FILE-RFQ-005",
+        "fileName": "Travel_SaaS_RFP_Requirements.pdf",
+        "fileType": "application/pdf",
+        "uploadDate": "2026-06-17",
+        "uploadedBy": "Saurabh Anand",
+        "path": "/uploads/rfq/travel_saas_rfp.pdf"
+      }
+    ]
+  },
+  {
+    "rfqId": "RFQ-2026-0006",
+    "rfqNumber": "RFQ-2026-0006",
+    "title": "CCTV Surveillance Upgrade – Branch Offices",
+    "department": "Security",
+    "costCenter": "CC-SEC-OPS",
+    "category": "Security",
+    "itemService": "IP-Based CCTV Cameras & NVR Installation",
+    "description": "Supply, installation, and commissioning of 120 IP-based CCTV cameras with NVR recording, remote monitoring capability, and cloud backup for 12 branch offices. Includes 2-year on-site AMC.",
+    "quantity": 120,
+    "uom": "Units",
+    "budget": 2200000,
+    "deliveryLocation": "12 Branch Offices – Maharashtra & Gujarat",
+    "requiredDeliveryDate": "2026-09-15",
+    "vendorsInvited": 0,
+    "vendorIds": [],
+    "quotesReceived": 0,
+    "closingDate": "2026-08-05",
+    "status": "Draft",
+    "publishedOn": "",
+    "createdBy": "Saurabh Anand",
+    "attachments": []
+  }
+]

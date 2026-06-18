@@ -1,0 +1,244 @@
+[
+  {
+    "approvalId": "RFQA-2026-001",
+    "rfqId": "RFQ-2026-0001",
+    "rfqTitle": "Dell Latitude Laptops – IT Refresh 2026",
+    "department": "IT",
+    "category": "IT Hardware",
+    "budget": 4000000,
+    "selectedVendorId": "VND-2026-11002",
+    "selectedVendorName": "ABC Infotech Pvt Ltd",
+    "awardValue": 3780000,
+    "businessJustification": "ABC Infotech Pvt Ltd submitted the L1 (lowest) quote at ₹37.80L against a budget of ₹40L. The vendor holds an active Dell Authorized Partner certificate, is KYC-verified, and has a prior SLA adherence score of 98.2% from last year's IT refresh engagement. Full technical compliance confirmed. 3-year on-site warranty reduces lifecycle risk.",
+    "comparisonSummary": "3 vendors invited, 3 quotes received. ABC Infotech (L1 @ ₹37.8L, Full Compliance) vs HDFC Solutions (L2 @ ₹39.2L, Partial Compliance) vs MoneyWise Financial (L3 @ ₹40.5L, Full Compliance). Budget saving of ₹2,20,000 vs allocated budget. Recommendation: ABC Infotech.",
+    "currentStage": "Approved",
+    "status": "Approved",
+    "submittedBy": "Saurabh Anand",
+    "submittedOn": "2026-07-06 09:30:00",
+    "approver": "Tenant Admin",
+    "remarks": "",
+    "attachments": [
+      {
+        "fileId": "FILE-RFQ-001",
+        "fileName": "Laptop_Technical_Specification.pdf",
+        "fileType": "application/pdf",
+        "uploadDate": "2026-06-10",
+        "uploadedBy": "Saurabh Anand",
+        "path": "/uploads/rfq/laptop_specification.pdf"
+      }
+    ],
+    "workflowHistory": [
+      {
+        "stage": "Maker",
+        "action": "Submitted",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-07-06T09:30:00.000Z",
+        "remarks": "L1 vendor identified. All 3 quotes reviewed and compared. Forwarding to Procurement Manager for review."
+      },
+      {
+        "stage": "Procurement Manager Review",
+        "action": "Approve",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-18T16:59:26.894Z",
+        "remarks": ""
+      },
+      {
+        "stage": "Tenant Admin Review",
+        "action": "Approve",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-18T16:59:31.056Z",
+        "remarks": ""
+      }
+    ]
+  },
+  {
+    "approvalId": "RFQA-2026-002",
+    "rfqId": "RFQ-2026-0002",
+    "rfqTitle": "Annual Office Facility Management Services",
+    "department": "Facilities",
+    "category": "Facility Services",
+    "budget": 2400000,
+    "selectedVendorId": "VND-2026-11002",
+    "selectedVendorName": "ABC Infotech Pvt Ltd",
+    "awardValue": 2200000,
+    "businessJustification": "ABC Infotech Pvt Ltd offers the lowest-cost proposal at ₹22L against a budget of ₹24L, saving ₹2L (8.3%). ISO 9001:2015 certified, KYC-approved, with proven track record of facility management at 5 existing sites. The vendor includes digital attendance tracking and monthly MIS reporting at no additional cost.",
+    "comparisonSummary": "4 vendors invited, 4 quotes received. ABC Infotech (L1 @ ₹22L) vs MoneyWise Financial (L2 @ ₹22.8L) vs HDFC Solutions (L3 @ ₹23.5L) vs Secure Facilities (L4 @ ₹25L). All L1–L3 vendors are fully technically compliant. ABC Infotech selected on value-for-money basis.",
+    "currentStage": "Approved",
+    "status": "Approved",
+    "submittedBy": "Saurabh Anand",
+    "submittedOn": "2026-06-22 10:00:00",
+    "approver": "Tenant Admin",
+    "remarks": "Approved. PO to be issued to ABC Infotech Pvt Ltd immediately. Ensure AMC terms are captured in the contract.",
+    "attachments": [
+      {
+        "fileId": "FILE-RFQ-002",
+        "fileName": "Facility_Scope_of_Work.pdf",
+        "fileType": "application/pdf",
+        "uploadDate": "2026-06-01",
+        "uploadedBy": "Saurabh Anand",
+        "path": "/uploads/rfq/facility_sow.pdf"
+      }
+    ],
+    "workflowHistory": [
+      {
+        "stage": "Maker",
+        "action": "Submitted",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-22T10:00:00.000Z",
+        "remarks": "All 4 quotes evaluated. ABC Infotech is L1 with full technical compliance. Forwarding for approval."
+      },
+      {
+        "stage": "Procurement Manager Review",
+        "action": "Approve",
+        "performedBy": "Rajesh Mehta",
+        "timestamp": "2026-06-23T11:30:00.000Z",
+        "remarks": "Vendor background verified. L1 selection justified. Recommending to Tenant Admin for final approval."
+      },
+      {
+        "stage": "Tenant Admin Review",
+        "action": "Approve",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-24T09:15:00.000Z",
+        "remarks": "Approved. PO to be issued to ABC Infotech Pvt Ltd immediately. Ensure AMC terms are captured in the contract."
+      }
+    ]
+  },
+  {
+    "approvalId": "RFQA-2026-003",
+    "rfqId": "RFQ-2026-0004",
+    "rfqTitle": "HR Process Transformation Consulting",
+    "department": "HR",
+    "category": "Consulting",
+    "budget": 3000000,
+    "selectedVendorId": "VND-2026-11002",
+    "selectedVendorName": "ABC Infotech Pvt Ltd",
+    "awardValue": 2750000,
+    "businessJustification": "ABC Infotech Pvt Ltd brings a proven HR transformation framework with references from 2 comparable insurance companies. Their L1 bid at ₹27.5L saves ₹2.5L (8.3%) vs budget. The engagement model includes 3 senior consultants, a project manager, and 6-month hypercare post go-live — the most comprehensive offering received.",
+    "comparisonSummary": "3 vendors invited, 3 quotes received. ABC Infotech (L1 @ ₹27.5L, Full Compliance) vs MoneyWise Financial (L2 @ ₹29L, Full Compliance) vs Secure Facilities (L3 @ ₹31L, Partial Compliance). Saving of ₹3.5L vs highest quote. Hypercare inclusion differentiates ABC Infotech as best-value choice.",
+    "currentStage": "Approved",
+    "status": "Approved",
+    "submittedBy": "Saurabh Anand",
+    "submittedOn": "2026-06-12 11:00:00",
+    "approver": "Tenant Admin",
+    "remarks": "Approved. Ensure SOW is countersigned by both parties before project kick-off on 01-Jul-2026.",
+    "attachments": [],
+    "workflowHistory": [
+      {
+        "stage": "Maker",
+        "action": "Submitted",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-12T11:00:00.000Z",
+        "remarks": "Quote comparison completed. ABC Infotech is L1. Submitting for procurement manager review."
+      },
+      {
+        "stage": "Procurement Manager Review",
+        "action": "Approve",
+        "performedBy": "Rajesh Mehta",
+        "timestamp": "2026-06-13T14:00:00.000Z",
+        "remarks": "Vendor references verified. Hypercare model adds long-term value. Approving and escalating to Admin."
+      },
+      {
+        "stage": "Tenant Admin Review",
+        "action": "Approve",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-14T10:00:00.000Z",
+        "remarks": "Approved. Ensure SOW is countersigned by both parties before project kick-off on 01-Jul-2026."
+      }
+    ]
+  },
+  {
+    "approvalId": "RFQA-2026-004",
+    "rfqId": "RFQ-2026-0003",
+    "rfqTitle": "Cloud Infrastructure Security Audit & VAPT",
+    "department": "IT",
+    "category": "IT Services",
+    "budget": 1500000,
+    "selectedVendorId": "VND-2026-11002",
+    "selectedVendorName": "ABC Infotech Pvt Ltd",
+    "awardValue": 1250000,
+    "businessJustification": "ABC Infotech Pvt Ltd is CERT-In empanelled and is the only vendor providing full-scope coverage for both AWS and Azure environments. Their L1 bid at ₹12.5L saves ₹2.5L vs budget. The report format is IRDAI-compliant and supports regulatory submission directly. Engagement timeline of 45 days meets our security audit deadline for annual IRDAI filing.",
+    "comparisonSummary": "3 vendors invited, 2 quotes received (Secure Facilities did not submit). ABC Infotech (L1 @ ₹12.5L, Full Compliance, CERT-In empanelled) vs HDFC Solutions (L2 @ ₹13.8L, Partial Compliance — excludes Azure scope). Only ABC Infotech covers the full scope. Clear single-vendor selection justified.",
+    "currentStage": "Approved",
+    "status": "Approved",
+    "submittedBy": "Saurabh Anand",
+    "submittedOn": "2026-07-08 10:00:00",
+    "approver": "Tenant Admin",
+    "remarks": "",
+    "attachments": [
+      {
+        "fileId": "FILE-RFQ-003",
+        "fileName": "VAPT_RFQ_Scope_Document.pdf",
+        "fileType": "application/pdf",
+        "uploadDate": "2026-06-18",
+        "uploadedBy": "Saurabh Anand",
+        "path": "/uploads/rfq/vapt_scope.pdf"
+      }
+    ],
+    "workflowHistory": [
+      {
+        "stage": "Maker",
+        "action": "Submitted",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-07-08T10:00:00.000Z",
+        "remarks": "2 of 3 vendors submitted quotes. ABC Infotech is the only full-scope, CERT-In certified option. Forwarding for Procurement Manager review."
+      },
+      {
+        "stage": "Procurement Manager Review",
+        "action": "Approve",
+        "performedBy": "Rajesh Mehta",
+        "timestamp": "2026-07-09T11:45:00.000Z",
+        "remarks": "CERT-In empanelment and full AWS+Azure scope coverage verified. Escalating to Tenant Admin for final approval."
+      },
+      {
+        "stage": "Tenant Admin Review",
+        "action": "Approve",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-18T16:59:34.317Z",
+        "remarks": ""
+      }
+    ]
+  },
+  {
+    "approvalId": "RFQA-2026-005",
+    "rfqId": "RFQ-2026-0005",
+    "rfqTitle": "Corporate Travel Management System SaaS – Rejected",
+    "department": "Finance",
+    "category": "IT Services",
+    "budget": 1800000,
+    "selectedVendorId": "VND-2026-88001",
+    "selectedVendorName": "HDFC Solutions Ltd",
+    "awardValue": 1650000,
+    "businessJustification": "HDFC Solutions Ltd offered the most comprehensive travel SaaS with native SAP integration and GSTIN auto-validation. Submitted for approval prior to quote closing for budget planning purposes.",
+    "comparisonSummary": "This approval was rejected due to budget freeze on non-critical IT SaaS expenditure for Q2 FY2026-27. The RFQ will be re-floated in Q3 FY2026-27 with updated specifications.",
+    "currentStage": "Rejected",
+    "status": "Rejected",
+    "submittedBy": "Saurabh Anand",
+    "submittedOn": "2026-06-16 09:00:00",
+    "approver": "Tenant Admin",
+    "remarks": "Rejected – Budget freeze on non-critical IT SaaS for Q2. Please re-submit in Q3 FY2026-27 with updated business case.",
+    "attachments": [],
+    "workflowHistory": [
+      {
+        "stage": "Maker",
+        "action": "Submitted",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-16T09:00:00.000Z",
+        "remarks": "Early submission for budget planning purposes. Vendor selected based on SAP integration capability."
+      },
+      {
+        "stage": "Procurement Manager Review",
+        "action": "Approve",
+        "performedBy": "Rajesh Mehta",
+        "timestamp": "2026-06-17T10:30:00.000Z",
+        "remarks": "Technical evaluation is sound. Forwarding to Tenant Admin for budget approval."
+      },
+      {
+        "stage": "Tenant Admin Review",
+        "action": "Reject",
+        "performedBy": "Saurabh Anand",
+        "timestamp": "2026-06-18T08:45:00.000Z",
+        "remarks": "Rejected – Budget freeze on non-critical IT SaaS for Q2. Please re-submit in Q3 FY2026-27 with updated business case."
+      }
+    ]
+  }
+]

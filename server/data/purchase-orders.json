@@ -18,5 +18,37 @@
     "status": "Approved",
     "deliveryStatus": "Pending",
     "createdDate": "2026-06-17"
+  },
+  {
+    "poId": "PO-2026-0003",
+    "rfqId": "RFQ-2026-0001",
+    "rfqReference": "RFQ-2026-0001",
+    "vendorId": "VND-2026-11002",
+    "vendorName": "ABC Infotech Pvt Ltd",
+    "category": "IT Hardware",
+    "department": "IT",
+    "poValue": 3780000,
+    "status": "Approved",
+    "deliveryStatus": "Pending",
+    "createdDate": "2026-06-18",
+    "approvedDate": "2026-06-18",
+    "approvedBy": "Saurabh Anand",
+    "lineItems": []
+  },
+  {
+    "poId": "PO-2026-0004",
+    "rfqId": "RFQ-2026-0003",
+    "rfqReference": "RFQ-2026-0003",
+    "vendorId": "VND-2026-11002",
+    "vendorName": "ABC Infotech Pvt Ltd",
+    "category": "IT Services",
+    "department": "IT",
+    "poValue": 1250000,
+    "status": "Approved",
+    "deliveryStatus": "Pending",
+    "createdDate": "2026-06-18",
+    "approvedDate": "2026-06-18",
+    "approvedBy": "Saurabh Anand",
+    "lineItems": []
   }
 ]

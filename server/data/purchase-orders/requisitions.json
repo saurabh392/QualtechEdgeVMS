@@ -3,6 +3,363 @@
     "requester": {
       "employeeId": "EMP-1001",
       "requesterName": "Saurabh Anand",
+      "department": "Facilities",
+      "designation": "Procurement Manager"
+    },
+    "costCenter": {
+      "costCenterCode": "CC-FAC-OPS",
+      "costCenterName": "Facilities Operations"
+    },
+    "projectCode": "PROJ-MIGRATION-2026",
+    "category": "IT Services",
+    "itemDetails": {
+      "itemDescription": "Cloud infrastructure support services",
+      "quantity": 10,
+      "unitOfMeasure": "Items"
+    },
+    "budgetDetails": {
+      "allocatedBudget": 2000000,
+      "consumedBudget": 800000,
+      "currentRequisitionValue": 1250000,
+      "availableBudget": -50000
+    },
+    "vendorSelection": {
+      "selectedVendorId": "VND-001, VND-002",
+      "selectedVendorName": "ABC Infotech Pvt Ltd, HDFC Bank Limited",
+      "quotedPrice": 1250000,
+      "leadTime": "N/A",
+      "kycCompliance": "Clean",
+      "slaScore": "N/A",
+      "vendorRiskLevel": "LOW"
+    },
+    "linkedContract": {
+      "contractId": "CTR-2026-00045",
+      "contractType": "Master Service Agreement",
+      "contractExpiry": "2026-12-31"
+    },
+    "uploadedDocuments": [],
+    "status": "Pending Approval",
+    "requisitionId": "REQ-2026-00091",
+    "createdDate": "2026-06-18",
+    "lastModified": "18/6/2026, 8:13:29 pm",
+    "approvalWorkflow": {
+      "currentStage": "Department Head Approval",
+      "workflowStep": 1,
+      "approvalStatus": "Pending",
+      "submittedBy": "Saurabh Anand",
+      "submittedOn": "18/6/2026, 8:13:29 pm"
+    }
+  },
+  {
+    "requester": {
+      "employeeId": "EMP-1001",
+      "requesterName": "Saurabh Anand",
+      "department": "IT Services",
+      "designation": "Procurement Manager"
+    },
+    "costCenter": {
+      "costCenterCode": "CC-IT-OPS",
+      "costCenterName": "IT Operations"
+    },
+    "projectCode": "PROJ-MIGRATION-2026",
+    "category": "IT Services",
+    "itemDetails": {
+      "itemDescription": "Cloud infrastructure support services",
+      "quantity": 1,
+      "unitOfMeasure": "Service / Month"
+    },
+    "budgetDetails": {
+      "allocatedBudget": 5000000,
+      "consumedBudget": 2250000,
+      "currentRequisitionValue": 1250000,
+      "availableBudget": 1500000
+    },
+    "vendorSelection": {
+      "selectedVendorId": "VND-001, VND-002",
+      "selectedVendorName": "ABC Infotech Pvt Ltd, HDFC Bank Limited",
+      "quotedPrice": 1250000,
+      "leadTime": "N/A",
+      "kycCompliance": "Clean",
+      "slaScore": "N/A",
+      "vendorRiskLevel": "LOW"
+    },
+    "linkedContract": {
+      "contractId": "CTR-2026-00045",
+      "contractType": "Master Service Agreement",
+      "contractExpiry": "2026-12-31"
+    },
+    "uploadedDocuments": [],
+    "status": "Pending Approval",
+    "requisitionId": "REQ-2026-00090",
+    "createdDate": "2026-06-18",
+    "lastModified": "18/6/2026, 8:11:57 pm",
+    "approvalWorkflow": {
+      "currentStage": "Department Head Approval",
+      "workflowStep": 1,
+      "approvalStatus": "Pending",
+      "submittedBy": "Saurabh Anand",
+      "submittedOn": "18/6/2026, 8:11:57 pm"
+    }
+  },
+  {
+    "requester": {
+      "employeeId": "EMP-1001",
+      "requesterName": "Saurabh Anand",
+      "department": "IT Services",
+      "designation": "Procurement Manager"
+    },
+    "costCenter": {
+      "costCenterCode": "CC-IT-OPS",
+      "costCenterName": "IT Operations"
+    },
+    "projectCode": "PROJ-MIGRATION-2026",
+    "category": "IT Services",
+    "itemDetails": {
+      "itemDescription": "Cloud infrastructure support services",
+      "quantity": 1,
+      "unitOfMeasure": "Service / Month"
+    },
+    "budgetDetails": {
+      "allocatedBudget": 5000000,
+      "consumedBudget": 2250000,
+      "currentRequisitionValue": 1250000,
+      "availableBudget": 1500000
+    },
+    "vendorSelection": {
+      "selectedVendorId": "VND-001, VND-002",
+      "selectedVendorName": "ABC Infotech Pvt Ltd, HDFC Bank Limited",
+      "quotedPrice": 1250000,
+      "leadTime": "N/A",
+      "kycCompliance": "Clean",
+      "slaScore": "N/A",
+      "vendorRiskLevel": "LOW"
+    },
+    "linkedContract": {
+      "contractId": "CTR-2026-00045",
+      "contractType": "Master Service Agreement",
+      "contractExpiry": "2026-12-31"
+    },
+    "uploadedDocuments": [],
+    "status": "Pending Approval",
+    "requisitionId": "REQ-2026-00089",
+    "createdDate": "2026-06-18",
+    "lastModified": "18/6/2026, 7:56:03 pm",
+    "approvalWorkflow": {
+      "currentStage": "Department Head Approval",
+      "workflowStep": 1,
+      "approvalStatus": "Pending",
+      "submittedBy": "Saurabh Anand",
+      "submittedOn": "18/6/2026, 7:56:03 pm"
+    }
+  },
+  {
+    "requester": {
+      "employeeId": "EMP-1001",
+      "requesterName": "Saurabh Anand",
+      "department": "IT Services",
+      "designation": "Procurement Manager"
+    },
+    "costCenter": {
+      "costCenterCode": "CC-IT-OPS",
+      "costCenterName": "IT Operations"
+    },
+    "projectCode": "PROJ-MIGRATION-2026",
+    "category": "IT Services",
+    "itemDetails": {
+      "itemDescription": "Cloud infrastructure support services",
+      "quantity": 1,
+      "unitOfMeasure": "Service / Month"
+    },
+    "budgetDetails": {
+      "allocatedBudget": 5000000,
+      "consumedBudget": 2250000,
+      "currentRequisitionValue": 1250000,
+      "availableBudget": 1500000
+    },
+    "vendorSelection": {
+      "selectedVendorId": "VND-001, VND-002",
+      "selectedVendorName": "ABC Infotech Pvt Ltd, HDFC Bank Limited",
+      "quotedPrice": 1250000,
+      "leadTime": "N/A",
+      "kycCompliance": "Clean",
+      "slaScore": "N/A",
+      "vendorRiskLevel": "LOW"
+    },
+    "linkedContract": {
+      "contractId": "CTR-2026-00045",
+      "contractType": "Master Service Agreement",
+      "contractExpiry": "2026-12-31"
+    },
+    "uploadedDocuments": [],
+    "status": "Pending Approval",
+    "requisitionId": "REQ-2026-00088",
+    "createdDate": "2026-06-18",
+    "lastModified": "18/6/2026, 7:55:38 pm",
+    "approvalWorkflow": {
+      "currentStage": "Department Head Approval",
+      "workflowStep": 1,
+      "approvalStatus": "Pending",
+      "submittedBy": "Saurabh Anand",
+      "submittedOn": "18/6/2026, 7:55:38 pm"
+    }
+  },
+  {
+    "requester": {
+      "employeeId": "EMP-1001",
+      "requesterName": "Saurabh Anand",
+      "department": "IT Services",
+      "designation": "Procurement Manager"
+    },
+    "costCenter": {
+      "costCenterCode": "CC-IT-OPS",
+      "costCenterName": "IT Operations"
+    },
+    "projectCode": "PROJ-MIGRATION-2026",
+    "category": "IT Services",
+    "itemDetails": {
+      "itemDescription": "Cloud infrastructure support services",
+      "quantity": 1,
+      "unitOfMeasure": "Service / Month"
+    },
+    "budgetDetails": {
+      "allocatedBudget": 5000000,
+      "consumedBudget": 2250000,
+      "currentRequisitionValue": 1250000,
+      "availableBudget": 1500000
+    },
+    "vendorSelection": {
+      "selectedVendorId": "VND-001, VND-002",
+      "selectedVendorName": "ABC Infotech Pvt Ltd, HDFC Bank Limited",
+      "quotedPrice": 1250000,
+      "leadTime": "N/A",
+      "kycCompliance": "Clean",
+      "slaScore": "N/A",
+      "vendorRiskLevel": "LOW"
+    },
+    "linkedContract": {
+      "contractId": "CTR-2026-00045",
+      "contractType": "Master Service Agreement",
+      "contractExpiry": "2026-12-31"
+    },
+    "uploadedDocuments": [],
+    "status": "Pending Approval",
+    "requisitionId": "REQ-2026-00087",
+    "createdDate": "2026-06-18",
+    "lastModified": "18/6/2026, 7:55:15 pm",
+    "approvalWorkflow": {
+      "currentStage": "Department Head Approval",
+      "workflowStep": 1,
+      "approvalStatus": "Pending",
+      "submittedBy": "Saurabh Anand",
+      "submittedOn": "18/6/2026, 7:55:15 pm"
+    }
+  },
+  {
+    "requester": {
+      "employeeId": "EMP-1001",
+      "requesterName": "Saurabh Anand",
+      "department": "IT Services",
+      "designation": "Procurement Manager"
+    },
+    "costCenter": {
+      "costCenterCode": "CC-IT-OPS",
+      "costCenterName": "IT Operations"
+    },
+    "projectCode": "PROJ-MIGRATION-2026",
+    "category": "IT Services",
+    "itemDetails": {
+      "itemDescription": "Cloud infrastructure support services",
+      "quantity": 1,
+      "unitOfMeasure": "Service / Month"
+    },
+    "budgetDetails": {
+      "allocatedBudget": 5000000,
+      "consumedBudget": 2250000,
+      "currentRequisitionValue": 1250000,
+      "availableBudget": 1500000
+    },
+    "vendorSelection": {
+      "selectedVendorId": "VND-001, VND-002",
+      "selectedVendorName": "ABC Infotech Pvt Ltd, HDFC Bank Limited",
+      "quotedPrice": 1250000,
+      "leadTime": "N/A",
+      "kycCompliance": "Clean",
+      "slaScore": "N/A",
+      "vendorRiskLevel": "LOW"
+    },
+    "linkedContract": {
+      "contractId": "CTR-2026-00045",
+      "contractType": "Master Service Agreement",
+      "contractExpiry": "2026-12-31"
+    },
+    "uploadedDocuments": [],
+    "status": "Pending Approval",
+    "requisitionId": "REQ-2026-00086",
+    "createdDate": "2026-06-18",
+    "lastModified": "18/6/2026, 7:53:43 pm",
+    "approvalWorkflow": {
+      "currentStage": "Department Head Approval",
+      "workflowStep": 1,
+      "approvalStatus": "Pending",
+      "submittedBy": "Saurabh Anand",
+      "submittedOn": "18/6/2026, 7:53:43 pm"
+    }
+  },
+  {
+    "requester": {
+      "employeeId": "EMP-1001",
+      "requesterName": "Saurabh Anand",
+      "department": "IT Services",
+      "designation": "Procurement Manager"
+    },
+    "costCenter": {
+      "costCenterCode": "CC-IT-OPS",
+      "costCenterName": "IT Operations"
+    },
+    "projectCode": "PROJ-MIGRATION-2026",
+    "category": "IT Services",
+    "itemDetails": {
+      "itemDescription": "Cloud infrastructure support services",
+      "quantity": 1,
+      "unitOfMeasure": "Service / Month"
+    },
+    "budgetDetails": {
+      "allocatedBudget": 5000000,
+      "consumedBudget": 2250000,
+      "currentRequisitionValue": 1250000,
+      "availableBudget": 1500000
+    },
+    "vendorSelection": {
+      "selectedVendorId": "VND-2025-00029",
+      "selectedVendorName": "ABC Infotech Private Limited",
+      "quotedPrice": 1187500,
+      "leadTime": "5 Days",
+      "kycCompliance": "Clean",
+      "slaScore": "98%",
+      "vendorRiskLevel": "Low"
+    },
+    "linkedContract": {
+      "contractId": "CTR-2026-00045",
+      "contractType": "Master Service Agreement",
+      "contractExpiry": "2026-12-31"
+    },
+    "uploadedDocuments": [],
+    "status": "Pending Approval",
+    "requisitionId": "REQ-2026-00085",
+    "createdDate": "2026-06-18",
+    "lastModified": "18/6/2026, 7:40:18 pm",
+    "approvalWorkflow": {
+      "currentStage": "Department Head Approval",
+      "workflowStep": 1,
+      "approvalStatus": "Pending",
+      "submittedBy": "Saurabh Anand",
+      "submittedOn": "18/6/2026, 7:40:18 pm"
+    }
+  },
+  {
+    "requester": {
+      "employeeId": "EMP-1001",
+      "requesterName": "Saurabh Anand",
       "department": "IT Services",
       "designation": "Procurement Manager"
     },

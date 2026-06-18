@@ -1,566 +1,107 @@
 [
   {
-    "vendorId": "VND-2025-00029",
+    "vendorId": "VND-001",
+    "vendorName": "ABC Infotech Pvt Ltd",
     "status": "Active",
+    "kycStatus": "Approved",
+    "riskScore": 18,
+    "riskTier": "Low",
+    "riskLevel": "Low",
     "createdAt": "2025-05-07T11:45:00Z",
     "basicDetails": {
-      "legalName": "ABC Infotech Private Limited",
+      "legalName": "ABC Infotech Pvt Ltd",
       "tradeName": "ABC Infotech",
-      "dateOfIncorporation": "2015-06-15",
       "cinNumber": "U72900MH2015PTC123456",
       "panNumber": "AAACA1234A",
       "gstin": "27AAACA1234A1Z5",
       "msmeClassification": "Small",
-      "companyWebsite": "www.abcinfotech.com",
       "businessType": "Private Limited Company"
     },
     "businessDetails": {
-      "vendorCategory": "IT Services",
-      "subCategory": "Software Development",
-      "serviceAreas": [
-        "Mumbai",
-        "Pune",
-        "Bengaluru"
-      ],
-      "productsServicesOffered": "Custom Software Development, Support & Maintenance",
+      "vendorCategory": "IT Hardware",
+      "subCategory": "Hardware Supply",
+      "productsServicesOffered": "Laptops, Desktops, IT Equipment",
       "annualTurnover": 50000000,
       "employeeCount": 120,
-      "majorClients": [
-        "TCS",
-        "HDFC Bank"
-      ],
       "criticalVendor": true
     },
-    "bankDetails": {
-      "bankName": "HDFC Bank",
-      "accountNumber": "50100234567890",
-      "accountType": "Current Account",
-      "ifscCode": "HDFC0001234",
-      "branchName": "Mumbai - Andheri East",
-      "cancelledChequeFile": "ABC_Cheque.jpg",
-      "bankVerificationStatus": "Verified"
-    },
-    "documents": [
-      {
-        "documentType": "PAN Card",
-        "fileName": "PAN_ABC.pdf",
-        "status": "Verified",
-        "expiryDate": null
-      },
-      {
-        "documentType": "GST Certificate",
-        "fileName": "GST_ABC.pdf",
-        "status": "Verified",
-        "expiryDate": null
-      },
-      {
-        "documentType": "Certificate of Incorporation",
-        "fileName": "COI_ABC.pdf",
-        "status": "Verified",
-        "expiryDate": null
-      },
-      {
-        "documentType": "MSME Certificate",
-        "fileName": "MSME_ABC.pdf",
-        "status": "Verified",
-        "expiryDate": "2026-03-15"
-      },
-      {
-        "documentType": "PAN Card",
-        "fileName": "Screenshot 2025-12-02 142918.png",
-        "status": "Pending",
-        "expiryDate": null,
-        "documentId": "DOC-2026-0010"
-      },
-      {
-        "documentType": "PAN Card",
-        "fileName": "ChatGPT Image May 14, 2026, 05_06_16 PM.png",
-        "status": "Pending",
-        "expiryDate": null,
-        "documentId": "DOC-2026-0011"
-      },
-      {
-        "documentType": "PAN Card",
-        "fileName": "A_sample_of_Permanent_Account_Number_(PAN)_Card.jpg",
-        "status": "Pending",
-        "expiryDate": "2027-05-10",
-        "documentId": "DOC-2026-0001"
-      }
-    ],
     "approvalWorkflow": {
       "submittedBy": "Saurabh Anand",
       "submittedDate": "2025-05-07T11:45:00Z",
       "currentStage": "Approved",
       "approvalStatus": "Approved",
-      "approverRemarks": "Vendor KYC verified and cleared. Approved and empanelled.",
-      "approvedBy": "Procurement Manager",
-      "approvedDate": "2026-06-17T07:45:28.068Z"
-    },
-    "auditTrail": [
-      {
-        "action": "Vendor Created",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2025-05-07T11:45:00Z"
-      },
-      {
-        "action": "Vendor Approved",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2026-05-22T08:37:10.593Z",
-        "remarks": ""
-      },
-      {
-        "action": "Vendor Approved",
-        "performedBy": "Procurement Manager",
-        "timestamp": "2026-06-17T07:45:28.068Z",
-        "remarks": "Vendor KYC verified and cleared. Approved and empanelled."
-      }
-    ],
-    "risk": {
-      "score": 5,
-      "level": "Low"
-    },
-    "riskLevel": "Low"
+      "approvedBy": "Saurabh Anand",
+      "approvedDate": "2026-05-22T08:37:10.593Z"
+    }
   },
   {
-    "vendorId": "VND-2026-88001",
+    "vendorId": "VND-002",
+    "vendorName": "HDFC Bank Limited",
     "status": "Active",
+    "kycStatus": "Approved",
+    "riskScore": 42,
+    "riskTier": "Medium",
+    "riskLevel": "Medium",
     "createdAt": "2026-05-22T08:40:00Z",
     "basicDetails": {
       "legalName": "HDFC Bank Limited",
       "tradeName": "HDFC Bank",
-      "dateOfIncorporation": "1994-08-30",
       "cinNumber": "L65190MH1994PLC080618",
       "panNumber": "AAACH1111A",
       "gstin": "27AAACH1111A1Z8",
       "msmeClassification": "Medium",
-      "companyWebsite": "www.hdfcbank.com",
       "businessType": "Public Limited Company"
     },
     "businessDetails": {
       "vendorCategory": "Consulting",
       "subCategory": "Financial Services",
-      "serviceAreas": [
-        "Mumbai",
-        "Delhi",
-        "Kolkata",
-        "Chennai"
-      ],
-      "productsServicesOffered": "Banking, Cash Management Services, Escrow Services",
+      "productsServicesOffered": "Banking, Cash Management Services",
       "annualTurnover": 12000000000,
       "employeeCount": 150000,
-      "majorClients": [
-        "Qualtech Corporate",
-        "Reliance Industries",
-        "Tata Group"
-      ],
       "criticalVendor": true
     },
-    "bankDetails": {
-      "bankName": "Reserve Bank of India",
-      "accountNumber": "99010048128491",
-      "accountType": "Current Account",
-      "ifscCode": "RBI00000001",
-      "branchName": "RBI Fort Main Branch",
-      "cancelledChequeFile": "HDFC_Cancelled_Cheque.pdf",
-      "bankVerificationStatus": "Verified"
-    },
-    "documents": [
-      {
-        "documentType": "PAN Card",
-        "fileName": "HDFC_PAN.pdf",
-        "status": "Verified",
-        "expiryDate": null
-      },
-      {
-        "documentType": "GST Certificate",
-        "fileName": "HDFC_GST.pdf",
-        "status": "Verified",
-        "expiryDate": null
-      },
-      {
-        "documentType": "Certificate of Incorporation",
-        "fileName": "HDFC_COI.pdf",
-        "status": "Verified",
-        "expiryDate": null
-      },
-      {
-        "documentType": "PAN Card",
-        "fileName": "A_sample_of_Permanent_Account_Number_(PAN)_Card.jpg",
-        "status": "Pending",
-        "expiryDate": null,
-        "documentId": "DOC-2026-0002"
-      },
-      {
-        "documentType": "PAN Card",
-        "fileName": "WhatsApp Image 2025-08-27 at 11.45.53 (1).jpeg",
-        "status": "Pending",
-        "expiryDate": "2026-06-30",
-        "documentId": "DOC-2026-0002"
-      }
-    ],
     "approvalWorkflow": {
       "submittedBy": "Saurabh Anand",
       "submittedDate": "2026-05-22T08:40:00Z",
       "currentStage": "Approved",
       "approvalStatus": "Approved",
-      "approverRemarks": "Vendor KYC verified and cleared. Approved and empanelled.",
-      "approvedBy": "Procurement Manager",
-      "approvedDate": "2026-06-17T07:45:31.156Z"
-    },
-    "auditTrail": [
-      {
-        "action": "Vendor Onboarding Created",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2026-05-22T08:40:00Z"
-      },
-      {
-        "action": "Vendor Approved",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2026-06-08T04:13:08.340Z",
-        "remarks": ""
-      },
-      {
-        "action": "Vendor Approved",
-        "performedBy": "Procurement Manager",
-        "timestamp": "2026-06-17T07:45:31.156Z",
-        "remarks": "Vendor KYC verified and cleared. Approved and empanelled."
-      }
-    ],
-    "risk": {
-      "score": 15,
-      "level": "Low"
-    },
-    "riskLevel": "Low"
+      "approvedBy": "Saurabh Anand",
+      "approvedDate": "2026-06-08T04:13:08.340Z"
+    }
   },
   {
-    "status": "Pending Approval",
+    "vendorId": "VND-003",
+    "vendorName": "New Age Software Solutions",
+    "status": "Inactive",
+    "kycStatus": "Approved",
+    "riskScore": 78,
+    "riskTier": "High",
+    "riskLevel": "High",
+    "createdAt": "2026-06-02T05:55:45.767Z",
     "basicDetails": {
-      "legalName": "My Money Mantra ",
-      "tradeName": "MMM fintech",
-      "dateOfIncorporation": "2026-04-07",
-      "cinNumber": "L65190MH1994PLC080620",
-      "panNumber": "MMMCM1234M",
-      "gstin": "09AVIPY8039N2ZG",
-      "msmeClassification": "Medium",
-      "companyWebsite": "https://www.mymoneymantra.com/",
-      "businessType": "Private Limited Company"
-    },
-    "businessDetails": {
-      "vendorCategory": "IT Services",
-      "subCategory": "Software Development",
-      "serviceAreas": [
-        "delhi ncr"
-      ],
-      "productsServicesOffered": "Custom Software Development, Support & Maintenance",
-      "annualTurnover": 500000,
-      "employeeCount": 20,
-      "majorClients": [
-        "HDFC Bank",
-        "SBI"
-      ],
-      "criticalVendor": true
-    },
-    "bankDetails": {
-      "bankName": "HDFC BANK ",
-      "accountNumber": "5012563498451",
-      "accountType": "Current Account",
-      "ifscCode": "hdfc0000060",
-      "branchName": "HADAPSAR PUNE",
-      "cancelledChequeFile": "download (2).jpg",
-      "bankVerificationStatus": "Verified"
-    },
-    "documents": [
-      {
-        "documentType": "PAN Card",
-        "fileName": "A_sample_of_Permanent_Account_Number_(PAN)_Card.jpg",
-        "savedFileName": "file-1780054925508-458867517.jpg",
-        "filePath": "/uploads/file-1780054925508-458867517.jpg",
-        "status": "Verified",
-        "expiryDate": null
-      },
-      {
-        "documentType": "GST Certificate",
-        "fileName": "download (2).jpg",
-        "savedFileName": "file-1780054929937-423471015.jpg",
-        "filePath": "/uploads/file-1780054929937-423471015.jpg",
-        "status": "Verified",
-        "expiryDate": null
-      },
-      {
-        "documentType": "Certificate of Incorporation",
-        "fileName": "ChatGPT Image May 19, 2026, 01_31_57 PM.png",
-        "savedFileName": "file-1780054934588-415702143.png",
-        "filePath": "/uploads/file-1780054934588-415702143.png",
-        "status": "Verified",
-        "expiryDate": null
-      },
-      {
-        "documentType": "MSME Certificate",
-        "fileName": "ChatGPT Image May 19, 2026, 03_01_40 PM.png",
-        "savedFileName": "file-1780054939122-882252488.png",
-        "filePath": "/uploads/file-1780054939122-882252488.png",
-        "status": "Verified",
-        "expiryDate": "2026-03-15"
-      },
-      {
-        "documentType": "PAN Card",
-        "fileName": "download (2).jpg",
-        "status": "Pending",
-        "expiryDate": "2026-06-10",
-        "documentId": "DOC-2026-0003"
-      },
-      {
-        "documentType": "Others",
-        "fileName": "Screenshot 2025-12-02 142955.png",
-        "status": "Pending",
-        "expiryDate": "2026-05-27",
-        "documentId": "DOC-2026-0004"
-      },
-      {
-        "documentType": "PAN Card",
-        "fileName": "download (2).jpg",
-        "status": "Pending",
-        "expiryDate": "2026-06-17",
-        "documentId": "DOC-2026-0003"
-      }
-    ],
-    "approvalWorkflow": {
-      "submittedBy": "Saurabh Anand",
-      "submittedDate": "2026-05-29T11:42:24.542Z",
-      "currentStage": "Procurement Approval",
-      "approvalStatus": "Pending"
-    },
-    "auditTrail": [
-      {
-        "action": "Vendor Onboarding Created",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2026-05-29T11:42:24.542Z"
-      }
-    ],
-    "vendorId": "VND-2026-50469",
-    "createdAt": "2026-05-29T11:42:24.617Z",
-    "risk": {
-      "score": 90,
-      "level": "Critical"
-    },
-    "riskLevel": "Critical"
-  },
-  {
-    "status": "Rejected",
-    "basicDetails": {
-      "legalName": "axis max life ",
-      "tradeName": "Axis Max",
-      "dateOfIncorporation": "2025-01-01",
+      "legalName": "New Age Software Solutions",
+      "tradeName": "New Age",
       "cinNumber": "L65190MH1994PLC080720",
       "panNumber": "AAACM1234M",
       "gstin": "09AVIPY8039N2ZA",
       "msmeClassification": "Medium",
-      "companyWebsite": "https://www.axismaxlife.com/",
-      "businessType": "Public Limited Company"
-    },
-    "businessDetails": {
-      "vendorCategory": "IT Services",
-      "subCategory": "Software Development",
-      "serviceAreas": [
-        "delhi ncr"
-      ],
-      "productsServicesOffered": "Custom Software Development, Support & Maintenance",
-      "annualTurnover": 50000000,
-      "employeeCount": 120,
-      "majorClients": [
-        "qualtech",
-        "MMM"
-      ],
-      "criticalVendor": true
-    },
-    "bankDetails": {
-      "bankName": "state bank of india ",
-      "accountNumber": "2020977811234",
-      "accountType": "Current Account",
-      "ifscCode": "SBIN0000065",
-      "branchName": "delhi",
-      "cancelledChequeFile": "download (2).jpg",
-      "bankVerificationStatus": "Verified"
-    },
-    "documents": [
-      {
-        "documentType": "PAN Card",
-        "fileName": "ChatGPT Image May 14, 2026, 05_06_16 PM.png",
-        "savedFileName": "file-1780379733658-133992551.png",
-        "filePath": "/uploads/file-1780379733658-133992551.png",
-        "status": "Verified",
-        "expiryDate": null
-      },
-      {
-        "documentType": "GST Certificate",
-        "fileName": "ChatGPT Image May 19, 2026, 02_02_28 PM.png",
-        "savedFileName": "file-1780379736666-207420036.png",
-        "filePath": "/uploads/file-1780379736666-207420036.png",
-        "status": "Verified",
-        "expiryDate": null
-      },
-      {
-        "documentType": "Certificate of Incorporation",
-        "fileName": "ChatGPT Image May 19, 2026, 02_20_57 PM.png",
-        "savedFileName": "file-1780379739348-412663032.png",
-        "filePath": "/uploads/file-1780379739348-412663032.png",
-        "status": "Verified",
-        "expiryDate": null
-      },
-      {
-        "documentType": "MSME Certificate",
-        "fileName": "ChatGPT Image May 19, 2026, 03_01_40 PM.png",
-        "savedFileName": "file-1780379742003-628729597.png",
-        "filePath": "/uploads/file-1780379742003-628729597.png",
-        "status": "Verified",
-        "expiryDate": "2026-03-15"
-      },
-      {
-        "documentType": "PAN Card",
-        "fileName": "WhatsApp Image 2025-08-27 at 11.45.53.jpeg",
-        "status": "Pending",
-        "expiryDate": "2026-06-04",
-        "documentId": "DOC-2026-0009"
-      },
-      {
-        "documentType": "PAN Card",
-        "fileName": "A_sample_of_Permanent_Account_Number_(PAN)_Card.jpg",
-        "status": "Pending",
-        "expiryDate": "2027-01-14",
-        "documentId": "DOC-2026-0004"
-      }
-    ],
-    "approvalWorkflow": {
-      "submittedBy": "Saurabh Anand",
-      "submittedDate": "2026-06-02T05:55:45.727Z",
-      "currentStage": "Rejected",
-      "approvalStatus": "Rejected",
-      "approverRemarks": "Vendor KYC checks failed. Debarred from onboarding.",
-      "approvedBy": "Procurement Manager",
-      "approvedDate": "2026-06-17T07:56:22.163Z"
-    },
-    "auditTrail": [
-      {
-        "action": "Vendor Onboarding Created",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2026-06-02T05:55:45.727Z"
-      },
-      {
-        "action": "Vendor Rejected",
-        "performedBy": "Procurement Manager",
-        "timestamp": "2026-06-17T07:56:22.163Z",
-        "remarks": "Vendor KYC checks failed. Debarred from onboarding."
-      }
-    ],
-    "vendorId": "VND-2026-88164",
-    "createdAt": "2026-06-02T05:55:45.767Z",
-    "risk": {
-      "score": 5,
-      "level": "Low"
-    },
-    "riskLevel": "Low"
-  },
-  {
-    "status": "Active",
-    "basicDetails": {
-      "legalName": "New Age Software Solutions",
-      "tradeName": "New Age Software ",
-      "dateOfIncorporation": "2026-03-10",
-      "cinNumber": "L65190MH1994PLC080760",
-      "panNumber": "AAACM1234t",
-      "gstin": "09AVIPY8039N2ZS",
-      "msmeClassification": "Not Applicable",
-      "companyWebsite": "",
       "businessType": "Private Limited Company"
     },
     "businessDetails": {
       "vendorCategory": "IT Services",
       "subCategory": "Software Development",
-      "serviceAreas": [
-        "Mumbai",
-        "Pune",
-        "Bengaluru"
-      ],
-      "productsServicesOffered": "Custom Software Development, Support & Maintenance",
+      "productsServicesOffered": "Custom Software Development",
       "annualTurnover": 50000000,
       "employeeCount": 120,
-      "majorClients": [
-        "TCS",
-        "HDFC Bank"
-      ],
       "criticalVendor": true
     },
-    "bankDetails": {
-      "bankName": "state bank of india ",
-      "accountNumber": "476575746375675",
-      "accountType": "Current Account",
-      "ifscCode": "SBIN0000065",
-      "branchName": "Mumbai - Andheri East",
-      "cancelledChequeFile": "download (2).jpg",
-      "bankVerificationStatus": "Verified"
-    },
-    "documents": [
-      {
-        "documentType": "PAN Card",
-        "fileName": "A_sample_of_Permanent_Account_Number_(PAN)_Card.jpg",
-        "savedFileName": "file-1781519504663-329256138.jpg",
-        "filePath": "/uploads/file-1781519504663-329256138.jpg",
-        "status": "Verified",
-        "expiryDate": null
-      },
-      {
-        "documentType": "GST Certificate",
-        "fileName": "ChatGPT Image May 14, 2026, 05_06_16 PM.png",
-        "savedFileName": "file-1781519508629-697004393.png",
-        "filePath": "/uploads/file-1781519508629-697004393.png",
-        "status": "Verified",
-        "expiryDate": null
-      },
-      {
-        "documentType": "Certificate of Incorporation",
-        "fileName": "download (2).jpg",
-        "savedFileName": "file-1781519513636-355770043.jpg",
-        "filePath": "/uploads/file-1781519513636-355770043.jpg",
-        "status": "Verified",
-        "expiryDate": null
-      },
-      {
-        "documentType": "MSME Certificate",
-        "fileName": "ChatGPT Image May 19, 2026, 01_31_57 PM.png",
-        "savedFileName": "file-1781519520837-443780032.png",
-        "filePath": "/uploads/file-1781519520837-443780032.png",
-        "status": "Verified",
-        "expiryDate": "2026-03-15"
-      }
-    ],
     "approvalWorkflow": {
       "submittedBy": "Saurabh Anand",
-      "submittedDate": "2026-06-15T10:32:04.090Z",
+      "submittedDate": "2026-06-02T05:55:45.727Z",
       "currentStage": "Approved",
       "approvalStatus": "Approved",
-      "approverRemarks": "Vendor KYC verified and cleared. Approved and empanelled.",
-      "approvedBy": "Procurement Manager",
-      "approvedDate": "2026-06-17T10:56:01.804Z"
-    },
-    "auditTrail": [
-      {
-        "action": "Vendor Onboarding Created",
-        "performedBy": "Saurabh Anand",
-        "timestamp": "2026-06-15T10:32:04.090Z"
-      },
-      {
-        "action": "Vendor Approved",
-        "performedBy": "Procurement Manager",
-        "timestamp": "2026-06-17T10:56:01.804Z",
-        "remarks": "Vendor KYC verified and cleared. Approved and empanelled."
-      }
-    ],
-    "vendorId": "VND-2026-45682",
-    "createdAt": "2026-06-15T10:32:04.133Z",
-    "risk": {
-      "score": 5,
-      "level": "Low"
-    },
-    "riskLevel": "Low"
+      "approvedBy": "Saurabh Anand",
+      "approvedDate": "2026-06-08T04:13:08.340Z"
+    }
   }
 ]

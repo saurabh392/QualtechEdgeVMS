@@ -17,6 +17,29 @@
         "changedBy": "Accounts Payable"
       }
     ],
-    "attachmentIds": ["ATT-001", "ATT-002"]
+    "attachmentIds": [
+      "ATT-001",
+      "ATT-002"
+    ]
+  },
+  {
+    "approvalId": "PA-1781790025901-126",
+    "paymentId": "PAY-1781790025901-397",
+    "vendorName": "ABC Infotech Private Limited",
+    "invoiceRef": "INV-2026-9902",
+    "amount": 734400,
+    "status": "Pending Approval",
+    "submittedBy": "Priya Mehta",
+    "submittedDate": "2026-06-18",
+    "remarks": "",
+    "timestamp": "2026-06-18T13:40:25.901Z",
+    "statusHistory": [
+      {
+        "status": "Pending Approval",
+        "timestamp": "2026-06-18T13:40:25.901Z",
+        "changedBy": "Priya Mehta"
+      }
+    ],
+    "attachmentIds": []
   }
 ]

@@ -654,5 +654,61 @@
     "details": "Vendor VND-2026-45682 (New Age Software Solutions) onboarding approved by Checker.",
     "performedBy": "Saurabh Anand",
     "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0083",
+    "timestamp": "2026-06-18T14:17:37.294Z",
+    "action": "Vendor Deleted",
+    "details": "Vendor VND-2026-88001 (HDFC Bank Limited) profile deleted.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0084",
+    "timestamp": "2026-06-18T16:59:26.900Z",
+    "action": "RFQ Approval Approve",
+    "details": "RFQ Approval RFQA-2026-001 Approved by Saurabh Anand.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0085",
+    "timestamp": "2026-06-18T16:59:31.066Z",
+    "action": "PO Generated from RFQ",
+    "details": "PO PO-2026-0003 generated from approved RFQ RFQ-2026-0001.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0086",
+    "timestamp": "2026-06-18T16:59:31.071Z",
+    "action": "RFQ Approval Approve",
+    "details": "RFQ Approval RFQA-2026-001 Approved by Saurabh Anand.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0087",
+    "timestamp": "2026-06-18T16:59:34.325Z",
+    "action": "PO Generated from RFQ",
+    "details": "PO PO-2026-0004 generated from approved RFQ RFQ-2026-0003.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0088",
+    "timestamp": "2026-06-18T16:59:34.332Z",
+    "action": "RFQ Approval Approve",
+    "details": "RFQ Approval RFQA-2026-004 Approved by Saurabh Anand.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0089",
+    "timestamp": "2026-06-18T17:06:29.321Z",
+    "action": "Bulk Quotes Imported",
+    "details": "Bulk quotes imported for RFQ RFQ-2026-0005.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
   }
 ]

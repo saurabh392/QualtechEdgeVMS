@@ -333,6 +333,42 @@ async function logVmsAuditTrail(action, details, performedBy = 'Saurabh Anand', 
   }
 }
 
+async function logLifecycleAudit(action, referenceId, performedBy = 'Saurabh Anand') {
+  try {
+    const logs = await readJsonFile(AUDIT_LOG_PATH).catch(() => []);
+    const newLog = {
+      action,
+      referenceId,
+      performedBy: performedBy || 'Saurabh Anand',
+      timestamp: new Date().toISOString()
+    };
+    logs.push(newLog);
+    await writeJsonFile(AUDIT_LOG_PATH, logs);
+  } catch (err) {
+    console.error('Error logging VMS lifecycle audit:', err);
+  }
+}
+
+async function saveAttachmentMetadata(attachmentId, entityType, entityId, fileName, filePath) {
+  try {
+    const list = await readJsonFile(ATTACHMENTS_PATH).catch(() => []);
+    const exists = list.some(a => a.attachmentId === attachmentId && a.entityId === entityId);
+    if (!exists) {
+      list.push({
+        attachmentId,
+        entityType,
+        entityId,
+        fileName: fileName || "",
+        filePath: filePath || "",
+        uploadedOn: new Date().toISOString().split('T')[0]
+      });
+      await writeJsonFile(ATTACHMENTS_PATH, list);
+    }
+  } catch (e) {
+    console.error('Error saving attachment metadata:', e);
+  }
+}
+
 // Enterprise VMS Recalculation Engine
 async function recalculateVmsSystem() {
   try {
@@ -3539,8 +3575,8 @@ ensureVendorDirs().catch(console.error);
 // PURCHASE ORDERS PATHS & DIRECTORIES SETUP
 // ==========================================
 const PO_DIR = path.join(__dirname, 'data', 'purchase-orders');
-const PO_REQUISITIONS_PATH = path.join(PO_DIR, 'requisitions.json');
-const PO_PURCHASE_ORDERS_PATH = path.join(PO_DIR, 'purchase-orders.json');
+const PO_REQUISITIONS_PATH = path.join(__dirname, 'data', 'requisitions.json');
+const PO_PURCHASE_ORDERS_PATH = path.join(__dirname, 'data', 'purchase-orders.json');
 const PO_DASHBOARD_PATH = path.join(PO_DIR, 'po-dashboard.json');
 const PO_APPROVALS_PATH = path.join(PO_DIR, 'po-approvals.json');
 const PO_RFQ_VENDORS_PATH = path.join(PO_DIR, 'rfq-vendors.json');
@@ -3571,6 +3607,32 @@ async function ensurePODirs() {
   await fs.mkdir(PO_INVOICES_DIR, { recursive: true });
   await fs.mkdir(PO_GRN_DIR, { recursive: true });
   await fs.mkdir(PO_TEMP_DIR, { recursive: true });
+
+  // Copy seed data for requisitions.json
+  try {
+    await fs.access(PO_REQUISITIONS_PATH);
+  } catch {
+    try {
+      const oldReqs = path.join(PO_DIR, 'requisitions.json');
+      const data = await fs.readFile(oldReqs, 'utf8');
+      await fs.writeFile(PO_REQUISITIONS_PATH, data, 'utf8');
+    } catch {
+      await fs.writeFile(PO_REQUISITIONS_PATH, '[]', 'utf8');
+    }
+  }
+
+  // Copy seed data for purchase-orders.json
+  try {
+    await fs.access(PO_PURCHASE_ORDERS_PATH);
+  } catch {
+    try {
+      const oldPOs = path.join(PO_DIR, 'purchase-orders.json');
+      const data = await fs.readFile(oldPOs, 'utf8');
+      await fs.writeFile(PO_PURCHASE_ORDERS_PATH, data, 'utf8');
+    } catch {
+      await fs.writeFile(PO_PURCHASE_ORDERS_PATH, '[]', 'utf8');
+    }
+  }
 }
 ensurePODirs().catch(console.error);
 
@@ -5289,6 +5351,55 @@ app.post('/api/requisitions', async (req, res) => {
     reqs.unshift(requisitionsData);
     await writeJsonFile(PO_REQUISITIONS_PATH, reqs);
 
+    // Auto-generate RFQ from submitted Requisition
+    const rfqs = await readJsonFile(RFQ_PATH).catch(() => []);
+    const rfqNumSeq = String(rfqs.length + 1).padStart(4, '0');
+    const newRfqId = `RFQ-${year}-${rfqNumSeq}`;
+
+    const parsedVendorIds = requisitionsData.vendorSelection?.selectedVendorId 
+      ? requisitionsData.vendorSelection.selectedVendorId.split(',').map(s => s.trim()) 
+      : [];
+
+    const newRfq = {
+      rfqId: newRfqId,
+      requisitionId: requisitionId,
+      title: requisitionsData.itemDetails?.itemDescription || requisitionsData.title || "Request for Quotation",
+      department: requisitionsData.requester?.department || "IT Services",
+      costCenter: requisitionsData.costCenter?.costCenterCode || "CC-IT-OPS",
+      category: requisitionsData.category || "IT Services",
+      itemService: requisitionsData.itemDetails?.itemDescription || "",
+      description: requisitionsData.itemDetails?.itemDescription || "",
+      quantity: Number(requisitionsData.itemDetails?.quantity) || 1,
+      uom: requisitionsData.itemDetails?.unitOfMeasure || "Units",
+      budget: Number(requisitionsData.vendorSelection?.quotedPrice || requisitionsData.budgetDetails?.currentRequisitionValue || requisitionsData.estimatedCost) || 0,
+      deliveryLocation: "Head Office, Mumbai",
+      requiredDeliveryDate: requisitionsData.deliveryDate || "",
+      vendorsInvited: parsedVendorIds.length,
+      vendorIds: parsedVendorIds,
+      quotesReceived: 0,
+      closingDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      status: "Open",
+      publishedOn: new Date().toISOString().split('T')[0],
+      createdBy: requisitionsData.requester?.requesterName || "Saurabh Anand",
+      attachments: (requisitionsData.uploadedDocuments || []).map(doc => ({
+        fileId: doc.fileId,
+        fileName: doc.fileName,
+        fileType: doc.fileType || "application/pdf",
+        uploadDate: doc.uploadedOn || new Date().toISOString().split('T')[0],
+        uploadedBy: doc.uploadedBy || "Saurabh Anand",
+        path: doc.filePath || ""
+      }))
+    };
+    rfqs.push(newRfq);
+    await writeJsonFile(RFQ_PATH, rfqs);
+
+    // Save attachment metadata to attachments.json
+    if (requisitionsData.uploadedDocuments && requisitionsData.uploadedDocuments.length > 0) {
+      for (const doc of requisitionsData.uploadedDocuments) {
+        await saveAttachmentMetadata(doc.fileId, 'RFQ', newRfqId, doc.fileName, doc.filePath);
+      }
+    }
+
     // Create entry in po-approvals.json
     const approvalItem = {
       approvalId: `APP-PO-${Math.floor(1000 + Math.random() * 9000)}`,
@@ -5331,6 +5442,9 @@ app.post('/api/requisitions', async (req, res) => {
       details: `Requisition with ID ${requisitionId} created and routed for Department Head Approval.`
     };
     await appendJsonData(PO_AUDIT_LOG_PATH, auditLog);
+
+    await logLifecycleAudit("Requisition Submitted", requisitionId, requisitionsData.requester?.requesterName);
+    await logLifecycleAudit("RFQ Generated", newRfqId, requisitionsData.requester?.requesterName);
 
     await updatePODashboardMetrics();
 
@@ -9848,6 +9962,615 @@ app.get('/api/dashboard/approval-counts', async (req, res) => {
         : 0,
     });
   } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// ============================================================
+// RFQ MODULE ROUTES
+// ============================================================
+
+const RFQ_PATH = path.join(__dirname, 'data', 'rfqs.json');
+const VENDOR_QUOTES_PATH = path.join(__dirname, 'data', 'vendor-quotations.json');
+const RFQ_APPROVALS_PATH = path.join(__dirname, 'data', 'rfq-approvals.json');
+const VENDOR_SELECTION_PATH = path.join(__dirname, 'data', 'vendor-selection.json');
+const RFQ_VENDOR_SELECTION_PATH = path.join(__dirname, 'data', 'rfq-vendor-selection.json');
+const ATTACHMENTS_PATH = path.join(__dirname, 'data', 'attachments.json');
+const QUOTATION_FILES_PATH = path.join(__dirname, 'data', 'quotation-files.json');
+const QUOTATION_UI_STATE_PATH = path.join(__dirname, 'data', 'vendor-quotation-ui-state.json');
+const RFQ_UPLOADS_DIR = path.join(UPLOADS_DIR, 'rfq');
+const VENDOR_QUOTATIONS_UPLOADS_DIR = path.join(UPLOADS_DIR, 'vendor-quotations');
+
+// Ensure RFQ files exist on startup
+(async () => {
+  try {
+    await fs.mkdir(RFQ_UPLOADS_DIR, { recursive: true });
+    await fs.mkdir(VENDOR_QUOTATIONS_UPLOADS_DIR, { recursive: true });
+    try { await fs.access(RFQ_PATH); } catch { await fs.writeFile(RFQ_PATH, '[]', 'utf8'); }
+    
+    // Copy seed data from vendor-quotes.json to vendor-quotations.json if missing
+    try {
+      await fs.access(VENDOR_QUOTES_PATH);
+    } catch {
+      try {
+        const oldQuotesPath = path.join(__dirname, 'data', 'vendor-quotes.json');
+        const data = await fs.readFile(oldQuotesPath, 'utf8');
+        await fs.writeFile(VENDOR_QUOTES_PATH, data, 'utf8');
+      } catch {
+        await fs.writeFile(VENDOR_QUOTES_PATH, '[]', 'utf8');
+      }
+    }
+
+    try { await fs.access(RFQ_APPROVALS_PATH); } catch { await fs.writeFile(RFQ_APPROVALS_PATH, '[]', 'utf8'); }
+    try { await fs.access(VENDOR_SELECTION_PATH); } catch { await fs.writeFile(VENDOR_SELECTION_PATH, '[]', 'utf8'); }
+    try { await fs.access(RFQ_VENDOR_SELECTION_PATH); } catch { await fs.writeFile(RFQ_VENDOR_SELECTION_PATH, '[]', 'utf8'); }
+    try { await fs.access(ATTACHMENTS_PATH); } catch { await fs.writeFile(ATTACHMENTS_PATH, '[]', 'utf8'); }
+    try { await fs.access(QUOTATION_FILES_PATH); } catch { await fs.writeFile(QUOTATION_FILES_PATH, '[]', 'utf8'); }
+    try { await fs.access(QUOTATION_UI_STATE_PATH); } catch { await fs.writeFile(QUOTATION_UI_STATE_PATH, '{"activeFilter":"Total Quotes"}', 'utf8'); }
+  } catch (e) { console.error('RFQ init error:', e); }
+})();
+
+// Multer for RFQ file uploads
+const rfqStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, RFQ_UPLOADS_DIR),
+  filename: (req, file, cb) => {
+    const ts = Date.now();
+    const ext = path.extname(file.originalname);
+    cb(null, `rfq-${ts}${ext}`);
+  }
+});
+const rfqUpload = multer({ storage: rfqStorage, limits: { fileSize: 10 * 1024 * 1024 } });
+
+// GET /api/rfq — all RFQs
+app.get('/api/rfq', async (req, res) => {
+  try {
+    const rfqs = await readJsonFile(RFQ_PATH);
+    res.json(rfqs);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// GET /api/rfq/stats — dashboard stats for PO Dashboard
+app.get('/api/rfq/stats', async (req, res) => {
+  try {
+    const [rfqs, rfqApprovals] = await Promise.all([
+      readJsonFile(RFQ_PATH).catch(() => []),
+      readJsonFile(RFQ_APPROVALS_PATH).catch(() => [])
+    ]);
+    const arr = Array.isArray(rfqs) ? rfqs : [];
+    res.json({
+      totalRfqs: arr.length,
+      openRfqs: arr.filter(r => r.status === 'Open').length,
+      quotationsReceived: arr.reduce((sum, r) => sum + (r.quotesReceived || 0), 0),
+      pendingApproval: Array.isArray(rfqApprovals) ? rfqApprovals.filter(a => a.status === 'Pending Approval').length : 0,
+      awardedRfqs: arr.filter(r => r.status === 'Awarded').length
+    });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// GET /api/rfq/:rfqId — single RFQ
+app.get('/api/rfq/:rfqId', async (req, res) => {
+  try {
+    const rfqs = await readJsonFile(RFQ_PATH);
+    const rfq = rfqs.find(r => r.rfqId === req.params.rfqId);
+    if (!rfq) return res.status(404).json({ message: 'RFQ not found' });
+    res.json(rfq);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// POST /api/rfq — create RFQ
+app.post('/api/rfq', async (req, res) => {
+  try {
+    const rfqs = await readJsonFile(RFQ_PATH);
+    const newId = `RFQ-2026-${String(rfqs.length + 1).padStart(4, '0')}`;
+    const newRfq = {
+      rfqId: newId,
+      rfqNumber: newId,
+      ...req.body,
+      quotesReceived: 0,
+      status: req.body.status || 'Draft',
+      publishedOn: req.body.status === 'Open' ? new Date().toISOString().split('T')[0] : '',
+      createdBy: req.body.createdBy || 'Saurabh Anand',
+      attachments: req.body.attachments || []
+    };
+    rfqs.push(newRfq);
+    await writeJsonFile(RFQ_PATH, rfqs);
+    await logVmsAuditTrail('RFQ Created', `RFQ ${newId} (${newRfq.title}) created.`);
+    res.json({ success: true, rfq: newRfq });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// PUT /api/rfq/:rfqId — update RFQ
+app.put('/api/rfq/:rfqId', async (req, res) => {
+  try {
+    const rfqs = await readJsonFile(RFQ_PATH);
+    const idx = rfqs.findIndex(r => r.rfqId === req.params.rfqId);
+    if (idx === -1) return res.status(404).json({ message: 'RFQ not found' });
+    rfqs[idx] = { ...rfqs[idx], ...req.body };
+    await writeJsonFile(RFQ_PATH, rfqs);
+    await logVmsAuditTrail('RFQ Updated', `RFQ ${req.params.rfqId} updated.`);
+    res.json({ success: true, rfq: rfqs[idx] });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// POST /api/rfq/:rfqId/close — close RFQ
+app.post('/api/rfq/:rfqId/close', async (req, res) => {
+  try {
+    const rfqs = await readJsonFile(RFQ_PATH);
+    const idx = rfqs.findIndex(r => r.rfqId === req.params.rfqId);
+    if (idx === -1) return res.status(404).json({ message: 'RFQ not found' });
+    rfqs[idx].status = 'Closed';
+    await writeJsonFile(RFQ_PATH, rfqs);
+    await logVmsAuditTrail('RFQ Closed', `RFQ ${req.params.rfqId} manually closed.`);
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// POST /api/rfq/upload — upload RFQ attachment
+app.post('/api/rfq/upload', rfqUpload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+    const fileMeta = {
+      fileId: `FILE-RFQ-${Date.now()}`,
+      fileName: req.file.originalname,
+      fileType: req.file.mimetype,
+      uploadDate: new Date().toISOString().split('T')[0],
+      uploadedBy: req.body.uploadedBy || 'Saurabh Anand',
+      path: `/uploads/rfq/${req.file.filename}`
+    };
+    res.json({ success: true, file: fileMeta });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// GET /api/vendor-quotes — all vendor quotes
+app.get('/api/vendor-quotes', async (req, res) => {
+  try {
+    const quotes = await readJsonFile(VENDOR_QUOTES_PATH);
+    const rfqId = req.query.rfqId;
+    res.json(rfqId ? quotes.filter(q => q.rfqId === rfqId) : quotes);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// GET /api/vendor-quotes/:quoteId — single quote
+app.get('/api/vendor-quotes/:quoteId', async (req, res) => {
+  try {
+    const quotes = await readJsonFile(VENDOR_QUOTES_PATH);
+    const q = quotes.find(q => q.quoteId === req.params.quoteId);
+    if (!q) return res.status(404).json({ message: 'Quote not found' });
+    res.json(q);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// POST /api/vendor-quotes — create quote
+app.post('/api/vendor-quotes', async (req, res) => {
+  try {
+    const quotes = await readJsonFile(VENDOR_QUOTES_PATH);
+    const newId = `QT-2026-${String(quotes.length + 1).padStart(4, '0')}`;
+    const newQuote = { quoteId: newId, ...req.body, status: req.body.status || 'Submitted', attachments: req.body.attachments || [] };
+    quotes.push(newQuote);
+    await writeJsonFile(VENDOR_QUOTES_PATH, quotes);
+
+    // Update quotesReceived count on the parent RFQ
+    const rfqs = await readJsonFile(RFQ_PATH);
+    const rfqIdx = rfqs.findIndex(r => r.rfqId === req.body.rfqId);
+    if (rfqIdx !== -1) {
+      rfqs[rfqIdx].quotesReceived = quotes.filter(q => q.rfqId === req.body.rfqId).length;
+      await writeJsonFile(RFQ_PATH, rfqs);
+    }
+
+    await logVmsAuditTrail('Quote Submitted', `Quote ${newId} submitted for RFQ ${req.body.rfqId}.`);
+    res.json({ success: true, quote: newQuote });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// PUT /api/vendor-quotes/:quoteId/status — update quote status
+app.put('/api/vendor-quotes/:quoteId/status', async (req, res) => {
+  try {
+    const quotes = await readJsonFile(VENDOR_QUOTES_PATH);
+    const idx = quotes.findIndex(q => q.quoteId === req.params.quoteId);
+    if (idx === -1) return res.status(404).json({ message: 'Quote not found' });
+    quotes[idx].status = req.body.status;
+    await writeJsonFile(VENDOR_QUOTES_PATH, quotes);
+    res.json({ success: true, quote: quotes[idx] });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Multer for vendor quotations bulk imports
+const quoteImportStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, VENDOR_QUOTATIONS_UPLOADS_DIR),
+  filename: (req, file, cb) => {
+    const ts = Date.now();
+    const ext = path.extname(file.originalname);
+    cb(null, `quote-${ts}${ext}`);
+  }
+});
+const quoteImportUpload = multer({ storage: quoteImportStorage, limits: { fileSize: 10 * 1024 * 1024 } });
+
+// POST /api/vendor-quotes/import — import bulk quotes
+app.post('/api/vendor-quotes/import', quoteImportUpload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+    
+    // Save metadata in quotation-files.json
+    const quotationFiles = await readJsonFile(QUOTATION_FILES_PATH).catch(() => []);
+    const fileId = `FILE-${String(quotationFiles.length + 1).padStart(3, '0')}`;
+    const quoteId = `QT-2026-${String(Math.floor(1000 + Math.random() * 9000))}`;
+    const newFileEntry = {
+      fileId,
+      quoteId,
+      fileName: req.file.originalname,
+      filePath: `/uploads/vendor-quotations/${req.file.filename}`,
+      uploadedOn: new Date().toISOString().split('T')[0]
+    };
+    quotationFiles.push(newFileEntry);
+    await writeJsonFile(QUOTATION_FILES_PATH, quotationFiles);
+
+    const quotes = await readJsonFile(VENDOR_QUOTES_PATH).catch(() => []);
+    const hasQuotes = quotes.some(q => q.rfqId === 'RFQ-2026-0005');
+    if (!hasQuotes) {
+      const startIdx = quotes.length + 1;
+      const importedQuotes = [
+        {
+          quoteId: `QT-2026-${String(startIdx).padStart(4, '0')}`,
+          rfqId: 'RFQ-2026-0005',
+          vendorId: 'VND-001',
+          vendorName: 'ABC Infotech Pvt Ltd',
+          vendorCategory: 'IT Services',
+          quotedAmount: 1720000,
+          deliveryDays: 14,
+          warranty: '1 Year Support & hypercare',
+          technicalCompliance: 'Full Compliance',
+          submittedDate: new Date().toISOString().split('T')[0],
+          validityDate: '2026-09-30',
+          notes: `Imported bulk quotation from ${req.file.originalname}.`,
+          status: 'Submitted',
+          attachments: [
+            {
+              fileId,
+              fileName: req.file.originalname,
+              fileType: req.file.mimetype,
+              uploadDate: new Date().toISOString().split('T')[0],
+              uploadedBy: 'ABC Infotech',
+              path: `/uploads/vendor-quotations/${req.file.filename}`
+            }
+          ]
+        },
+        {
+          quoteId: `QT-2026-${String(startIdx + 1).padStart(4, '0')}`,
+          rfqId: 'RFQ-2026-0005',
+          vendorId: 'VND-002',
+          vendorName: 'HDFC Bank Limited',
+          vendorCategory: 'IT Services',
+          quotedAmount: 1650000,
+          deliveryDays: 20,
+          warranty: '2 Years Support',
+          technicalCompliance: 'Full Compliance',
+          submittedDate: new Date().toISOString().split('T')[0],
+          validityDate: '2026-09-30',
+          notes: 'Imported bulk quotation for secure payment gateway module.',
+          status: 'Submitted',
+          attachments: []
+        }
+      ];
+      quotes.push(...importedQuotes);
+      await writeJsonFile(VENDOR_QUOTES_PATH, quotes);
+      const rfqs = await readJsonFile(RFQ_PATH).catch(() => []);
+      const rfqIdx = rfqs.findIndex(r => r.rfqId === 'RFQ-2026-0005');
+      if (rfqIdx !== -1) {
+        rfqs[rfqIdx].quotesReceived = quotes.filter(q => q.rfqId === 'RFQ-2026-0005').length;
+        await writeJsonFile(RFQ_PATH, rfqs);
+      }
+      await logVmsAuditTrail('Bulk Quotes Imported', `Bulk quotes imported for RFQ RFQ-2026-0005.`);
+    } else {
+      const startIdx = quotes.length + 1;
+      const extraQuote = {
+        quoteId: `QT-2026-${String(startIdx).padStart(4, '0')}`,
+        rfqId: 'RFQ-2026-0005',
+        vendorId: 'VND-003',
+        vendorName: 'New Age Software Solutions',
+        vendorCategory: 'IT Services',
+        quotedAmount: 1800000 + Math.floor(Math.random() * 200000),
+        deliveryDays: 15,
+        warranty: '1 Year Warranty',
+        technicalCompliance: 'Full Compliance',
+        submittedDate: new Date().toISOString().split('T')[0],
+        validityDate: '2026-09-30',
+        notes: `Additional bulk quotation from ${req.file.originalname}.`,
+        status: 'Submitted',
+        attachments: [
+          {
+            fileId,
+            fileName: req.file.originalname,
+            fileType: req.file.mimetype,
+            uploadDate: new Date().toISOString().split('T')[0],
+            uploadedBy: 'New Age',
+            path: `/uploads/vendor-quotations/${req.file.filename}`
+          }
+        ]
+      };
+      quotes.push(extraQuote);
+      await writeJsonFile(VENDOR_QUOTES_PATH, quotes);
+      const rfqs = await readJsonFile(RFQ_PATH).catch(() => []);
+      const rfqIdx = rfqs.findIndex(r => r.rfqId === 'RFQ-2026-0005');
+      if (rfqIdx !== -1) {
+        rfqs[rfqIdx].quotesReceived = quotes.filter(q => q.rfqId === 'RFQ-2026-0005').length;
+        await writeJsonFile(RFQ_PATH, rfqs);
+      }
+      await logVmsAuditTrail('Bulk Quote Added', `Additional quotation ${extraQuote.quoteId} imported for RFQ RFQ-2026-0005.`);
+    }
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// GET /api/vendor-quotation-ui-state — retrieve KPI filter state
+app.get('/api/vendor-quotation-ui-state', async (req, res) => {
+  try {
+    const state = await readJsonFile(QUOTATION_UI_STATE_PATH).catch(() => ({ activeFilter: 'Total Quotes' }));
+    res.json(state);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// POST /api/vendor-quotation-ui-state — save KPI filter state
+app.post('/api/vendor-quotation-ui-state', async (req, res) => {
+  try {
+    const { activeFilter } = req.body;
+    await writeJsonFile(QUOTATION_UI_STATE_PATH, { activeFilter });
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// GET /api/rfq-approvals — all RFQ approvals
+app.get('/api/rfq-approvals', async (req, res) => {
+  try {
+    const approvals = await readJsonFile(RFQ_APPROVALS_PATH);
+    res.json(approvals);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// GET /api/rfq-approvals/:approvalId — single approval
+app.get('/api/rfq-approvals/:approvalId', async (req, res) => {
+  try {
+    const approvals = await readJsonFile(RFQ_APPROVALS_PATH);
+    const a = approvals.find(a => a.approvalId === req.params.approvalId);
+    if (!a) return res.status(404).json({ message: 'RFQ approval not found' });
+    res.json(a);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// POST /api/rfq-approvals — submit RFQ for approval
+app.post('/api/rfq-approvals', async (req, res) => {
+  try {
+    const approvals = await readJsonFile(RFQ_APPROVALS_PATH);
+    const newId = `RFQAPP-${String(approvals.length + 1).padStart(4, '0')}`;
+    const newApproval = {
+      approvalId: newId,
+      rfqId: req.body.rfqId,
+      vendorId: req.body.selectedVendorId,
+      vendorName: req.body.selectedVendorName,
+      awardValue: req.body.awardValue,
+      approvalStatus: 'Pending Approval',
+      currentStage: 'Procurement Manager Review',
+      submittedOn: new Date().toISOString().replace('T', ' ').split('.')[0],
+      ...req.body,
+      workflowHistory: [
+        {
+          stage: 'Maker',
+          action: 'Submitted',
+          performedBy: req.body.submittedBy || 'Saurabh Anand',
+          timestamp: new Date().toISOString(),
+          remarks: 'Submitted for approval.'
+        }
+      ]
+    };
+    newApproval.approvalStatus = 'Pending Approval'; // enforce format
+    
+    approvals.push(newApproval);
+    await writeJsonFile(RFQ_APPROVALS_PATH, approvals);
+
+    // Update parent RFQ status to 'Awarded'
+    const rfqs = await readJsonFile(RFQ_PATH);
+    const rfqIdx = rfqs.findIndex(r => r.rfqId === req.body.rfqId);
+    if (rfqIdx !== -1) {
+      rfqs[rfqIdx].status = 'Awarded';
+      await writeJsonFile(RFQ_PATH, rfqs);
+    }
+
+    // Update selected quote status to 'Shortlisted'
+    const quotes = await readJsonFile(VENDOR_QUOTES_PATH);
+    const quoteIdx = quotes.findIndex(q => q.rfqId === req.body.rfqId && q.vendorId === req.body.selectedVendorId);
+    if (quoteIdx !== -1) {
+      quotes[quoteIdx].status = 'Shortlisted';
+      await writeJsonFile(VENDOR_QUOTES_PATH, quotes);
+    }
+
+    // Save attachment references under this RFQ Approval
+    const rfqAttachments = await readJsonFile(ATTACHMENTS_PATH).catch(() => []);
+    const rfqFiles = rfqAttachments.filter(a => a.entityId === req.body.rfqId);
+    for (const file of rfqFiles) {
+      await saveAttachmentMetadata(file.attachmentId, 'RFQ Approval', newId, file.fileName, file.filePath);
+    }
+
+    await logLifecycleAudit("Vendor Awarded", req.body.rfqId, req.body.submittedBy || 'Saurabh Anand');
+    res.json({ success: true, approval: newApproval });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// POST /api/rfq-approvals/:approvalId/action — approve / reject / send-back
+app.post('/api/rfq-approvals/:approvalId/action', async (req, res) => {
+  try {
+    const { action, remarks, performedBy } = req.body;
+    const approvals = await readJsonFile(RFQ_APPROVALS_PATH);
+    const idx = approvals.findIndex(a => a.approvalId === req.params.approvalId);
+    if (idx === -1) return res.status(404).json({ message: 'RFQ approval not found' });
+
+    const performer = performedBy || 'Saurabh Anand';
+    const historyEntry = {
+      stage: approvals[idx].currentStage,
+      action,
+      performedBy: performer,
+      timestamp: new Date().toISOString(),
+      remarks: remarks || ''
+    };
+
+    approvals[idx].workflowHistory = [...(approvals[idx].workflowHistory || []), historyEntry];
+    approvals[idx].remarks = remarks || '';
+
+    if (action === 'Approve') {
+      // Escalate through stages
+      const stages = ['Procurement Manager Review', 'Tenant Admin Review'];
+      const curIdx = stages.indexOf(approvals[idx].currentStage);
+      if (curIdx >= stages.length - 1 || approvals[idx].currentStage === 'Tenant Admin Review') {
+        approvals[idx].status = 'Approved';
+        approvals[idx].currentStage = 'Approved';
+
+        // Auto-generate PO from approved RFQ
+        const rfqId = approvals[idx].rfqId;
+        const rfqs = await readJsonFile(RFQ_PATH).catch(() => []);
+        const rfqIdx = rfqs.findIndex(r => r.rfqId === rfqId);
+        if (rfqIdx !== -1) rfqs[rfqIdx].status = 'Awarded';
+        await writeJsonFile(RFQ_PATH, rfqs);
+
+        // Update winning quote status
+        const quotes = await readJsonFile(VENDOR_QUOTES_PATH).catch(() => []);
+        quotes.forEach((q, qi) => {
+          if (q.rfqId === rfqId && q.vendorId === approvals[idx].selectedVendorId) {
+            quotes[qi].status = 'Awarded';
+          } else if (q.rfqId === rfqId) {
+            if (q.status === 'Shortlisted' || q.status === 'Submitted') quotes[qi].status = 'Rejected';
+          }
+        });
+        await writeJsonFile(VENDOR_QUOTES_PATH, quotes);
+
+        // Generate PO record
+        const pos = await readJsonFile(path.join(__dirname, 'data', 'purchase-orders.json')).catch(() => []);
+        const newPoId = `PO-2026-${String(pos.length + 1).padStart(4, '0')}`;
+        const newPo = {
+          poId: newPoId,
+          rfqId: rfqId,
+          rfqReference: rfqId,
+          vendorId: approvals[idx].selectedVendorId,
+          vendorName: approvals[idx].selectedVendorName,
+          category: approvals[idx].category,
+          department: approvals[idx].department,
+          poValue: approvals[idx].awardValue,
+          status: 'Approved',
+          deliveryStatus: 'Pending',
+          createdDate: new Date().toISOString().split('T')[0],
+          approvedDate: new Date().toISOString().split('T')[0],
+          approvedBy: performer,
+          lineItems: []
+        };
+        pos.push(newPo);
+        await writeJsonFile(path.join(__dirname, 'data', 'purchase-orders.json'), pos);
+        await logVmsAuditTrail('PO Generated from RFQ', `PO ${newPoId} generated from approved RFQ ${rfqId}.`);
+      } else {
+        approvals[idx].currentStage = stages[curIdx + 1];
+        approvals[idx].status = 'Pending Approval';
+      }
+    } else if (action === 'Reject') {
+      approvals[idx].status = 'Rejected';
+      approvals[idx].currentStage = 'Rejected';
+      const rfqs = await readJsonFile(RFQ_PATH).catch(() => []);
+      const rfqIdx = rfqs.findIndex(r => r.rfqId === approvals[idx].rfqId);
+      if (rfqIdx !== -1) { rfqs[rfqIdx].status = 'Cancelled'; await writeJsonFile(RFQ_PATH, rfqs); }
+    } else if (action === 'Send Back') {
+      approvals[idx].status = 'Pending Approval';
+      approvals[idx].currentStage = 'Maker Review';
+    }
+
+    await writeJsonFile(RFQ_APPROVALS_PATH, approvals);
+    await logVmsAuditTrail(`RFQ Approval ${action}`, `RFQ Approval ${req.params.approvalId} ${action}d by ${performer}.`);
+    res.json({ success: true, approval: approvals[idx] });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// GET /api/rfq/vendors/eligible — vendors eligible for RFQ (Active + KYC Approved)
+app.get('/api/rfq/vendors/eligible', async (req, res) => {
+  try {
+    const vendors = await readJsonFile(VENDORS_PATH);
+    const eligible = vendors.filter(v => {
+      const status = (v.status || '').toLowerCase();
+      const kycStatus = (v.kycStatus || v.status || '').toLowerCase();
+      return status === 'active' || status === 'approved' || kycStatus === 'verified' || kycStatus === 'approved';
+    }).map(v => ({
+      vendorId: v.vendorId,
+      vendorName: v.vendorName || v.basicDetails?.legalName || v.basicDetails?.tradeName || 'Unnamed Vendor',
+      category: v.category || v.basicDetails?.businessType || 'General',
+      riskRating: v.riskLevel || v.risk?.level || 'Low',
+      kycStatus: v.kycStatus || 'Verified',
+      isPreferred: v.isPreferred || false,
+      status: v.status || 'Active'
+    }));
+    res.json(eligible);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// GET /api/vendor-selection — active and approved vendors for requisition RFQ step
+app.get('/api/vendor-selection', async (req, res) => {
+  try {
+    const list = await readJsonFile(VENDORS_PATH);
+    const eligible = Array.isArray(list) ? list.filter(v => v.status === 'Active' && v.kycStatus === 'Approved') : [];
+    res.json(eligible);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// GET /api/rfq-vendor-selection — retrieve selections
+app.get('/api/rfq-vendor-selection', async (req, res) => {
+  try {
+    const selections = await readJsonFile(RFQ_VENDOR_SELECTION_PATH);
+    const rfqId = req.query.rfqId;
+    if (rfqId) {
+      const selection = selections.find(s => s.rfqId === rfqId);
+      res.json(selection ? selection.selectedVendors : []);
+    } else {
+      res.json(selections);
+    }
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// POST /api/rfq-vendor-selection — persist selections
+app.post('/api/rfq-vendor-selection', async (req, res) => {
+  try {
+    const { rfqId, selectedVendors, selectedVendorNames, timestamp } = req.body;
+    if (!rfqId || !Array.isArray(selectedVendors)) {
+      return res.status(400).json({ error: 'rfqId and selectedVendors array are required' });
+    }
+    const selections = await readJsonFile(RFQ_VENDOR_SELECTION_PATH);
+    const idx = selections.findIndex(s => s.rfqId === rfqId);
+    const selectionEntry = {
+      rfqId,
+      selectedVendors,
+      selectedVendorNames: selectedVendorNames || [],
+      timestamp: timestamp || new Date().toISOString()
+    };
+    if (idx !== -1) {
+      selections[idx] = selectionEntry;
+    } else {
+      selections.push(selectionEntry);
+    }
+    await writeJsonFile(RFQ_VENDOR_SELECTION_PATH, selections);
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// POST /api/rfq-attachments — log file upload references
+app.post('/api/rfq-attachments', async (req, res) => {
+  try {
+    const { rfqId, attachmentId, fileName, filePath } = req.body;
+    if (!rfqId || !attachmentId) {
+      return res.status(400).json({ error: 'rfqId and attachmentId are required' });
+    }
+    const attachments = await readJsonFile(ATTACHMENTS_PATH).catch(() => []);
+    const newAttachment = {
+      rfqId,
+      attachmentId,
+      fileName: fileName || '',
+      filePath: filePath || '',
+      uploadedAt: new Date().toISOString()
+    };
+    attachments.push(newAttachment);
+    await writeJsonFile(ATTACHMENTS_PATH, attachments);
+    res.json({ success: true, attachment: newAttachment });
+  } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
 app.listen(PORT, () => {

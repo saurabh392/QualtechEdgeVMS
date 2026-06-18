@@ -172,5 +172,14 @@
     "link": "/payments/processing",
     "timestamp": "2026-06-18T07:02:00.425Z",
     "read": false
+  },
+  {
+    "id": "ANOTIF-1781790025904",
+    "type": "invoice_approved",
+    "title": "Invoice Approved for Payment",
+    "message": "INV-2026-9902 (ABC Infotech Private Limited) approved for payment disbursement.",
+    "link": "/payments/processing",
+    "timestamp": "2026-06-18T13:40:25.904Z",
+    "read": false
   }
 ]

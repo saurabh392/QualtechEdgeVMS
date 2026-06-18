@@ -81,7 +81,9 @@ const NAV_ITEMS = [
     subItems: [
       { name: 'PO Dashboard', path: '/purchase-orders/dashboard' },
       { name: 'Create Requisition', path: '/purchase-orders/create' },
-      { name: 'Approvals', path: '/purchase-orders/approvals' },
+      { name: 'RFQ Management', path: '/purchase-orders/rfq' },
+      { name: 'Vendor Quotations', path: '/purchase-orders/vendor-quotations' },
+      { name: 'RFQ Approvals', path: '/purchase-orders/rfq-approvals' },
     ],
   },
   {

@@ -1,0 +1,58 @@
+[
+  {
+    "vendorId": "VND-001",
+    "vendorName": "ABC Infotech Pvt Ltd",
+    "status": "Active",
+    "kycStatus": "Approved",
+    "riskScore": 18,
+    "riskTier": "LOW"
+  },
+  {
+    "vendorId": "VND-002",
+    "vendorName": "HDFC Bank Limited",
+    "status": "Active",
+    "kycStatus": "Approved",
+    "riskScore": 42,
+    "riskTier": "MEDIUM"
+  },
+  {
+    "vendorId": "VND-003",
+    "vendorName": "New Age Software Solutions",
+    "status": "Active",
+    "kycStatus": "Approved",
+    "riskScore": 78,
+    "riskTier": "HIGH"
+  },
+  {
+    "vendorId": "VND-004",
+    "vendorName": "Draft Tech Services",
+    "status": "Draft",
+    "kycStatus": "Pending",
+    "riskScore": 10,
+    "riskTier": "LOW"
+  },
+  {
+    "vendorId": "VND-005",
+    "vendorName": "Inactive Global Ltd",
+    "status": "Inactive",
+    "kycStatus": "Approved",
+    "riskScore": 25,
+    "riskTier": "LOW"
+  },
+  {
+    "vendorId": "VND-006",
+    "vendorName": "Rejected Security Corp",
+    "status": "Active",
+    "kycStatus": "Rejected",
+    "riskScore": 85,
+    "riskTier": "HIGH"
+  },
+  {
+    "vendorId": "VND-007",
+    "vendorName": "Blacklisted Infrastructure Ltd",
+    "status": "Active",
+    "kycStatus": "Blacklisted",
+    "riskScore": 95,
+    "riskTier": "HIGH"
+  }
+]

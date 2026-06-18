@@ -20,25 +20,6 @@
       ]
     },
     {
-      "reviewId": "REV-2026-002",
-      "vendorId": "VND-2026-88001",
-      "vendorName": "HDFC Bank Limited",
-      "category": "Public Limited Company",
-      "riskScore": 15,
-      "riskLevel": "Low",
-      "kycStatus": "In Progress",
-      "screeningStatus": "Review Required",
-      "approvalStatus": "Approved",
-      "assignedTo": "Compliance Team",
-      "dueDate": "2026-07-11",
-      "comments": [
-        {
-          "author": "System Check",
-          "text": "Adverse media scan returned minor regulatory notice from 2024. Escalon recommended."
-        }
-      ]
-    },
-    {
       "reviewId": "REV-2026-003",
       "vendorId": "VND-2026-50469",
       "vendorName": "My Money Mantra ",
@@ -84,6 +65,25 @@
       "assignedTo": "Compliance Team",
       "dueDate": "2026-07-15",
       "comments": []
+    },
+    {
+      "reviewId": "REV-2026-002",
+      "vendorId": "VND-2026-88001",
+      "vendorName": "HDFC Bank Limited",
+      "category": "Public Limited Company",
+      "riskScore": 15,
+      "riskLevel": "Low",
+      "kycStatus": "In Progress",
+      "screeningStatus": "Review Required",
+      "approvalStatus": "Approved",
+      "assignedTo": "Compliance Team",
+      "dueDate": "2026-07-11",
+      "comments": [
+        {
+          "author": "System Check",
+          "text": "Adverse media scan returned minor regulatory notice from 2024. Escalon recommended."
+        }
+      ]
     },
     {
       "reviewId": "REV-2026-006",

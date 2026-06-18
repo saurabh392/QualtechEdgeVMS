@@ -177,15 +177,15 @@
     "tdsAmount": 68000,
     "netPayable": 734400,
     "status": "Approved",
-    "stage": "Finance Approval",
+    "stage": "Payment Processing",
     "riskScore": 15,
     "riskLevel": "Low",
     "vendorType": "MSME",
     "threeWayMatch": "Matched",
     "gstMatch": "Matched",
     "uploadedBy": "Priya Mehta",
-    "approvedBy": null,
-    "approvedDate": null,
+    "approvedBy": "Finance Manager",
+    "approvedDate": "2026-06-18T13:40:25.897Z",
     "remarks": ""
   },
   {

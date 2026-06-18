@@ -44,9 +44,8 @@ interface ApprovalQueueItem {
 const APPROVAL_QUEUE_CONFIG: Omit<ApprovalQueueItem, 'count'>[] = [
   { id: 1, name: 'Vendor Approval',                     icon: 'UserCheck',     color: '#1D4ED8', route: '/kyc/reviews'                },
   { id: 2, name: 'ITEM & SERVICE CATALOGUE Approvals',  icon: 'BookOpen',      color: '#16A34A', route: '/catalogue/approvals'        },
-  { id: 3, name: 'PO Approval',                         icon: 'FileText',      color: '#F59E0B', route: '/purchase-orders/approvals'  },
-  { id: 4, name: 'Invoice Approval',                    icon: 'Receipt',       color: '#9333EA', route: '/invoices/approvals'         },
-  { id: 5, name: 'Payment Approvals',                   icon: 'Wallet',        color: '#DC2626', route: '/payments/approvals'         },
+  { id: 3, name: 'Invoice Approval',                    icon: 'Receipt',       color: '#9333EA', route: '/invoices/approvals'         },
+  { id: 4, name: 'Payment Approvals',                   icon: 'Wallet',        color: '#DC2626', route: '/payments/approvals'         },
 ];
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -118,9 +117,8 @@ export const Dashboard: React.FC = () => {
   const approvalQueueItems: ApprovalQueueItem[] = [
     { ...APPROVAL_QUEUE_CONFIG[0], count: approvalCounts.vendorApprovals    },
     { ...APPROVAL_QUEUE_CONFIG[1], count: approvalCounts.catalogueApprovals },
-    { ...APPROVAL_QUEUE_CONFIG[2], count: approvalCounts.poApprovals        },
-    { ...APPROVAL_QUEUE_CONFIG[3], count: approvalCounts.invoiceApprovals   },
-    { ...APPROVAL_QUEUE_CONFIG[4], count: approvalCounts.paymentApprovals   },
+    { ...APPROVAL_QUEUE_CONFIG[2], count: approvalCounts.invoiceApprovals   },
+    { ...APPROVAL_QUEUE_CONFIG[3], count: approvalCounts.paymentApprovals   },
   ];
 
   const loading = vendorsLoading || kpiLoading;

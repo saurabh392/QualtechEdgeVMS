@@ -370,8 +370,8 @@
 }
 
 .compareCardSelected {
-  border-color: var(--color-primary);
-  background-color: #f8fafc;
+  border-color: #3b82f6;
+  background-color: #eff6ff;
 }
 
 .compareHeader {

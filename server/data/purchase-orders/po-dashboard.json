@@ -2,7 +2,7 @@
   "kpis": {
     "totalPOs": 1,
     "posInProgress": 0,
-    "awaitingApproval": 1,
+    "awaitingApproval": 8,
     "goodsReceived": 0,
     "pendingInvoices": 0,
     "poValueThisMonth": 0.12
@@ -87,7 +87,7 @@
   "approvalQueue": [
     {
       "type": "PO Approval",
-      "count": 1,
+      "count": 8,
       "color": "#3b82f6"
     },
     {

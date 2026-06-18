@@ -17,11 +17,20 @@ import type {
 } from '../../services/purchaseOrderService';
 import styles from './CreatePO.module.css';
 
+interface SelectionVendor {
+  vendorId: string;
+  vendorName: string;
+  status: string;
+  kycStatus: string;
+  riskScore: number;
+  riskTier: string;
+}
+
 const STEPS = [
   'Requisition Details',
   'Budget Validation',
   'RFQ & Vendor Selection',
-  'Review & Generate PO'
+  'Review & Submit'
 ];
 
 const BUDGET_MAP: Record<string, { name: string; allocated: number; consumed: number }> = {
@@ -53,38 +62,24 @@ export const CreatePO: React.FC = () => {
   const [uploading, setUploading] = useState(false);
 
   // RFQ Bids State
-  const [vendors, setVendors] = useState<RFQVendor[]>([]);
-  const [selectedVendor, setSelectedVendor] = useState<RFQVendor | null>(null);
-  const [vendorApprovalStatus, setVendorApprovalStatus] = useState<string>('');
+  const [vendors, setVendors] = useState<SelectionVendor[]>([]);
+  const [selectedVendorIds, setSelectedVendorIds] = useState<string[]>([]);
 
   useEffect(() => {
-    if (!selectedVendor?.vendorId) {
-      setVendorApprovalStatus('');
-      return;
-    }
-    axios.get(`/api/kyc/approvals/vendor/${selectedVendor.vendorId}`)
+    // Fetch active & approved selection vendors
+    axios.get('/api/vendor-selection')
       .then(res => {
-        if (res.data.success) {
-          setVendorApprovalStatus(res.data.overallStatus);
-        }
+        setVendors(Array.isArray(res.data) ? res.data : []);
       })
-      .catch(err => {
-        console.error('Failed to fetch vendor approval status:', err);
-        setVendorApprovalStatus('Vendor Approved');
-      });
-  }, [selectedVendor]);
+      .catch(err => console.error('Failed to load selection vendors:', err));
 
-  useEffect(() => {
-    getRFQVendors(estimatedCost)
+    // Fetch previously saved selections for RFQ-2026-0001
+    axios.get('/api/rfq-vendor-selection', { params: { rfqId: 'RFQ-2026-0001' } })
       .then(res => {
-        setVendors(res);
-        if (res.length > 0) {
-          // Default to the first one (Best Value)
-          setSelectedVendor(res[0]);
-        }
+        setSelectedVendorIds(Array.isArray(res.data) ? res.data : []);
       })
-      .catch(err => console.error('Failed to load RFQ vendors:', err));
-  }, [estimatedCost]);
+      .catch(err => console.error('Failed to load RFQ vendor selections:', err));
+  }, []);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
@@ -97,6 +92,16 @@ export const CreatePO: React.FC = () => {
       });
       if (res.success) {
         setUploadedDocs(prev => [...prev, res.file]);
+        try {
+          await axios.post('/api/rfq-attachments', {
+            rfqId: 'RFQ-2026-0001',
+            attachmentId: res.file.fileId,
+            fileName: res.file.fileName,
+            filePath: res.file.filePath
+          });
+        } catch (err) {
+          console.error('Failed to log attachment to backend:', err);
+        }
       }
     } catch (error) {
       console.error('File upload failed:', error);
@@ -109,8 +114,34 @@ export const CreatePO: React.FC = () => {
     setUploadedDocs(prev => prev.filter(d => d.fileId !== fileId));
   };
 
+  const handleVendorToggle = (vendorId: string) => {
+    setSelectedVendorIds(prev =>
+      prev.includes(vendorId)
+        ? prev.filter(id => id !== vendorId)
+        : [...prev, vendorId]
+    );
+  };
+
   const handleNext = () => {
-    if (currentStep < 4) {
+    if (currentStep === 3) {
+      const selectedNames = vendors
+        .filter(v => selectedVendorIds.includes(v.vendorId))
+        .map(v => v.vendorName);
+
+      axios.post('/api/rfq-vendor-selection', {
+        rfqId: 'RFQ-2026-0001',
+        selectedVendors: selectedVendorIds,
+        selectedVendorNames: selectedNames,
+        timestamp: new Date().toISOString()
+      })
+        .then(() => {
+          setCurrentStep(prev => prev + 1);
+        })
+        .catch(err => {
+          console.error('Failed to save selections:', err);
+          setCurrentStep(prev => prev + 1);
+        });
+    } else if (currentStep < 4) {
       setCurrentStep(prev => prev + 1);
     } else {
       submitRequisition();
@@ -120,6 +151,15 @@ export const CreatePO: React.FC = () => {
   const submitRequisition = async () => {
     setLoading(true);
     const costCenter = BUDGET_MAP[costCenterCode];
+    const selectedVendors = vendors.filter(v => selectedVendorIds.includes(v.vendorId));
+    const avgRiskScore = selectedVendors.length > 0
+      ? Math.round(selectedVendors.reduce((sum, v) => sum + v.riskScore, 0) / selectedVendors.length)
+      : 0;
+
+    let overallRiskTier = 'LOW';
+    if (avgRiskScore > 30 && avgRiskScore <= 60) overallRiskTier = 'MEDIUM';
+    else if (avgRiskScore > 60) overallRiskTier = 'HIGH';
+
     const requisitionPayload = {
       requester: {
         employeeId: "EMP-1001",
@@ -145,13 +185,13 @@ export const CreatePO: React.FC = () => {
         availableBudget: costCenter.allocated - (costCenter.consumed + estimatedCost)
       },
       vendorSelection: {
-        selectedVendorId: selectedVendor?.vendorId || "VND-2025-00029",
-        selectedVendorName: selectedVendor?.vendorName || "ABC Infotech Pvt Ltd",
-        quotedPrice: selectedVendor?.quotedPrice || estimatedCost,
-        leadTime: selectedVendor?.leadTime || "5 Days",
-        kycCompliance: selectedVendor?.kycCompliance || "Clean",
-        slaScore: selectedVendor?.slaScore || "98%",
-        vendorRiskLevel: selectedVendor?.vendorRiskLevel || "Low"
+        selectedVendorId: selectedVendorIds.join(', ') || "VND-001",
+        selectedVendorName: selectedVendors.map(v => v.vendorName).join(', ') || "ABC Infotech Pvt Ltd",
+        quotedPrice: estimatedCost,
+        leadTime: "N/A",
+        kycCompliance: "Clean",
+        slaScore: "N/A",
+        vendorRiskLevel: overallRiskTier
       },
       linkedContract: {
         contractId: "CTR-2026-00045",
@@ -355,55 +395,68 @@ export const CreatePO: React.FC = () => {
           <Card className={styles.formCard}>
             <h3 className={styles.formTitle}>RFQ & Vendor Selection</h3>
 
-            <div className={styles.aiRecommendation}>
-              <Bot size={20} className={styles.aiIcon} />
-              <div>
-                <strong>AI recommendation:</strong> <strong>{vendors.find(v => v.recommendationTag === 'Best Value')?.vendorName || 'ABC Infotech Pvt Ltd'}</strong> is suggested as the optimal vendor based on historic pricing (L1), 98% SLA score, and active KYC compliance.
-              </div>
-            </div>
-
-            {selectedVendor && vendorApprovalStatus === 'Vendor Approved' && (
-              <div style={{ backgroundColor: '#dcfce7', border: '1px solid #bbf7d0', color: '#166534', padding: '12px 16px', borderRadius: '6px', fontSize: '13px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', marginTop: '16px' }}>
-                ✅ Vendor Approved for Business Transactions
-              </div>
-            )}
-            {selectedVendor && vendorApprovalStatus === 'Rejected' && (
-              <div style={{ backgroundColor: '#fee2e2', border: '1px solid #fecdd3', color: '#991b1b', padding: '12px 16px', borderRadius: '6px', fontSize: '13px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', marginTop: '16px' }}>
-                ❌ Vendor Approval Rejected
-              </div>
-            )}
-            {selectedVendor && vendorApprovalStatus && vendorApprovalStatus !== 'Vendor Approved' && vendorApprovalStatus !== 'Rejected' && (
-              <div style={{ backgroundColor: '#fffbeb', border: '1px solid #fef3c7', color: '#b45309', padding: '12px 16px', borderRadius: '6px', fontSize: '13px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', marginTop: '16px' }}>
-                ⚠ Vendor Onboarding/KYC Approval Pending (Current Status: {vendorApprovalStatus})
-              </div>
-            )}
-
             <div className={styles.compareGrid}>
-              {vendors.map(v => (
-                <div
-                  key={v.vendorId}
-                  className={`${styles.compareCard} ${selectedVendor?.vendorId === v.vendorId ? styles.compareCardSelected : ''}`}
-                  onClick={() => setSelectedVendor(v)}
-                >
-                  <div className={styles.compareHeader}>
-                    <h4>{v.vendorName}</h4>
-                    <Badge variant={v.recommendationTag === 'Best Value' ? 'success' : 'default'}>
-                      {v.recommendationTag || 'Vendor'}
-                    </Badge>
+              {vendors.map(v => {
+                const isSelected = selectedVendorIds.includes(v.vendorId);
+
+                // Compute Risk Tier styling/colors
+                let riskColor = '#16a34a'; // green
+                let riskBg = '#dcfce7';
+                if (v.riskTier === 'MEDIUM') {
+                  riskColor = '#d97706'; // orange
+                  riskBg = '#fef3c7';
+                } else if (v.riskTier === 'HIGH') {
+                  riskColor = '#dc2626'; // red
+                  riskBg = '#fee2e2';
+                }
+
+                return (
+                  <div
+                    key={v.vendorId}
+                    className={`${styles.compareCard} ${isSelected ? styles.compareCardSelected : ''}`}
+                    onClick={() => handleVendorToggle(v.vendorId)}
+                    style={{ display: 'flex', flexDirection: 'column', gap: '14px', position: 'relative' }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => { }} // handled by card onClick
+                        style={{ width: '16px', height: '16px', cursor: 'pointer' }}
+                      />
+                      <h4 style={{ margin: 0, fontSize: '0.9375rem', fontWeight: 600, color: 'var(--color-text-primary)' }}>
+                        {v.vendorName}
+                      </h4>
+                    </div>
+
+                    <div style={{ fontSize: '0.8125rem', color: 'var(--color-text-secondary)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <div>Risk Score: <strong style={{ color: 'var(--color-text-primary)' }}>{v.riskScore}/100</strong></div>
+                      <div>
+                        Risk Tier:
+                        <span style={{
+                          marginLeft: '8px',
+                          padding: '2px 8px',
+                          borderRadius: '4px',
+                          fontSize: '0.6875rem',
+                          fontWeight: 700,
+                          color: riskColor,
+                          backgroundColor: riskBg,
+                          display: 'inline-block'
+                        }}>
+                          {v.riskTier} RISK
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <div className={styles.compareStats}>
-                    <p>Quoted Price: <strong>₹{v.quotedPrice.toLocaleString('en-IN')}</strong></p>
-                    <p>Lead Time: <strong>{v.leadTime}</strong></p>
-                    <p>KYC/PEP Score: <strong style={{ color: v.kycCompliance === 'Clean' ? '#16a34a' : '#b45309' }}>{v.kycCompliance}</strong></p>
-                    <p>SLA Adherence: <strong>{v.slaScore}</strong></p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className={styles.formActions}>
               <Button variant="outline" onClick={() => setCurrentStep(2)}>Back</Button>
-              <Button onClick={handleNext} disabled={selectedVendor ? vendorApprovalStatus !== 'Vendor Approved' : true}>Next: Review & Submit &rarr;</Button>
+              <Button onClick={handleNext} disabled={selectedVendorIds.length === 0}>
+                Submit &rarr;
+              </Button>
             </div>
           </Card>
         )}
@@ -422,10 +475,6 @@ export const CreatePO: React.FC = () => {
                 <span className={styles.summaryValue}>{costCenterCode} - {BUDGET_MAP[costCenterCode]?.name}</span>
               </div>
               <div className={styles.summaryItem}>
-                <span className={styles.summaryLabel}>Vendor Selected</span>
-                <span className={styles.summaryValue}>{selectedVendor?.vendorName}</span>
-              </div>
-              <div className={styles.summaryItem}>
                 <span className={styles.summaryLabel}>Estimated Value</span>
                 <span className={styles.summaryValue}>₹{estimatedCost.toLocaleString('en-IN')}</span>
               </div>
@@ -436,6 +485,58 @@ export const CreatePO: React.FC = () => {
               <div className={styles.summaryItem}>
                 <span className={styles.summaryLabel}>Attachments Linked</span>
                 <span className={styles.summaryValue}>{uploadedDocs.length} Documents</span>
+              </div>
+              <div className={styles.summaryItem}>
+                <span className={styles.summaryLabel}>RFQ Number</span>
+                <span className={styles.summaryValue}>RFQ-2026-0001</span>
+              </div>
+            </div>
+
+            <div style={{ marginTop: '24px', padding: '20px', backgroundColor: '#f8fafc', borderRadius: '8px', border: '1px solid var(--color-border)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div>
+                <h4 style={{ margin: '0 0 8px 0', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--color-text-secondary)' }}>Selected Vendors</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {vendors.filter(v => selectedVendorIds.includes(v.vendorId)).map(v => (
+                    <div key={v.vendorId} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8125rem', color: 'var(--color-text-primary)' }}>
+                      <span style={{ color: '#16a34a', fontWeight: 'bold' }}>✓</span> {v.vendorName}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '16px' }}>
+                <h4 style={{ margin: '0 0 8px 0', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--color-text-secondary)' }}>Risk Summary</h4>
+                {(() => {
+                  const selectedVendors = vendors.filter(v => selectedVendorIds.includes(v.vendorId));
+                  const avgRiskScore = selectedVendors.length > 0
+                    ? Math.round(selectedVendors.reduce((sum, v) => sum + v.riskScore, 0) / selectedVendors.length)
+                    : 0;
+
+                  let overallRiskTier = 'LOW';
+                  if (avgRiskScore > 30 && avgRiskScore <= 60) overallRiskTier = 'MEDIUM';
+                  else if (avgRiskScore > 60) overallRiskTier = 'HIGH';
+
+                  return (
+                    <div style={{ fontSize: '0.8125rem', display: 'flex', gap: '24px' }}>
+                      <div>Average Risk Score: <strong style={{ color: 'var(--color-text-primary)' }}>{avgRiskScore}</strong></div>
+                      <div>
+                        Overall Risk Tier:
+                        <span style={{
+                          marginLeft: '8px',
+                          padding: '2px 8px',
+                          borderRadius: '4px',
+                          fontSize: '0.6875rem',
+                          fontWeight: 700,
+                          color: avgRiskScore <= 30 ? '#16a34a' : avgRiskScore <= 60 ? '#d97706' : '#dc2626',
+                          backgroundColor: avgRiskScore <= 30 ? '#dcfce7' : avgRiskScore <= 60 ? '#fef3c7' : '#fee2e2',
+                          display: 'inline-block'
+                        }}>
+                          {overallRiskTier}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
             </div>
 
@@ -448,7 +549,7 @@ export const CreatePO: React.FC = () => {
 
             <div className={styles.formActions}>
               <Button variant="outline" onClick={() => setCurrentStep(3)}>Back</Button>
-              <Button onClick={handleNext} disabled={loading}>{loading ? 'Submitting...' : 'Submit for Approval'}</Button>
+              <Button onClick={handleNext} disabled={loading}>{loading ? 'Submitting...' : 'Submit'}</Button>
             </div>
           </Card>
         )}
