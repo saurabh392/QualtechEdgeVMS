@@ -1,8 +1,8 @@
 {
   "screenings": [
     {
-      "vendorId": "VND-2025-00029",
-      "vendorName": "ABC Infotech Private Limited",
+      "vendorId": "VND-001",
+      "vendorName": "ABC Infotech Pvt Ltd",
       "screeningDate": "2026-06-18",
       "sanctions": {
         "status": "Clear",
@@ -44,51 +44,8 @@
       "overallRisk": "Low Risk"
     },
     {
-      "vendorId": "VND-2026-50469",
-      "vendorName": "My Money Mantra ",
-      "screeningDate": "2026-06-18",
-      "sanctions": {
-        "status": "Clear",
-        "result": "Clear",
-        "score": 0,
-        "lastChecked": "2026-06-18",
-        "details": "No matches found in OFAC, UN, EU sanctions lists."
-      },
-      "pep": {
-        "status": "Match Found",
-        "result": "Match Found",
-        "score": 50,
-        "lastChecked": "2026-06-18",
-        "details": "Director linked to a former state minister. Awaiting enhanced due diligence."
-      },
-      "adverseMedia": {
-        "status": "2 Findings",
-        "result": "2 Findings",
-        "score": 20,
-        "lastChecked": "2026-06-18",
-        "details": "Tax dispute (2023) and delayed regulatory filing (2024)."
-      },
-      "blacklist": {
-        "status": "Clear",
-        "result": "Clear",
-        "score": 0,
-        "lastChecked": "2026-06-18",
-        "details": "Not present in any industry or government blacklist."
-      },
-      "shellCompany": {
-        "status": "Medium Risk",
-        "result": "Medium Risk",
-        "score": 20,
-        "lastChecked": "2026-06-18",
-        "details": "Complex shareholding structure identified. Review ongoing."
-      },
-      "totalRiskScore": 90,
-      "riskScore": 90,
-      "overallRisk": "Critical Risk"
-    },
-    {
-      "vendorId": "VND-2026-88164",
-      "vendorName": "axis max life ",
+      "vendorId": "VND-002",
+      "vendorName": "HDFC Bank Limited",
       "screeningDate": "2026-06-18",
       "sanctions": {
         "status": "Clear",
@@ -105,11 +62,11 @@
         "details": "No politically exposed persons identified."
       },
       "adverseMedia": {
-        "status": "No Findings",
-        "result": "No Findings",
-        "score": 0,
+        "status": "1 Finding",
+        "result": "1 Finding",
+        "score": 10,
         "lastChecked": "2026-06-18",
-        "details": "No adverse news coverage detected."
+        "details": "Minor regulatory notice in 2024. Case closed."
       },
       "blacklist": {
         "status": "Clear",
@@ -125,12 +82,12 @@
         "lastChecked": "2026-06-18",
         "details": "Registered entity with 8+ years of operational history."
       },
-      "totalRiskScore": 5,
-      "riskScore": 5,
+      "totalRiskScore": 15,
+      "riskScore": 15,
       "overallRisk": "Low Risk"
     },
     {
-      "vendorId": "VND-2026-45682",
+      "vendorId": "VND-003",
       "vendorName": "New Age Software Solutions",
       "screeningDate": "2026-06-18",
       "sanctions": {

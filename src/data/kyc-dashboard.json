@@ -1,49 +1,38 @@
 {
   "lastUpdated": "2026-06-18",
   "summary": {
-    "totalVendors": 4,
+    "totalVendors": 3,
     "verified": 0,
-    "pending": 1,
-    "inProgress": 3,
-    "highRisk": 1,
+    "pending": 3,
+    "inProgress": 0,
+    "highRisk": 0,
     "reKycDue": 0
   },
   "vendors": [
     {
-      "vendorId": "VND-2025-00029",
-      "vendorName": "ABC Infotech Private Limited",
+      "vendorId": "VND-001",
+      "vendorName": "ABC Infotech Pvt Ltd",
       "category": "Private Limited Company",
       "riskScore": 5,
       "riskLevel": "Low",
-      "kycStatus": "In Progress",
+      "kycStatus": "Pending",
       "lastVerified": "-",
       "nextReview": "-",
       "nextReviewDate": "-"
     },
     {
-      "vendorId": "VND-2026-50469",
-      "vendorName": "My Money Mantra ",
-      "category": "Private Limited Company",
-      "riskScore": 90,
-      "riskLevel": "Critical",
-      "kycStatus": "In Progress",
-      "lastVerified": "-",
-      "nextReview": "-",
-      "nextReviewDate": "-"
-    },
-    {
-      "vendorId": "VND-2026-88164",
-      "vendorName": "axis max life ",
+      "vendorId": "VND-002",
+      "vendorName": "HDFC Bank Limited",
       "category": "Public Limited Company",
-      "riskScore": 5,
+      "riskScore": 15,
       "riskLevel": "Low",
-      "kycStatus": "In Progress",
+      "kycStatus": "Pending",
       "lastVerified": "-",
       "nextReview": "-",
       "nextReviewDate": "-"
     },
     {
-      "vendorId": "VND-2026-45682",
+      "vendorId": "VND-003",
       "vendorName": "New Age Software Solutions",
       "category": "Private Limited Company",
       "riskScore": 5,

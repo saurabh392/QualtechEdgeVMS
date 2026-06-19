@@ -1,60 +1,36 @@
 {
   "reviews": [
     {
-      "reviewId": "REV-2026-001",
-      "vendorId": "VND-2025-00029",
-      "vendorName": "ABC Infotech Private Limited",
+      "reviewId": "REV-2026-003",
+      "vendorId": "VND-001",
+      "vendorName": "ABC Infotech Pvt Ltd",
       "category": "Private Limited Company",
       "riskScore": 5,
       "riskLevel": "Low",
-      "kycStatus": "In Progress",
+      "kycStatus": "Pending",
       "screeningStatus": "Cleared",
-      "approvalStatus": "Ready For Approval",
+      "approvalStatus": "Approved",
       "assignedTo": "Compliance Team",
-      "dueDate": "2026-07-11",
-      "comments": [
-        {
-          "author": "KYC Analyst",
-          "text": "All documents verified. Ready for final compliance sign-off."
-        }
-      ]
-    },
-    {
-      "reviewId": "REV-2026-003",
-      "vendorId": "VND-2026-50469",
-      "vendorName": "My Money Mantra ",
-      "category": "Private Limited Company",
-      "riskScore": 90,
-      "riskLevel": "Critical",
-      "kycStatus": "In Progress",
-      "screeningStatus": "High Risk",
-      "approvalStatus": "Pending Review",
-      "assignedTo": "Compliance Team",
-      "dueDate": "2026-07-11",
-      "comments": [
-        {
-          "author": "System Check",
-          "text": "Politically Exposed Person (PEP) match identified on board of directors."
-        }
-      ]
+      "dueDate": "2026-07-18",
+      "comments": []
     },
     {
       "reviewId": "REV-2026-004",
-      "vendorId": "VND-2026-88164",
-      "vendorName": "axis max life ",
+      "vendorId": "VND-002",
+      "vendorName": "HDFC Bank Limited",
       "category": "Public Limited Company",
-      "riskScore": 5,
+      "riskScore": 15,
       "riskLevel": "Low",
-      "kycStatus": "In Progress",
-      "screeningStatus": "Cleared",
-      "approvalStatus": "Rejected",
+      "kycStatus": "Pending",
+      "screeningStatus": "Review Required",
+      "approvalStatus": "Approved",
       "assignedTo": "Compliance Team",
-      "dueDate": "2026-07-11",
+      "dueDate": "2026-07-18",
       "comments": []
     },
     {
       "reviewId": "REV-2026-005",
-      "vendorId": "VND-2026-45682",
+      "vendorId": "VND-003",
       "vendorName": "New Age Software Solutions",
       "category": "Private Limited Company",
       "riskScore": 5,
@@ -63,7 +39,7 @@
       "screeningStatus": "Cleared",
       "approvalStatus": "Approved",
       "assignedTo": "Compliance Team",
-      "dueDate": "2026-07-15",
+      "dueDate": "2026-07-18",
       "comments": []
     },
     {
