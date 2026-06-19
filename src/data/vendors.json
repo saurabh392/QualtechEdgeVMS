@@ -32,6 +32,10 @@
       "approvalStatus": "Approved",
       "approvedBy": "Saurabh Anand",
       "approvedDate": "2026-05-22T08:37:10.593Z"
+    },
+    "risk": {
+      "score": 5,
+      "level": "Low"
     }
   },
   {
@@ -41,7 +45,7 @@
     "kycStatus": "Approved",
     "riskScore": 42,
     "riskTier": "Medium",
-    "riskLevel": "Medium",
+    "riskLevel": "Low",
     "createdAt": "2026-05-22T08:40:00Z",
     "basicDetails": {
       "legalName": "HDFC Bank Limited",
@@ -67,6 +71,10 @@
       "approvalStatus": "Approved",
       "approvedBy": "Saurabh Anand",
       "approvedDate": "2026-06-08T04:13:08.340Z"
+    },
+    "risk": {
+      "score": 15,
+      "level": "Low"
     }
   },
   {
@@ -76,7 +84,7 @@
     "kycStatus": "Approved",
     "riskScore": 78,
     "riskTier": "High",
-    "riskLevel": "High",
+    "riskLevel": "Low",
     "createdAt": "2026-06-02T05:55:45.767Z",
     "basicDetails": {
       "legalName": "New Age Software Solutions",
@@ -102,6 +110,10 @@
       "approvalStatus": "Approved",
       "approvedBy": "Saurabh Anand",
       "approvedDate": "2026-06-08T04:13:08.340Z"
+    },
+    "risk": {
+      "score": 5,
+      "level": "Low"
     }
   }
 ]

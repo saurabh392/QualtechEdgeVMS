@@ -126,5 +126,42 @@
     "issuedBy": "Axis Max Life Insurance — Procurement",
     "paymentTerms": "Net 30",
     "adminSynced": true
+  },
+  {
+    "vendorId": "VND-001",
+    "issueDate": "2026-06-17",
+    "items": 1,
+    "value": 1187500,
+    "status": "Pending Acknowledgement",
+    "description": "undefined — Ref: undefined",
+    "issuedBy": "Axis Max Life Insurance — Procurement",
+    "paymentTerms": "Net 30",
+    "adminSynced": true
+  },
+  {
+    "poId": "PO-2026-0003",
+    "vendorId": "VND-001",
+    "issueDate": "2026-06-18",
+    "items": 1,
+    "value": 3780000,
+    "status": "Pending Acknowledgement",
+    "category": "IT Hardware",
+    "description": "IT Hardware — Ref: PO-2026-0003",
+    "issuedBy": "Axis Max Life Insurance — Procurement",
+    "paymentTerms": "Net 30",
+    "adminSynced": true
+  },
+  {
+    "poId": "PO-2026-0004",
+    "vendorId": "VND-001",
+    "issueDate": "2026-06-18",
+    "items": 1,
+    "value": 1250000,
+    "status": "Pending Acknowledgement",
+    "category": "IT Services",
+    "description": "IT Services — Ref: PO-2026-0004",
+    "issuedBy": "Axis Max Life Insurance — Procurement",
+    "paymentTerms": "Net 30",
+    "adminSynced": true
   }
 ]
