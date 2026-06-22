@@ -3848,5 +3848,38 @@
     "status": "INACTIVE",
     "token": "JWT-DEMO-981142",
     "lastActivity": 1781876508987
+  },
+  {
+    "sessionId": "SESSION-2160",
+    "userId": "USR-1001",
+    "username": "admin",
+    "role": "ADMIN",
+    "loginTime": "19/6/2026, 7:16:28 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-908514",
+    "lastActivity": 1781876788034
+  },
+  {
+    "sessionId": "SESSION-6780",
+    "userId": "USR-1002",
+    "username": "vendor",
+    "role": "VENDOR",
+    "loginTime": "19/6/2026, 7:18:27 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-906853",
+    "lastActivity": 1781876907932
+  },
+  {
+    "sessionId": "SESSION-4261",
+    "userId": "USR-1001",
+    "username": "admin",
+    "role": "ADMIN",
+    "loginTime": "19/6/2026, 7:18:53 pm",
+    "twoFactorVerified": true,
+    "status": "ACTIVE",
+    "token": "JWT-DEMO-139491",
+    "lastActivity": 1781876933056
   }
 ]

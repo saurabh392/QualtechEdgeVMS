@@ -229,20 +229,6 @@ export const ContractsDashboard: React.FC = () => {
 
       {/* Contract Repository Embedded Section */}
       <Card className={styles.tableCard}>
-        <div className={styles.pillTabs}>
-          {([
-            { key: 'All', label: 'All Contracts' },
-            { key: 'Active', label: 'Active' },
-            { key: 'Under Review', label: 'In Review' },
-            { key: 'Draft', label: 'Drafts' },
-            { key: 'Expired', label: 'Expired' },
-          ] as const).map(t => (
-            <button key={t.key} className={`${styles.pillTab} ${activeTab === t.key ? styles.pillTabActive : ''}`} onClick={() => { setActiveTab(t.key); setKpiFilter(null); }}>
-              {t.label}
-            </button>
-          ))}
-        </div>
-
         <div className={styles.tableToolbar}>
           <div className={styles.filters}>
             <div className={styles.searchWrap}>

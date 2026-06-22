@@ -35,7 +35,6 @@ import { ContractApprovals } from './pages/Contracts/ContractApprovals';
 import { Renewals } from './pages/Contracts/Renewals';
 
 import { PODashboard } from './pages/PurchaseOrders/PODashboard';
-import { POList } from './pages/PurchaseOrders/POList';
 import { CreatePO } from './pages/PurchaseOrders/CreatePO';
 import { POReceipt } from './pages/PurchaseOrders/POReceipt';
 import { POThreeWayMatch } from './pages/PurchaseOrders/POThreeWayMatch';
@@ -174,7 +173,6 @@ function App() {
                       <Route path="/purchase-orders" element={<Navigate to="/purchase-orders/dashboard" replace />} />
                       <Route path="/purchase-orders/dashboard" element={<PODashboard />} />
                       <Route path="/purchase-orders/create" element={<CreatePO />} />
-                      <Route path="/purchase-orders/list" element={<POList />} />
 
                       {/* RFQ Module — NEW */}
                       <Route path="/purchase-orders/rfq" element={<RFQManagement />} />
