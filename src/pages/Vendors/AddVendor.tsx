@@ -12,6 +12,19 @@ import styles from './AddVendor.module.css';
 
 const STEPS = ['Basic Details', 'Business Details', 'Bank Details', 'Documents', 'Review'];
 
+const IFSC_BRANCH_NAMES = [
+  'Mumbai - Andheri East',
+  'Mumbai - Fort',
+  'Delhi - Connaught Place',
+  'Bengaluru - MG Road',
+  'Chennai - T Nagar',
+  'Hyderabad - Banjara Hills',
+  'Pune - Shivaji Nagar',
+  'Ahmedabad - Navrangpura',
+  'Kolkata - Park Street',
+  'Jaipur - C Scheme'
+];
+
 interface Document {
   documentType: string;
   fileName: string;
@@ -44,11 +57,7 @@ export const AddVendor: React.FC = () => {
   const [submittedDate, setSubmittedDate] = useState('07 May 2025, 11:45 AM');
 
   // Verification states
-  const [verifyingPan, setVerifyingPan] = useState(false);
-  const [verifyingGstin, setVerifyingGstin] = useState(false);
   const [verifyingIfsc, setVerifyingIfsc] = useState(false);
-  const [panVerified, setPanVerified] = useState(false);
-  const [gstinVerified, setGstinVerified] = useState(false);
   const [ifscVerified, setIfscVerified] = useState(false);
   const [bankVerificationDate, setBankVerificationDate] = useState<string | null>(null);
 
@@ -140,8 +149,6 @@ export const AddVendor: React.FC = () => {
             documents: vendor.documents || []
           });
 
-          if (vendor.basicDetails?.panNumber) setPanVerified(true);
-          if (vendor.basicDetails?.gstin) setGstinVerified(true);
           if (vendor.bankDetails?.ifscCode) {
             setIfscVerified(true);
             setBankVerificationDate(new Date(vendor.createdAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
@@ -159,8 +166,6 @@ export const AddVendor: React.FC = () => {
           try {
             const parsed = JSON.parse(savedDraft);
             setForm(parsed);
-            if (parsed.panNumber) setPanVerified(true);
-            if (parsed.gstin) setGstinVerified(true);
             if (parsed.ifscCode) {
               setIfscVerified(true);
               setBankVerificationDate(new Date().toLocaleString('en-IN'));
@@ -232,8 +237,6 @@ export const AddVendor: React.FC = () => {
         stepErrors.panNumber = 'PAN Number is required';
       } else if (!panRegex.test(form.panNumber.toUpperCase())) {
         stepErrors.panNumber = 'Invalid PAN format (e.g. AAACA1234A)';
-      } else if (!panVerified) {
-        stepErrors.panNumber = 'Please verify the PAN Number first';
       }
 
       // GSTIN validation (15 alphanumeric characters)
@@ -242,8 +245,6 @@ export const AddVendor: React.FC = () => {
         stepErrors.gstin = 'GSTIN is required';
       } else if (!gstinRegex.test(form.gstin.toUpperCase())) {
         stepErrors.gstin = 'Invalid GSTIN format (e.g. 27AAACA1234A1Z5)';
-      } else if (!gstinVerified) {
-        stepErrors.gstin = 'Please verify the GSTIN first';
       }
 
       if (form.companyWebsite) {
@@ -301,48 +302,13 @@ export const AddVendor: React.FC = () => {
   };
 
   // API/Verify triggers
-  const handleVerifyPan = () => {
-    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-    if (!form.panNumber || !panRegex.test(form.panNumber.toUpperCase())) {
-      setErrors(prev => ({ ...prev, panNumber: 'Enter a valid 10-character PAN first' }));
-      return;
-    }
-    setVerifyingPan(true);
-    setTimeout(() => {
-      setVerifyingPan(false);
-      setPanVerified(true);
-      setErrors(prev => {
-        const copy = { ...prev };
-        delete copy.panNumber;
-        return copy;
-      });
-    }, 1000);
-  };
-
-  const handleVerifyGstin = () => {
-    const gstinRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
-    if (!form.gstin || !gstinRegex.test(form.gstin.toUpperCase())) {
-      setErrors(prev => ({ ...prev, gstin: 'Enter a valid 15-character GSTIN first' }));
-      return;
-    }
-    setVerifyingGstin(true);
-    setTimeout(() => {
-      setVerifyingGstin(false);
-      setGstinVerified(true);
-      setErrors(prev => {
-        const copy = { ...prev };
-        delete copy.gstin;
-        return copy;
-      });
-    }, 1000);
-  };
-
   const handleVerifyIfsc = () => {
     const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
     if (!form.ifscCode || !ifscRegex.test(form.ifscCode.toUpperCase())) {
       setErrors(prev => ({ ...prev, ifscCode: 'Enter a valid 11-character IFSC Code first' }));
       return;
     }
+    const branchName = IFSC_BRANCH_NAMES[Math.floor(Math.random() * IFSC_BRANCH_NAMES.length)];
     setVerifyingIfsc(true);
     setTimeout(() => {
       setVerifyingIfsc(false);
@@ -350,12 +316,13 @@ export const AddVendor: React.FC = () => {
       setBankVerificationDate(new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
       setForm(prev => ({
         ...prev,
-        branchName: prev.branchName ? prev.branchName : 'Mumbai - Andheri East',
+        branchName,
         bankName: prev.bankName ? prev.bankName : 'HDFC Bank Limited'
       }));
       setErrors(prev => {
         const copy = { ...prev };
         delete copy.ifscCode;
+        delete copy.branchName;
         return copy;
       });
     }, 1000);
@@ -679,27 +646,16 @@ export const AddVendor: React.FC = () => {
                 disabled={isViewMode}
               />
               
-              <div className={styles.inputWithAction}>
-                <Input 
-                  label="PAN Number *" 
-                  name="panNumber" 
-                  placeholder="AAACA1234A" 
-                  value={form.panNumber}
-                  onChange={handleChange}
-                  error={errors.panNumber}
-                  style={{ textTransform: 'uppercase' }}
-                  disabled={panVerified || isViewMode}
-                />
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className={styles.verifyBtn} 
-                  onClick={handleVerifyPan}
-                  disabled={verifyingPan || panVerified || isViewMode}
-                >
-                  {verifyingPan ? <Loader2 size={12} className="animate-spin" /> : panVerified ? 'Verified' : 'Verify PAN'}
-                </Button>
-              </div>
+              <Input 
+                label="PAN Number *" 
+                name="panNumber" 
+                placeholder="AAACA1234A" 
+                value={form.panNumber}
+                onChange={handleChange}
+                error={errors.panNumber}
+                style={{ textTransform: 'uppercase' }}
+                disabled={isViewMode}
+              />
 
               <div className={styles.inputGroup}>
                 <label className={styles.inputLabel}>MSME Classification</label>
@@ -717,27 +673,16 @@ export const AddVendor: React.FC = () => {
                 </select>
               </div>
 
-              <div className={styles.inputWithAction}>
-                <Input 
-                  label="GSTIN *" 
-                  name="gstin" 
-                  placeholder="27AAACA1234A1Z5" 
-                  value={form.gstin}
-                  onChange={handleChange}
-                  error={errors.gstin}
-                  style={{ textTransform: 'uppercase' }}
-                  disabled={gstinVerified || isViewMode}
-                />
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className={styles.verifyBtn} 
-                  onClick={handleVerifyGstin}
-                  disabled={verifyingGstin || gstinVerified || isViewMode}
-                >
-                  {verifyingGstin ? <Loader2 size={12} className="animate-spin" /> : gstinVerified ? 'Verified' : 'Verify GSTIN'}
-                </Button>
-              </div>
+              <Input 
+                label="GSTIN *" 
+                name="gstin" 
+                placeholder="27AAACA1234A1Z5" 
+                value={form.gstin}
+                onChange={handleChange}
+                error={errors.gstin}
+                style={{ textTransform: 'uppercase' }}
+                disabled={isViewMode}
+              />
 
               <Input 
                 label="Company Website" 

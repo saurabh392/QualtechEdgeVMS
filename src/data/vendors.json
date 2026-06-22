@@ -39,48 +39,9 @@
     }
   },
   {
-    "vendorId": "VND-002",
-    "vendorName": "HDFC Bank Limited",
-    "status": "Active",
-    "kycStatus": "Approved",
-    "riskScore": 42,
-    "riskTier": "Medium",
-    "riskLevel": "Low",
-    "createdAt": "2026-05-22T08:40:00Z",
-    "basicDetails": {
-      "legalName": "HDFC Bank Limited",
-      "tradeName": "HDFC Bank",
-      "cinNumber": "L65190MH1994PLC080618",
-      "panNumber": "AAACH1111A",
-      "gstin": "27AAACH1111A1Z8",
-      "msmeClassification": "Medium",
-      "businessType": "Public Limited Company"
-    },
-    "businessDetails": {
-      "vendorCategory": "Consulting",
-      "subCategory": "Financial Services",
-      "productsServicesOffered": "Banking, Cash Management Services",
-      "annualTurnover": 12000000000,
-      "employeeCount": 150000,
-      "criticalVendor": true
-    },
-    "approvalWorkflow": {
-      "submittedBy": "Saurabh Anand",
-      "submittedDate": "2026-05-22T08:40:00Z",
-      "currentStage": "Approved",
-      "approvalStatus": "Approved",
-      "approvedBy": "Saurabh Anand",
-      "approvedDate": "2026-06-08T04:13:08.340Z"
-    },
-    "risk": {
-      "score": 15,
-      "level": "Low"
-    }
-  },
-  {
     "vendorId": "VND-003",
     "vendorName": "New Age Software Solutions",
-    "status": "Inactive",
+    "status": "Active",
     "kycStatus": "Approved",
     "riskScore": 78,
     "riskTier": "High",
@@ -108,109 +69,140 @@
       "submittedDate": "2026-06-02T05:55:45.727Z",
       "currentStage": "Approved",
       "approvalStatus": "Approved",
-      "approvedBy": "Saurabh Anand",
-      "approvedDate": "2026-06-08T04:13:08.340Z"
+      "approvedBy": "Tenant Admin",
+      "approvedDate": "2026-06-22T10:32:56.012Z",
+      "approverRemarks": "Vendor KYC verified and cleared. Approved and empanelled."
     },
     "risk": {
       "score": 5,
       "level": "Low"
-    }
+    },
+    "auditTrail": [
+      {
+        "action": "Vendor Approved",
+        "performedBy": "Tenant Admin",
+        "timestamp": "2026-06-22T10:32:56.012Z",
+        "remarks": "Vendor KYC verified and cleared. Approved and empanelled."
+      },
+      {
+        "approvedBy": "Tenant Admin",
+        "approvedDate": "2026-06-22T10:32:56.012Z",
+        "status": "Approved"
+      },
+      {
+        "empanelledBy": "Tenant Admin",
+        "empanelledDate": "2026-06-22T10:32:56.012Z",
+        "status": "Empanelled"
+      }
+    ]
   },
   {
-    "vendorId": "VND-2026-49442",
-    "status": "Pending Approval",
+    "vendorId": "VND-2026-65505",
+    "status": "Active",
     "basicDetails": {
-      "legalName": "ABC Infotech Pvt Ltd",
-      "tradeName": "ABC Infotech",
-      "dateOfIncorporation": "2026-06-16",
-      "cinNumber": "U72900MH2015PTC123456",
-      "panNumber": "AAACA1234A",
-      "gstin": "27AAACA1234A1Z5",
-      "msmeClassification": "Small",
+      "legalName": "XYZ Solutions",
+      "tradeName": "XYZ Solutions",
+      "dateOfIncorporation": "2026-06-01",
+      "cinNumber": "L65190MH1994PLC080746",
+      "panNumber": "MMMCM1234y",
+      "gstin": "09AVIPY8039N2Zt",
+      "msmeClassification": "Not Applicable",
       "companyWebsite": "",
       "businessType": "Private Limited Company"
     },
     "businessDetails": {
-      "vendorCategory": "IT Hardware",
-      "subCategory": "Hardware Supply",
+      "vendorCategory": "IT Services",
+      "subCategory": "Software Development",
       "serviceAreas": [
         "Mumbai",
         "Pune",
         "Bengaluru"
       ],
-      "productsServicesOffered": "Laptops, Desktops, IT Equipment",
+      "productsServicesOffered": "Custom Software Development, Support & Maintenance",
       "annualTurnover": 50000000,
       "employeeCount": 120,
       "majorClients": [
-        ""
+        "TCS",
+        "HDFC Bank"
       ],
       "criticalVendor": true
     },
     "bankDetails": {
       "bankName": "HDFC Bank",
-      "accountNumber": "5785748953",
+      "accountNumber": "34567435678",
       "accountType": "Current Account",
       "ifscCode": "hdfc0000060",
       "branchName": "Mumbai - Andheri East",
-      "cancelledChequeFile": "Screenshot 2026-06-18 230807.png",
+      "cancelledChequeFile": "download (2).jpg",
       "bankVerificationStatus": "Verified"
     },
     "documents": [
       {
         "documentType": "PAN Card",
-        "fileName": "WhatsApp Image 2026-05-14 at 16.53.52.jpeg",
-        "savedFileName": "file-1781842036752-778729349.jpeg",
-        "filePath": "/uploads/file-1781842036752-778729349.jpeg",
+        "fileName": "WhatsApp Image 2026-05-14 at 16.53.52 (1).jpeg",
+        "savedFileName": "file-1782124291337-452441770.jpeg",
+        "filePath": "/uploads/file-1782124291337-452441770.jpeg",
         "status": "Verified",
         "expiryDate": null
       },
       {
         "documentType": "GST Certificate",
-        "fileName": "WhatsApp Image 2026-05-14 at 16.53.52.jpeg",
-        "savedFileName": "file-1781842040541-503907767.jpeg",
-        "filePath": "/uploads/file-1781842040541-503907767.jpeg",
+        "fileName": "ChatGPT Image May 19, 2026, 02_02_28 PM.png",
+        "savedFileName": "file-1782124295115-676850289.png",
+        "filePath": "/uploads/file-1782124295115-676850289.png",
         "status": "Verified",
         "expiryDate": null
       },
       {
         "documentType": "Certificate of Incorporation",
-        "fileName": "download (2).jpg",
-        "savedFileName": "file-1781842044020-882866451.jpg",
-        "filePath": "/uploads/file-1781842044020-882866451.jpg",
+        "fileName": "ChatGPT Image May 19, 2026, 01_31_57 PM.png",
+        "savedFileName": "file-1782124299169-302215237.png",
+        "filePath": "/uploads/file-1782124299169-302215237.png",
         "status": "Verified",
         "expiryDate": null
       },
       {
         "documentType": "MSME Certificate",
-        "fileName": "ChatGPT Image May 19, 2026, 01_31_57 PM.png",
-        "savedFileName": "file-1781842047373-497237824.png",
-        "filePath": "/uploads/file-1781842047373-497237824.png",
+        "fileName": "WhatsApp Image 2026-05-14 at 16.53.52.jpeg",
+        "savedFileName": "file-1782124302830-135064112.jpeg",
+        "filePath": "/uploads/file-1782124302830-135064112.jpeg",
         "status": "Verified",
         "expiryDate": "2026-03-15"
-      },
-      {
-        "documentType": "new doc ",
-        "fileName": "WhatsApp Image 2026-05-14 at 16.53.52.jpeg",
-        "savedFileName": "file-1781842078190-888011204.jpeg",
-        "filePath": "/uploads/file-1781842078190-888011204.jpeg",
-        "status": "Verified",
-        "expiryDate": null
       }
     ],
     "approvalWorkflow": {
       "submittedBy": "Saurabh Anand",
-      "submittedDate": "2026-06-19T04:08:36.099Z",
-      "currentStage": "Procurement Approval",
-      "approvalStatus": "Pending"
+      "submittedDate": "2026-06-22T10:31:45.104Z",
+      "currentStage": "Approved",
+      "approvalStatus": "Approved",
+      "approverRemarks": "Vendor KYC verified and cleared. Approved and empanelled.",
+      "approvedBy": "Tenant Admin",
+      "approvedDate": "2026-06-22T10:32:10.586Z"
     },
     "auditTrail": [
       {
         "action": "Vendor Onboarding Created",
         "performedBy": "Saurabh Anand",
-        "timestamp": "2026-06-19T04:08:36.099Z"
+        "timestamp": "2026-06-22T10:31:45.104Z"
+      },
+      {
+        "action": "Vendor Approved",
+        "performedBy": "Tenant Admin",
+        "timestamp": "2026-06-22T10:32:10.586Z",
+        "remarks": "Vendor KYC verified and cleared. Approved and empanelled."
+      },
+      {
+        "approvedBy": "Tenant Admin",
+        "approvedDate": "2026-06-22T10:32:10.586Z",
+        "status": "Approved"
+      },
+      {
+        "empanelledBy": "Tenant Admin",
+        "empanelledDate": "2026-06-22T10:32:10.586Z",
+        "status": "Empanelled"
       }
     ],
-    "createdAt": "2026-06-19T04:08:36.155Z",
+    "createdAt": "2026-06-22T10:31:45.164Z",
     "risk": {
       "score": 5,
       "level": "Low"
