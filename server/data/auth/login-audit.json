@@ -3604,5 +3604,95 @@
     "loginStatus": "SUCCESS",
     "ipAddress": "::1",
     "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-9242",
+    "username": "admin",
+    "loginTime": "22/6/2026, 11:26:07 am",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-7124",
+    "username": "admin",
+    "loginTime": "22/6/2026, 2:20:25 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-5908",
+    "username": "admin",
+    "loginTime": "22/6/2026, 3:48:44 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-8729",
+    "username": "procurement_executive",
+    "loginTime": "22/6/2026, 4:15:02 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-8511",
+    "username": "vendor",
+    "loginTime": "22/6/2026, 4:15:09 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-2786",
+    "username": "onboarding",
+    "loginTime": "22/6/2026, 4:18:10 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-9095",
+    "username": "admin",
+    "loginTime": "22/6/2026, 4:19:23 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-5583",
+    "username": "onboarding",
+    "loginTime": "22/6/2026, 4:29:31 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-8445",
+    "username": "admin",
+    "loginTime": "22/6/2026, 4:57:12 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
+  },
+  {
+    "auditId": "AUDIT-7138",
+    "username": "admin",
+    "loginTime": "22/6/2026, 5:09:40 pm",
+    "twoFactorCompleted": true,
+    "loginStatus": "SUCCESS",
+    "ipAddress": "::1",
+    "browser": "Chrome"
   }
 ]

@@ -15,20 +15,6 @@
       "comments": []
     },
     {
-      "reviewId": "REV-2026-004",
-      "vendorId": "VND-002",
-      "vendorName": "HDFC Bank Limited",
-      "category": "Public Limited Company",
-      "riskScore": 15,
-      "riskLevel": "Low",
-      "kycStatus": "Pending",
-      "screeningStatus": "Review Required",
-      "approvalStatus": "Approved",
-      "assignedTo": "Compliance Team",
-      "dueDate": "2026-07-18",
-      "comments": []
-    },
-    {
       "reviewId": "REV-2026-005",
       "vendorId": "VND-003",
       "vendorName": "New Age Software Solutions",
@@ -43,6 +29,20 @@
       "comments": []
     },
     {
+      "reviewId": "REV-2026-007",
+      "vendorId": "VND-2026-65505",
+      "vendorName": "XYZ Solutions",
+      "category": "Private Limited Company",
+      "riskScore": 5,
+      "riskLevel": "Low",
+      "kycStatus": "Pending",
+      "screeningStatus": "Cleared",
+      "approvalStatus": "Approved",
+      "assignedTo": "Compliance Team",
+      "dueDate": "2026-07-22",
+      "comments": []
+    },
+    {
       "reviewId": "REV-2026-006",
       "vendorId": "VND-2026-49442",
       "vendorName": "ABC Infotech Pvt Ltd",
@@ -54,6 +54,20 @@
       "approvalStatus": "Pending Review",
       "assignedTo": "Compliance Team",
       "dueDate": "2026-07-19",
+      "comments": []
+    },
+    {
+      "reviewId": "REV-2026-004",
+      "vendorId": "VND-002",
+      "vendorName": "HDFC Bank Limited",
+      "category": "Public Limited Company",
+      "riskScore": 15,
+      "riskLevel": "Low",
+      "kycStatus": "Pending",
+      "screeningStatus": "Review Required",
+      "approvalStatus": "Approved",
+      "assignedTo": "Compliance Team",
+      "dueDate": "2026-07-18",
       "comments": []
     },
     {

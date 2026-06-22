@@ -219,5 +219,45 @@
     "link": "/documents",
     "timestamp": "2026-06-19T11:00:58.440Z",
     "read": false
+  },
+  {
+    "id": "ANOTIF-1782107711741-DOC-2026-0002",
+    "dupKey": "doc_expiry_DOC-2026-0002_8",
+    "type": "document_expiry",
+    "title": "Document Expiring Soon",
+    "message": "\"PAN Card\" for HDFC Bank Limited expires in 8 days.",
+    "link": "/documents",
+    "timestamp": "2026-06-22T05:55:11.741Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1782124305311",
+    "type": "vendor_onboarding",
+    "title": "New Vendor Pending Approval",
+    "message": "XYZ Solutions has submitted for onboarding and requires compliance review.",
+    "link": "/vendors/approvals",
+    "vendorId": "VND-2026-65505",
+    "timestamp": "2026-06-22T10:31:45.311Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1782124330609",
+    "type": "vendor_approved",
+    "title": "Vendor Approved",
+    "message": "XYZ Solutions has been approved and is now Active.",
+    "link": "/vendors/view?id=VND-2026-65505&view=true",
+    "vendorId": "VND-2026-65505",
+    "timestamp": "2026-06-22T10:32:10.609Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1782124376038",
+    "type": "vendor_approved",
+    "title": "Vendor Approved",
+    "message": "New Age Software Solutions has been approved and is now Active.",
+    "link": "/vendors/view?id=VND-003&view=true",
+    "vendorId": "VND-003",
+    "timestamp": "2026-06-22T10:32:56.038Z",
+    "read": false
   }
 ]

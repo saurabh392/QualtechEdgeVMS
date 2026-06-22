@@ -350,5 +350,60 @@
     "ipAddress": "127.0.0.1",
     "status": "Success",
     "severity": "High"
+  },
+  {
+    "id": "AUD-43036",
+    "timestamp": "22/6/2026, 3:59:42 pm",
+    "actor": "Saurabh Anand",
+    "role": "Procurement Maker",
+    "tenant": "Qualtech Corporate",
+    "action": "Deleted Vendor registration VND-002 (HDFC Bank Limited)",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "Medium"
+  },
+  {
+    "id": "AUD-86166",
+    "timestamp": "22/6/2026, 4:01:45 pm",
+    "actor": "Saurabh Anand",
+    "role": "Procurement Maker",
+    "tenant": "Qualtech Corporate",
+    "action": "Created Vendor registration VND-2026-65505 (XYZ Solutions)",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "Low"
+  },
+  {
+    "id": "AUD-16726",
+    "timestamp": "22/6/2026, 4:02:10 pm",
+    "actor": "Tenant Admin",
+    "role": "Procurement Checker",
+    "tenant": "Qualtech Corporate",
+    "action": "Approved Vendor onboarding for VND-2026-65505 (XYZ Solutions)",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
+  },
+  {
+    "id": "AUD-48118",
+    "timestamp": "22/6/2026, 4:02:29 pm",
+    "actor": "Saurabh Anand",
+    "role": "Procurement Maker",
+    "tenant": "Qualtech Corporate",
+    "action": "Deleted Vendor registration VND-2026-49442 (ABC Infotech Pvt Ltd)",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "Medium"
+  },
+  {
+    "id": "AUD-61928",
+    "timestamp": "22/6/2026, 4:02:56 pm",
+    "actor": "Tenant Admin",
+    "role": "Procurement Checker",
+    "tenant": "Qualtech Corporate",
+    "action": "Approved Vendor onboarding for VND-003 (New Age Software Solutions)",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "High"
   }
 ]

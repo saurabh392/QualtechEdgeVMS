@@ -718,5 +718,45 @@
     "details": "Vendor VND-2026-49442 (ABC Infotech Pvt Ltd) onboarding initiated.",
     "performedBy": "Saurabh Anand",
     "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0091",
+    "timestamp": "2026-06-22T10:29:42.573Z",
+    "action": "Vendor Deleted",
+    "details": "Vendor VND-002 (HDFC Bank Limited) profile deleted.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0092",
+    "timestamp": "2026-06-22T10:31:45.332Z",
+    "action": "Vendor Added",
+    "details": "Vendor VND-2026-65505 (XYZ Solutions) onboarding initiated.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0093",
+    "timestamp": "2026-06-22T10:32:10.674Z",
+    "action": "KYC Approved",
+    "details": "Vendor VND-2026-65505 (XYZ Solutions) onboarding approved by Checker.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0094",
+    "timestamp": "2026-06-22T10:32:29.803Z",
+    "action": "Vendor Deleted",
+    "details": "Vendor VND-2026-49442 (ABC Infotech Pvt Ltd) profile deleted.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0095",
+    "timestamp": "2026-06-22T10:32:56.070Z",
+    "action": "KYC Approved",
+    "details": "Vendor VND-003 (New Age Software Solutions) onboarding approved by Checker.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
   }
 ]

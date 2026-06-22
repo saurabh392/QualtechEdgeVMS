@@ -61,5 +61,23 @@
     "action": "Approved",
     "remarks": "Vendor KYC verified and cleared. Approved and empanelled.",
     "timestamp": "2026-06-17T10:56:01.808Z"
+  },
+  {
+    "id": "APP-66886",
+    "vendorId": "VND-2026-65505",
+    "vendorName": "XYZ Solutions",
+    "performedBy": "Tenant Admin",
+    "action": "Approved",
+    "remarks": "Vendor KYC verified and cleared. Approved and empanelled.",
+    "timestamp": "2026-06-22T10:32:10.590Z"
+  },
+  {
+    "id": "APP-31763",
+    "vendorId": "VND-003",
+    "vendorName": "New Age Software Solutions",
+    "performedBy": "Tenant Admin",
+    "action": "Approved",
+    "remarks": "Vendor KYC verified and cleared. Approved and empanelled.",
+    "timestamp": "2026-06-22T10:32:56.034Z"
   }
 ]
