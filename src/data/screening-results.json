@@ -3,83 +3,126 @@
     {
       "vendorId": "VND-001",
       "vendorName": "ABC Infotech Pvt Ltd",
-      "screeningDate": "2026-06-22",
+      "screeningDate": "2026-06-23",
       "sanctions": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-        "lastChecked": "2026-06-22",
+        "lastChecked": "2026-06-23",
         "details": "No matches found in OFAC, UN, EU sanctions lists."
       },
       "pep": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-        "lastChecked": "2026-06-22",
+        "lastChecked": "2026-06-23",
         "details": "No politically exposed persons identified."
       },
       "adverseMedia": {
         "status": "No Findings",
         "result": "No Findings",
         "score": 0,
-        "lastChecked": "2026-06-22",
+        "lastChecked": "2026-06-23",
         "details": "No adverse news coverage detected."
       },
       "blacklist": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-        "lastChecked": "2026-06-22",
+        "lastChecked": "2026-06-23",
         "details": "Not present in any industry or government blacklist."
       },
       "shellCompany": {
         "status": "Low Risk",
         "result": "Low Risk",
         "score": 5,
-        "lastChecked": "2026-06-22",
+        "lastChecked": "2026-06-23",
         "details": "Registered entity with 8+ years of operational history."
       },
       "totalRiskScore": 5,
       "riskScore": 5,
+      "overallRisk": "Low Risk"
+    },
+    {
+      "vendorId": "VND-002",
+      "vendorName": "HDFC Bank Limited",
+      "screeningDate": "2026-06-23",
+      "sanctions": {
+        "status": "Clear",
+        "result": "Clear",
+        "score": 0,
+        "lastChecked": "2026-06-23",
+        "details": "No matches found in OFAC, UN, EU sanctions lists."
+      },
+      "pep": {
+        "status": "Clear",
+        "result": "Clear",
+        "score": 0,
+        "lastChecked": "2026-06-23",
+        "details": "No politically exposed persons identified."
+      },
+      "adverseMedia": {
+        "status": "1 Finding",
+        "result": "1 Finding",
+        "score": 10,
+        "lastChecked": "2026-06-23",
+        "details": "Minor regulatory notice in 2024. Case closed."
+      },
+      "blacklist": {
+        "status": "Clear",
+        "result": "Clear",
+        "score": 0,
+        "lastChecked": "2026-06-23",
+        "details": "Not present in any industry or government blacklist."
+      },
+      "shellCompany": {
+        "status": "Low Risk",
+        "result": "Low Risk",
+        "score": 5,
+        "lastChecked": "2026-06-23",
+        "details": "Registered entity with 8+ years of operational history."
+      },
+      "totalRiskScore": 15,
+      "riskScore": 15,
       "overallRisk": "Low Risk"
     },
     {
       "vendorId": "VND-003",
       "vendorName": "New Age Software Solutions",
-      "screeningDate": "2026-06-22",
+      "screeningDate": "2026-06-23",
       "sanctions": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-        "lastChecked": "2026-06-22",
+        "lastChecked": "2026-06-23",
         "details": "No matches found in OFAC, UN, EU sanctions lists."
       },
       "pep": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-        "lastChecked": "2026-06-22",
+        "lastChecked": "2026-06-23",
         "details": "No politically exposed persons identified."
       },
       "adverseMedia": {
         "status": "No Findings",
         "result": "No Findings",
         "score": 0,
-        "lastChecked": "2026-06-22",
+        "lastChecked": "2026-06-23",
         "details": "No adverse news coverage detected."
       },
       "blacklist": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-        "lastChecked": "2026-06-22",
+        "lastChecked": "2026-06-23",
         "details": "Not present in any industry or government blacklist."
       },
       "shellCompany": {
         "status": "Low Risk",
         "result": "Low Risk",
         "score": 5,
-        "lastChecked": "2026-06-22",
+        "lastChecked": "2026-06-23",
         "details": "Registered entity with 8+ years of operational history."
       },
       "totalRiskScore": 5,
@@ -87,42 +130,85 @@
       "overallRisk": "Low Risk"
     },
     {
-      "vendorId": "VND-2026-65505",
-      "vendorName": "XYZ Solutions",
-      "screeningDate": "2026-06-22",
+      "vendorId": "VND-2026-97550",
+      "vendorName": "Test Vendor Private Limited",
+      "screeningDate": "2026-06-23",
       "sanctions": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-        "lastChecked": "2026-06-22",
+        "lastChecked": "2026-06-23",
         "details": "No matches found in OFAC, UN, EU sanctions lists."
       },
       "pep": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-        "lastChecked": "2026-06-22",
+        "lastChecked": "2026-06-23",
         "details": "No politically exposed persons identified."
       },
       "adverseMedia": {
         "status": "No Findings",
         "result": "No Findings",
         "score": 0,
-        "lastChecked": "2026-06-22",
+        "lastChecked": "2026-06-23",
         "details": "No adverse news coverage detected."
       },
       "blacklist": {
         "status": "Clear",
         "result": "Clear",
         "score": 0,
-        "lastChecked": "2026-06-22",
+        "lastChecked": "2026-06-23",
         "details": "Not present in any industry or government blacklist."
       },
       "shellCompany": {
         "status": "Low Risk",
         "result": "Low Risk",
         "score": 5,
-        "lastChecked": "2026-06-22",
+        "lastChecked": "2026-06-23",
+        "details": "Registered entity with 8+ years of operational history."
+      },
+      "totalRiskScore": 5,
+      "riskScore": 5,
+      "overallRisk": "Low Risk"
+    },
+    {
+      "vendorId": "VND-2026-85004",
+      "vendorName": "Test Vendor Private Limited",
+      "screeningDate": "2026-06-23",
+      "sanctions": {
+        "status": "Clear",
+        "result": "Clear",
+        "score": 0,
+        "lastChecked": "2026-06-23",
+        "details": "No matches found in OFAC, UN, EU sanctions lists."
+      },
+      "pep": {
+        "status": "Clear",
+        "result": "Clear",
+        "score": 0,
+        "lastChecked": "2026-06-23",
+        "details": "No politically exposed persons identified."
+      },
+      "adverseMedia": {
+        "status": "No Findings",
+        "result": "No Findings",
+        "score": 0,
+        "lastChecked": "2026-06-23",
+        "details": "No adverse news coverage detected."
+      },
+      "blacklist": {
+        "status": "Clear",
+        "result": "Clear",
+        "score": 0,
+        "lastChecked": "2026-06-23",
+        "details": "Not present in any industry or government blacklist."
+      },
+      "shellCompany": {
+        "status": "Low Risk",
+        "result": "Low Risk",
+        "score": 5,
+        "lastChecked": "2026-06-23",
         "details": "Registered entity with 8+ years of operational history."
       },
       "totalRiskScore": 5,

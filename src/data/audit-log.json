@@ -758,5 +758,21 @@
     "details": "Vendor VND-003 (New Age Software Solutions) onboarding approved by Checker.",
     "performedBy": "Saurabh Anand",
     "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0096",
+    "timestamp": "2026-06-23T07:24:58.063Z",
+    "action": "Vendor Added",
+    "details": "Vendor VND-2026-97550 (Test Vendor Private Limited) onboarding initiated.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
+  },
+  {
+    "id": "AUD-2026-0097",
+    "timestamp": "2026-06-23T07:26:03.197Z",
+    "action": "Vendor Added",
+    "details": "Vendor VND-2026-85004 (Test Vendor Private Limited) onboarding initiated.",
+    "performedBy": "Saurabh Anand",
+    "status": "Success"
   }
 ]

@@ -3991,5 +3991,126 @@
     "status": "INACTIVE",
     "token": "JWT-DEMO-137263",
     "lastActivity": 1782128380387
+  },
+  {
+    "sessionId": "SESSION-5053",
+    "userId": "USR-1003",
+    "username": "procurement",
+    "role": "PROCUREMENT",
+    "loginTime": "22/6/2026, 6:27:07 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-925184",
+    "lastActivity": 1782133027541
+  },
+  {
+    "sessionId": "SESSION-2751",
+    "userId": "ROLE-006",
+    "username": "finance_executive",
+    "role": "FINANCE_EXECUTIVE",
+    "loginTime": "22/6/2026, 6:27:17 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-111230",
+    "lastActivity": 1782133037892
+  },
+  {
+    "sessionId": "SESSION-4326",
+    "userId": "USR-1001",
+    "username": "admin",
+    "role": "ADMIN",
+    "loginTime": "23/6/2026, 11:48:42 am",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-638355",
+    "lastActivity": 1782195522139
+  },
+  {
+    "sessionId": "SESSION-1079",
+    "userId": "USR-1001",
+    "username": "admin",
+    "role": "ADMIN",
+    "loginTime": "23/6/2026, 12:14:55 pm",
+    "twoFactorVerified": true,
+    "status": "ACTIVE",
+    "token": "JWT-DEMO-293025",
+    "lastActivity": 1782197095286
+  },
+  {
+    "sessionId": "SESSION-3721",
+    "userId": "USR-1001",
+    "username": "admin",
+    "role": "ADMIN",
+    "loginTime": "23/6/2026, 12:46:15 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-177405",
+    "lastActivity": 1782199067912
+  },
+  {
+    "sessionId": "SESSION-5053",
+    "userId": "USR-1001",
+    "username": "admin",
+    "role": "ADMIN",
+    "loginTime": "23/6/2026, 12:51:30 pm",
+    "twoFactorVerified": true,
+    "status": "ACTIVE",
+    "token": "JWT-DEMO-727653",
+    "lastActivity": 1782199290429
+  },
+  {
+    "sessionId": "SESSION-4954",
+    "userId": "USR-1001",
+    "username": "admin",
+    "role": "ADMIN",
+    "loginTime": "23/6/2026, 1:49:20 pm",
+    "twoFactorVerified": true,
+    "status": "ACTIVE",
+    "token": "JWT-DEMO-381493",
+    "lastActivity": 1782202777861
+  },
+  {
+    "sessionId": "SESSION-9934",
+    "userId": "USR-1001",
+    "username": "admin",
+    "role": "ADMIN",
+    "loginTime": "24/6/2026, 10:51:35 am",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-677569",
+    "lastActivity": 1782278495047
+  },
+  {
+    "sessionId": "SESSION-4512",
+    "userId": "ROLE-007",
+    "username": "procurement_executive",
+    "role": "PROCUREMENT_EXECUTIVE",
+    "loginTime": "24/6/2026, 10:52:04 am",
+    "twoFactorVerified": true,
+    "status": "ACTIVE",
+    "token": "JWT-DEMO-655205",
+    "lastActivity": 1782278524180
+  },
+  {
+    "sessionId": "SESSION-4045",
+    "userId": "USR-1001",
+    "username": "admin",
+    "role": "ADMIN",
+    "loginTime": "24/6/2026, 1:03:29 pm",
+    "twoFactorVerified": true,
+    "status": "INACTIVE",
+    "token": "JWT-DEMO-125947",
+    "lastActivity": 1782286409821
+  },
+  {
+    "sessionId": "SESSION-2635",
+    "userId": "USR-1001",
+    "username": "admin",
+    "role": "ADMIN",
+    "loginTime": "24/6/2026, 1:52:55 pm",
+    "twoFactorVerified": true,
+    "status": "ACTIVE",
+    "token": "JWT-DEMO-586950",
+    "lastActivity": 1782289375663
   }
 ]

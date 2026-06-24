@@ -259,5 +259,45 @@
     "vendorId": "VND-003",
     "timestamp": "2026-06-22T10:32:56.038Z",
     "read": false
+  },
+  {
+    "id": "ANOTIF-1782195499625-DOC-2026-0002",
+    "dupKey": "doc_expiry_DOC-2026-0002_7",
+    "type": "document_expiry",
+    "title": "Document Expiring Soon",
+    "message": "\"PAN Card\" for HDFC Bank Limited expires in 7 days.",
+    "link": "/documents",
+    "timestamp": "2026-06-23T06:18:19.625Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1782199498040",
+    "type": "vendor_onboarding",
+    "title": "New Vendor Pending Approval",
+    "message": "Test Vendor Private Limited has submitted for onboarding and requires compliance review.",
+    "link": "/vendors/approvals",
+    "vendorId": "VND-2026-97550",
+    "timestamp": "2026-06-23T07:24:58.040Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1782199563118",
+    "type": "vendor_onboarding",
+    "title": "New Vendor Pending Approval",
+    "message": "Test Vendor Private Limited has submitted for onboarding and requires compliance review.",
+    "link": "/vendors/approvals",
+    "vendorId": "VND-2026-85004",
+    "timestamp": "2026-06-23T07:26:03.118Z",
+    "read": false
+  },
+  {
+    "id": "ANOTIF-1782281889825-DOC-2026-0002",
+    "dupKey": "doc_expiry_DOC-2026-0002_6",
+    "type": "document_expiry",
+    "title": "Document Expiring Soon",
+    "message": "\"PAN Card\" for HDFC Bank Limited expires in 6 days.",
+    "link": "/documents",
+    "timestamp": "2026-06-24T06:18:09.826Z",
+    "read": false
   }
 ]

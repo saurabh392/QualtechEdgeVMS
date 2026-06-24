@@ -1,1 +1,6 @@
-{}
+{
+  "userId": "ROLE-001",
+  "userName": "Saurabh Anand",
+  "role": "Tenant Admin",
+  "landingPage": "/administrator/dashboard"
+}

@@ -1,9 +1,9 @@
 {
-  "lastUpdated": "2026-06-22",
+  "lastUpdated": "2026-06-23",
   "summary": {
-    "totalVendors": 3,
+    "totalVendors": 5,
     "verified": 0,
-    "pending": 3,
+    "pending": 5,
     "inProgress": 0,
     "highRisk": 0,
     "reKycDue": 0
@@ -14,6 +14,17 @@
       "vendorName": "ABC Infotech Pvt Ltd",
       "category": "Private Limited Company",
       "riskScore": 5,
+      "riskLevel": "Low",
+      "kycStatus": "Pending",
+      "lastVerified": "-",
+      "nextReview": "-",
+      "nextReviewDate": "-"
+    },
+    {
+      "vendorId": "VND-002",
+      "vendorName": "HDFC Bank Limited",
+      "category": "Public Limited Company",
+      "riskScore": 15,
       "riskLevel": "Low",
       "kycStatus": "Pending",
       "lastVerified": "-",
@@ -32,9 +43,20 @@
       "nextReviewDate": "-"
     },
     {
-      "vendorId": "VND-2026-65505",
-      "vendorName": "XYZ Solutions",
-      "category": "Private Limited Company",
+      "vendorId": "VND-2026-97550",
+      "vendorName": "Test Vendor Private Limited",
+      "category": "Public Limited Company",
+      "riskScore": 5,
+      "riskLevel": "Low",
+      "kycStatus": "Pending",
+      "lastVerified": "-",
+      "nextReview": "-",
+      "nextReviewDate": "-"
+    },
+    {
+      "vendorId": "VND-2026-85004",
+      "vendorName": "Test Vendor Private Limited",
+      "category": "Public Limited Company",
       "riskScore": 5,
       "riskLevel": "Low",
       "kycStatus": "Pending",

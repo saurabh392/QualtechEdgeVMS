@@ -405,5 +405,27 @@
     "ipAddress": "127.0.0.1",
     "status": "Success",
     "severity": "High"
+  },
+  {
+    "id": "AUD-45186",
+    "timestamp": "23/6/2026, 12:54:58 pm",
+    "actor": "Saurabh Anand",
+    "role": "Procurement Maker",
+    "tenant": "Qualtech Corporate",
+    "action": "Created Vendor registration VND-2026-97550 (Test Vendor Private Limited)",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "Low"
+  },
+  {
+    "id": "AUD-35951",
+    "timestamp": "23/6/2026, 12:56:03 pm",
+    "actor": "Saurabh Anand",
+    "role": "Procurement Maker",
+    "tenant": "Qualtech Corporate",
+    "action": "Created Vendor registration VND-2026-85004 (Test Vendor Private Limited)",
+    "ipAddress": "127.0.0.1",
+    "status": "Success",
+    "severity": "Low"
   }
 ]

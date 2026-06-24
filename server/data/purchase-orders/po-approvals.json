@@ -236,5 +236,25 @@
         "dateTime": "19/6/2026, 6:49:18 pm"
       }
     ]
+  },
+  {
+    "approvalId": "APP-PO-8674",
+    "requisitionId": "REQ-2026-00087",
+    "vendorName": "ABC Infotech Pvt Ltd",
+    "department": "IT Services",
+    "estimatedValue": 1250000,
+    "currentStage": "Department Head Approval",
+    "assignedTo": "Priya Sharma",
+    "status": "Pending",
+    "remarks": "",
+    "submittedBy": "Saurabh Anand",
+    "submittedOn": "24/6/2026, 2:54:52 pm",
+    "history": [
+      {
+        "action": "Submitted",
+        "by": "Saurabh Anand",
+        "dateTime": "24/6/2026, 2:54:52 pm"
+      }
+    ]
   }
 ]

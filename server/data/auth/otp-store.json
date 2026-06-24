@@ -31,5 +31,12 @@
     "otp": "123456",
     "status": "USED",
     "expiresInSeconds": 300
+  },
+  {
+    "otpId": "OTP-7561",
+    "username": "admin",
+    "otp": "123456",
+    "status": "ACTIVE",
+    "expiresInSeconds": 300
   }
 ]

@@ -245,5 +245,31 @@
     "publishedOn": "2026-06-19",
     "createdBy": "Saurabh Anand",
     "attachments": []
+  },
+  {
+    "rfqId": "RFQ-2026-0009",
+    "requisitionId": "REQ-2026-00087",
+    "title": "Cloud infrastructure support services",
+    "department": "IT Services",
+    "costCenter": "CC-IT-OPS",
+    "category": "IT Services",
+    "itemService": "Cloud infrastructure support services",
+    "description": "Cloud infrastructure support services",
+    "quantity": 1,
+    "uom": "Service / Month",
+    "budget": 1250000,
+    "deliveryLocation": "Head Office, Mumbai",
+    "requiredDeliveryDate": "",
+    "vendorsInvited": 2,
+    "vendorIds": [
+      "VND-002",
+      "VND-001"
+    ],
+    "quotesReceived": 0,
+    "closingDate": "2026-07-09",
+    "status": "Open",
+    "publishedOn": "2026-06-24",
+    "createdBy": "Saurabh Anand",
+    "attachments": []
   }
 ]

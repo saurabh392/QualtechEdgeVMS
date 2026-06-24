@@ -14,7 +14,7 @@
     "permissions": [
       "FULL_ENTERPRISE_ACCESS"
     ],
-    "lastLogin": "22/6/2026, 5:09:40 pm"
+    "lastLogin": "24/6/2026, 1:52:55 pm"
   },
   {
     "userId": "USR-1002",
@@ -48,7 +48,7 @@
     "permissions": [
       "PROCUREMENT_ACCESS"
     ],
-    "lastLogin": "19/6/2026, 7:11:31 pm"
+    "lastLogin": "22/6/2026, 6:27:07 pm"
   },
   {
     "userId": "USR-1004",
@@ -99,7 +99,7 @@
     "permissions": [
       "FINANCE_ACCESS"
     ],
-    "lastLogin": "19/6/2026, 7:11:48 pm"
+    "lastLogin": "22/6/2026, 6:27:17 pm"
   },
   {
     "userId": "ROLE-007",
@@ -116,6 +116,6 @@
     "permissions": [
       "PROCUREMENT_ACCESS"
     ],
-    "lastLogin": "22/6/2026, 4:15:02 pm"
+    "lastLogin": "24/6/2026, 10:52:04 am"
   }
 ]

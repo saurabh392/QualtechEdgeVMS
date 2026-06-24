@@ -1,0 +1,42 @@
+[
+  {
+    "catalogueId": "ITM-2026-00001",
+    "type": "Item",
+    "name": "Dell laptop 3620 IT-LAP-001",
+    "category": "IT Hardware",
+    "uom": "Nos",
+    "rate": 7500,
+    "status": "Pending Approval",
+    "preferredVendor": "ABC Infotech Private Limited",
+    "attachments": [
+      {
+        "fileName": "MSA_GlobalSecureTech.pdf",
+        "filePath": "/uploads/catalogue/items/MSA_GlobalSecureTech.pdf"
+      }
+    ]
+  },
+  {
+    "catalogueId": "SVC-2026-0001",
+    "type": "Service",
+    "name": " IT Annual Maintenance Contract",
+    "category": "IT Services",
+    "uom": "Monthly",
+    "rate": 25000,
+    "status": "Published",
+    "preferredVendor": "ABC Infotech Pvt Ltd",
+    "attachments": [
+      {
+        "fileName": "catalogue_export_2026-06-19.xlsx",
+        "filePath": "/uploads/catalogue/services/catalogue_export_2026-06-19.xlsx"
+      },
+      {
+        "fileName": "ChatGPT Image May 14, 2026, 05_06_16 PM.png",
+        "filePath": "/uploads/catalogue/services/ChatGPT Image May 14, 2026, 05_06_16 PM.png"
+      },
+      {
+        "fileName": "ChatGPT Image May 19, 2026, 01_31_57 PM.png",
+        "filePath": "/uploads/catalogue/services/ChatGPT Image May 19, 2026, 01_31_57 PM.png"
+      }
+    ]
+  }
+]
